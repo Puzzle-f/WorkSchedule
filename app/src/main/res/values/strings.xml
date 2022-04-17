@@ -9,5 +9,8 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_personal">Personal</string>
+    <string name="add_person">Добавить</string>
+    <string name="del_person">Удалить</string>
+    <string name="personal">Personal</string>
 </resources>

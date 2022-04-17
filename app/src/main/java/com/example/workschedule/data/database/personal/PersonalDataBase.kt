@@ -6,5 +6,5 @@ import androidx.room.RoomDatabase
     entities = [PersonalEntity::class], version = 1, exportSchema = false
 )
 abstract class PersonalDataBase : RoomDatabase() {
-    abstract fun mainDao(): PersonalDao
+    abstract fun personalDao(): PersonalDao
 }

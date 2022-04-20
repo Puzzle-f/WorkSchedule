@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/fragment_padding">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/working_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

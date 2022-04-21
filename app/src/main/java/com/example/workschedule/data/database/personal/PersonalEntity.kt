@@ -5,24 +5,25 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(indices = arrayOf(Index(value = arrayOf("id"), unique = true)))
+@Entity
 class PersonalEntity(
 
-//    @field:PrimaryKey
+    @field:PrimaryKey
     @ColumnInfo(name = "id")
     val id: Int,
     @ColumnInfo(name = "first_name")
     val firstName: String?,
-    @field:PrimaryKey
     @ColumnInfo(name = "second_name")
     val secondName: String,
     @ColumnInfo(name = "third_name")
     val thirdName: String?,
     @ColumnInfo(name = "hours_worked")
-    val hoursWorked: Int?
-/* список заключений предлагаю слелать отдельной колонкой
-* для каждого направления движения с boolean значением,
-* пока оставил БД без заключений  */
-
-
+    val hoursWorked: Int?,
+    @ColumnInfo(name = "if_work")
+    val ifWork: Boolean,
+//    если не вышло необходимое время отдыха после поездки
+    @ColumnInfo(name = "if_resting")
+    val ifResting: Boolean,
+//    @ColumnInfo(name = "permissions")
+//    val permissions: HashMap<String, Boolean>
 )

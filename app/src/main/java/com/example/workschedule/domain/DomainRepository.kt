@@ -4,5 +4,7 @@ import com.example.workschedule.domain.domainpersonmodel.DomainPersonModel
 
 interface DomainRepository {
 
-    fun saveNewPerson(personModel: DomainPersonModel)
+    suspend fun saveNewPerson(personModel: DomainPersonModel)
+    suspend fun delPerson(personModel: DomainPersonModel)
+    suspend fun changeDataPerson(personModel: DomainPersonModel)
 }

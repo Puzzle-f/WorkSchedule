@@ -11,16 +11,21 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.workschedule.data.database.personal.PersonalDataBase
 import com.example.workschedule.databinding.ActivityMainBinding
+import com.example.workschedule.di.injectDependencies
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    val db: PersonalDataBase by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        injectDependencies()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

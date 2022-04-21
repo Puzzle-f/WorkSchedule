@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity
 class PersonalEntity(
@@ -24,6 +25,8 @@ class PersonalEntity(
 //    если не вышло необходимое время отдыха после поездки
     @ColumnInfo(name = "if_resting")
     val ifResting: Boolean,
-//    @ColumnInfo(name = "permissions")
-//    val permissions: HashMap<String, Boolean>
+    @ColumnInfo(name = "permissions")
+    val permissions: List<Map<String, Boolean>>
+//    @ColumnInfo(name = "daysOff")
+//    val daysOff: List<GregorianCalendar>
 )

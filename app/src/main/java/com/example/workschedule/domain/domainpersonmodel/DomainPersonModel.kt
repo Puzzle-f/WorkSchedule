@@ -10,8 +10,8 @@ data class DomainPersonModel(
     val hoursWorked: Int,
     val ifWork: Boolean,
     val ifResting: Boolean,
-//    val daysOff: List<DomainDayOffModel>,
-//    val permissions: HashMap<String, Boolean>
+    val daysOff: List<DomainDayOffModel>,
+    val permissions: List<Map<String, Boolean>>
 ){
     fun mapToPersonalEntity() = PersonalEntity(
         id,
@@ -20,6 +20,7 @@ data class DomainPersonModel(
         thirdName,
         hoursWorked,
         ifWork,
-        ifResting
+        ifResting,
+        permissions
     )
 }

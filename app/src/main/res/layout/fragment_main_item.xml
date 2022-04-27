@@ -1,36 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/itemContainer"
+    android:id="@+id/mainItemContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/workerFragmentRecyclerDate"
+        android:id="@+id/mainFragmentRecyclerItemDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="5dp"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/mainFragmentRecyclerItemLeftGuideline"
+        tools:text="12.04.22" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/mainFragmentRecyclerItemTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/mainFragmentRecyclerItemLeftGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/mainFragmentRecyclerItemDate"
+        tools:text="12:05" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/mainFragmentRecyclerItemTrain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemLeftGuideline"
+        app:layout_constraintEnd_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="120 Moscow" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/mainFragmentRecyclerItemDriver"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="5dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemLeftGuideline"
+        app:layout_constraintEnd_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
+        app:layout_constraintTop_toBottomOf="@id/mainFragmentRecyclerItemTrain"
         tools:text="Ivanov A.A." />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/workerFragmentRecyclerHours"
+        android:id="@+id/mainFragmentRecyclerItemTravelTimeTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="20sp"
+        android:padding="2dp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="190" />
+        app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
+        tools:text="8:25" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/mainFragmentRecyclerItemRestTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mainFragmentRecyclerItemTravelTimeTo"
+        app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
+        tools:text="4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/mainFragmentRecyclerItemTravelFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mainFragmentRecyclerItemRestTime"
+        app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
+        tools:text="8:40" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workerFragmentRecyclerDate" />
+        app:layout_constraintTop_toBottomOf="@+id/mainFragmentRecyclerItemTime" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemLeftGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/mainFragmentRecyclerItemTime" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/mainFragmentRecyclerItemLeftGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.25"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/mainFragmentRecyclerItemRightGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.85"
+        android:orientation="vertical"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

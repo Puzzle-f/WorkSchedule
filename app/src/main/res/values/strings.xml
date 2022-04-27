@@ -7,10 +7,29 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_main">Work Schedule</string>
+    <string name="menu_main">WorkSchedule</string>
+
     <string name="user_surname_label">Surname</string>
     <string name="user_name_label">Name</string>
     <string name="user_patronymic">Patronymic</string>
     <string name="menu_user_edit">Edit</string>
-    <string name="working_routes">Working routes:</string>
+    <string name="edit_driver_routes_admittance">Routes admittance:</string>
+
+    <string name="save_button">SAVE</string>
+    <string name="cancel_button">CANCEL</string>
+
+    <string name="edit_route_disembark_time">Disembark time</string>
+    <string name="edit_route_train">Train</string>
+    <string name="edit_route_driver">Driver</string>
+    <string name="edit_route_periodicity">Periodicity</string>
+    <string name="edit_route_time_to">Time to</string>
+    <string name="edit_route_rest_time">Rest</string>
+    <string name="edit_route_time_from">Time from</string>
+
+    <string name="edit_train_number">Train number</string>
+    <string name="edit_train_direction">Direction</string>
+
+    <string name="context_menu_edit">Edit</string>
+    <string name="context_menu_delete">Delete</string>
+    <string name="context_menu_shift_schedule">Shift schedule</string>
 </resources>

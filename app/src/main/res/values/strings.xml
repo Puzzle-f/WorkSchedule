@@ -26,4 +26,8 @@
 
     <string name="edit_train_number">Train number</string>
     <string name="edit_train_direction">Direction</string>
+
+    <string name="context_menu_edit">Edit</string>
+    <string name="context_menu_delete">Delete</string>
+    <string name="context_menu_shift_schedule">Shift schedule</string>
 </resources>

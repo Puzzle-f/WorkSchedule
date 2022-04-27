@@ -26,4 +26,8 @@
 
     <string name="edit_train_number">Номер поезда</string>
     <string name="edit_train_direction">Направление</string>
+
+    <string name="context_menu_edit">Редактировать</string>
+    <string name="context_menu_delete">Удалить</string>
+    <string name="context_menu_shift_schedule">График смен</string>
 </resources>

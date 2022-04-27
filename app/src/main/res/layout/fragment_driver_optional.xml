@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,25 +7,26 @@
     android:orientation="vertical">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/mainFragmentAddRouteFAB"
+        android:id="@+id/addWorkerFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/mainFragmentFABGuideline"
+        app:layout_constraintTop_toBottomOf="@id/driversOptionalFragmentFABGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainFragmentRecyclerView"
+        android:id="@+id/driversFragmentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/mainFragmentFABGuideline"
+        app:layout_constraintBottom_toTopOf="@id/driversOptionalFragmentFABGuideline"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/fragment_main_item"/>
+        tools:listitem="@layout/fragment_driver_optional_item"/>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/mainFragmentFABGuideline"
+        android:id="@+id/driversOptionalFragmentFABGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent="0.9"

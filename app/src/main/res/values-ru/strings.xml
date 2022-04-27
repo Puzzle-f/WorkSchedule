@@ -8,9 +8,22 @@
     <string name="action_settings">Настройки</string>
 
     <string name="menu_main">Главная</string>
+
     <string name="user_surname_label">Фамилия</string>
     <string name="user_name_label">Имя</string>
     <string name="user_patronymic">Отчество</string>
     <string name="menu_user_edit">Редактирование</string>
-    <string name="working_routes">Рабочие направления:</string>
+    <string name="save_button">СОХРАНИТЬ</string>
+    <string name="cancel_button">ОТМЕНА</string>
+
+    <string name="edit_route_disembark_time">Время выезда</string>
+    <string name="edit_route_train">Поезд</string>
+    <string name="edit_route_driver">Машинист</string>
+    <string name="edit_route_periodicity">Повторяемость</string>
+    <string name="edit_route_time_to">Время туда</string>
+    <string name="edit_route_rest_time">Отдых там</string>
+    <string name="edit_route_time_from">Время обратно</string>
+
+    <string name="edit_train_number">Номер поезда</string>
+    <string name="edit_train_direction">Направление</string>
 </resources>

@@ -8,25 +8,25 @@
     android:orientation="vertical">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/mainFragmentAddRouteFAB"
+        android:id="@+id/trainsFragmentAddTrainFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/mainFragmentFABGuideline"
+        app:layout_constraintTop_toBottomOf="@id/trainsFragmentFABGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainFragmentRecyclerView"
+        android:id="@+id/trainsFragmentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/mainFragmentFABGuideline"
+        app:layout_constraintBottom_toTopOf="@id/trainsFragmentFABGuideline"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/fragment_main_item"/>
+        tools:listitem="@layout/fragment_trains_item"/>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/mainFragmentFABGuideline"
+        android:id="@+id/trainsFragmentFABGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent="0.9"

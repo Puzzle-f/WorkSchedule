@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.workschedule.databinding.FragmentWorkerEditBinding
+import com.example.workschedule.databinding.FragmentDriverEditBinding
 import com.example.workschedule.ui.main.WorkerEditViewModel
 
 class WorkerEditFragment : Fragment() {
 
     private lateinit var workerEditViewModel: WorkerEditViewModel
-    private var _binding: FragmentWorkerEditBinding? = null
+    private var _binding: FragmentDriverEditBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -26,7 +26,7 @@ class WorkerEditFragment : Fragment() {
         workerEditViewModel =
             ViewModelProvider(this)[WorkerEditViewModel::class.java]
 
-        _binding = FragmentWorkerEditBinding.inflate(inflater, container, false)
+        _binding = FragmentDriverEditBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         workerEditViewModel.text.observe(viewLifecycleOwner) {

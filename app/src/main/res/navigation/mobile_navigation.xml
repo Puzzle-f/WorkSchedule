@@ -9,12 +9,5 @@
         android:id="@+id/nav_main"
         android:name="com.example.workschedule.ui.main.MainFragment"
         android:label="@string/menu_main"
-        tools:layout="@layout/fragment_drivers" />
-
-    <fragment
-        android:id="@+id/nav_user_edit"
-        android:name="com.example.workschedule.ui.worker_edit.WorkerEditFragment"
-        android:label="@string/menu_user_edit"
-        tools:layout="@layout/fragment_driver_edit" />
-
+        tools:layout="@layout/fragment_main" />
 </navigation>

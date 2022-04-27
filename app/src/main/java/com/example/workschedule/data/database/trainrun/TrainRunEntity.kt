@@ -1,4 +1,4 @@
-package com.example.workschedule.data.db.trainrun
+package com.example.workschedule.data.database.trainrun
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,7 +1,6 @@
-package com.example.workschedule.data.db.trainrun
+package com.example.workschedule.data.database.trainrun
 
 import androidx.room.*
-import java.util.*
 
 @Dao
 interface TrainRunDao {

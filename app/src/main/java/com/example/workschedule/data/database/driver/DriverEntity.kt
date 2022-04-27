@@ -1,4 +1,4 @@
-package com.example.workschedule.data.db.driver
+package com.example.workschedule.data.database.driver
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

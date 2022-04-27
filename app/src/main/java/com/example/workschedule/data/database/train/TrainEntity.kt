@@ -1,4 +1,4 @@
-package com.example.workschedule.data.db.train
+package com.example.workschedule.data.database.train
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,4 +1,4 @@
-package com.example.workschedule.data.db
+package com.example.workschedule.data.database
 
 import androidx.room.TypeConverter
 import java.time.LocalDateTime

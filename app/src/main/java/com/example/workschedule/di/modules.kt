@@ -1,7 +1,7 @@
 package com.example.workschedule.di
 
 import androidx.room.Room
-import com.example.workschedule.data.db.DriverDataBase
+import com.example.workschedule.data.database.DriverDataBase
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 

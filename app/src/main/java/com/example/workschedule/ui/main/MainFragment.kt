@@ -40,6 +40,8 @@ class MainFragment : Fragment() {
                     adapter.submitList(it)
                 }
         }
+
+        viewModel.getTrains()
     }
 
     override fun onDestroyView() {

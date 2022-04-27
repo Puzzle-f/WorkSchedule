@@ -9,4 +9,16 @@ class MainFragmentViewModel : ViewModel() {
 
     private var _trains = MutableStateFlow<List<TestModelForMainAdapter>>(emptyList())
     val trains: StateFlow<List<TestModelForMainAdapter>> = _trains.asStateFlow()
+
+    fun getTrains(){
+        _trains.value = listOf(
+            TestModelForMainAdapter(),
+            TestModelForMainAdapter(),
+            TestModelForMainAdapter(),
+            TestModelForMainAdapter(),
+            TestModelForMainAdapter(),
+            TestModelForMainAdapter(),
+            TestModelForMainAdapter(),
+        )
+    }
 }

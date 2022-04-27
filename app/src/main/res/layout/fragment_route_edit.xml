@@ -6,7 +6,7 @@
     android:padding="@dimen/fragment_padding">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/trainEditFragmentTrainNumberLayout"
+        android:id="@+id/routeEditFragmentTrainNumberLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_disembark_time"
@@ -14,19 +14,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/trainEditFragmentTrainNumber"
+            android:id="@+id/routeEditFragmentTrainNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/trainEditFragmentDirectionLayout"
+        android:id="@+id/routeEditFragmentDirectionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_train"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/trainEditFragmentTrainNumberLayout">
+        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTrainNumberLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/routeEditFragmentDirection"
@@ -41,7 +41,7 @@
         android:hint="@string/edit_route_driver"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/trainEditFragmentDirectionLayout">
+        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentDirectionLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/routeEditFragmentDriver"
@@ -110,27 +110,27 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/trainEditFragmentSaveButton"
+        android:id="@+id/routeEditFragmentSaveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/trainEditFragmentGuideline"
+        app:layout_constraintEnd_toEndOf="@id/routeEditFragmentGuideline"
         android:text="@string/save_button"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/trainEditFragmentCancelButton"
+        android:id="@+id/routeEditFragmentCancelButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/trainEditFragmentGuideline"
+        app:layout_constraintStart_toStartOf="@id/routeEditFragmentGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/cancel_button"/>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/trainEditFragmentGuideline"
+        android:id="@+id/routeEditFragmentGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent="0.5"

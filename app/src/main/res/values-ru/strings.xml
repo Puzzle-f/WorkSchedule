@@ -13,6 +13,8 @@
     <string name="user_name_label">Имя</string>
     <string name="user_patronymic">Отчество</string>
     <string name="menu_user_edit">Редактирование</string>
+    <string name="edit_driver_routes_admittance">Допуски к рейсам:</string>
+
     <string name="save_button">СОХРАНИТЬ</string>
     <string name="cancel_button">ОТМЕНА</string>
 

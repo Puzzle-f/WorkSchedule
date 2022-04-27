@@ -13,6 +13,8 @@
     <string name="user_name_label">Name</string>
     <string name="user_patronymic">Patronymic</string>
     <string name="menu_user_edit">Edit</string>
+    <string name="edit_driver_routes_admittance">Routes admittance:</string>
+
     <string name="save_button">SAVE</string>
     <string name="cancel_button">CANCEL</string>
 

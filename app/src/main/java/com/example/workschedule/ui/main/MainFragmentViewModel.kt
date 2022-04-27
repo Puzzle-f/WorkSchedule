@@ -1,9 +1,8 @@
 package com.example.workschedule.ui.main
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.example.workschedule.domain.domainpersonmodel.GetTrainsToObserveUseCase
+import com.example.workschedule.domain.GetTrainsToObserveUseCase
 import kotlinx.coroutines.flow.*
 
 class MainFragmentViewModel(

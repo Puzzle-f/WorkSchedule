@@ -1,4 +1,4 @@
-package com.example.workschedule.domain.domainpersonmodel
+package com.example.workschedule.domain
 
 import com.example.workschedule.ui.main.TestModelForMainAdapter
 import kotlinx.coroutines.flow.flow

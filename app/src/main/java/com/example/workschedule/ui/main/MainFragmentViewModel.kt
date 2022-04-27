@@ -1,24 +1,19 @@
 package com.example.workschedule.ui.main
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import com.example.workschedule.domain.domainpersonmodel.GetTrainsToObserveUseCase
+import kotlinx.coroutines.flow.*
 
-class MainFragmentViewModel : ViewModel() {
+class MainFragmentViewModel(
+    getTrainsToObserveUseCase: GetTrainsToObserveUseCase = GetTrainsToObserveUseCase()
+) : ViewModel() {
 
-    private var _trains = MutableStateFlow<List<TestModelForMainAdapter>>(emptyList())
-    val trains: StateFlow<List<TestModelForMainAdapter>> = _trains.asStateFlow()
-
-    fun getTrains(){
-        _trains.value = listOf(
-            TestModelForMainAdapter(),
-            TestModelForMainAdapter(),
-            TestModelForMainAdapter(),
-            TestModelForMainAdapter(),
-            TestModelForMainAdapter(),
-            TestModelForMainAdapter(),
-            TestModelForMainAdapter(),
+    val trains: StateFlow<List<TestModelForMainAdapter>> = getTrainsToObserveUseCase.testExecute()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
         )
-    }
 }

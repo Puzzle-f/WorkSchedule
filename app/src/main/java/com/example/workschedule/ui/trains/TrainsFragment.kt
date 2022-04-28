@@ -36,8 +36,8 @@ class TrainsFragment : Fragment() {
                 .collect {
                     adapter.submitList(it)
                 }
-            trainsViewModel.getTrains()
         }
+        trainsViewModel.getTrains()
     }
 
     override fun onDestroyView() {

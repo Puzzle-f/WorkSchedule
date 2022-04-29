@@ -40,6 +40,13 @@ class WorkersFragment : Fragment() {
         workersViewModel.getDrivers()
     }
 
+    private fun setClickListenerFloatingButton(){
+        binding.driversFragmentAddDriverFAB.setOnClickListener {
+
+
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

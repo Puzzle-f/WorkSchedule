@@ -2,24 +2,6 @@ package com.example.workschedule.ui.workers
 
 import com.example.workschedule.data.entities.Driver
 
-fun fakeWorkersData(): List<Driver> {
-    val data = mutableListOf<Driver>()
-    for (i in 1..10) {
-        data.add(
-            Driver(
-                id = i,
-                name = "name$i",
-                surname = "surname$i",
-                patronymic = "patronymic$i",
-                workedTime = i.toLong(),
-                totalTime = i.toLong(),
-                accessTrainsId = mutableListOf(i, i + 1, i + 2)
-            )
-        )
-    }
-    return data
-}
-
 val driverListExample = listOf(
     Driver(1, "Иван", "Иванов", "Иванович", 5, 10, listOf(120, 92, 14)),
     Driver(2, "Олег", "Петров", "Дмитриевич", 3, 2, listOf(32, 14, 51)),

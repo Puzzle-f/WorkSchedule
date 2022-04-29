@@ -40,10 +40,7 @@ class WorkersAdapter :
         }
     }
 
-    private fun getInitials(name: String): String{
-        return name.substring(0,1)+"."
-
-    }
+    private fun getInitials(name: String) = name.substring(0,1)+"."
 
     companion object WorkerCallback : DiffUtil.ItemCallback<Driver>() {
         override fun areItemsTheSame(oldItem: Driver, newItem: Driver) = oldItem == newItem

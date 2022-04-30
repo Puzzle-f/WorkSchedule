@@ -12,7 +12,9 @@
     <string name="user_surname_label">Surname</string>
     <string name="user_name_label">Name</string>
     <string name="user_patronymic">Patronymic</string>
-    <string name="menu_user_edit">Edit</string>
+    <string name="menu_driver_edit">Driver</string>
+    <string name="menu_route_edit">Routes</string>
+
     <string name="edit_driver_routes_admittance">Routes admittance:</string>
 
     <string name="save_button">SAVE</string>

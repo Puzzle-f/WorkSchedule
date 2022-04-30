@@ -1,4 +1,4 @@
-package com.example.workschedule.ui.worker_edit
+package com.example.workschedule.ui.driver_edit
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,15 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.workschedule.databinding.FragmentDriverEditBinding
-import com.example.workschedule.ui.main.WorkerEditViewModel
+import com.example.workschedule.ui.main.DriverEditViewModel
 
-class WorkerEditFragment : Fragment() {
+class DriverEditFragment : Fragment() {
 
-    private lateinit var workerEditViewModel: WorkerEditViewModel
+    private lateinit var driverEditViewModel: DriverEditViewModel
     private var _binding: FragmentDriverEditBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -23,13 +20,13 @@ class WorkerEditFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        workerEditViewModel =
-            ViewModelProvider(this)[WorkerEditViewModel::class.java]
+        driverEditViewModel =
+            ViewModelProvider(this)[DriverEditViewModel::class.java]
 
         _binding = FragmentDriverEditBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        workerEditViewModel.text.observe(viewLifecycleOwner) {
+        driverEditViewModel.text.observe(viewLifecycleOwner) {
         }
         return root
     }

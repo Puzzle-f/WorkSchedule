@@ -9,12 +9,17 @@
         android:id="@+id/nav_main"
         android:name="com.example.workschedule.ui.main.MainFragment"
         android:label="@string/menu_main"
-        tools:layout="@layout/fragment_drivers" />
+        tools:layout="@layout/fragment_main" />
 
     <fragment
-        android:id="@+id/nav_user_edit"
-        android:name="com.example.workschedule.ui.worker_edit.WorkerEditFragment"
-        android:label="@string/menu_user_edit"
+        android:id="@+id/nav_driver_edit"
+        android:name="com.example.workschedule.ui.driver_edit.DriverEditFragment"
+        android:label="@string/menu_driver_edit"
         tools:layout="@layout/fragment_driver_edit" />
 
+    <fragment
+        android:id="@+id/nav_route_edit"
+        android:name="com.example.workschedule.ui.route_edit.RouteEditFragment"
+        android:label="@string/menu_route_edit"
+        tools:layout="@layout/fragment_driver_edit" />
 </navigation>

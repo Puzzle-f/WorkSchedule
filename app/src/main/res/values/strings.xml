@@ -32,6 +32,7 @@
     <string name="context_menu_edit">Edit</string>
     <string name="context_menu_delete">Delete</string>
     <string name="context_menu_shift_schedule">Shift schedule</string>
+    <string name="workers">Workers</string>
     <string name="menu_trains">Trains</string>
     <string name="menu_train_edit">Create Train</string>
 </resources>

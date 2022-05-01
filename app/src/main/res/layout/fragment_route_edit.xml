@@ -6,7 +6,7 @@
     android:padding="@dimen/fragment_padding">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/routeEditFragmentTrainNumberLayout"
+        android:id="@+id/routeEditFragmentDateTimeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_disembark_time"
@@ -14,22 +14,25 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/routeEditFragmentTrainNumber"
+            android:id="@+id/routeEditFragmentDateTime"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:drawableEnd="@drawable/ic_date_and_time">
+        </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/routeEditFragmentDirectionLayout"
+        android:id="@+id/routeEditFragmentTrainNumberLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_train"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTrainNumberLayout">
+        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentDateTimeLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/routeEditFragmentDirection"
+            android:id="@+id/routeEditFragmentTrainNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -41,7 +44,7 @@
         android:hint="@string/edit_route_driver"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentDirectionLayout">
+        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTrainNumberLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/routeEditFragmentDriver"

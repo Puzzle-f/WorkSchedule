@@ -14,6 +14,7 @@
     <string name="user_patronymic">Patronymic</string>
     <string name="menu_driver_edit">Driver</string>
     <string name="menu_route_edit">Routes</string>
+    <string name="menu_edit_set">Set</string>
 
     <string name="edit_driver_routes_admittance">Routes admittance:</string>
 

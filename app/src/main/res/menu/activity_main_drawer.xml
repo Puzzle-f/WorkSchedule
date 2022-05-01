@@ -6,15 +6,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_main"
-            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:icon="@android:drawable/ic_menu_agenda"
             android:title="@string/menu_main" />
         <item
             android:id="@+id/nav_driver_edit"
-            android:icon="@android:drawable/ic_menu_agenda"
+            android:icon="@android:drawable/ic_menu_my_calendar"
             android:title="@string/menu_driver_edit" />
         <item
             android:id="@+id/nav_route_edit"
             android:icon="@android:drawable/ic_menu_compass"
             android:title="@string/menu_route_edit" />
+        <item
+            android:id="@+id/nav_route_datetime_edit"
+            android:icon="@android:drawable/ic_menu_month"
+            android:title="Datetime" />
     </group>
 </menu>

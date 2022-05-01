@@ -3,6 +3,7 @@ package com.example.workschedule.di
 import androidx.room.Room
 import com.example.workschedule.data.database.DriverDataBase
 import com.example.workschedule.ui.workers.WorkersViewModel
+import com.example.workschedule.ui.trains.TrainsViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
@@ -24,4 +25,5 @@ val application = module {
     single { get<DriverDataBase>().trainDao() }
     single { get<DriverDataBase>().trainRunDao() }
     viewModel { WorkersViewModel() }
+    viewModel { TrainsViewModel() }
 }

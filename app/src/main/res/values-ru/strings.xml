@@ -32,4 +32,5 @@
     <string name="context_menu_edit">Редактировать</string>
     <string name="context_menu_delete">Удалить</string>
     <string name="context_menu_shift_schedule">График смен</string>
+    <string name="menu_trains">Выезды</string>
 </resources>

@@ -22,5 +22,5 @@
         android:name="com.example.workschedule.ui.worker_edit.WorkerEditFragment"
         android:label="@string/menu_user_edit"
         tools:layout="@layout/fragment_driver_edit" />
-
+  
 </navigation>

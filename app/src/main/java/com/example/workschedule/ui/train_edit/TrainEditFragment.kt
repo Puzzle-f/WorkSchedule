@@ -44,9 +44,9 @@ class TrainEditFragment : Fragment() {
                 trainEditViewModel.train
                     .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                     .collect { train ->
-                        train?.let { train1 ->
-                            binding.trainEditFragmentTrainNumber.setText(train1.number)
-                            binding.trainEditFragmentDirection.setText(train1.direction)
+                        train?.let { trainNotNull ->
+                            binding.trainEditFragmentTrainNumber.setText(trainNotNull.number)
+                            binding.trainEditFragmentDirection.setText(trainNotNull.direction)
                         }
                     }
             }

@@ -1,23 +1,18 @@
-package com.example.workschedule.ui.workers
+package com.example.workschedule.ui.drivers
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workschedule.R
 import com.example.workschedule.data.entities.Driver
-import com.example.workschedule.databinding.FragmentDriversBinding
 import com.example.workschedule.databinding.FragmentDriversItemBinding
 
-class WorkersAdapter :
-    ListAdapter<Driver, WorkersAdapter.WorkersViewHolder>(WorkerCallback) {
+class DriversAdapter :
+    ListAdapter<Driver, DriversAdapter.DriversViewHolder>(DriverCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WorkersViewHolder(
+        DriversViewHolder(
             FragmentDriversItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -25,11 +20,11 @@ class WorkersAdapter :
             )
         )
 
-    override fun onBindViewHolder(holder: WorkersViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DriversViewHolder, position: Int) {
         holder.show(currentList[position])
     }
 
-    inner class WorkersViewHolder(private val binding: FragmentDriversItemBinding) :
+    inner class DriversViewHolder(private val binding: FragmentDriversItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun show(driver: Driver) = with(binding) {
@@ -42,7 +37,7 @@ class WorkersAdapter :
 
     private fun getInitials(name: String) = name.substring(0,1)+"."
 
-    companion object WorkerCallback : DiffUtil.ItemCallback<Driver>() {
+    companion object DriverCallback : DiffUtil.ItemCallback<Driver>() {
         override fun areItemsTheSame(oldItem: Driver, newItem: Driver) = oldItem == newItem
         override fun areContentsTheSame(oldItem: Driver, newItem: Driver) = oldItem == newItem
     }

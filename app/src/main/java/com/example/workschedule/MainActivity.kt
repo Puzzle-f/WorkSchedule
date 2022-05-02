@@ -11,7 +11,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.workschedule.databinding.ActivityMainBinding
-import com.example.workschedule.di.injectDependencies
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -37,15 +36,13 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_main,
-                R.id.nav_user_edit,
-                R.id.nav_driver_edit,
                 R.id.nav_route_edit,
                 R.id.nav_trains,
+                R.id.drivers_list,
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-//        injectDependencies()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

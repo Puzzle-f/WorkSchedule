@@ -35,6 +35,7 @@
     <string name="context_menu_edit">Edit</string>
     <string name="context_menu_delete">Delete</string>
     <string name="context_menu_shift_schedule">Shift schedule</string>
-    <string name="workers">Workers</string>
+    <string name="drivers">Drivers</string>
     <string name="menu_trains">Trains</string>
+    <string name="temporary_datetime">Datetime</string>
 </resources>

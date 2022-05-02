@@ -20,5 +20,17 @@
             android:id="@+id/nav_route_datetime_edit"
             android:icon="@android:drawable/ic_menu_month"
             android:title="Datetime" />
+        <item
+            android:id="@+id/nav_trains"
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="@string/menu_trains" />
+        <item
+            android:id="@+id/nav_user_edit"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="@string/menu_user_edit" />
+        <item
+            android:id="@+id/workers_list"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="@string/workers" />
     </group>
 </menu>

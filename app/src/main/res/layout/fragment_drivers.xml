@@ -20,10 +20,12 @@
         android:id="@+id/driversFragmentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/driversFragmentFABGuideline"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/fragment_drivers_item"/>
+        app:layout_constraintBottom_toTopOf="@id/driversFragmentFABGuideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/fragment_drivers_item" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/driversFragmentFABGuideline"

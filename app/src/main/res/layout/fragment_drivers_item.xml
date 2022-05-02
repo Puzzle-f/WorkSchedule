@@ -15,7 +15,27 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Ivanov A.A." />
+        tools:text="Ivanov" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/driversFragmentRecyclerItemSurName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/driversFragmentRecyclerItemName"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="A." />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/driversFragmentRecyclerItemPatronymic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/driversFragmentRecyclerItemSurName"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="A." />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/driversFragmentRecyclerItemHours"

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/fragment_padding">
@@ -41,6 +42,15 @@
             android:enabled="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/routeEditFragmentTrainsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/routeEditFragmentTrainNumberLayout"
+        app:layout_constraintBottom_toTopOf="@+id/routeEditFragmentDriverLayout"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/fragment_trains_item"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentDriverLayout"
         android:layout_width="match_parent"
@@ -59,6 +69,15 @@
             android:enabled="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/routeEditFragmentDriversRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/routeEditFragmentDriverLayout"
+        app:layout_constraintBottom_toTopOf="@+id/routeEditFragmentPeriodicityLayout"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/fragment_drivers_item"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentPeriodicityLayout"
         android:layout_width="match_parent"
@@ -76,6 +95,14 @@
             android:layout_height="wrap_content"
             android:enabled="false" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/routeEditFragmentPeriodicityRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/routeEditFragmentPeriodicityLayout"
+        app:layout_constraintBottom_toTopOf="@+id/routeEditFragmentTimeToLayout"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentTimeToLayout"
@@ -164,4 +191,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent="0.55"
         android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/routeEditFragmentGuidelineRecycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.90"
+        android:orientation="horizontal"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

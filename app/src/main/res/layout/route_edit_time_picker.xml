@@ -8,23 +8,14 @@
     android:padding="@dimen/fragment_padding">
 
     <TimePicker
-        android:id="@+id/routeEditTimePicker"
+        android:id="@+id/routeEditTimePickerSingular"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:timePickerMode="clock" />
 
-    <DatePicker
-        android:id="@+id/routeEditDatePicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/routeEditTimePicker"
-        app:layout_constraintStart_toStartOf="parent"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner" />
-
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/routeEditDateTimeSetButton"
+        android:id="@+id/routeEditTimeSetButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

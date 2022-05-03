@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.databinding.FragmentMainItemBinding
+import com.example.workschedule.domain.models.DomainTrainRunModel
 
 class MainFragmentAdapter :
-    ListAdapter<TestModelForMainAdapter, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
+    ListAdapter<DomainTrainRunModel, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         return MainViewHolder(
@@ -27,27 +28,22 @@ class MainFragmentAdapter :
     inner class MainViewHolder(private val vb: FragmentMainItemBinding) :
         RecyclerView.ViewHolder(vb.root) {
 
-        fun show(model: TestModelForMainAdapter) {
-            vb.mainFragmentRecyclerItemDate.text = model.date
-            vb.mainFragmentRecyclerItemTime.text = model.time
-            vb.mainFragmentRecyclerItemTrain.text = model.train
-            vb.mainFragmentRecyclerItemTravelTimeTo.text = model.travelTimeTo
-            vb.mainFragmentRecyclerItemRestTime.text = model.restTime
-            vb.mainFragmentRecyclerItemTravelFrom.text = model.travelFrom
+        fun show(model: DomainTrainRunModel) {
+
         }
     }
 
-    companion object DomainPersonModelCallback : DiffUtil.ItemCallback<TestModelForMainAdapter>() {
+    companion object DomainPersonModelCallback : DiffUtil.ItemCallback<DomainTrainRunModel>() {
         override fun areItemsTheSame(
-            oldItem: TestModelForMainAdapter,
-            newItem: TestModelForMainAdapter,
+            oldItem: DomainTrainRunModel,
+            newItem: DomainTrainRunModel,
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: TestModelForMainAdapter,
-            newItem: TestModelForMainAdapter,
+            oldItem: DomainTrainRunModel,
+            newItem: DomainTrainRunModel,
         ): Boolean {
             return oldItem == newItem
         }

@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_main,
                 R.id.nav_route_edit,
                 R.id.nav_trains,
-                R.id.drivers_list,
+                R.id.nav_drivers,
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

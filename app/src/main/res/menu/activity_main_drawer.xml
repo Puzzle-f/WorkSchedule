@@ -21,7 +21,7 @@
             android:icon="@android:drawable/ic_dialog_dialer"
             android:title="@string/menu_trains" />
         <item
-            android:id="@+id/drivers_list"
+            android:id="@+id/nav_drivers"
             android:icon="@android:drawable/ic_menu_manage"
             android:title="@string/drivers" />
     </group>

@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_trains" />
 
     <fragment
-        android:id="@+id/drivers_list"
+        android:id="@+id/nav_drivers"
         android:name="com.example.workschedule.ui.drivers.DriversFragment"
         android:label="@string/drivers"
         tools:layout="@layout/fragment_drivers" />

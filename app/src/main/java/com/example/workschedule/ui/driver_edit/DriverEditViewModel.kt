@@ -1,4 +1,4 @@
-package com.example.workschedule.ui.main
+package com.example.workschedule.ui.driver_edit
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

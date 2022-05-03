@@ -31,8 +31,8 @@
 
     <fragment
         android:id="@+id/nav_driver_edit"
-        android:name="com.example.workschedule.ui.worker_edit.WorkerEditFragment"
-        android:label="@string/menu_user_edit"
+        android:name="com.example.workschedule.ui.driver_edit.DriverEditFragment"
+        android:label="@string/menu_driver_edit"
         tools:layout="@layout/fragment_driver_edit" />
 
     <fragment

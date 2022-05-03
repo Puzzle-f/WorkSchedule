@@ -6,6 +6,8 @@ import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
 import com.example.workschedule.ui.route_edit.DateTimePickerViewModel
 import com.example.workschedule.ui.route_edit.RouteEditViewModel
+import com.example.workschedule.ui.train_edit.TrainEditViewModel
+import com.example.workschedule.ui.workers.WorkersViewModel
 import com.example.workschedule.ui.trains.TrainsViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -31,4 +33,5 @@ val application = module {
     viewModel { DriverEditViewModel() }
     viewModel { RouteEditViewModel() }
     viewModel { DateTimePickerViewModel() }
+    viewModel { TrainEditViewModel() }
 }

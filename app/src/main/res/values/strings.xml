@@ -38,4 +38,5 @@
     <string name="drivers">Drivers</string>
     <string name="menu_trains">Trains</string>
     <string name="temporary_datetime">Datetime</string>
+    <string name="menu_train_edit">Create Train</string>
 </resources>

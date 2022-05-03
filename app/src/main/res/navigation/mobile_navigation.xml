@@ -18,16 +18,22 @@
         tools:layout="@layout/fragment_trains" />
 
     <fragment
+        android:id="@+id/nav_drivers"
+        android:name="com.example.workschedule.ui.drivers.DriversFragment"
+        android:label="@string/drivers"
+        tools:layout="@layout/fragment_drivers" />
+
+    <fragment
         android:id="@+id/nav_train_edit"
         android:name="com.example.workschedule.ui.train_edit.TrainEditFragment"
         android:label="@string/menu_train_edit"
         tools:layout="@layout/fragment_train_edit" />
 
     <fragment
-        android:id="@+id/nav_drivers"
-        android:name="com.example.workschedule.ui.drivers.DriversFragment"
-        android:label="@string/drivers"
-        tools:layout="@layout/fragment_drivers" />
+        android:id="@+id/nav_driver_edit"
+        android:name="com.example.workschedule.ui.worker_edit.WorkerEditFragment"
+        android:label="@string/menu_user_edit"
+        tools:layout="@layout/fragment_driver_edit" />
 
     <fragment
         android:id="@+id/nav_route_edit"

@@ -4,13 +4,12 @@ import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.models.DomainDriverModel
 import com.example.workschedule.domain.models.DomainTrainModel
 import com.example.workschedule.domain.models.DomainTrainRunModel
-import kotlinx.coroutines.flow.Flow
 
 class DomainRepositoryImpl(
     private val databaseRepository: DatabaseRepository
 ) : DomainRepository {
 
-    override fun getAllTrainsRunList(): Flow<List<DomainTrainRunModel>> {
+    override suspend fun getAllTrainsRunList(): List<DomainTrainRunModel> {
         TODO("Not yet implemented")
     }
 
@@ -30,7 +29,7 @@ class DomainRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getTrainRunListForDriver(driverId: Int): Flow<List<DomainTrainRunModel>> {
+    override suspend fun getTrainRunListForDriver(driverId: Int): List<DomainTrainRunModel> {
         TODO("Not yet implemented")
     }
 

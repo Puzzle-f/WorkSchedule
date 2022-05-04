@@ -1,13 +1,12 @@
 package com.example.workschedule.domain.models
 
-import java.util.*
-
+/**
+ * Класс Train определяет сущность поезда, необходимую для идентификации направления и вывода информации о нём.
+ *
+ * @param number номер поезда
+ * @param direction название направления
+ */
 data class DomainTrainModel(
-    val id: Int = 0,
-    val trainNumber: Int,
-    val direction: Int,
-    val start: GregorianCalendar,
-    val stop: GregorianCalendar,
-    val totalTimeInMillis: Long = stop.timeInMillis - start.timeInMillis,
-    val workedTime: Long
+    val number: Int,
+    val direction: String,
 )

@@ -12,7 +12,10 @@
     <string name="user_surname_label">Фамилия</string>
     <string name="user_name_label">Имя</string>
     <string name="user_patronymic">Отчество</string>
-    <string name="menu_user_edit">Редактирование</string>
+    <string name="menu_driver_edit">Машинист</string>
+    <string name="menu_route_edit">Маршрут</string>
+    <string name="menu_edit_set">Установить</string>
+
     <string name="edit_driver_routes_admittance">Допуски к рейсам:</string>
 
     <string name="save_button">СОХРАНИТЬ</string>
@@ -32,7 +35,8 @@
     <string name="context_menu_edit">Редактировать</string>
     <string name="context_menu_delete">Удалить</string>
     <string name="context_menu_shift_schedule">График смен</string>
+    <string name="drivers">Машинисты</string>
     <string name="menu_train_edit">Содание поезда</string>
-    <string name="workers">Машинисты</string>
     <string name="menu_trains">Выезды</string>
+    <string name="temporary_datetime">Дата и время</string>
 </resources>

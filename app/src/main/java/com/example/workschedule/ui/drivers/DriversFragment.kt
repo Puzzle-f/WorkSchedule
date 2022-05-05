@@ -1,4 +1,4 @@
-package com.example.workschedule.ui.workers
+package com.example.workschedule.ui.drivers
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,12 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import com.example.workschedule.databinding.FragmentDriversBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class WorkersFragment : Fragment() {
+class DriversFragment : Fragment() {
 
-    private val workersViewModel: WorkersViewModel by viewModel()
+    private val driversViewModel: DriversViewModel by viewModel()
     private var _binding: FragmentDriversBinding? = null
     private val binding get() = _binding ?: throw RuntimeException("FragmentTrainsBinding? = null")
-    private val adapter: WorkersAdapter by lazy { WorkersAdapter() }
+    private val adapter: DriversAdapter by lazy { DriversAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,13 +31,13 @@ class WorkersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.driversFragmentRecyclerView.adapter = adapter
         lifecycleScope.launchWhenStarted {
-            workersViewModel.drivers
+            driversViewModel.drivers
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
                     adapter.submitList(it)
                 }
         }
-        workersViewModel.getDrivers()
+        driversViewModel.getDrivers()
     }
 
     private fun setClickListenerFloatingButton(){

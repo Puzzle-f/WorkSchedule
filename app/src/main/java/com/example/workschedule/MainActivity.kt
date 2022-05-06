@@ -36,14 +36,14 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_main,
+                R.id.nav_route_edit,
                 R.id.nav_trains,
+                R.id.nav_drivers,
                 R.id.nav_train_edit,
-                R.id.nav_user_edit
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-//        injectDependencies()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addWorkerFAB"
+        android:id="@+id/addDriverFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/driversOptionalFragmentFABGuideline"

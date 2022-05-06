@@ -12,7 +12,10 @@
     <string name="user_surname_label">Surname</string>
     <string name="user_name_label">Name</string>
     <string name="user_patronymic">Patronymic</string>
-    <string name="menu_user_edit">Edit</string>
+    <string name="menu_driver_edit">Driver</string>
+    <string name="menu_route_edit">Routes</string>
+    <string name="menu_edit_set">Set</string>
+
     <string name="edit_driver_routes_admittance">Routes admittance:</string>
 
     <string name="save_button">SAVE</string>
@@ -32,7 +35,8 @@
     <string name="context_menu_edit">Edit</string>
     <string name="context_menu_delete">Delete</string>
     <string name="context_menu_shift_schedule">Shift schedule</string>
-    <string name="workers">Workers</string>
+    <string name="drivers">Drivers</string>
     <string name="menu_trains">Trains</string>
+    <string name="temporary_datetime">Datetime</string>
     <string name="menu_train_edit">Create Train</string>
 </resources>

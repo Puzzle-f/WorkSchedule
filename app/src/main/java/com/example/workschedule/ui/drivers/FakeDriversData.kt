@@ -1,4 +1,4 @@
-package com.example.workschedule.ui.workers
+package com.example.workschedule.ui.drivers
 
 import com.example.workschedule.domain.models.DomainDriverModel
 

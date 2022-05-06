@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.databinding.FragmentMainItemBinding
-import com.example.workschedule.domain.models.DomainTrainRunModel
+import com.example.workschedule.data.models.TrainRun
 
 class MainFragmentAdapter :
-    ListAdapter<DomainTrainRunModel, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
+    ListAdapter<TrainRun, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         return MainViewHolder(
@@ -28,22 +28,22 @@ class MainFragmentAdapter :
     inner class MainViewHolder(private val vb: FragmentMainItemBinding) :
         RecyclerView.ViewHolder(vb.root) {
 
-        fun show(model: DomainTrainRunModel) {
+        fun show(model: TrainRun) {
 
         }
     }
 
-    companion object DomainPersonModelCallback : DiffUtil.ItemCallback<DomainTrainRunModel>() {
+    companion object DomainPersonModelCallback : DiffUtil.ItemCallback<TrainRun>() {
         override fun areItemsTheSame(
-            oldItem: DomainTrainRunModel,
-            newItem: DomainTrainRunModel,
+            oldItem: TrainRun,
+            newItem: TrainRun,
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: DomainTrainRunModel,
-            newItem: DomainTrainRunModel,
+            oldItem: TrainRun,
+            newItem: TrainRun,
         ): Boolean {
             return oldItem == newItem
         }

@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workschedule.domain.models.DomainTrainModel
+import com.example.workschedule.data.models.Train
 import com.example.workschedule.databinding.FragmentTrainsItemBinding
 
 class TrainsFragmentAdapter :
-    ListAdapter<DomainTrainModel, TrainsFragmentAdapter.MainViewHolder>(TrainCallback) {
+    ListAdapter<Train, TrainsFragmentAdapter.MainViewHolder>(TrainCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MainViewHolder(
@@ -27,14 +27,14 @@ class TrainsFragmentAdapter :
     inner class MainViewHolder(private val binding: FragmentTrainsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun show(train: DomainTrainModel) = with(binding) {
+        fun show(train: Train) = with(binding) {
             trainsFragmentRecyclerItemNumber.text = train.number.toString()
             trainsFragmentRecyclerItemDestination.text = train.direction
         }
     }
 
-    companion object TrainCallback : DiffUtil.ItemCallback<DomainTrainModel>() {
-        override fun areItemsTheSame(oldItem: DomainTrainModel, newItem: DomainTrainModel) = oldItem == newItem
-        override fun areContentsTheSame(oldItem: DomainTrainModel, newItem: DomainTrainModel) = oldItem == newItem
+    companion object TrainCallback : DiffUtil.ItemCallback<Train>() {
+        override fun areItemsTheSame(oldItem: Train, newItem: Train) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: Train, newItem: Train) = oldItem == newItem
     }
 }

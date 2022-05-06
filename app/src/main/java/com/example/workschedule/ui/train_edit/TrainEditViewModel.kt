@@ -2,7 +2,7 @@ package com.example.workschedule.ui.train_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.workschedule.data.entities.Train
+import com.example.workschedule.data.models.Train
 import com.example.workschedule.utils.trainList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

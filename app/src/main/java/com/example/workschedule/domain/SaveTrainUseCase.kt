@@ -1,9 +1,9 @@
 package com.example.workschedule.domain
 
-import com.example.workschedule.domain.models.DomainTrainModel
+import com.example.workschedule.data.models.Train
 
 class SaveTrainUseCase(
     private val repository: DomainRepository
 ) {
-    suspend fun execute(domainTrainModel: DomainTrainModel) = repository.saveTrain(domainTrainModel)
+    suspend fun execute(train: Train) = repository.saveTrain(train)
 }

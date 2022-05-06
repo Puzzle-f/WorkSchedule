@@ -1,19 +1,19 @@
 package com.example.workschedule.domain
 
-import com.example.workschedule.domain.models.DomainDriverModel
-import com.example.workschedule.domain.models.DomainTrainModel
-import com.example.workschedule.domain.models.DomainTrainRunModel
+import com.example.workschedule.data.models.Driver
+import com.example.workschedule.data.models.Train
+import com.example.workschedule.data.models.TrainRun
 
 interface DomainRepository {
 
-    suspend fun getAllTrainsRunList(): List<DomainTrainRunModel>
-    suspend fun getTrainRun(trainRunId: Int): DomainTrainRunModel
-    suspend fun getAllTrainsList(): List<DomainTrainModel>
-    suspend fun getAllDriversList(): List<DomainDriverModel>
-    suspend fun saveTrainRun(trainRunModel: DomainTrainRunModel)
-    suspend fun getTrainRunListForDriver(driverId: Int): List<DomainTrainRunModel>
-    suspend fun getDriver(driverId: Int): DomainDriverModel
-    suspend fun saveDriver(domainDriverModel: DomainDriverModel)
-    suspend fun getTrain(trainNumber: Int): DomainTrainModel
-    suspend fun saveTrain(domainTrainModel: DomainTrainModel)
+    suspend fun getAllTrainsRunList(): List<TrainRun>
+    suspend fun getTrainRun(trainRunId: Int): TrainRun
+    suspend fun getAllTrainsList(): List<Train>
+    suspend fun getAllDriversList(): List<Driver>
+    suspend fun saveTrainRun(trainRun: TrainRun)
+    suspend fun getTrainRunListForDriver(driverId: Int): List<TrainRun>
+    suspend fun getDriver(driverId: Int): Driver
+    suspend fun saveDriver(driver: Driver)
+    suspend fun getTrain(trainNumber: Int): Train
+    suspend fun saveTrain(train: Train)
 }

@@ -5,19 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.workschedule.databinding.FragmentMainBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
 
+    private val mainFragmentViewModel: MainFragmentViewModel by viewModel()
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding
         get() = _binding ?: throw RuntimeException("FragmentMainBinding? = null")
 
-    private val viewModel: MainFragmentViewModel by viewModels()
     private val adapter by lazy {
         MainFragmentAdapter()
     }
@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
         binding.mainFragmentRecyclerView.adapter = adapter
 
         lifecycleScope.launchWhenStarted {
-            viewModel.trains
+            mainFragmentViewModel.trains
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
                     adapter.submitList(it)

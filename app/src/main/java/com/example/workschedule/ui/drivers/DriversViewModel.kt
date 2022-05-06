@@ -1,4 +1,4 @@
-package com.example.workschedule.ui.workers
+package com.example.workschedule.ui.drivers
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class WorkersViewModel : ViewModel() {
+class DriversViewModel : ViewModel() {
 
     private var _drivers = MutableStateFlow<List<DomainDriverModel>>(emptyList())
     val drivers: StateFlow<List<DomainDriverModel>> = _drivers.asStateFlow()

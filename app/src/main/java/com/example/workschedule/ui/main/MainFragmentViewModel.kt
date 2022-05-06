@@ -10,10 +10,11 @@ class MainFragmentViewModel(
     getAllTrainsRunListUseCase: GetAllTrainsRunListUseCase
 ) : ViewModel() {
 
-    val trains: StateFlow<List<DomainTrainRunModel>> = getAllTrainsRunListUseCase.execute()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = emptyList()
-        )
+    val trains: StateFlow<List<DomainTrainRunModel>> =
+        flow { emit(getAllTrainsRunListUseCase.execute()) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = emptyList()
+            )
 }

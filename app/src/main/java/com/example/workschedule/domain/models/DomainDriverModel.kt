@@ -1,4 +1,4 @@
-package com.example.workschedule.data.entities
+package com.example.workschedule.domain.models
 
 /**
  * Класс Driver определяет сущность машиниста.
@@ -12,7 +12,7 @@ package com.example.workschedule.data.entities
  * что этот параметр нам не нужен, но может быть полезен для статистики
  * @param accessTrainsId список доступных машинисту направлений
  */
-data class Driver(
+data class DomainDriverModel(
     val id: Int,
     val name: String,
     val surname: String,

@@ -1,4 +1,4 @@
-package com.example.workschedule.data.entities
+package com.example.workschedule.domain.models
 
 import java.time.LocalDateTime
 
@@ -14,7 +14,7 @@ import java.time.LocalDateTime
  * @param travelRestTime время отдыха перед отправлением обратно
  * @param backTravelTime время пути обратно в пункт отправления
  */
-data class TrainRun(
+data class DomainTrainRunModel(
     val id: Int,
     val trainNumber: Int,
     var driverId: Int,

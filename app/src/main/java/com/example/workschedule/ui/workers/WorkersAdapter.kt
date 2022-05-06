@@ -1,20 +1,15 @@
 package com.example.workschedule.ui.workers
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workschedule.R
-import com.example.workschedule.data.entities.Driver
-import com.example.workschedule.databinding.FragmentDriversBinding
+import com.example.workschedule.domain.models.DomainDriverModel
 import com.example.workschedule.databinding.FragmentDriversItemBinding
 
 class WorkersAdapter :
-    ListAdapter<Driver, WorkersAdapter.WorkersViewHolder>(WorkerCallback) {
+    ListAdapter<DomainDriverModel, WorkersAdapter.WorkersViewHolder>(WorkerCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         WorkersViewHolder(
@@ -32,7 +27,7 @@ class WorkersAdapter :
     inner class WorkersViewHolder(private val binding: FragmentDriversItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun show(driver: Driver) = with(binding) {
+        fun show(driver: DomainDriverModel) = with(binding) {
             driversFragmentRecyclerItemName.text = driver.name
             driversFragmentRecyclerItemHours.text = driver.workedTime.toString()
             driversFragmentRecyclerItemSurName.text = getInitials(driver.surname)
@@ -42,8 +37,8 @@ class WorkersAdapter :
 
     private fun getInitials(name: String) = name.substring(0,1)+"."
 
-    companion object WorkerCallback : DiffUtil.ItemCallback<Driver>() {
-        override fun areItemsTheSame(oldItem: Driver, newItem: Driver) = oldItem == newItem
-        override fun areContentsTheSame(oldItem: Driver, newItem: Driver) = oldItem == newItem
+    companion object WorkerCallback : DiffUtil.ItemCallback<DomainDriverModel>() {
+        override fun areItemsTheSame(oldItem: DomainDriverModel, newItem: DomainDriverModel) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: DomainDriverModel, newItem: DomainDriverModel) = oldItem == newItem
     }
 }

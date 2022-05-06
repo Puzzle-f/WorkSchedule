@@ -1,8 +1,8 @@
 package com.example.workschedule.utils
 
-import com.example.workschedule.data.entities.Driver
-import com.example.workschedule.data.entities.Train
-import com.example.workschedule.data.entities.TrainRun
+import com.example.workschedule.domain.models.DomainDriverModel
+import com.example.workschedule.domain.models.DomainTrainModel
+import com.example.workschedule.domain.models.DomainTrainRunModel
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.temporal.ChronoUnit
@@ -27,102 +27,102 @@ val Long.toTimeString: String
 const val restHours = 16  // Константа опряделяющая количество часов отдыха после работы
 
 val trainRunList = listOf(
-    TrainRun(
+    DomainTrainRunModel(
         1, 120, 0,
         LocalDateTime.of(2022, Month.APRIL, 1, 6, 30),
         8.hoursToMillis + 25.minutesToMillis, 6.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         2, 14, 0,
         LocalDateTime.of(2022, Month.APRIL, 1, 12, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         3, 92, 0,
         LocalDateTime.of(2022, Month.APRIL, 1, 16, 30),
         5.hoursToMillis, 5.hoursToMillis, 5.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         4, 32, 0,
         LocalDateTime.of(2022, Month.APRIL, 2, 3, 30),
         6.hoursToMillis, 8.hoursToMillis, 6.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         5, 51, 0,
         LocalDateTime.of(2022, Month.APRIL, 2, 6, 30),
         7.hoursToMillis, 4.hoursToMillis, 6.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         6, 96, 0,
         LocalDateTime.of(2022, Month.APRIL, 2, 22, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         7, 72, 0,
         LocalDateTime.of(2022, Month.APRIL, 3, 2, 30),
         7.hoursToMillis, 4.hoursToMillis, 7.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         8, 120, 0,
         LocalDateTime.of(2022, Month.APRIL, 3, 6, 30),
         8.hoursToMillis, 4.hoursToMillis, 9.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         9, 99, 0,
         LocalDateTime.of(2022, Month.APRIL, 3, 8, 30),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         10, 80, 0,
         LocalDateTime.of(2022, Month.APRIL, 3, 20, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         11, 103, 0,
         LocalDateTime.of(2022, Month.APRIL, 4, 6, 30),
         8.hoursToMillis, 6.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         12, 120, 0,
         LocalDateTime.of(2022, Month.APRIL, 5, 6, 30),
         15.hoursToMillis, 4.hoursToMillis, 15.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         13, 11, 0,
         LocalDateTime.of(2022, Month.APRIL, 5, 3, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         14, 125, 0,
         LocalDateTime.of(2022, Month.APRIL, 6, 13, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         15, 51, 0,
         LocalDateTime.of(2022, Month.APRIL, 7, 12, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         16, 14, 0,
         LocalDateTime.of(2022, Month.APRIL, 8, 14, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         17, 72, 0,
         LocalDateTime.of(2022, Month.APRIL, 8, 10, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         18, 99, 0,
         LocalDateTime.of(2022, Month.APRIL, 8, 16, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         19, 32, 0,
         LocalDateTime.of(2022, Month.APRIL, 9, 6, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
-    TrainRun(
+    DomainTrainRunModel(
         20, 120, 0,
         LocalDateTime.of(2022, Month.APRIL, 9, 6, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
@@ -130,18 +130,18 @@ val trainRunList = listOf(
 )
 
 val driverList = listOf(
-    Driver(1, "Иван", "", "", 0, 0, listOf(120, 92, 14)),
-    Driver(2, "Олег", "", "", 0, 0, listOf(32, 14, 51)),
-    Driver(3, "Василий", "", "", 0, 0, listOf(51, 72, 80)),
-    Driver(4, "Николай", "", "", 0, 0, listOf(96, 72)),
-    Driver(5, "Семен", "", "", 0, 0, listOf(90, 99)),
-    Driver(6, "Иннокентий", "", "", 0, 0, listOf(103, 11, 125, 96)),
-    Driver(7, "Дмитрий", "", "", 0, 0, listOf(72, 51, 92)),
-    Driver(8, "Вячеслав", "", "", 0, 0, listOf(92, 96)),
-    Driver(9, "Александр", "", "", 0, 0, listOf(120, 92)),
-    Driver(10, "Андрей", "", "", 0, 0, listOf(72, 32, 11)),
-    Driver(11, "Владимир", "", "", 0, 0, listOf(103, 14, 99)),
-    Driver(12, "Павел", "", "", 0, 0, listOf(125, 14)),
+    DomainDriverModel(1, "Иван", "", "", 0, 0, listOf(120, 92, 14)),
+    DomainDriverModel(2, "Олег", "", "", 0, 0, listOf(32, 14, 51)),
+    DomainDriverModel(3, "Василий", "", "", 0, 0, listOf(51, 72, 80)),
+    DomainDriverModel(4, "Николай", "", "", 0, 0, listOf(96, 72)),
+    DomainDriverModel(5, "Семен", "", "", 0, 0, listOf(90, 99)),
+    DomainDriverModel(6, "Иннокентий", "", "", 0, 0, listOf(103, 11, 125, 96)),
+    DomainDriverModel(7, "Дмитрий", "", "", 0, 0, listOf(72, 51, 92)),
+    DomainDriverModel(8, "Вячеслав", "", "", 0, 0, listOf(92, 96)),
+    DomainDriverModel(9, "Александр", "", "", 0, 0, listOf(120, 92)),
+    DomainDriverModel(10, "Андрей", "", "", 0, 0, listOf(72, 32, 11)),
+    DomainDriverModel(11, "Владимир", "", "", 0, 0, listOf(103, 14, 99)),
+    DomainDriverModel(12, "Павел", "", "", 0, 0, listOf(125, 14)),
 //    Driver(13,"Леонид", "", "", 0, 0, listOf(11, 99, 32)),
 //    Driver(14,"Алексей", "", "", 0, 0, listOf(14, 80, 11)),
 //    Driver(15,"Юрий", "", "", 0, 0, listOf(99, 92, 96)),
@@ -153,18 +153,18 @@ val driverList = listOf(
 )
 
 val trainList = listOf(
-    Train(120, "Москва"),
-    Train(92, "Санкт-Петербург"),
-    Train(32, "Краснодар"),
-    Train(14, "Ростов-на-Дону"),
-    Train(51, "Воронеж"),
-    Train(96, "Туапсе"),
-    Train(72, "Ставрополь"),
-    Train(80, "Тюмень"),
-    Train(99, "Нижний Новгород"),
-    Train(103, "Новороссийск"),
-    Train(11, "Казань"),
-    Train(125, "Киров")
+    DomainTrainModel(120, "Москва"),
+    DomainTrainModel(92, "Санкт-Петербург"),
+    DomainTrainModel(32, "Краснодар"),
+    DomainTrainModel(14, "Ростов-на-Дону"),
+    DomainTrainModel(51, "Воронеж"),
+    DomainTrainModel(96, "Туапсе"),
+    DomainTrainModel(72, "Ставрополь"),
+    DomainTrainModel(80, "Тюмень"),
+    DomainTrainModel(99, "Нижний Новгород"),
+    DomainTrainModel(103, "Новороссийск"),
+    DomainTrainModel(11, "Казань"),
+    DomainTrainModel(125, "Киров")
 )
 
 // todo ↑↑↑ Хардкод, после настройки приложения удалить ↑↑↑
@@ -174,7 +174,7 @@ val trainList = listOf(
  * которые в рейсе или на отдыхе после рейса. Т.е. списка тех кого нельзя ставить на новый выезд в
  * определенное время.
  */
-fun getBusyOrRestDriversIdsOnTime(trainRunList: List<TrainRun>, time: LocalDateTime): List<Int> {
+fun getBusyOrRestDriversIdsOnTime(trainRunList: List<DomainTrainRunModel>, time: LocalDateTime): List<Int> {
     return trainRunList
         .filter { it.driverId > 0 } // Отсеиваем записи в которых машинисты еще не назначены
         .filter {
@@ -189,7 +189,7 @@ fun getBusyOrRestDriversIdsOnTime(trainRunList: List<TrainRun>, time: LocalDateT
 /**
  * Метод для заполнения списка выезда поездов машинистами из списка машинистов по алгоритму
  */
-fun List<TrainRun>.fillTrainRunListWithDrivers(drivers: List<Driver>) {
+fun List<DomainTrainRunModel>.fillTrainRunListWithDrivers(drivers: List<DomainDriverModel>) {
     this.forEach { trainRun ->  // Для каждого выезда поезда
         if (trainRun.driverId == 0) {   // Если машинист не назначен
             trainRun.driverId = drivers // Берём список машинистов

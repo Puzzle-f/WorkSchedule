@@ -1,6 +1,6 @@
 package com.example.workschedule.ui.drivers
 
-import com.example.workschedule.data.models.Driver
+import com.example.workschedule.domain.models.Driver
 
 val driverListExample = listOf(
     Driver(1, "Иван", "Иванов", "Иванович", 5, 10, listOf(120, 92, 14)),

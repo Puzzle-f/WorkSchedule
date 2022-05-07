@@ -1,8 +1,8 @@
 package com.example.workschedule.utils
 
-import com.example.workschedule.data.models.Driver
-import com.example.workschedule.data.models.Train
-import com.example.workschedule.data.models.TrainRun
+import com.example.workschedule.domain.models.Driver
+import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.TrainRun
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.temporal.ChronoUnit

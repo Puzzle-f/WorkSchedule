@@ -10,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.workschedule.data.models.Train
+import com.example.workschedule.domain.models.Train
 import com.example.workschedule.databinding.FragmentTrainEditBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 

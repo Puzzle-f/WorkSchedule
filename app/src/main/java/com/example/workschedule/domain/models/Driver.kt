@@ -1,4 +1,4 @@
-package com.example.workschedule.data.models
+package com.example.workschedule.domain.models
 
 /**
  * Класс Driver определяет сущность машиниста.

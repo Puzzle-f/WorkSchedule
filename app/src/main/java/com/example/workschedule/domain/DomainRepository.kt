@@ -1,8 +1,8 @@
 package com.example.workschedule.domain
 
-import com.example.workschedule.data.models.Driver
-import com.example.workschedule.data.models.Train
-import com.example.workschedule.data.models.TrainRun
+import com.example.workschedule.domain.models.Driver
+import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.TrainRun
 
 interface DomainRepository {
 

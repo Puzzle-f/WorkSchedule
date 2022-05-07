@@ -1,6 +1,6 @@
 package com.example.workschedule.domain
 
-import com.example.workschedule.data.models.Train
+import com.example.workschedule.domain.models.Train
 
 class SaveTrainUseCase(
     private val repository: DomainRepository

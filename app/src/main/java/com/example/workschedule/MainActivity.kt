@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-//        injectDependencies()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

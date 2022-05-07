@@ -1,16 +1,11 @@
 package com.example.workschedule.ui.workers
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workschedule.R
 import com.example.workschedule.data.entities.Driver
-import com.example.workschedule.databinding.FragmentDriversBinding
 import com.example.workschedule.databinding.FragmentDriversItemBinding
 
 class WorkersAdapter :
@@ -40,7 +35,7 @@ class WorkersAdapter :
         }
     }
 
-    private fun getInitials(name: String) = name.substring(0,1)+"."
+    private fun getInitials(name: String) = name.substring(0, 1) + "."
 
     companion object WorkerCallback : DiffUtil.ItemCallback<Driver>() {
         override fun areItemsTheSame(oldItem: Driver, newItem: Driver) = oldItem == newItem

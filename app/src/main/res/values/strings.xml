@@ -33,4 +33,5 @@
     <string name="context_menu_delete">Delete</string>
     <string name="context_menu_shift_schedule">Shift schedule</string>
     <string name="workers">Workers</string>
+    <string name="id">Id</string>
 </resources>

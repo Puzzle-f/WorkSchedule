@@ -33,4 +33,5 @@
     <string name="context_menu_delete">Удалить</string>
     <string name="context_menu_shift_schedule">График смен</string>
     <string name="workers">Машинисты</string>
+    <string name="id">Табельный номер</string>
 </resources>

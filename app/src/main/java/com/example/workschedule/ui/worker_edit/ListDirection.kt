@@ -10,4 +10,8 @@ val listDirection = listOf(
     DomainPathDirectionModel("Petersburg", false),
     DomainPathDirectionModel("Omsk", false),
     DomainPathDirectionModel("Ryazan", false),
+    DomainPathDirectionModel("Kazan", false),
+    DomainPathDirectionModel("Petersburg", false),
+    DomainPathDirectionModel("Omsk", false),
+    DomainPathDirectionModel("Ryazan", false),
 )

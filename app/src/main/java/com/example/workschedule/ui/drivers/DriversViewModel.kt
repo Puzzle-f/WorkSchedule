@@ -1,13 +1,8 @@
 package com.example.workschedule.ui.drivers
 
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.Driver
-import androidx.navigation.fragment.NavHostFragment
-import com.example.workschedule.R
-import com.example.workschedule.data.entities.Driver
-import com.example.workschedule.utils.driverList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

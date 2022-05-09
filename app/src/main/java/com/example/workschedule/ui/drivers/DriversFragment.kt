@@ -46,7 +46,7 @@ class DriversFragment : Fragment() {
 
     private fun setClickListenerFloatingButton() {
         binding.driversFragmentAddDriverFAB.setOnClickListener {
-            it.findNavController().navigate(R.id.nav_user_edit)
+            it.findNavController().navigate(R.id.nav_driver_edit)
         }
     }
 

@@ -1,5 +1,7 @@
 package com.example.workschedule.domain.domainpersonmodel
 
+import com.example.workschedule.domain.models.direction.DomainPathDirectionModel
+
 data class DomainPersonModel(
     val firstName: String,
     val secondName: String,

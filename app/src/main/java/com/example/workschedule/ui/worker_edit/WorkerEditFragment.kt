@@ -51,10 +51,10 @@ class WorkerEditFragment : Fragment() {
             it.findNavController().navigateUp()
         }
         binding.driverEditFragmentSaveButton.setOnClickListener {
-            if (binding.driverEditFragmentId.text.toString() != "" &&
-                binding.driverEditFragmentSurname.text.toString() != "" &&
-                binding.driverEditFragmentName.text.toString() != "" &&
-                binding.driverEditFragmentPatronymic.text.toString() != ""
+            if (binding.driverEditFragmentId.text.toString().isNotBlank() &&
+                binding.driverEditFragmentSurname.text.toString().isNotBlank() &&
+                binding.driverEditFragmentName.text.toString().isNotBlank() &&
+                binding.driverEditFragmentPatronymic.text.toString().isNotBlank()
             ) {
                 lifecycleScope.launchWhenStarted {
                     workerEditViewModel.createDriver(

@@ -15,9 +15,10 @@ import com.example.workschedule.databinding.FragmentDriverEditBinding
 import com.example.workschedule.ui.worker_edit.WorkerEditAdapter
 
 class DriverEditFragment : Fragment() {
+
+    private val viewModel: DriverEditViewModel by viewModels()
     private var _binding: FragmentDriverEditBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DriverEditViewModel by viewModels()
     private val adapter: WorkerEditAdapter by lazy { WorkerEditAdapter() }
 
     override fun onCreateView(

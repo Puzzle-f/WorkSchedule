@@ -1,6 +1,5 @@
 package com.example.workschedule.ui.driver_edit
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.data.database.driver.DriverDao

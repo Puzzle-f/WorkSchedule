@@ -29,7 +29,7 @@ val application = module {
     viewModel { MainFragmentViewModel(GetAllTrainsRunListUseCase(get())) }
     viewModel { DriversViewModel() }
     viewModel { TrainsViewModel() }
-    viewModel { DriverEditViewModel(db = get()) }
+    viewModel { DriverEditViewModel(get()) }
     viewModel { RouteEditViewModel() }
     viewModel { DateTimePickerViewModel() }
     viewModel { TrainEditViewModel() }

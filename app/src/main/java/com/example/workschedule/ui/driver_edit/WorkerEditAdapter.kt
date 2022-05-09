@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.databinding.FragmentDriverEditItemBinding
-import com.example.workschedule.domain.domainpersonmodel.DomainPathDirectionModel
+import com.example.workschedule.domain.models.direction.DomainPathDirectionModel
 
-class WorkerEditAdapter : ListAdapter<DomainPathDirectionModel, WorkerEditAdapter.WorkerEditViewHolder>(WorkerEditCallback) {
+class WorkerEditAdapter :
+    ListAdapter<DomainPathDirectionModel, WorkerEditAdapter.WorkerEditViewHolder>(WorkerEditCallback) {
 
     inner class WorkerEditViewHolder(private val binding: FragmentDriverEditItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -32,8 +33,15 @@ class WorkerEditAdapter : ListAdapter<DomainPathDirectionModel, WorkerEditAdapte
     }
 
     companion object WorkerEditCallback : DiffUtil.ItemCallback<DomainPathDirectionModel>() {
-        override fun areItemsTheSame(oldItem: DomainPathDirectionModel, newItem: DomainPathDirectionModel) = oldItem == newItem
-        override fun areContentsTheSame(oldItem: DomainPathDirectionModel, newItem: DomainPathDirectionModel) = oldItem == newItem
+        override fun areItemsTheSame(
+            oldItem: DomainPathDirectionModel,
+            newItem: DomainPathDirectionModel
+        ) = oldItem == newItem
+
+        override fun areContentsTheSame(
+            oldItem: DomainPathDirectionModel,
+            newItem: DomainPathDirectionModel
+        ) = oldItem == newItem
     }
 
 }

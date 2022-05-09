@@ -12,13 +12,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class DriverEditViewModel(db: DriverDao) : ViewModel() {
+class DriverEditViewModel(val db: DriverDao) : ViewModel() {
     private var _directions = MutableStateFlow<List<DomainPathDirectionModel>>(emptyList())
     val directions: StateFlow<List<DomainPathDirectionModel>> = _directions.asStateFlow()
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is driver edit fragment"
-    }
 
     fun getDirections() {
         viewModelScope.launch {

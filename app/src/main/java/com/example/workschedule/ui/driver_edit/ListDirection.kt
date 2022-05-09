@@ -1,6 +1,6 @@
 package com.example.workschedule.ui.worker_edit
 
-import com.example.workschedule.domain.domainpersonmodel.DomainPathDirectionModel
+import com.example.workschedule.domain.models.direction.DomainPathDirectionModel
 
 val listDirection = listOf(
     DomainPathDirectionModel("Moscow", false),

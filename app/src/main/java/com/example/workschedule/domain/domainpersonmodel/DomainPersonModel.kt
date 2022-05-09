@@ -7,6 +7,6 @@ data class DomainPersonModel(
     val secondName: String,
     val thirdName: String?,
     val hoursWorked: Int,
-    val daysOff: List<DomainDayOffModel>?,
+    val daysOff: List<Long>?,
     val pathDirections: List<DomainPathDirectionModel>
 )

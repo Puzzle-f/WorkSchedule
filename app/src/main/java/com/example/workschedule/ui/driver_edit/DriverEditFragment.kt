@@ -6,20 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.fragment.app.viewModels
 import com.example.workschedule.databinding.FragmentDriverEditBinding
-import com.example.workschedule.ui.main.WorkerEditViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
+import com.example.workschedule.ui.worker_edit.WorkerEditAdapter
 
 class DriverEditFragment : Fragment() {
-    private lateinit var driverEditViewModel: DriverEditViewModel
     private var _binding: FragmentDriverEditBinding? = null
     private val binding get() = _binding!!
-    private val viewModel : DriverEditViewModel by viewModels()
+    private val viewModel: DriverEditViewModel by viewModels()
     private val adapter: WorkerEditAdapter by lazy { WorkerEditAdapter() }
 
     override fun onCreateView(
@@ -35,13 +33,13 @@ class DriverEditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.editDriverFragmentRecyclerView.adapter = adapter
         lifecycleScope.launchWhenStarted {
-            workerEditViewModel.directions
+            viewModel.directions
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
                     adapter.submitList(it)
                 }
         }
-        workerEditViewModel.getDirections()
+        viewModel.getDirections()
         initButtons()
     }
 
@@ -57,7 +55,7 @@ class DriverEditFragment : Fragment() {
                 binding.driverEditFragmentPatronymic.text.toString().isNotBlank()
             ) {
                 lifecycleScope.launchWhenStarted {
-                    workerEditViewModel.createDriver(
+                    viewModel.createDriver(
                         binding.driverEditFragmentId.text.toString().toInt(),
                         binding.driverEditFragmentSurname.text.toString(),
                         binding.driverEditFragmentName.text.toString(),
@@ -67,7 +65,8 @@ class DriverEditFragment : Fragment() {
                         listOf(1)
                     )
                     Toast.makeText(
-                        getActivity(), "Данные работника с id=${binding.driverEditFragmentId.text.toString()} успешно добавлены",
+                        getActivity(),
+                        "Данные работника с id=${binding.driverEditFragmentId.text.toString()} успешно добавлены",
                         Toast.LENGTH_LONG
                     ).show()
                     it.findNavController().navigateUp()

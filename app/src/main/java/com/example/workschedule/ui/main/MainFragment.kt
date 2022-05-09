@@ -32,14 +32,14 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.mainFragmentRecyclerView.adapter = adapter
-
         lifecycleScope.launchWhenStarted {
-            mainFragmentViewModel.trains
+            mainFragmentViewModel.trainsRunList
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
                     adapter.submitList(it)
                 }
         }
+        mainFragmentViewModel.getTrainsRunList()
     }
 
     override fun onDestroyView() {

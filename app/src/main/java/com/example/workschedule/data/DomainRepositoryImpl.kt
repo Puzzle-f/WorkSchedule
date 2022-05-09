@@ -1,15 +1,16 @@
 package com.example.workschedule.data
 
+import com.example.workschedule.domain.DomainRepository
+import com.example.workschedule.domain.driverList
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
-import com.example.workschedule.domain.DomainRepository
+import com.example.workschedule.domain.trainRunList
 
-class DomainRepositoryImpl() : DomainRepository {
+class DomainRepositoryImpl : DomainRepository {
 
     override suspend fun getAllTrainsRunList(): List<TrainRun> {
-        //  TODO("Not yet implemented")
-        return com.example.workschedule.utils.trainRunList
+        return trainRunList
     }
 
     override suspend fun getTrainRun(trainRunId: Int): TrainRun {
@@ -21,7 +22,7 @@ class DomainRepositoryImpl() : DomainRepository {
     }
 
     override suspend fun getAllDriversList(): List<Driver> {
-        TODO("Not yet implemented")
+        return driverList
     }
 
     override suspend fun saveTrainRun(trainRun: TrainRun) {

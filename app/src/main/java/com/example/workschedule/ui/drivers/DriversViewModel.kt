@@ -2,6 +2,7 @@ package com.example.workschedule.ui.drivers
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.workschedule.domain.driverList
 import com.example.workschedule.domain.models.Driver
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +16,7 @@ class DriversViewModel : ViewModel() {
 
     fun getDrivers() {
         viewModelScope.launch {
-            _drivers.emit(driverListExample)
+            _drivers.emit(driverList)
         }
     }
 }

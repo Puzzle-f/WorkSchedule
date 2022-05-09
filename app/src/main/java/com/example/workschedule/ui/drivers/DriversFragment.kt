@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriversBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -38,12 +41,12 @@ class DriversFragment : Fragment() {
                 }
         }
         driversViewModel.getDrivers()
+        setClickListenerFloatingButton()
     }
 
-    private fun setClickListenerFloatingButton(){
+    private fun setClickListenerFloatingButton() {
         binding.driversFragmentAddDriverFAB.setOnClickListener {
-
-
+            it.findNavController().navigate(R.id.nav_user_edit)
         }
     }
 

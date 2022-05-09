@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workschedule.data.entities.Driver
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.databinding.FragmentDriversItemBinding
 

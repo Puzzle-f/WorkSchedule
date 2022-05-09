@@ -12,14 +12,10 @@ import com.example.workschedule.ui.route_edit.DateTimePickerViewModel
 import com.example.workschedule.ui.route_edit.RouteEditViewModel
 import com.example.workschedule.ui.train_edit.TrainEditViewModel
 import com.example.workschedule.ui.trains.TrainsViewModel
+import com.example.workschedule.ui.main.WorkerEditViewModel
+import com.example.workschedule.ui.workers.WorkersViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-
-//fun injectDependencies() = loadModules
-//
-//private val loadModules by lazy {
-//    loadKoinModules(listOf(application))
-//}
 
 val application = module {
     single {

@@ -6,17 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.workschedule.databinding.FragmentDriverEditBinding
 import com.example.workschedule.ui.worker_edit.WorkerEditAdapter
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class DriverEditFragment : Fragment() {
 
-    private val viewModel: DriverEditViewModel by viewModels()
+    private val viewModel: DriverEditViewModel by viewModel()
     private var _binding: FragmentDriverEditBinding? = null
     private val binding get() = _binding!!
     private val adapter: WorkerEditAdapter by lazy { WorkerEditAdapter() }

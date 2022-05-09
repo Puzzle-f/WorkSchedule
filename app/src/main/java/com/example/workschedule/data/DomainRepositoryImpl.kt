@@ -17,6 +17,10 @@ class DomainRepositoryImpl : DomainRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun deleteTrainRun(trainRunId: Int) {
+        // todo
+    }
+
     override suspend fun getAllTrainsList(): List<Train> {
         TODO("Not yet implemented")
     }
@@ -37,11 +41,19 @@ class DomainRepositoryImpl : DomainRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun deleteDriver(driverId: Int) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun saveDriver(driver: Driver) {
         TODO("Not yet implemented")
     }
 
     override suspend fun getTrain(trainNumber: Int): Train {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteTrain(trainNumber: Int): Train {
         TODO("Not yet implemented")
     }
 

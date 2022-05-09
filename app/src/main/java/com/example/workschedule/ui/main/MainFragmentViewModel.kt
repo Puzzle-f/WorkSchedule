@@ -2,6 +2,7 @@ package com.example.workschedule.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.workschedule.domain.DeleteTrainRunUseCase
 import com.example.workschedule.domain.GetAllDriversListUseCase
 import com.example.workschedule.domain.GetAllTrainsRunListUseCase
 import com.example.workschedule.domain.models.TrainRun
@@ -13,19 +14,10 @@ import kotlinx.coroutines.launch
 
 class MainFragmentViewModel(
     private val getAllTrainsRunListUseCase: GetAllTrainsRunListUseCase,
-    private val getAllDriversListUseCase: GetAllDriversListUseCase
+    private val getAllDriversListUseCase: GetAllDriversListUseCase,
+    private val deleteTrainRunUseCase: DeleteTrainRunUseCase
 ) : ViewModel() {
 
-    //    val trains: StateFlow<List<TrainRun>> = flow {
-//        emit(
-//            getAllTrainsRunListUseCase.execute()
-//                .fillTrainRunListWithDrivers(getAllDriversListUseCase.execute())
-//        )
-//    }.stateIn(
-//        scope = viewModelScope,
-//        started = SharingStarted.Eagerly,
-//        initialValue = emptyList()
-//    )
     private var _trainsRunList = MutableStateFlow<List<TrainRun>>(emptyList())
     val trainsRunList: StateFlow<List<TrainRun>> = _trainsRunList.asStateFlow()
 
@@ -35,6 +27,12 @@ class MainFragmentViewModel(
                 getAllTrainsRunListUseCase.execute()
                     .fillTrainRunListWithDrivers(getAllDriversListUseCase.execute())
             )
+        }
+    }
+
+    fun deleteTrainRun(trainRunId: Int) {
+        viewModelScope.launch {
+            deleteTrainRunUseCase.execute(trainRunId)
         }
     }
 }

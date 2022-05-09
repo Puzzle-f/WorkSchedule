@@ -17,12 +17,6 @@ import com.example.workschedule.ui.trains.TrainsViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-//fun injectDependencies() = loadModules
-//
-//private val loadModules by lazy {
-//    loadKoinModules(listOf(application))
-//}
-
 val application = module {
     single {
         Room.databaseBuilder(

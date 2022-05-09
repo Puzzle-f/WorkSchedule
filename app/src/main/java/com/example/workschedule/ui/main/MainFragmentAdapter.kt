@@ -45,7 +45,7 @@ class MainFragmentAdapter(
 
         fun bind(position: Int) = with(binding) {
             mainFragmentRecyclerItemDate.text =
-                currentList[position].startTime.format(DateTimeFormatter.ofPattern("d.MM.y"))
+                currentList[position].startTime.format(DateTimeFormatter.ofPattern("dd.MM.y"))
             mainFragmentRecyclerItemTime.text =
                 currentList[position].startTime.format(DateTimeFormatter.ofPattern(" H:m"))
             mainFragmentRecyclerItemTrain.text =

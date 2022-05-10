@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.databinding.FragmentDriversItemBinding
 
-class DriversAdapter :
-    ListAdapter<Driver, DriversAdapter.DriversViewHolder>(DriversCallback) {
+class DriversFragmentAdapter :
+    ListAdapter<Driver, DriversFragmentAdapter.DriversViewHolder>(DriversCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         DriversViewHolder(

@@ -3,10 +3,7 @@ package com.example.workschedule.di
 import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.DriverDataBase
-import com.example.workschedule.domain.DeleteTrainRunUseCase
-import com.example.workschedule.domain.DomainRepository
-import com.example.workschedule.domain.GetAllDriversListUseCase
-import com.example.workschedule.domain.GetAllTrainsRunListUseCase
+import com.example.workschedule.domain.*
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
 import com.example.workschedule.ui.main.MainFragmentViewModel
@@ -38,7 +35,12 @@ val application = module {
     viewModel { DriversViewModel() }
     viewModel { TrainsViewModel() }
     viewModel { DriverEditViewModel() }
-    viewModel { RouteEditViewModel() }
+    viewModel {
+        RouteEditViewModel(
+            GetAllDriversListUseCase(get()),
+            GetAllTrainsListUseCase(get()),
+        )
+    }
     viewModel { DateTimePickerViewModel() }
     viewModel { TrainEditViewModel() }
 }

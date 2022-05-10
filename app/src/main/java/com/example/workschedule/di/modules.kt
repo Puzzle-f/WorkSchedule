@@ -3,7 +3,9 @@ package com.example.workschedule.di
 import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.DriverDataBase
+import com.example.workschedule.domain.DeleteTrainRunUseCase
 import com.example.workschedule.domain.DomainRepository
+import com.example.workschedule.domain.GetAllDriversListUseCase
 import com.example.workschedule.domain.GetAllTrainsRunListUseCase
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
@@ -26,7 +28,13 @@ val application = module {
     single { get<DriverDataBase>().trainDao() }
     single { get<DriverDataBase>().trainRunDao() }
     single<DomainRepository> { DomainRepositoryImpl() }
-    viewModel { MainFragmentViewModel(GetAllTrainsRunListUseCase(get())) }
+    viewModel {
+        MainFragmentViewModel(
+            GetAllTrainsRunListUseCase(get()),
+            GetAllDriversListUseCase(get()),
+            DeleteTrainRunUseCase(get())
+        )
+    }
     viewModel { DriversViewModel() }
     viewModel { TrainsViewModel() }
     viewModel { DriverEditViewModel(get()) }

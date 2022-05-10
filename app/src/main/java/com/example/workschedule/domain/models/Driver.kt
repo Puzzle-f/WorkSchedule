@@ -14,8 +14,8 @@ package com.example.workschedule.domain.models
  */
 data class Driver(
     val id: Int,
-    val name: String,
     val surname: String,
+    val name: String,
     val patronymic: String,
     var workedTime: Long,
     var totalTime: Long,

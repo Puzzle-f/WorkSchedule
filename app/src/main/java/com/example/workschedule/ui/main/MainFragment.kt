@@ -13,20 +13,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
+import com.example.workschedule.ui.route_edit.RouteEditFragment.Companion.TRAIN_RUN_ID
 import org.koin.android.viewmodel.ext.android.viewModel
 
-const val TRAIN_RUN_ID = "train_run_id"
-
-class MainFragment : Fragment(), View.OnCreateContextMenuListener {
+class MainFragment : Fragment() {
 
     private val mainFragmentViewModel: MainFragmentViewModel by viewModel()
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding
         get() = _binding ?: throw RuntimeException("FragmentMainBinding? = null")
-
-    private val adapter by lazy {
-        MainFragmentAdapter(requireActivity().menuInflater)
-    }
+    private val adapter by lazy { MainFragmentAdapter(requireActivity().menuInflater) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
@@ -61,6 +57,7 @@ class MainFragment : Fragment(), View.OnCreateContextMenuListener {
                 }
         }
         mainFragmentViewModel.getTrainsRunList()
+        binding.mainFragmentAddRouteFAB.setOnClickListener { findNavController().navigate(R.id.nav_route_edit) }
     }
 
     override fun onDestroyView() {

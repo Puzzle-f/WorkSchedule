@@ -5,14 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import org.koin.android.viewmodel.ext.android.viewModel
 import com.example.workschedule.databinding.FragmentRouteDatetimeEditBinding
+import java.lang.RuntimeException
 
 class DateTimePickerFragment : Fragment() {
     private lateinit var datetimePickerViewModel: DateTimePickerViewModel
     private var _binding: FragmentRouteDatetimeEditBinding? = null
-    private val binding get() = _binding!!
-    private val viewModel: DateTimePickerViewModel by viewModels()
+    private val binding: FragmentRouteDatetimeEditBinding
+        get() = _binding ?: throw RuntimeException("FragmentRouteDatetimeEditBinding? is null")
+    private val viewModel: DateTimePickerViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

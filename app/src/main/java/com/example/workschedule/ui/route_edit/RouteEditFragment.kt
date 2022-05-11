@@ -24,6 +24,7 @@ class RouteEditFragment: Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentRouteEditBinding? is null")
     private val driversAdapter: DriversFragmentAdapter by lazy { DriversFragmentAdapter() }
     private val trainsAdapter: TrainsFragmentAdapter by lazy { TrainsFragmentAdapter() }
+    private var trainRunId: Int? = null
     private var trainsListTag: Int = 0
     private var driversListTag: Int = 0
     private var periodicityListTag: Int = 0
@@ -34,6 +35,9 @@ class RouteEditFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRouteEditBinding.inflate(inflater, container, false)
+        arguments?.let {  // Чтение из бандла переданных данных, если они есть
+            trainRunId = it.getInt(TRAIN_RUN_ID)
+        }
         return binding.root
     }
 
@@ -48,6 +52,11 @@ class RouteEditFragment: Fragment() {
     }
 
     private fun init() {
+        trainRunId?.let {
+            //todo  Если есть переданное значение во фрагмент,
+            //todo  то в этом месте должен быть запрос в бд и вывод данных в интерфейс
+            //todo  т.е. запуск фрагмента в режиме редактирования данных
+        }
         binding.routeEditFragmentDriversRecycler.adapter = driversAdapter
         binding.routeEditFragmentTrainsRecycler.adapter = trainsAdapter
         lifecycleScope.launchWhenStarted {
@@ -161,5 +170,9 @@ class RouteEditFragment: Fragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val TRAIN_RUN_ID = "train_run_id"
     }
 }

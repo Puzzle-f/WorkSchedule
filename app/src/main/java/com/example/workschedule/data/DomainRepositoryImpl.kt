@@ -44,12 +44,11 @@ class DomainRepositoryImpl : DomainRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTrain(trainNumber: Int): Train {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getTrain(trainNumber: Int): Train =
+        trainList.first { it.number == trainNumber }
 
-    override suspend fun deleteTrain(trainNumber: Int): Train {
-        TODO("Not yet implemented")
+    override suspend fun deleteTrain(trainNumber: Int) {
+        // todo
     }
 
     override suspend fun saveTrain(train: Train) {

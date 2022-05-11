@@ -1,35 +1,59 @@
 package com.example.workschedule.ui.trains
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workschedule.domain.models.Train
+import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainsItemBinding
+import com.example.workschedule.domain.models.Train
 
-class TrainsFragmentAdapter :
+class TrainsFragmentAdapter(
+    private val menuInflater: MenuInflater
+) :
     ListAdapter<Train, TrainsFragmentAdapter.MainViewHolder>(TrainCallback) {
+
+    var clickedTrainNumber = -1
+    private var itemPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MainViewHolder(
             FragmentTrainsItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.show(currentList[position])
+        holder.bind(position)
+    }
+
+    fun removeItem() {
+        val currentListMutable = currentList.toMutableList()
+        currentListMutable.removeAt(itemPosition)
+        submitList(currentListMutable)
     }
 
     inner class MainViewHolder(private val binding: FragmentTrainsItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), View.OnCreateContextMenuListener {
 
-        fun show(train: Train) = with(binding) {
-            trainsFragmentRecyclerItemNumber.text = train.number.toString()
-            trainsFragmentRecyclerItemDestination.text = train.direction
+        init {
+            binding.root.setOnCreateContextMenuListener(this)
+        }
+
+        fun bind(position: Int) = with(binding) {
+            trainsFragmentRecyclerItemNumber.text = currentList[position].number.toString()
+            trainsFragmentRecyclerItemDestination.text = currentList[position].direction
+            itemView.setOnLongClickListener {
+                itemPosition = adapterPosition
+                clickedTrainNumber = currentList[adapterPosition].number
+                false
+            }
+        }
+
+        override fun onCreateContextMenu(
+            menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?
+        ) {
+            menuInflater.inflate(R.menu.fragment_trains, menu)
         }
     }
 

@@ -17,6 +17,6 @@ interface DomainRepository {
     suspend fun deleteDriver(driverId: Int)
     suspend fun saveDriver(driver: Driver)
     suspend fun getTrain(trainNumber: Int): Train
-    suspend fun deleteTrain(trainNumber: Int): Train
+    suspend fun deleteTrain(trainNumber: Int)
     suspend fun saveTrain(train: Train)
 }

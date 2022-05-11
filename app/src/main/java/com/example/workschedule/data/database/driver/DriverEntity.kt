@@ -3,7 +3,6 @@ package com.example.workschedule.data.database.driver
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 /**
  * @param id табельный номер машиниста
  * @param name имя

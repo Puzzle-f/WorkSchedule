@@ -38,7 +38,12 @@ val application = module {
         DeleteTrainUseCase(get())
     ) }
     viewModel { DriverEditViewModel() }
-    viewModel { RouteEditViewModel() }
+    viewModel {
+        RouteEditViewModel(
+            GetAllDriversListUseCase(get()),
+            GetAllTrainsListUseCase(get()),
+        )
+    }
     viewModel { DateTimePickerViewModel() }
     viewModel {
         TrainEditViewModel(

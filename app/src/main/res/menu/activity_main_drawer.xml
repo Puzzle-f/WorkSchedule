@@ -10,11 +10,11 @@
             android:title="@string/menu_main" />
         <item
             android:id="@+id/nav_drivers"
-            android:icon="@android:drawable/ic_menu_allfriends"
+            android:icon="@android:drawable/ic_menu_preferences"
             android:title="@string/drivers" />
         <item
             android:id="@+id/nav_trains"
-            android:icon="@android:drawable/stat_notify_car_mode"
+            android:icon="@android:drawable/ic_menu_sort_alphabetically"
             android:title="@string/menu_trains" />
         <item
             android:id="@+id/nav_route_datetime_edit"

@@ -5,13 +5,12 @@ import com.example.workschedule.domain.driverList
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.trainList
 import com.example.workschedule.domain.trainRunList
 
 class DomainRepositoryImpl : DomainRepository {
 
-    override suspend fun getAllTrainsRunList(): List<TrainRun> {
-        return trainRunList
-    }
+    override suspend fun getAllTrainsRunList(): List<TrainRun> = trainRunList
 
     override suspend fun getTrainRun(trainRunId: Int): TrainRun {
         TODO("Not yet implemented")
@@ -21,13 +20,9 @@ class DomainRepositoryImpl : DomainRepository {
         // todo
     }
 
-    override suspend fun getAllTrainsList(): List<Train> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getAllTrainsList(): List<Train> = trainList
 
-    override suspend fun getAllDriversList(): List<Driver> {
-        return driverList
-    }
+    override suspend fun getAllDriversList(): List<Driver> = driverList
 
     override suspend fun saveTrainRun(trainRun: TrainRun) {
         TODO("Not yet implemented")
@@ -49,12 +44,11 @@ class DomainRepositoryImpl : DomainRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTrain(trainNumber: Int): Train {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getTrain(trainNumber: Int): Train =
+        trainList.first { it.number == trainNumber }
 
-    override suspend fun deleteTrain(trainNumber: Int): Train {
-        TODO("Not yet implemented")
+    override suspend fun deleteTrain(trainNumber: Int) {
+        // todo
     }
 
     override suspend fun saveTrain(train: Train) {

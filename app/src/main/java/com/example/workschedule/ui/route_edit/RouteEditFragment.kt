@@ -22,8 +22,12 @@ class RouteEditFragment: Fragment() {
     private var _binding: FragmentRouteEditBinding? = null
     private val binding: FragmentRouteEditBinding
         get() = _binding ?: throw RuntimeException("FragmentRouteEditBinding? is null")
-    private val driversAdapter: DriversFragmentAdapter by lazy { DriversFragmentAdapter() }
-    private val trainsAdapter: TrainsFragmentAdapter by lazy { TrainsFragmentAdapter() }
+    private val driversAdapter: DriversFragmentAdapter by lazy {
+        DriversFragmentAdapter((requireActivity().menuInflater))
+    }
+    private val trainsAdapter: TrainsFragmentAdapter by lazy {
+        TrainsFragmentAdapter(requireActivity().menuInflater)
+    }
     private var trainRunId: Int? = null
     private var trainsListTag: Int = 0
     private var driversListTag: Int = 0

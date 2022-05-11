@@ -22,7 +22,7 @@ class DriversFragment : Fragment() {
     private val driversViewModel: DriversViewModel by viewModel()
     private var _binding: FragmentDriversBinding? = null
     private val binding get() = _binding ?: throw RuntimeException("FragmentDriversBinding? = null")
-    private val adapter: DriversAdapter by lazy { DriversAdapter(requireActivity().menuInflater) }
+    private val adapter: DriversFragmentAdapter by lazy { DriversFragmentAdapter(requireActivity().menuInflater) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

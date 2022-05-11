@@ -10,10 +10,10 @@ import com.example.workschedule.databinding.FragmentDriversItemBinding
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.utils.toTimeString
 
-class DriversAdapter(
+class DriversFragmentAdapter(
     private val menuInflater: MenuInflater
 ) :
-    ListAdapter<Driver, DriversAdapter.DriversViewHolder>(DriversCallback) {
+    ListAdapter<Driver, DriversFragmentAdapter.DriversViewHolder>(DriversCallback) {
 
     var clickedDriverId = -1
     private var itemPosition = -1

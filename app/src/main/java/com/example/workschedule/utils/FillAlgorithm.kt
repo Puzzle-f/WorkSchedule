@@ -18,7 +18,7 @@ val Long.toTimeString: String
     get() {
         val hours = this / 1000 / 60 / 60
         val minutes = this / 1000 / 60 % 60
-        return String.format("%2d:%02d", hours, minutes)
+        return String.format("%02d:%02d", hours, minutes)
     }
 
 /*

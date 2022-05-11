@@ -10,8 +10,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.workschedule.domain.models.Train
 import com.example.workschedule.databinding.FragmentTrainEditBinding
+import com.example.workschedule.domain.models.Train
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class TrainEditFragment : Fragment() {
@@ -42,7 +42,7 @@ class TrainEditFragment : Fragment() {
                     .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                     .collect { train ->
                         train?.let { trainNotNull ->
-                            binding.trainEditFragmentTrainNumber.setText(trainNotNull.number)
+                            binding.trainEditFragmentTrainNumber.setText("${trainNotNull.number}")
                             binding.trainEditFragmentDirection.setText(trainNotNull.direction)
                         }
                     }
@@ -58,7 +58,7 @@ class TrainEditFragment : Fragment() {
             )
         }
         binding.trainEditFragmentCancelButton.setOnClickListener {
-            findNavController().backQueue
+            findNavController().navigateUp()
         }
         binding.trainEditFragmentTrainNumber.doAfterTextChanged {
             when {
@@ -82,6 +82,6 @@ class TrainEditFragment : Fragment() {
     }
 
     companion object {
-        private const val TRAIN_NUMBER = "train_number"
+        const val TRAIN_NUMBER = "train_number"
     }
 }

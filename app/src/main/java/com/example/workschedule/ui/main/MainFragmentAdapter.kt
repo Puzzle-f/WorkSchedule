@@ -46,7 +46,7 @@ class MainFragmentAdapter(
             mainFragmentRecyclerItemDate.text =
                 currentList[position].startTime.format(DateTimeFormatter.ofPattern("dd.MM.y"))
             mainFragmentRecyclerItemTime.text =
-                currentList[position].startTime.format(DateTimeFormatter.ofPattern(" H:m"))
+                currentList[position].startTime.format(DateTimeFormatter.ofPattern(" HH:mm"))
             mainFragmentRecyclerItemTrain.text =
                 with(currentList[position]) { "$trainNumber $trainDirection" }
             mainFragmentRecyclerItemDriver.text = currentList[position].driverName
@@ -64,9 +64,7 @@ class MainFragmentAdapter(
         }
 
         override fun onCreateContextMenu(
-            menu: ContextMenu?,
-            v: View?,
-            menuInfo: ContextMenu.ContextMenuInfo?
+            menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?
         ) {
             menuInflater.inflate(R.menu.fragment_main, menu)
         }

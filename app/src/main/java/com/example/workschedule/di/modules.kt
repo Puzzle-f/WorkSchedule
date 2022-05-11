@@ -30,13 +30,31 @@ val application = module {
         )
     }
     viewModel { DriversViewModel() }
-    viewModel { TrainsViewModel() }
-    viewModel { DriverEditViewModel(
-        GetDriverUseCase(repository = get()),
-        GetAllTrainsListUseCase(repository = get()),
-        SaveDriverUseCase(repository = get())
-    ) }
-    viewModel { RouteEditViewModel() }
+    viewModel {
+        DriverEditViewModel(
+            GetDriverUseCase(repository = get()),
+            GetAllTrainsListUseCase(repository = get()),
+            SaveDriverUseCase(repository = get())
+        )
+    }
+    viewModel {
+        TrainsViewModel(
+            GetAllTrainsListUseCase(get()),
+            DeleteTrainUseCase(get())
+        )
+    }
+    viewModel {
+        RouteEditViewModel(
+            GetAllDriversListUseCase(get()),
+            GetAllTrainsListUseCase(get()),
+        )
+    }
     viewModel { DateTimePickerViewModel() }
-    viewModel { TrainEditViewModel() }
+    viewModel {
+        TrainEditViewModel(
+            GetTrainUseCase(get()),
+            SaveTrainUseCase(get())
+        )
+    }
 }
+

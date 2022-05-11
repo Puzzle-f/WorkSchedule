@@ -23,9 +23,7 @@ class TrainEditFragment : Fragment() {
     private var trainNumber: Int? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTrainEditBinding.inflate(inflater, container, false)
         arguments?.let {
@@ -36,6 +34,10 @@ class TrainEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    private fun initView() {
         trainNumber?.let {
             lifecycleScope.launchWhenStarted {
                 trainEditViewModel.train

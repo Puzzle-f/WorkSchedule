@@ -22,7 +22,7 @@ class DriversFragment : Fragment() {
     private val driversViewModel: DriversViewModel by viewModel()
     private var _binding: FragmentDriversBinding? = null
     private val binding get() = _binding ?: throw RuntimeException("FragmentDriversBinding? = null")
-    private val adapter: DriversAdapter by lazy { DriversAdapter(requireActivity().menuInflater) }
+    private val adapter: DriversFragmentAdapter by lazy { DriversFragmentAdapter(requireActivity().menuInflater) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,6 +34,10 @@ class DriversFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.driversFragmentRecyclerView)
+        initView()
+    }
+
+    private fun initView() {
         binding.driversFragmentRecyclerView.adapter = adapter
         lifecycleScope.launchWhenStarted {
             driversViewModel.drivers
@@ -43,7 +47,9 @@ class DriversFragment : Fragment() {
                 }
         }
         driversViewModel.getDrivers()
-        setClickListenerFloatingButton()
+        binding.driversFragmentAddDriverFAB.setOnClickListener {
+            it.findNavController().navigate(R.id.nav_driver_edit)
+        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -54,16 +60,10 @@ class DriversFragment : Fragment() {
             }
             R.id.action_delete_driver_from_context -> {
                 adapter.removeItem()
-                driversViewModel.deleteTrainRun(adapter.clickedDriverId)
+                driversViewModel.deleteDriver(adapter.clickedDriverId)
             }
         }
         return super.onContextItemSelected(item)
-    }
-
-    private fun setClickListenerFloatingButton() {
-        binding.driversFragmentAddDriverFAB.setOnClickListener {
-            it.findNavController().navigate(R.id.nav_driver_edit)
-        }
     }
 
     override fun onDestroyView() {

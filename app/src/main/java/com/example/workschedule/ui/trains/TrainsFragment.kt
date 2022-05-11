@@ -30,6 +30,25 @@ class TrainsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        registerForContextMenu(binding.trainsFragmentRecyclerView)
+        initView()
+    }
+
+    private fun initView() {
+        binding.trainsFragmentRecyclerView.adapter = adapter
+        lifecycleScope.launchWhenStarted {
+            trainsViewModel.trains
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    adapter.submitList(it)
+                }
+        }
+        trainsViewModel.getTrains()
+        binding.trainsFragmentAddTrainFAB.setOnClickListener { findNavController().navigate(R.id.nav_train_edit) }
+    }
+
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_update_train_from_context -> {
@@ -42,20 +61,6 @@ class TrainsFragment : Fragment() {
             }
         }
         return super.onContextItemSelected(item)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        registerForContextMenu(binding.trainsFragmentRecyclerView)
-        binding.trainsFragmentRecyclerView.adapter = adapter
-        lifecycleScope.launchWhenStarted {
-            trainsViewModel.trains
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect {
-                    adapter.submitList(it)
-                }
-        }
-        trainsViewModel.getTrains()
     }
 
     override fun onDestroyView() {

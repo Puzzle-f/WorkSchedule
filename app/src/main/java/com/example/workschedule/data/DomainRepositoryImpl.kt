@@ -1,13 +1,18 @@
 package com.example.workschedule.data
 
+import com.example.workschedule.data.database.ScheduleDataBase
+import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.driverList
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.trainList
 import com.example.workschedule.domain.trainRunList
 
-class DomainRepositoryImpl : DomainRepository {
+class DomainRepositoryImpl(
+    private val dataBase: ScheduleDataBase
+) : DomainRepository {
 
     override suspend fun getAllTrainsRunList(): List<TrainRun> {
         return trainRunList
@@ -21,9 +26,7 @@ class DomainRepositoryImpl : DomainRepository {
         // todo
     }
 
-    override suspend fun getAllTrainsList(): List<Train> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getAllTrainsList(): List<Train> = trainList
 
     override suspend fun getAllDriversList(): List<Driver> {
         return driverList
@@ -37,16 +40,24 @@ class DomainRepositoryImpl : DomainRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getDriver(driverId: Int): Driver {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getDriver(driverId: Int): Driver? = driverList.find { it.id == driverId }
 
     override suspend fun deleteDriver(driverId: Int) {
         TODO("Not yet implemented")
     }
 
     override suspend fun saveDriver(driver: Driver) {
-        TODO("Not yet implemented")
+        dataBase.driverDao().saveOrChange(
+            DriverEntity(
+                driver.id,
+                driver.name,
+                driver.surname,
+                driver.patronymic,
+                driver.workedTime,
+                driver.totalTime,
+                driver.accessTrainsId
+            )
+        )
     }
 
     override suspend fun getTrain(trainNumber: Int): Train {

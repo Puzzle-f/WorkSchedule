@@ -1,5 +1,6 @@
 package com.example.workschedule.ui.driver_edit
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,77 +12,105 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.workschedule.databinding.FragmentDriverEditBinding
-import com.example.workschedule.ui.worker_edit.WorkerEditAdapter
+import com.example.workschedule.domain.models.Driver
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DriverEditFragment : Fragment() {
 
-    private val viewModel: DriverEditViewModel by viewModel()
+    private val driverEditViewModel: DriverEditViewModel by viewModel()
     private var _binding: FragmentDriverEditBinding? = null
-    private val binding get() = _binding!!
-    private val adapter: WorkerEditAdapter by lazy { WorkerEditAdapter() }
+    private val binding
+        get() = _binding ?: throw RuntimeException("FragmentDriverEditBinding? = null")
+    private val adapter: DriverEditAdapter by lazy { DriverEditAdapter() }
+    private var driverId: Int? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDriverEditBinding.inflate(inflater, container, false)
+        arguments?.let {
+            driverId = it.getInt(DRIVER_ID)
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.editDriverFragmentRecyclerView.adapter = adapter
+        initView()
+        initButtons()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun initView() = with(binding) {
+        editDriverFragmentRecyclerView.adapter = adapter
+        driverId?.let {
+            lifecycleScope.launchWhenStarted {
+                driverEditViewModel.driver
+                    .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                    .collect { driver ->
+                        driver?.let {
+                            driverEditFragmentId.setText("${driver.id}")
+                            driverEditFragmentSurname.setText(driver.surname)
+                            driverEditFragmentName.setText(driver.name)
+                            driverEditFragmentPatronymic.setText(driver.patronymic)
+                            adapter.setAccessList(driver.accessTrainsId)
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+            }
+            driverEditViewModel.getDriver(it)
+        }
         lifecycleScope.launchWhenStarted {
-            viewModel.directions
+            driverEditViewModel.trains
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
                     adapter.submitList(it)
                 }
         }
-        viewModel.getDirections()
-        initButtons()
+        driverEditViewModel.getTrains()
     }
 
-
-    fun initButtons() {
-        binding.driverEditFragmentCancelButton.setOnClickListener {
+    private fun initButtons() = with(binding) {
+        driverEditFragmentCancelButton.setOnClickListener {
             it.findNavController().navigateUp()
         }
-        binding.driverEditFragmentSaveButton.setOnClickListener {
-            if (binding.driverEditFragmentId.text.toString().isNotBlank() &&
-                binding.driverEditFragmentSurname.text.toString().isNotBlank() &&
-                binding.driverEditFragmentName.text.toString().isNotBlank() &&
-                binding.driverEditFragmentPatronymic.text.toString().isNotBlank()
+        driverEditFragmentSaveButton.setOnClickListener {
+            if (driverEditFragmentId.text.toString().isNotBlank() &&
+                driverEditFragmentSurname.text.toString().isNotBlank() &&
+                driverEditFragmentName.text.toString().isNotBlank() &&
+                driverEditFragmentPatronymic.text.toString().isNotBlank()
             ) {
-                lifecycleScope.launchWhenStarted {
-                    viewModel.createDriver(
-                        binding.driverEditFragmentId.text.toString().toInt(),
-                        binding.driverEditFragmentSurname.text.toString(),
-                        binding.driverEditFragmentName.text.toString(),
-                        binding.driverEditFragmentPatronymic.text.toString(),
+                driverEditViewModel.saveDriver(
+                    Driver(
+                        driverEditFragmentId.text.toString().toInt(),
+                        driverEditFragmentSurname.text.toString(),
+                        driverEditFragmentName.text.toString(),
+                        driverEditFragmentPatronymic.text.toString(),
                         0,
                         0,
-                        listOf(1)
+                        adapter.getAccessList()
                     )
-                    Toast.makeText(
-                        getActivity(),
-                        "Данные работника с id=${binding.driverEditFragmentId.text.toString()} успешно добавлены",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    it.findNavController().navigateUp()
-                }
-            } else Toast.makeText(
-                getActivity(), "Введите корректные данные",
-                Toast.LENGTH_LONG
-            ).show()
-
+                )
+                Toast.makeText(
+                    activity,
+                    "Данные работника с id=${driverEditFragmentId.text.toString()} успешно добавлены",
+                    Toast.LENGTH_LONG
+                ).show()
+                it.findNavController().navigateUp()
+            } else
+                Toast.makeText(
+                    activity, "Введите корректные данные",
+                    Toast.LENGTH_LONG
+                ).show()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val DRIVER_ID = "driver_id"
     }
 }

@@ -19,12 +19,9 @@ class TrainEditFragment : Fragment() {
     private val trainEditViewModel: TrainEditViewModel by viewModel()
     private var _binding: FragmentTrainEditBinding? = null
     private val binding
-        get() = _binding ?: throw RuntimeException("FragmentEditTrainBinding? = null")
+        get() = _binding ?: throw RuntimeException("FragmentTrainEditBinding? = null")
     private var trainNumber: Int? = null
 
-    // Вызов фрагмента:
-    // val bundle = bundleOf(TRAIN_NUMBER to Number)
-    // view.findNavController().navigate(R.id.nav_train_edit, bundle)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

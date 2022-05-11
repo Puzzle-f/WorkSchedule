@@ -1,6 +1,5 @@
 package com.example.workschedule.ui.main
 
-import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter

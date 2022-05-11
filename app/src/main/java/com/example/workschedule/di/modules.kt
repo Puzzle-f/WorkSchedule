@@ -33,10 +33,12 @@ val application = module {
         )
     }
     viewModel { DriversViewModel() }
-    viewModel { TrainsViewModel(
-        GetAllTrainsListUseCase(get()),
-        DeleteTrainUseCase(get())
-    ) }
+    viewModel {
+        TrainsViewModel(
+            GetAllTrainsListUseCase(get()),
+            DeleteTrainUseCase(get())
+        )
+    }
     viewModel { DriverEditViewModel() }
     viewModel {
         RouteEditViewModel(
@@ -52,3 +54,4 @@ val application = module {
         )
     }
 }
+

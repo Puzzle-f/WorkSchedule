@@ -46,4 +46,5 @@
         android:name="com.example.workschedule.ui.route_edit.DateTimePickerFragment"
         android:label="@string/menu_route_edit"
         tools:layout="@layout/fragment_route_datetime_edit" />
+
 </navigation>

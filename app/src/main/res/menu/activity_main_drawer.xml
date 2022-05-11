@@ -24,5 +24,8 @@
             android:id="@+id/nav_drivers"
             android:icon="@android:drawable/ic_menu_manage"
             android:title="@string/drivers" />
+            android:id="@+id/workers_list"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="@string/workers" />
     </group>
 </menu>

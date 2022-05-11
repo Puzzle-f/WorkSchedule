@@ -8,12 +8,27 @@
     android:padding="@dimen/fragment_padding">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/driverEditFragmentIdLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/id"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/driverEditFragmentId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/driverEditFragmentSurnameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/user_surname_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/driverEditFragmentIdLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/driverEditFragmentSurname"
@@ -67,10 +82,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/editDriverFragmentRecyclerView"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/driverEditFragmentRoutesLabel"

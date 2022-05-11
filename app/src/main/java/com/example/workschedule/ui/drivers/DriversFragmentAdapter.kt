@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.databinding.FragmentDriversItemBinding
+import com.example.workschedule.domain.models.Driver
 
 class DriversFragmentAdapter :
     ListAdapter<Driver, DriversFragmentAdapter.DriversViewHolder>(DriversCallback) {

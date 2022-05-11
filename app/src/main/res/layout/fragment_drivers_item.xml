@@ -8,7 +8,7 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/driversFragmentRecyclerItemName"
+        android:id="@+id/driversFragmentRecyclerItemSurName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -18,12 +18,12 @@
         tools:text="Ivanov" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/driversFragmentRecyclerItemSurName"
+        android:id="@+id/driversFragmentRecyclerItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/driversFragmentRecyclerItemName"
+        app:layout_constraintStart_toEndOf="@+id/driversFragmentRecyclerItemSurName"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="A." />
 
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/driversFragmentRecyclerItemSurName"
+        app:layout_constraintStart_toEndOf="@+id/driversFragmentRecyclerItemName"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="A." />
 

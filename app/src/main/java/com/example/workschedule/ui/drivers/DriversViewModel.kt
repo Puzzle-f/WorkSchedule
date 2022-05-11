@@ -19,4 +19,8 @@ class DriversViewModel : ViewModel() {
             _drivers.emit(driverList)
         }
     }
+
+    fun deleteTrainRun(driverId: Int) {
+        //
+    }
 }

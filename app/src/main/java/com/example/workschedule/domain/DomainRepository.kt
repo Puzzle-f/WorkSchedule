@@ -13,7 +13,7 @@ interface DomainRepository {
     suspend fun getAllDriversList(): List<Driver>
     suspend fun saveTrainRun(trainRun: TrainRun)
     suspend fun getTrainRunListForDriver(driverId: Int): List<TrainRun>
-    suspend fun getDriver(driverId: Int): Driver
+    suspend fun getDriver(driverId: Int): Driver?
     suspend fun deleteDriver(driverId: Int)
     suspend fun saveDriver(driver: Driver)
     suspend fun getTrain(trainNumber: Int): Train

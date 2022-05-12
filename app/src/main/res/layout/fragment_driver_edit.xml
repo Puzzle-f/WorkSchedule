@@ -83,7 +83,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/editDriverFragmentRecyclerView"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/driverEditFragmentRoutesLabel"
@@ -91,30 +91,45 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/fragment_driver_edit_item"/>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/driverEditFragmentSaveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/driverEditFragmentGuideline"
+        app:layout_constraintEnd_toEndOf="@id/driverEditFragmentLeftGuideline"
         android:text="@string/save_button"/>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/driverEditFragmentCancelButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/driverEditFragmentGuideline"
+        app:layout_constraintStart_toStartOf="@id/driverEditFragmentRightGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/cancel_button"/>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/driverEditFragmentGuideline"
+        android:id="@+id/driverEditFragmentLeftGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintGuide_percent="0.45"
         android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/driverEditFragmentRightGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.55"
+        android:orientation="vertical"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/driverEditFragmentRoutesLabel"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

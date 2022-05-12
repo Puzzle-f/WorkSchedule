@@ -39,4 +39,13 @@
         android:transformPivotX="1dp"
         android:background="@android:color/black"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:rotation="90"
+        android:transformPivotX="0dp"
+        android:background="@android:color/black"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

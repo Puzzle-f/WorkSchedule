@@ -21,9 +21,7 @@ class DriversFragmentAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         DriversViewHolder(
             FragmentDriversItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
 

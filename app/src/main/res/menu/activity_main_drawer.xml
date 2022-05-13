@@ -9,23 +9,16 @@
             android:icon="@android:drawable/ic_menu_agenda"
             android:title="@string/menu_main" />
         <item
-            android:id="@+id/nav_route_edit"
-            android:icon="@android:drawable/ic_menu_compass"
-            android:title="@string/menu_route_edit" />
+            android:id="@+id/nav_drivers"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="@string/drivers" />
+        <item
+            android:id="@+id/nav_trains"
+            android:icon="@android:drawable/ic_menu_sort_alphabetically"
+            android:title="@string/menu_trains" />
         <item
             android:id="@+id/nav_route_datetime_edit"
             android:icon="@android:drawable/ic_menu_month"
             android:title="@string/temporary_datetime" />
-        <item
-            android:id="@+id/nav_trains"
-            android:icon="@android:drawable/ic_dialog_dialer"
-            android:title="@string/menu_trains" />
-        <item
-            android:id="@+id/nav_drivers"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="@string/drivers" />
-            android:id="@+id/workers_list"
-            android:icon="@android:drawable/ic_menu_edit"
-            android:title="@string/workers" />
     </group>
 </menu>

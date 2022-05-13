@@ -25,9 +25,17 @@ class DriverEditAdapter :
         holder.bind(currentList[position])
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     fun setAccessList(accessList: List<Int>) {
-        accessIdList = accessList as MutableList<Int>
+        accessIdList = accessList.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -39,8 +47,13 @@ class DriverEditAdapter :
         fun bind(train: Train) = with(binding) {
             editDriverFragmentRecyclerItemDestination.text = train.direction
             if (train.number in accessIdList) editDriverFragmentRecyclerItemSwitch.isChecked = true
-            editDriverFragmentRecyclerItemSwitch.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked && train.number !in accessIdList) accessIdList.add(train.number)
+            editDriverFragmentRecyclerItemSwitch.setOnClickListener {
+                if (editDriverFragmentRecyclerItemSwitch.isChecked && train.number !in accessIdList) {
+                    accessIdList.add(train.number)
+                }
+                if (!editDriverFragmentRecyclerItemSwitch.isChecked && train.number in accessIdList) {
+                    accessIdList.remove(train.number)
+                }
             }
         }
     }

@@ -20,27 +20,21 @@ class DomainRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteTrainRun(trainRunId: Int) {
-        // todo
+    override suspend fun getTrainRunListForDriver(driverId: Int): List<TrainRun> {
+        TODO("Not yet implemented")
     }
-
-    override suspend fun getAllTrainsList(): List<Train> = trainList
-
-    override suspend fun getAllDriversList(): List<Driver> = driverList
 
     override suspend fun saveTrainRun(trainRun: TrainRun) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTrainRunListForDriver(driverId: Int): List<TrainRun> {
-        TODO("Not yet implemented")
+    override suspend fun deleteTrainRun(trainRunId: Int) {
+        // todo
     }
+
+    override suspend fun getAllDriversList(): List<Driver> = driverList
 
     override suspend fun getDriver(driverId: Int): Driver? = driverList.find { it.id == driverId }
-
-    override suspend fun deleteDriver(driverId: Int) {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun saveDriver(driver: Driver) {
         dataBase.driverDao().saveOrChange(
@@ -56,14 +50,20 @@ class DomainRepositoryImpl(
         )
     }
 
+    override suspend fun deleteDriver(driverId: Int) {
+        //todo  dataBase.driverDao().delete(driverId)
+    }
+
+    override suspend fun getAllTrainsList(): List<Train> = trainList
+
     override suspend fun getTrain(trainNumber: Int): Train =
         trainList.first { it.number == trainNumber }
 
-    override suspend fun deleteTrain(trainNumber: Int) {
-        // todo
-    }
-
     override suspend fun saveTrain(train: Train) {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteTrain(trainNumber: Int) {
+        // todo
     }
 }

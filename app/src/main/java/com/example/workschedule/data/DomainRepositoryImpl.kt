@@ -26,7 +26,10 @@ class DomainRepositoryImpl(
 
     override suspend fun getAllTrainsList(): List<Train> = trainList
 
-    override suspend fun getAllDriversList(): List<Driver> = driverList
+    override suspend fun getAllDriversList(): List<Driver> =
+        dataBase.driverDao().all().map {
+            Driver(it.id, it.surname, it.name, it.patronymic, it.workedTime, it.totalTime, it.accessTrainsId )
+        }
 
     override suspend fun saveTrainRun(trainRun: TrainRun) {
         TODO("Not yet implemented")

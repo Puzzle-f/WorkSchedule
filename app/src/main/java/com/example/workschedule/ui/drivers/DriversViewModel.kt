@@ -25,7 +25,7 @@ class DriversViewModel(
         }
     }
 
-    fun deleteTrainRun(driverId: Int) {
+    fun deleteDriver(driverId: Int) {
         viewModelScope.launch {
             deleteDriverUseCase.execute(driverId)
         }

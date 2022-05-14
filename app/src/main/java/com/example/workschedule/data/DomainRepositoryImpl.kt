@@ -39,10 +39,11 @@ class DomainRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getDriver(driverId: Int): Driver? = driverList.find { it.id == driverId }
+    override suspend fun getDriver(driverId: Int): Driver? =
+        driverList.find { it.id == driverId }
 
     override suspend fun deleteDriver(driverId: Int) {
-        TODO("Not yet implemented")
+        dataBase.driverDao().delete(driverId)
     }
 
     override suspend fun saveDriver(driver: Driver) {

@@ -14,6 +14,6 @@ interface DriverDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveOrChange(entity: DriverEntity)
     // Удалить машиниста
-    @Delete
-    suspend fun delete(entity: DriverEntity)
+    @Query("DELETE FROM DriverEntity WHERE id LIKE :id")
+    suspend fun delete(id: Int)
 }

@@ -54,7 +54,7 @@ class DriversFragment : Fragment() {
             }
             R.id.action_delete_driver_from_context -> {
                 adapter.removeItem()
-                driversViewModel.deleteTrainRun(adapter.clickedDriverId)
+                driversViewModel.deleteDriver(adapter.clickedDriverId)
             }
         }
         return super.onContextItemSelected(item)

@@ -1,5 +1,8 @@
 package com.example.workschedule.domain
 
+import com.example.workschedule.data.database.ScheduleDataBase
+import com.example.workschedule.data.database.driver.DriverEntity
+import com.example.workschedule.data.database.train.TrainEntity
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
@@ -84,18 +87,41 @@ val driverList = listOf(
 )
 
 val trainList = listOf(
-    Train(120, "Москва"),
-    Train(92, "Санкт-Петербург"),
-    Train(32, "Краснодар"),
-    Train(14, "Ростов-на-Дону"),
-    Train(51, "Воронеж"),
-    Train(96, "Туапсе"),
-    Train(72, "Ставрополь"),
-    Train(80, "Тюмень"),
-    Train(99, "Нижний Новгород"),
-    Train(103, "Новороссийск"),
-    Train(11, "Казань"),
-    Train(125, "Киров")
+    Train(0, 120, "Москва"),
+    Train(0, 92, "Санкт-Петербург"),
+    Train(0, 32, "Краснодар"),
+    Train(0, 14, "Ростов-на-Дону"),
+    Train(0, 51, "Воронеж"),
+    Train(0, 96, "Туапсе"),
+    Train(0, 72, "Ставрополь"),
+    Train(0, 80, "Тюмень"),
+    Train(0, 99, "Нижний Новгород"),
+    Train(0, 103, "Новороссийск"),
+    Train(0, 11, "Казань"),
+    Train(0, 125, "Киров")
 )
+
+suspend fun saveFakeDataToDB(dataBase: ScheduleDataBase) {
+    trainList.forEach {
+        dataBase.trainDao().saveOrChangeTrain(
+            TrainEntity(it.id, it.number, it.direction)
+        )
+    }
+    driverList.forEach {
+        dataBase.driverDao().saveOrChange(
+            DriverEntity(
+                it.id,
+                it.name,
+                it.surname,
+                it.patronymic,
+                it.workedTime,
+                it.totalTime,
+                it.accessTrainsId
+            )
+        )
+    }
+    trainRunList.forEach {
+    }
+}
 
 // todo ↑↑↑ Хардкод, после настройки приложения удалить ↑↑↑

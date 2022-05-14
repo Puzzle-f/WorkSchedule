@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -54,10 +55,17 @@ class TrainEditFragment : Fragment() {
         binding.trainEditFragmentSaveButton.setOnClickListener {
             trainEditViewModel.saveTrain(
                 Train(
+                    0,
                     binding.trainEditFragmentTrainNumber.text.toString().toInt(),
                     binding.trainEditFragmentDirection.text.toString()
                 )
             )
+            Toast.makeText(
+                activity,
+                "Поезд с №${binding.trainEditFragmentTrainNumber.text.toString()} успешно добавлен",
+                Toast.LENGTH_LONG
+            ).show()
+            findNavController().navigateUp()
         }
         binding.trainEditFragmentCancelButton.setOnClickListener {
             findNavController().navigateUp()

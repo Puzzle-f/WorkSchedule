@@ -2,12 +2,12 @@ package com.example.workschedule.data
 
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.data.database.driver.DriverEntity
+import com.example.workschedule.data.database.train.TrainEntity
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.driverList
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
-import com.example.workschedule.domain.trainList
 import com.example.workschedule.domain.trainRunList
 
 class DomainRepositoryImpl(
@@ -54,16 +54,21 @@ class DomainRepositoryImpl(
         //todo  dataBase.driverDao().delete(driverId)
     }
 
-    override suspend fun getAllTrainsList(): List<Train> = trainList
+    override suspend fun getAllTrainsList(): List<Train> =
+        dataBase.trainDao().allTrain().map {
+            Train(it.id, it.number, it.direction)
+        }
 
-    override suspend fun getTrain(trainNumber: Int): Train =
-        trainList.first { it.number == trainNumber }
-
-    override suspend fun saveTrain(train: Train) {
-        TODO("Not yet implemented")
+    override suspend fun getTrain(trainId: Int): Train {
+        val entity = dataBase.trainDao().getTrainById(trainId)
+        return Train(entity.id, entity.number, entity.direction)
     }
 
-    override suspend fun deleteTrain(trainNumber: Int) {
-        // todo
+    override suspend fun saveTrain(train: Train) {
+        dataBase.trainDao().saveOrChangeTrain(TrainEntity(train.id, train.number, train.direction))
+    }
+
+    override suspend fun deleteTrain(trainId: Int) {
+        dataBase.trainDao().deleteTrainById(trainId)
     }
 }

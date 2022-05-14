@@ -22,6 +22,7 @@ val application = module {
         ).build()
     }
     single<DomainRepository> { DomainRepositoryImpl(dataBase = get()) }
+
     viewModel {
         MainFragmentViewModel(
             GetAllTrainsRunListUseCase(repository = get()),
@@ -29,7 +30,12 @@ val application = module {
             DeleteTrainRunUseCase(repository = get())
         )
     }
-    viewModel { DriversViewModel() }
+    viewModel {
+        DriversViewModel(
+            GetAllDriversListUseCase(repository = get()),
+            DeleteDriverUseCase(repository =get())
+        )
+    }
     viewModel {
         DriverEditViewModel(
             GetDriverUseCase(repository = get()),

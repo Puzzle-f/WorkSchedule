@@ -34,18 +34,17 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/trainEditFragmentSaveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:enabled="false"
         android:padding="10dp"
         android:text="@string/save_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/trainEditFragmentGuideline"
+        app:layout_constraintEnd_toEndOf="@id/trainEditFragmentLeftGuideline"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/trainEditFragmentCancelButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -53,12 +52,19 @@
         android:text="@string/cancel_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/trainEditFragmentGuideline" />
+        app:layout_constraintStart_toStartOf="@id/trainEditFragmentRightGuideline" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/trainEditFragmentGuideline"
+        android:id="@+id/trainEditFragmentLeftGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/trainEditFragmentRightGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55" />
 </androidx.constraintlayout.widget.ConstraintLayout>

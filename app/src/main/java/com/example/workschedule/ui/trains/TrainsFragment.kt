@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainsBinding
-import com.example.workschedule.ui.train_edit.TrainEditFragment.Companion.TRAIN_NUMBER
+import com.example.workschedule.ui.train_edit.TrainEditFragment.Companion.TRAIN_ID
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class TrainsFragment : Fragment() {
@@ -52,12 +52,12 @@ class TrainsFragment : Fragment() {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_update_train_from_context -> {
-                val bundle = bundleOf(TRAIN_NUMBER to adapter.clickedTrainNumber)
+                val bundle = bundleOf(TRAIN_ID to adapter.clickedId)
                 findNavController().navigate(R.id.nav_train_edit, bundle)
             }
             R.id.action_delete_train_from_context -> {
                 adapter.removeItem()
-                trainsViewModel.deleteTrain(adapter.clickedTrainNumber)
+                trainsViewModel.deleteTrain(adapter.clickedId)
             }
         }
         return super.onContextItemSelected(item)

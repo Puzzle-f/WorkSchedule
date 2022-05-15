@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriversItemBinding
 import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.utils.toTimeString
+import com.example.workschedule.utils.toHoursTimeString
 
 class DriversFragmentAdapter(
     private val menuInflater: MenuInflater
@@ -44,12 +44,13 @@ class DriversFragmentAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) = with(binding) {
-            driversFragmentRecyclerItemSurName.text = currentList[position].surname
-            driversFragmentRecyclerItemName.text =
-                "${currentList[position].name.first()}."
-            driversFragmentRecyclerItemPatronymic.text =
-                "${currentList[position].patronymic.first()}."
-            driversFragmentRecyclerItemHours.text = currentList[position].workedTime.toTimeString
+            driversFragmentRecyclerItemDriverFIO.text =
+                "${currentList[position].surname} " +
+                        "${currentList[position].name.first()}. " +
+                        "${currentList[position].patronymic.first()}."
+            driversFragmentRecyclerItemHours.text =
+                currentList[position].workedTime.toHoursTimeString +
+                        currentList[position].totalTime.toHoursTimeString
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition
                 clickedDriverId = currentList[adapterPosition].id

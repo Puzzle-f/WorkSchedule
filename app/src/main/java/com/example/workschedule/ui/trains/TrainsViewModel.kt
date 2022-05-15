@@ -24,9 +24,9 @@ class TrainsViewModel(
         }
     }
 
-    fun deleteTrain(trainNumber: Int) {
+    fun deleteTrain(trainId: Int) {
         viewModelScope.launch {
-            deleteTrainUseCase.execute(trainNumber)
+            deleteTrainUseCase.execute(trainId)
         }
     }
 }

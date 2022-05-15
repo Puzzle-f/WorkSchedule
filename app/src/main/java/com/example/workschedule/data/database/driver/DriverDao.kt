@@ -1,19 +1,25 @@
 package com.example.workschedule.data.database.driver
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface DriverDao {
     // Получить весь список машинистов
     @Query("SELECT * FROM DriverEntity")
-    suspend fun all(): List<DriverEntity>
+    suspend fun getAllDrivers(): List<DriverEntity>
     // Получить машиниста по id
-    @Query("SELECT * FROM DriverEntity WHERE id LIKE :id")
-    suspend fun getDriverById(id: Int): DriverEntity
+    @Query("SELECT * FROM DriverEntity WHERE id LIKE :driverId")
+    suspend fun getDriverById(driverId: Int): DriverEntity
     // Сохранить нового или изменить машиниста
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveOrChange(entity: DriverEntity)
+    suspend fun saveDriver(driver: DriverEntity)
     // Удалить машиниста
-    @Delete
-    suspend fun delete(entity: DriverEntity)
+    @Query("DELETE FROM DriverEntity WHERE id = :driverId")
+    suspend fun deleteDriverById(driverId: Int)
+    // Удалить всех машинистов
+    @Query("DELETE FROM DriverEntity")
+    suspend fun deleteAllDrivers()
 }

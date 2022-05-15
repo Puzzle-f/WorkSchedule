@@ -46,13 +46,13 @@ class DriverEditAdapter :
 
         fun bind(train: Train) = with(binding) {
             editDriverFragmentRecyclerItemDestination.text = train.direction
-            if (train.number in accessIdList) editDriverFragmentRecyclerItemSwitch.isChecked = true
+            if (train.id in accessIdList) editDriverFragmentRecyclerItemSwitch.isChecked = true
             editDriverFragmentRecyclerItemSwitch.setOnClickListener {
-                if (editDriverFragmentRecyclerItemSwitch.isChecked && train.number !in accessIdList) {
-                    accessIdList.add(train.number)
+                if (editDriverFragmentRecyclerItemSwitch.isChecked && train.id !in accessIdList) {
+                    accessIdList.add(train.id)
                 }
-                if (!editDriverFragmentRecyclerItemSwitch.isChecked && train.number in accessIdList) {
-                    accessIdList.remove(train.number)
+                if (!editDriverFragmentRecyclerItemSwitch.isChecked && train.id in accessIdList) {
+                    accessIdList.remove(train.id)
                 }
             }
         }

@@ -15,7 +15,6 @@ import com.example.workschedule.data.database.trainrun.TrainRunEntity
     version = 1,
     exportSchema = false
 )
-@TypeConverters(DatabaseTypeConverter::class)
 abstract class ScheduleDataBase : RoomDatabase() {
     abstract fun driverDao(): DriverDao
     abstract fun trainDao(): TrainDao

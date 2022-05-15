@@ -5,13 +5,12 @@ import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
 
 interface DomainRepository {
-
     suspend fun getAllTrainsRunList(): List<TrainRun>
     suspend fun getTrainRun(trainRunId: Int): TrainRun
     suspend fun saveTrainRun(trainRun: TrainRun)
     suspend fun deleteTrainRun(trainRunId: Int)
     suspend fun getAllDriversList(): List<Driver>
-    suspend fun getTrainRunListForDriver(driverId: Int): List<TrainRun>
+    suspend fun getTrainRunListForDriverId(driverId: Int): List<TrainRun>
     suspend fun getDriver(driverId: Int): Driver?
     suspend fun saveDriver(driver: Driver)
     suspend fun deleteDriver(driverId: Int)

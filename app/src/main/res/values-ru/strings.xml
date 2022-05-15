@@ -40,4 +40,6 @@
     <string name="menu_trains">Поезда</string>
     <string name="temporary_datetime">Дата и время</string>
     <string name="id">Табельный номер</string>
+    <string name="action_fill_db_for_demonstration">Заполнить БД для демонстрации</string>
+    <string name="action_clear_db">Очистить БД</string>
 </resources>

@@ -3,26 +3,32 @@ package com.example.workschedule.data.database.trainrun
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.workschedule.data.database.DateTimeConverter
 import java.time.LocalDateTime
 
-/** Сущность поездки
- * */
-
 @Entity
+@TypeConverters(DateTimeConverter::class)
 data class TrainRunEntity(
-    @field:PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
-    var id: Int,
+    val id: Int,
+    @field:ColumnInfo(name = "trainId")
+    val trainId: Int,
     @field:ColumnInfo(name = "trainNumber")
-    var trainNumber: Int,
+    val trainNumber: Int,
+    @field:ColumnInfo(name = "trainDirection")
+    val trainDirection: String,
     @field:ColumnInfo(name = "driverId")
-    var driverId: Int,
+    val driverId: Int,
+    @field:ColumnInfo(name = "driverName")
+    val driverName: String,
     @field:ColumnInfo(name = "startTime")
-    var startTime: LocalDateTime,
+    val startTime: LocalDateTime,
     @field:ColumnInfo(name = "travelTime")
-    var travelTime: Long,
+    val travelTime: Long,
     @field:ColumnInfo(name = "travelRestTime")
-    var travelRestTime: Long,
+    val travelRestTime: Long,
     @field:ColumnInfo(name = "backTravelTime")
-    var backTravelTime: Long
+    val backTravelTime: Long
 )

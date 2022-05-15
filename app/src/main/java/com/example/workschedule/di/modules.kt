@@ -21,7 +21,7 @@ val application = module {
             "ScheduleDB.db"
         ).build()
     }
-    single<DomainRepository> { DomainRepositoryImpl(dataBase = get()) }
+    single<DomainRepository> { DomainRepositoryImpl(database = get()) }
     viewModel {
         MainFragmentViewModel(
             GetAllTrainsRunListUseCase(repository = get()),

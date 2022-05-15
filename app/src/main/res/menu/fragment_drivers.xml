@@ -4,6 +4,7 @@
 
     <item android:id="@+id/action_update_driver_schedule_from_context"
         android:title="@string/context_menu_shift_schedule"
+        android:enabled="false"
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_update_driver_from_context"

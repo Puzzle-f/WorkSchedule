@@ -23,9 +23,10 @@ class MainFragmentViewModel(
 
     fun getTrainsRunList() {
         viewModelScope.launch {
+            val trainRunList = getAllTrainsRunListUseCase.execute()
+                .fillTrainRunListWithDrivers(getAllDriversListUseCase.execute())
             _trainsRunList.emit(
-                getAllTrainsRunListUseCase.execute()
-                    .fillTrainRunListWithDrivers(getAllDriversListUseCase.execute())
+                trainRunList
             )
         }
     }

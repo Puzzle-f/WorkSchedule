@@ -40,4 +40,6 @@
     <string name="temporary_datetime">Datetime</string>
     <string name="menu_train_edit">Create Train</string>
     <string name="id">Id</string>
+    <string name="action_fill_db_for_demonstration">Fill DB for demonstration</string>
+    <string name="action_clear_db">Clear DB</string>
 </resources>

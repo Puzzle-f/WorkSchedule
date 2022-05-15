@@ -1,10 +1,12 @@
 package com.example.workschedule.domain
 
+import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.utils.hoursToMillis
 import com.example.workschedule.utils.minutesToMillis
+import com.example.workschedule.utils.toDAO
 import java.time.LocalDateTime
 import java.time.Month
 
@@ -12,90 +14,98 @@ import java.time.Month
 
 const val restHours = 16  // Константа опряделяющая количество часов отдыха после работы
 
+
+val trainList = listOf(
+    Train(1, "Москва"),
+    Train(2, "Санкт-Петербург"),
+    Train(3, "Краснодар"),
+    Train(4, "Ростов-на-Дону"),
+    Train(5, "Воронеж"),
+    Train(6, "Туапсе"),
+    Train(7, "Ставрополь"),
+    Train(8, "Тюмень"),
+    Train(9, "Нижний Новгород"),
+    Train(10, "Новороссийск"),
+    Train(11, "Казань"),
+    Train(12, "Киров")
+)
+
+val driverList = listOf(
+    Driver(0, "Иванов", "Иван", "Иванович", 5, 10, listOf(1, 4, 2)),
+    Driver(0, "Петров", "Олег", "Дмитриевич", 3, 2, listOf(3, 2, 5)),
+    Driver(0, "Запойный", "Василий", "Филиппов", 100, 2, listOf(5, 7, 11)),
+    Driver(0, "Тимченко", "Николай", "Петрович", 0, 0, listOf(6, 7)),
+    Driver(0, "Слепаков", "Семен", "Владимирович", 10, 1, listOf(8, 9)),
+    Driver(0, "Пронин", "Иннокентий", "Юрьевич", 13, 2, listOf(8, 11, 12, 6)),
+    Driver(0, "Гуськов", "Дмитрий", "Зурабович", 7, 3, listOf(7, 5, 4)),
+    Driver(0, "Зайцев", "Вячеслав", "Зиновьевич", 16, 1, listOf(4, 6)),
+    Driver(0, "Сотников", "Александр", "Александрович", 8, 9, listOf(1, 4)),
+    Driver(0, "Пронин", "Андрей", "Юрьевич", 8, 4, listOf(7, 3, 11)),
+    Driver(0, "Ясный", "Владимир", "Егорович", 15, 2, listOf(8, 2, 9)),
+    Driver(0, "Причудный", "Павел", "Владимирович", 7, 0, listOf(12, 10)),
+    Driver(0, "Свистунов", "Леонид", "Геннадиевич", 5, 6, listOf(11, 9, 3)),
+    Driver(0, "Балабанов", "Алексей", "Михайлович", 0, 19, listOf(10, 11, 12)),
+    Driver(0, "Дудь", "Юрий", "Семёнович", 0, 54, listOf(9, 4, 6)),
+    Driver(0, "Кличко", "Виталий", "Леонидович", 21, 0, listOf(3, 6, 11)),
+    Driver(0, "Чаплин", "Всеволод", "Кириллович", 3, 0, listOf(1, 4)),
+    Driver(0, "Бесстрашная", "Никита", "Харвиевна", 85, 6, listOf(8, 2)),
+    Driver(0, "Пелевин", "Виктор", "Алексеевич", 65, 1, listOf(7, 9)),
+    Driver(0, "Романов", "Евлампий", "Булатович", 8, 2, listOf(3, 4, 7))
+)
+
 val trainRunList = listOf(
     TrainRun(
-        1, 120, "Москва", 0, "",
+        1, 1, 120, "Москва", 0, "",
         LocalDateTime.of(2022, Month.APRIL, 1, 6, 30),
         8.hoursToMillis + 25.minutesToMillis, 6.hoursToMillis, 8.hoursToMillis
     ),
     TrainRun(
-        2, 14, "Ростов-на-Дону", 0, "",
+        2, 4, 48, "Ростов-на-Дону", 0, "",
         LocalDateTime.of(2022, Month.APRIL, 1, 12, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
     TrainRun(
-        3, 92, "Санкт-Петербург", 0, "",
+        3, 2, 92, "Санкт-Петербург", 0, "",
         LocalDateTime.of(2022, Month.APRIL, 1, 16, 30),
         5.hoursToMillis, 5.hoursToMillis, 5.hoursToMillis
     ),
     TrainRun(
-        4, 32, "Краснодар", 0, "",
+        4, 3, 32, "Краснодар", 0, "",
         LocalDateTime.of(2022, Month.APRIL, 2, 3, 30),
         6.hoursToMillis, 8.hoursToMillis, 6.hoursToMillis
     ),
     TrainRun(
-        5, 51, "Воронеж", 0, "",
+        5, 5, 51, "Воронеж", 0, "",
         LocalDateTime.of(2022, Month.APRIL, 2, 6, 30),
         7.hoursToMillis, 4.hoursToMillis, 6.hoursToMillis
     ),
     TrainRun(
-        6, 96, "Туапсе", 0, "",
+        6, 6, 96, "Туапсе", 0, "",
         LocalDateTime.of(2022, Month.APRIL, 2, 22, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
     TrainRun(
-        7, 72, "Ставрополь", 0, "",
+        7, 7, 72, "Ставрополь", 0, "",
         LocalDateTime.of(2022, Month.APRIL, 3, 2, 30),
         7.hoursToMillis, 4.hoursToMillis, 7.hoursToMillis
     ),
     TrainRun(
-        8, 120, "Москва", 0, "",
+        8, 1, 120, "Москва", 0, "",
         LocalDateTime.of(2022, Month.APRIL, 3, 6, 30),
         8.hoursToMillis, 4.hoursToMillis, 9.hoursToMillis
     ),
     TrainRun(
-        9, 99, "Нижний Новгород", 0, "",
+        9, 9, 99, "Нижний Новгород", 0, "",
         LocalDateTime.of(2022, Month.APRIL, 3, 8, 30),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis
     )
 )
 
-val driverList = listOf(
-    Driver(1, "Иванов", "Иван", "Иванович", 5, 10, listOf(120, 92, 14)),
-    Driver(2, "Петров", "Олег", "Дмитриевич", 3, 2, listOf(32, 14, 51)),
-    Driver(3, "Запойный", "Василий", "Филиппов", 100, 2, listOf(51, 72, 80)),
-    Driver(4, "Тимченко", "Николай", "Петрович", 0, 0, listOf(96, 72)),
-    Driver(5, "Слепаков", "Семен", "Владимирович", 10, 1, listOf(90, 99)),
-    Driver(6, "Пронин", "Иннокентий", "Юрьевич", 13, 2, listOf(103, 11, 125, 96)),
-    Driver(7, "Гуськов", "Дмитрий", "Зурабович", 7, 3, listOf(72, 51, 92)),
-    Driver(8, "Зайцев", "Вячеслав", "Зиновьевич", 16, 1, listOf(92, 96)),
-    Driver(9, "Сотников", "Александр", "Александрович", 8, 9, listOf(120, 92)),
-    Driver(10, "Пронин", "Андрей", "Юрьевич", 8, 4, listOf(72, 32, 11)),
-    Driver(11, "Ясный", "Владимир", "Егорович", 15, 2, listOf(103, 14, 99)),
-    Driver(12, "Причудный", "Павел", "Владимирович", 7, 0, listOf(125, 14)),
-    Driver(13, "Свистунов", "Леонид", "Геннадиевич", 5, 6, listOf(11, 99, 32)),
-    Driver(14, "Балабанов", "Алексей", "Михайлович", 0, 19, listOf(14, 80, 11)),
-    Driver(15, "Дудь", "Юрий", "Семёнович", 0, 54, listOf(99, 92, 96)),
-    Driver(16, "Кличко", "Виталий", "Леонидович", 21, 0, listOf(32, 96, 11)),
-    Driver(17, "Чаплин", "Всеволод", "Кириллович", 3, 0, listOf(120, 92)),
-    Driver(18, "Бесстрашная", "Никита", "Харвиевна", 85, 6, listOf(103, 14)),
-    Driver(19, "Пелевин", "Виктор", "Алексеевич", 65, 1, listOf(72, 99)),
-    Driver(20, "Романов", "Евлампий", "Булатович", 8, 2, listOf(32, 92, 72))
-)
-
-val trainList = listOf(
-    Train(120, "Москва"),
-    Train(92, "Санкт-Петербург"),
-    Train(32, "Краснодар"),
-    Train(14, "Ростов-на-Дону"),
-    Train(51, "Воронеж"),
-    Train(96, "Туапсе"),
-    Train(72, "Ставрополь"),
-    Train(80, "Тюмень"),
-    Train(99, "Нижний Новгород"),
-    Train(103, "Новороссийск"),
-    Train(11, "Казань"),
-    Train(125, "Киров")
-)
+// Метод записи хард-кода в Базу Данных для демонстрации
+suspend fun saveFakeDataToDB(dataBase: ScheduleDataBase) {
+    trainList.forEach { dataBase.trainDao().saveTrain(it.toDAO) }
+    driverList.forEach { dataBase.driverDao().saveDriver(it.toDAO) }
+    trainRunList.forEach { dataBase.trainRunDao().saveTrainRun(it.toDAO) }
+}
 
 // todo ↑↑↑ Хардкод, после настройки приложения удалить ↑↑↑

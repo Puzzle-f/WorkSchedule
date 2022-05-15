@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -31,6 +32,30 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        registerForContextMenu(binding.mainFragmentRecyclerView)
+        initView()
+    }
+
+    private fun initView() {
+        binding.mainFragmentRecyclerView.adapter = adapter
+        lifecycleScope.launchWhenStarted {
+            mainFragmentViewModel.trainsRunList
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    adapter.submitList(it)
+                }
+        }
+        mainFragmentViewModel.getTrainsRunList()
+        if (adapter.currentList.isNotEmpty()) {
+            Toast.makeText(
+                activity, "Таблица выездов заполнена машинистами.", Toast.LENGTH_LONG
+            ).show()
+        }
+        binding.mainFragmentAddRouteFAB.setOnClickListener { findNavController().navigate(R.id.nav_route_edit) }
+    }
+
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_update_from_context -> {
@@ -43,21 +68,6 @@ class MainFragment : Fragment() {
             }
         }
         return super.onContextItemSelected(item)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        registerForContextMenu(binding.mainFragmentRecyclerView)
-        binding.mainFragmentRecyclerView.adapter = adapter
-        lifecycleScope.launchWhenStarted {
-            mainFragmentViewModel.trainsRunList
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect {
-                    adapter.submitList(it)
-                }
-        }
-        mainFragmentViewModel.getTrainsRunList()
-        binding.mainFragmentAddRouteFAB.setOnClickListener { findNavController().navigate(R.id.nav_route_edit) }
     }
 
     override fun onDestroyView() {

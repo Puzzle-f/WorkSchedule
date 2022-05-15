@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainsBinding
-import com.example.workschedule.ui.train_edit.TrainEditFragment.Companion.TRAIN_NUMBER
+import com.example.workschedule.ui.train_edit.TrainEditFragment.Companion.TRAIN_ID
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class TrainsFragment : Fragment() {
@@ -30,23 +30,13 @@ class TrainsFragment : Fragment() {
         return binding.root
     }
 
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_update_train_from_context -> {
-                val bundle = bundleOf(TRAIN_NUMBER to adapter.clickedTrainNumber)
-                findNavController().navigate(R.id.nav_train_edit, bundle)
-            }
-            R.id.action_delete_train_from_context -> {
-                adapter.removeItem()
-                trainsViewModel.deleteTrain(adapter.clickedTrainNumber)
-            }
-        }
-        return super.onContextItemSelected(item)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.trainsFragmentRecyclerView)
+        initView()
+    }
+
+    private fun initView() {
         binding.trainsFragmentRecyclerView.adapter = adapter
         lifecycleScope.launchWhenStarted {
             trainsViewModel.trains
@@ -56,6 +46,21 @@ class TrainsFragment : Fragment() {
                 }
         }
         trainsViewModel.getTrains()
+        binding.trainsFragmentAddTrainFAB.setOnClickListener { findNavController().navigate(R.id.nav_train_edit) }
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_update_train_from_context -> {
+                val bundle = bundleOf(TRAIN_ID to adapter.clickedId)
+                findNavController().navigate(R.id.nav_train_edit, bundle)
+            }
+            R.id.action_delete_train_from_context -> {
+                adapter.removeItem()
+                trainsViewModel.deleteTrain(adapter.clickedId)
+            }
+        }
+        return super.onContextItemSelected(item)
     }
 
     override fun onDestroyView() {

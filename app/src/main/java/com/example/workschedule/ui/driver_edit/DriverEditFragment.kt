@@ -91,9 +91,12 @@ class DriverEditFragment : Fragment() {
                         adapter.getAccessList()
                     )
                 )
+                val driverFIO = "${driverEditFragmentSurname.text} " +
+                        "${driverEditFragmentName.text?.first()}. " +
+                        "${driverEditFragmentPatronymic.text?.first()}"
                 Toast.makeText(
                     activity,
-                    "Данные работника с id=${driverEditFragmentId.text.toString()} успешно добавлены",
+                    "Работник $driverFIO успешно добавлен.",
                     Toast.LENGTH_LONG
                 ).show()
                 it.findNavController().navigateUp()

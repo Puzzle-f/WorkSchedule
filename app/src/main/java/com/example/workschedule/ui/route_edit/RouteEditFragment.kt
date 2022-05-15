@@ -17,13 +17,13 @@ import com.example.workschedule.ui.drivers.DriversFragmentAdapter
 import com.example.workschedule.ui.trains.TrainsFragmentAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class RouteEditFragment: Fragment() {
+class RouteEditFragment : Fragment() {
     private val routeEditViewModel: RouteEditViewModel by viewModel()
     private var _binding: FragmentRouteEditBinding? = null
     private val binding: FragmentRouteEditBinding
         get() = _binding ?: throw RuntimeException("FragmentRouteEditBinding? is null")
     private val driversAdapter: DriversFragmentAdapter by lazy {
-        DriversFragmentAdapter((requireActivity().menuInflater))
+        DriversFragmentAdapter(requireActivity().menuInflater)
     }
     private val trainsAdapter: TrainsFragmentAdapter by lazy {
         TrainsFragmentAdapter(requireActivity().menuInflater)
@@ -34,12 +34,10 @@ class RouteEditFragment: Fragment() {
     private var periodicityListTag: Int = 0
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRouteEditBinding.inflate(inflater, container, false)
-        arguments?.let {  // Чтение из бандла переданных данных, если они есть
+        arguments?.let {
             trainRunId = it.getInt(TRAIN_RUN_ID)
         }
         return binding.root
@@ -47,15 +45,10 @@ class RouteEditFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        initView()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun init() {
+    private fun initView() {
         trainRunId?.let {
             //todo  Если есть переданное значение во фрагмент,
             //todo  то в этом месте должен быть запрос в бд и вывод данных в интерфейс
@@ -67,7 +60,7 @@ class RouteEditFragment: Fragment() {
             routeEditViewModel
                 .trains
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect{
+                .collect {
                     trainsAdapter.submitList(it)
                 }
         }
@@ -81,17 +74,15 @@ class RouteEditFragment: Fragment() {
         }
         routeEditViewModel.getDrivers()
         routeEditViewModel.getTrains()
-
         binding.routeEditFragmentTrainNumber.setOnClickListener {
             when (trainsListTag) {
                 0 -> {
                     trainsListTag = 1
                     binding.routeEditFragmentTrainNumberLayout.endIconDrawable =
                         getDrawable(requireContext(), R.drawable.ic_arrow_squash_up)
-                    binding.routeEditFragmentDriverLayout.
-                        updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            topToBottom = binding.routeEditFragmentGuidelineRecycler.id
-                        }
+                    binding.routeEditFragmentDriverLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        topToBottom = binding.routeEditFragmentGuidelineRecycler.id
+                    }
                     binding.routeEditFragmentTimeFromLayout.visibility = View.GONE
                     binding.routeEditFragmentTimeRestLayout.visibility = View.GONE
                     binding.routeEditFragmentTimeToLayout.visibility = View.GONE
@@ -102,10 +93,9 @@ class RouteEditFragment: Fragment() {
                     trainsListTag = 0
                     binding.routeEditFragmentTrainNumberLayout.endIconDrawable =
                         getDrawable(requireContext(), R.drawable.ic_arrow_drop_down)
-                    binding.routeEditFragmentDriverLayout.
-                        updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            topToBottom = binding.routeEditFragmentTrainNumberLayout.id
-                        }
+                    binding.routeEditFragmentDriverLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        topToBottom = binding.routeEditFragmentTrainNumberLayout.id
+                    }
                     binding.routeEditFragmentDriverLayout.visibility = View.VISIBLE
                     binding.routeEditFragmentPeriodicityLayout.visibility = View.VISIBLE
                     binding.routeEditFragmentTimeToLayout.visibility = View.VISIBLE
@@ -174,6 +164,11 @@ class RouteEditFragment: Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

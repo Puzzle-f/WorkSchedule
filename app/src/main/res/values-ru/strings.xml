@@ -37,7 +37,9 @@
     <string name="context_menu_shift_schedule">График смен</string>
     <string name="drivers">Машинисты</string>
     <string name="menu_train_edit">Содание поезда</string>
-    <string name="menu_trains">Выезды</string>
+    <string name="menu_trains">Поезда</string>
     <string name="temporary_datetime">Дата и время</string>
     <string name="id">Табельный номер</string>
+    <string name="action_fill_db_for_demonstration">Заполнить БД для демонстрации</string>
+    <string name="action_clear_db">Очистить БД</string>
 </resources>

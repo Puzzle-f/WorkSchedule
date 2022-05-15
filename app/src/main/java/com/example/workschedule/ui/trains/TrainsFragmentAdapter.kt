@@ -13,7 +13,7 @@ class TrainsFragmentAdapter(
 ) :
     ListAdapter<Train, TrainsFragmentAdapter.MainViewHolder>(TrainCallback) {
 
-    var clickedTrainNumber = -1
+    var clickedId = -1
     private var itemPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -41,11 +41,10 @@ class TrainsFragmentAdapter(
         }
 
         fun bind(position: Int) = with(binding) {
-            trainsFragmentRecyclerItemNumber.text = currentList[position].number.toString()
             trainsFragmentRecyclerItemDestination.text = currentList[position].direction
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition
-                clickedTrainNumber = currentList[adapterPosition].number
+                clickedId = currentList[adapterPosition].id
                 false
             }
         }

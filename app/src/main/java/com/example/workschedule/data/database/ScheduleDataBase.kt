@@ -10,8 +10,11 @@ import com.example.workschedule.data.database.train.TrainEntity
 import com.example.workschedule.data.database.trainrun.TrainRunDao
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
 
-@Database(entities = [DriverEntity::class, TrainEntity::class, TrainRunEntity::class], version = 1, exportSchema = false)
-@TypeConverters(DatabaseTypeConverter::class)
+@Database(
+    entities = [DriverEntity::class, TrainEntity::class, TrainRunEntity::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class ScheduleDataBase : RoomDatabase() {
     abstract fun driverDao(): DriverDao
     abstract fun trainDao(): TrainDao

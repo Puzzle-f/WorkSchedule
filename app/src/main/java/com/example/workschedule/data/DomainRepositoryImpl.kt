@@ -1,69 +1,58 @@
 package com.example.workschedule.data
 
 import com.example.workschedule.data.database.ScheduleDataBase
-import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.domain.DomainRepository
-import com.example.workschedule.domain.driverList
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
-import com.example.workschedule.domain.trainList
-import com.example.workschedule.domain.trainRunList
+import com.example.workschedule.utils.*
 
 class DomainRepositoryImpl(
-    private val dataBase: ScheduleDataBase
+    private val database: ScheduleDataBase
 ) : DomainRepository {
 
-    override suspend fun getAllTrainsRunList(): List<TrainRun> = trainRunList
+    override suspend fun getAllTrainsRunList(): List<TrainRun> =
+        database.trainRunDao().getAllTrainRuns().fromDAOListTrainRun
 
-    override suspend fun getTrainRun(trainRunId: Int): TrainRun {
-        TODO("Not yet implemented")
+    override suspend fun getTrainRun(trainRunId: Int): TrainRun =
+        database.trainRunDao().getTrainRunById(trainRunId).fromDAO
+
+    override suspend fun getTrainRunListForDriverId(driverId: Int): List<TrainRun> =
+        database.trainRunDao().getTrainRunByDriverId(driverId).fromDAOListTrainRun
+
+    override suspend fun saveTrainRun(trainRun: TrainRun) {
+        database.trainRunDao().saveTrainRun(trainRun.toDAO)
     }
 
     override suspend fun deleteTrainRun(trainRunId: Int) {
-        // todo
+        database.trainRunDao().deleteTrainRunById(trainRunId)
     }
 
-    override suspend fun getAllTrainsList(): List<Train> = trainList
+    override suspend fun getAllDriversList(): List<Driver> =
+        database.driverDao().getAllDrivers().fromDAOListDriver
 
-    override suspend fun getAllDriversList(): List<Driver> = driverList
-
-    override suspend fun saveTrainRun(trainRun: TrainRun) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getTrainRunListForDriver(driverId: Int): List<TrainRun> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getDriver(driverId: Int): Driver? = driverList.find { it.id == driverId }
-
-    override suspend fun deleteDriver(driverId: Int) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getDriver(driverId: Int): Driver =
+        database.driverDao().getDriverById(driverId).fromDAO
 
     override suspend fun saveDriver(driver: Driver) {
-        dataBase.driverDao().saveOrChange(
-            DriverEntity(
-                driver.id,
-                driver.name,
-                driver.surname,
-                driver.patronymic,
-                driver.workedTime,
-                driver.totalTime,
-                driver.accessTrainsId
-            )
-        )
+        database.driverDao().saveDriver(driver.toDAO)
     }
 
-    override suspend fun getTrain(trainNumber: Int): Train =
-        trainList.first { it.number == trainNumber }
-
-    override suspend fun deleteTrain(trainNumber: Int) {
-        // todo
+    override suspend fun deleteDriver(driverId: Int) {
+        database.driverDao().deleteDriverById(driverId)
     }
+
+    override suspend fun getAllTrainsList(): List<Train> =
+        database.trainDao().getAllTrains().fromDAOListTrain
+
+    override suspend fun getTrain(trainId: Int): Train =
+        database.trainDao().getTrainById(trainId).fromDAO
 
     override suspend fun saveTrain(train: Train) {
-        TODO("Not yet implemented")
+        database.trainDao().saveTrain(train.toDAO)
+    }
+
+    override suspend fun deleteTrain(trainId: Int) {
+        database.trainDao().deleteTrainById(trainId)
     }
 }

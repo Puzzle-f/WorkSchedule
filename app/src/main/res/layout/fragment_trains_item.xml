@@ -8,23 +8,12 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/trainsFragmentRecyclerItemNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/trainsFragmentRecyclerItemGuideline"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="120" />
-
-    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/trainsFragmentRecyclerItemDestination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@id/trainsFragmentRecyclerItemGuideline"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Moscow" />
 
@@ -34,12 +23,6 @@
         android:background="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainsFragmentRecyclerItemNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/trainsFragmentRecyclerItemDestination" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/trainsFragmentRecyclerItemGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.15"
-        android:orientation="vertical"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

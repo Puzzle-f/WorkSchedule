@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -20,29 +21,30 @@ class TrainEditFragment : Fragment() {
     private var _binding: FragmentTrainEditBinding? = null
     private val binding
         get() = _binding ?: throw RuntimeException("FragmentTrainEditBinding? = null")
-    private var trainNumber: Int? = null
+    private var trainId: Int? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTrainEditBinding.inflate(inflater, container, false)
         arguments?.let {
-            trainNumber = it.getInt(TRAIN_NUMBER)
+            trainId = it.getInt(TRAIN_ID)
         }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        trainNumber?.let {
+        initView()
+    }
+
+    private fun initView() {
+        trainId?.let {
             lifecycleScope.launchWhenStarted {
                 trainEditViewModel.train
                     .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                     .collect { train ->
                         train?.let { trainNotNull ->
-                            binding.trainEditFragmentTrainNumber.setText("${trainNotNull.number}")
                             binding.trainEditFragmentDirection.setText(trainNotNull.direction)
                         }
                     }
@@ -52,24 +54,23 @@ class TrainEditFragment : Fragment() {
         binding.trainEditFragmentSaveButton.setOnClickListener {
             trainEditViewModel.saveTrain(
                 Train(
-                    binding.trainEditFragmentTrainNumber.text.toString().toInt(),
+                    0,
                     binding.trainEditFragmentDirection.text.toString()
                 )
             )
+            Toast.makeText(
+                activity,
+                "Поезд на направление ${binding.trainEditFragmentDirection.text.toString()} успешно добавлен",
+                Toast.LENGTH_LONG
+            ).show()
+            findNavController().navigateUp()
         }
         binding.trainEditFragmentCancelButton.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.trainEditFragmentTrainNumber.doAfterTextChanged {
-            when {
-                it?.isNotEmpty() == true && binding.trainEditFragmentDirection.text?.isNotEmpty() == true ->
-                    binding.trainEditFragmentSaveButton.isEnabled = true
-                else -> binding.trainEditFragmentSaveButton.isEnabled = false
-            }
-        }
         binding.trainEditFragmentDirection.doAfterTextChanged {
             when {
-                it?.isNotEmpty() == true && binding.trainEditFragmentTrainNumber.text?.isNotEmpty() == true ->
+                it?.isNotEmpty() == true ->
                     binding.trainEditFragmentSaveButton.isEnabled = true
                 else -> binding.trainEditFragmentSaveButton.isEnabled = false
             }
@@ -82,6 +83,6 @@ class TrainEditFragment : Fragment() {
     }
 
     companion object {
-        const val TRAIN_NUMBER = "train_number"
+        const val TRAIN_ID = "train_id"
     }
 }

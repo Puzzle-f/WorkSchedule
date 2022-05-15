@@ -21,7 +21,7 @@ val application = module {
             "ScheduleDB.db"
         ).build()
     }
-    single<DomainRepository> { DomainRepositoryImpl(dataBase = get()) }
+    single<DomainRepository> { DomainRepositoryImpl(database = get()) }
     viewModel {
         MainFragmentViewModel(
             GetAllTrainsRunListUseCase(repository = get()),
@@ -29,7 +29,20 @@ val application = module {
             DeleteTrainRunUseCase(repository = get())
         )
     }
-    viewModel { DriversViewModel() }
+    viewModel {
+        RouteEditViewModel(
+            GetAllDriversListUseCase(repository = get()),
+            GetAllTrainsListUseCase(repository = get()),
+            SaveTrainRunUseCase(repository = get())
+        )
+    }
+    viewModel { DateTimePickerViewModel() }
+    viewModel {
+        DriversViewModel(
+            GetAllDriversListUseCase(repository = get()),
+            DeleteDriverUseCase(repository = get())
+        )
+    }
     viewModel {
         DriverEditViewModel(
             GetDriverUseCase(repository = get()),
@@ -39,21 +52,14 @@ val application = module {
     }
     viewModel {
         TrainsViewModel(
-            GetAllTrainsListUseCase(get()),
-            DeleteTrainUseCase(get())
+            GetAllTrainsListUseCase(repository = get()),
+            DeleteTrainUseCase(repository = get())
         )
     }
-    viewModel {
-        RouteEditViewModel(
-            GetAllDriversListUseCase(get()),
-            GetAllTrainsListUseCase(get()),
-        )
-    }
-    viewModel { DateTimePickerViewModel() }
     viewModel {
         TrainEditViewModel(
-            GetTrainUseCase(get()),
-            SaveTrainUseCase(get())
+            GetTrainUseCase(repository = get()),
+            SaveTrainUseCase(repository = get())
         )
     }
 }

@@ -5,21 +5,6 @@ import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.restHours
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import java.util.concurrent.TimeUnit
-
-val Int.hoursToMillis: Long // Экстеншн для перевода интового значения часов в millis
-    get() = TimeUnit.HOURS.toMillis(this.toLong())
-
-val Int.minutesToMillis: Long // Экстеншн для перевода интового значения минут в millis
-    get() = TimeUnit.MINUTES.toMillis(this.toLong())
-
-// Экстеншн для перевода рабочего времени millis в строку вывода HH:mm
-val Long.toTimeString: String
-    get() {
-        val hours = this / 1000 / 60 / 60
-        val minutes = this / 1000 / 60 % 60
-        return String.format("%02d:%02d", hours, minutes)
-    }
 
 /*
  * Метод для выборки из списка выезда поездов машинистов (в определенное время) и возврат списка Id тех машинистов,
@@ -53,15 +38,17 @@ fun List<TrainRun>.fillTrainRunListWithDrivers(drivers: List<Driver>): List<Trai
                     )
                 }
                 // Отсеиваем тех, кто не имеет доступа к этому поезду
-                .filter { it.accessTrainsId.contains(trainRun.trainNumber) }
+                .filter { trainRun.trainId in it.accessTrainsId }
                 // Из оставшихся выбираем того машиниста, у которого меньше всего отработано часов
                 .minByOrNull { it.totalTime }?.id ?: 0
             if (trainRun.driverId != 0) { //  то заполняем поля выезда
-                with(drivers[trainRun.driverId]) {
-                    val driverFullName = "$surname " +
-                            "${if (name != "") name.first() else ""}. " +
-                            "${if (patronymic != "") patronymic.first() else ""}."
-                    trainRun.driverName = driverFullName
+                with(drivers.find { it.id == trainRun.driverId }) {
+                    this?.let {
+                        val driverFIO = "${it.surname} " +
+                                "${if (it.name != "") name.first() else ""}. " +
+                                "${if (it.patronymic != "") patronymic.first() else ""}."
+                        trainRun.driverName = driverFIO
+                    }
                 }
                 // Рассчитываем рабочее время в поездке
                 val workTime = drivers.find { it.id == trainRun.driverId }?.totalTime?.plus(

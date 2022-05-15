@@ -1,25 +1,30 @@
 package com.example.workschedule.data.database.train
 
 
-import androidx.room.*
-import java.util.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 
 @Dao
 interface TrainDao {
 //    Получить все поезда
     @Query("SELECT * FROM TrainEntity")
-    suspend fun allTrain(): List<TrainEntity>
+    suspend fun getAllTrains(): List<TrainEntity>
 //    Получить все поезда на указанную дату
-    @Query("SELECT * FROM TrainEntity WHERE start LIKE :start")
-    suspend fun getTrainByDataStart(start: GregorianCalendar): List<TrainEntity>
+//    @Query("SELECT * FROM TrainEntity WHERE start LIKE :start")
+//    suspend fun getTrainByDataStart(start: GregorianCalendar): List<TrainEntity>
 //    Получить поезд по номеру
-    @Query("SELECT * FROM TrainEntity WHERE trainNumber LIKE :trainNumber")
-    suspend fun getTrainByNumber(trainNumber: Int): TrainEntity
+    @Query("SELECT * FROM TrainEntity WHERE id LIKE :trainId")
+    suspend fun getTrainById(trainId: Int): TrainEntity
 //    добавить новый поезд / изменить
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveOrChange(train: TrainEntity)
+    suspend fun saveTrain(train: TrainEntity)
 //    Удалить поезд
-    @Delete
-    suspend fun delete(train: TrainEntity)
+    @Query("DELETE FROM TrainEntity WHERE id = :trainId")
+    suspend fun deleteTrainById(trainId: Int)
+    //    Удалить все поезда
+    @Query("DELETE FROM TrainEntity")
+    suspend fun deleteAllTrains()
 }

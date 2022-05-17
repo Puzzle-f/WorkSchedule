@@ -42,4 +42,14 @@
     <string name="id">Id</string>
     <string name="action_fill_db_for_demonstration">Fill DB for demonstration</string>
     <string name="action_clear_db">Clear DB</string>
+
+    <!--    Fragments   -->
+    <string name="driverEditDataInputIncorrect">Enter correct data</string>
+    <string name="driverEditDataInputSuccess">Driver added successfully</string>
+    <string name="mainTableFilled">Routes table has been filled with drivers data</string>
+    <string name="trainEditTrainAdded">Train added successfully</string>
+
+    <!--    Main Activity   -->
+    <string name="dataAdded">Data added successfully</string>
+    <string name="dataDeleted">Data deleted successfully</string>
 </resources>

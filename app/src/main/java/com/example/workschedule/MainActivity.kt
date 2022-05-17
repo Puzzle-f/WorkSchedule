@@ -1,7 +1,6 @@
 package com.example.workschedule
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -14,8 +13,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.room.Database
-import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.databinding.ActivityMainBinding
 import com.example.workschedule.domain.saveFakeDataToDB
@@ -44,8 +41,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_main,
@@ -60,7 +55,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
@@ -73,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                     withContext(Dispatchers.IO) { saveFakeDataToDB(database) }
                     Toast.makeText(
                         applicationContext,
-                        "Данные в БД успешно добавлены",
+                        getString(R.string.dataAdded),
                         Toast.LENGTH_LONG
                     ).show()
                     recreate()
@@ -87,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     Toast.makeText(
                         applicationContext,
-                        "Данные из БД успешно удалены",
+                        getString(R.string.dataDeleted),
                         Toast.LENGTH_LONG
                     ).show()
                     recreate()

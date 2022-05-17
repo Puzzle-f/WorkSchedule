@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriverEditBinding
 import com.example.workschedule.domain.models.Driver
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -96,13 +97,13 @@ class DriverEditFragment : Fragment() {
                         "${driverEditFragmentPatronymic.text?.first()}"
                 Toast.makeText(
                     activity,
-                    "Работник $driverFIO успешно добавлен.",
+                    getString(R.string.driverEditDataInputSuccess),
                     Toast.LENGTH_LONG
                 ).show()
                 it.findNavController().navigateUp()
             } else
                 Toast.makeText(
-                    activity, "Введите корректные данные",
+                    activity, getString(R.string.driverEditDataInputIncorrect),
                     Toast.LENGTH_LONG
                 ).show()
         }

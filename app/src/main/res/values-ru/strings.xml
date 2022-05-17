@@ -42,4 +42,14 @@
     <string name="id">Табельный номер</string>
     <string name="action_fill_db_for_demonstration">Заполнить БД для демонстрации</string>
     <string name="action_clear_db">Очистить БД</string>
+
+    <!--Фрагменты-->
+    <string name="driverEditDataInputIncorrect">Введите корректные данные</string>
+    <string name="driverEditDataInputSuccess">Машинист успешно добавлен</string>
+    <string name="mainTableFilled">Таблица выездов заполнена машинистами</string>
+    <string name="trainEditTrainAdded">Поезд успешно добавлен</string>
+
+    <!--    Main Activity   -->
+    <string name="dataAdded">Данные успешно добавлены</string>
+    <string name="dataDeleted">Данные успешно удалены</string>
 </resources>

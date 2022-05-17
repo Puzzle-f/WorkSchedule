@@ -50,7 +50,7 @@ class MainFragment : Fragment() {
         mainFragmentViewModel.getTrainsRunList()
         if (adapter.currentList.isNotEmpty()) {
             Toast.makeText(
-                activity, "Таблица выездов заполнена машинистами.", Toast.LENGTH_LONG
+                activity, getString(R.string.mainTableFilled), Toast.LENGTH_LONG
             ).show()
         }
         binding.mainFragmentAddRouteFAB.setOnClickListener { findNavController().navigate(R.id.nav_route_edit) }

@@ -50,7 +50,7 @@ class DriverEditFragment : Fragment() {
                     .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                     .collect { driver ->
                         driver?.let {
-                            driverEditFragmentId.setText("${driver.id}")
+                            driverEditFragmentPersonnelNumber.setText("${driver.personnelNumber}")
                             driverEditFragmentSurname.setText(driver.surname)
                             driverEditFragmentName.setText(driver.name)
                             driverEditFragmentPatronymic.setText(driver.patronymic)
@@ -76,14 +76,15 @@ class DriverEditFragment : Fragment() {
             it.findNavController().navigateUp()
         }
         driverEditFragmentSaveButton.setOnClickListener {
-            if (driverEditFragmentId.text.toString().isNotBlank() &&
+            if (driverEditFragmentPersonnelNumber.text.toString().isNotBlank() &&
                 driverEditFragmentSurname.text.toString().isNotBlank() &&
                 driverEditFragmentName.text.toString().isNotBlank() &&
                 driverEditFragmentPatronymic.text.toString().isNotBlank()
             ) {
                 driverEditViewModel.saveDriver(
                     Driver(
-                        driverEditFragmentId.text.toString().toInt(),
+                        0,
+                        driverEditFragmentPersonnelNumber.text.toString().toInt(),
                         driverEditFragmentSurname.text.toString(),
                         driverEditFragmentName.text.toString(),
                         driverEditFragmentPatronymic.text.toString(),

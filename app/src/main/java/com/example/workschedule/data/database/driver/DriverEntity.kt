@@ -12,6 +12,8 @@ data class DriverEntity(
     @PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
     var id: Int,
+    @field:ColumnInfo(name = "personnelNumber")
+    var personnelNumber: Int,
     @field:ColumnInfo(name = "surname")
     var surname: String,
     @field:ColumnInfo(name = "name")

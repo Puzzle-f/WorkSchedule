@@ -8,12 +8,23 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/driversFragmentRecyclerItemDriverFIO"
+        android:id="@+id/driversFragmentRecyclerItemPersonnelNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/driversFragmentNameGuideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="24" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/driversFragmentRecyclerItemDriverFIO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/driversFragmentNameGuideline"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Иванов A. А." />
 
@@ -34,4 +45,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/driversFragmentRecyclerItemDriverFIO" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/driversFragmentNameGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.15"
+        android:orientation="vertical"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,6 +42,7 @@ val List<DriverEntity>.fromDAOListDriver: List<Driver> // Экстеншн пр�
     get() = this.map {
         Driver(
             it.id,
+            it.personnelNumber,
             it.surname,
             it.name,
             it.patronymic,
@@ -54,6 +55,7 @@ val List<DriverEntity>.fromDAOListDriver: List<Driver> // Экстеншн пр�
 val DriverEntity.fromDAO: Driver // Экстеншн преобразования DriverEntity в Driver
     get() = Driver(
         this.id,
+        this.personnelNumber,
         this.surname,
         this.name,
         this.patronymic,
@@ -65,6 +67,7 @@ val DriverEntity.fromDAO: Driver // Экстеншн преобразовани�
 val Driver.toDAO: DriverEntity // Экстеншн преобразования Driver в DriverEntity
     get() = DriverEntity(
         this.id,
+        this.personnelNumber,
         this.surname,
         this.name,
         this.patronymic,

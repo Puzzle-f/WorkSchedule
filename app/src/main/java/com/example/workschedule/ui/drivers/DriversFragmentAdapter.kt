@@ -44,12 +44,14 @@ class DriversFragmentAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) = with(binding) {
+            driversFragmentRecyclerItemPersonnelNumber.text =
+                currentList[position].personnelNumber.toString()
             driversFragmentRecyclerItemDriverFIO.text =
                 "${currentList[position].surname} " +
                         "${currentList[position].name.first()}. " +
                         "${currentList[position].patronymic.first()}."
             driversFragmentRecyclerItemHours.text =
-                currentList[position].workedTime.toHoursTimeString +
+                currentList[position].workedTime.toHoursTimeString + "/" +
                         currentList[position].totalTime.toHoursTimeString
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition

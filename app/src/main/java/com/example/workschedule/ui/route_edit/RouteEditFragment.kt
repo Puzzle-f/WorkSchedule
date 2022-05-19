@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -29,9 +30,14 @@ class RouteEditFragment : Fragment() {
         TrainsFragmentAdapter(requireActivity().menuInflater)
     }
     private var trainRunId: Int? = null
+    private var disembarkDateTimeTag: Int = 0
     private var trainsListTag: Int = 0
     private var driversListTag: Int = 0
     private var periodicityListTag: Int = 0
+    private var timeToTag: Int = 0
+    private var restTag: Int = 0
+    private var timeFromTag: Int = 0
+    private val defaultConstraints: ConstraintSet = ConstraintSet()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -45,6 +51,7 @@ class RouteEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        defaultConstraints.clone(binding.routeEditConstraints)
         initView()
     }
 
@@ -74,34 +81,52 @@ class RouteEditFragment : Fragment() {
         }
         routeEditViewModel.getDrivers()
         routeEditViewModel.getTrains()
+
+        setDefaultTimeAndDate()
+
+        initSetButtons()
+
+        binding.routeEditFragmentDateTime.setOnClickListener {
+            when(disembarkDateTimeTag) {
+                0 -> {
+                    disembarkDateTimeTag = 1
+                    hideSaveCancelButtons()
+                    hidePickers()
+                    with(binding) {
+                        routeEditFragmentTimeFromLayout.visibility = View.GONE
+                        routeEditFragmentTimeRestLayout.visibility = View.GONE
+                        routeEditFragmentTimeToLayout.visibility = View.GONE
+                        routeEditFragmentPeriodicityLayout.visibility = View.GONE
+                        routeEditFragmentDriverLayout.visibility = View.GONE
+                        routeEditFragmentTrainNumberLayout.visibility = View.GONE
+                        routeEditFragmentDisembarkSetButton.visibility = View.VISIBLE
+                        routeEditFragmentDisembarkDateTimePickerLayout.visibility = View.VISIBLE
+                    }
+                }
+                1 -> setDefaultConstraints()
+            }
+        }
+
         binding.routeEditFragmentTrainNumber.setOnClickListener {
             when (trainsListTag) {
                 0 -> {
                     trainsListTag = 1
-                    binding.routeEditFragmentTrainNumberLayout.endIconDrawable =
-                        getDrawable(requireContext(), R.drawable.ic_arrow_squash_up)
-                    binding.routeEditFragmentDriverLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                        topToBottom = binding.routeEditFragmentGuidelineRecycler.id
+                    with(binding) {
+                        routeEditFragmentTrainNumberLayout.endIconDrawable =
+                            getDrawable(requireContext(), R.drawable.ic_arrow_squash_up)
+                        routeEditFragmentDriverLayout
+                            .updateLayoutParams<ConstraintLayout.LayoutParams> {
+                                topToBottom = routeEditFragmentGuidelineRecycler.id
+                        }
+                        routeEditFragmentTimeFromLayout.visibility = View.GONE
+                        routeEditFragmentTimeRestLayout.visibility = View.GONE
+                        routeEditFragmentTimeToLayout.visibility = View.GONE
+                        routeEditFragmentPeriodicityLayout.visibility = View.GONE
+                        routeEditFragmentDriverLayout.visibility = View.GONE
                     }
-                    binding.routeEditFragmentTimeFromLayout.visibility = View.GONE
-                    binding.routeEditFragmentTimeRestLayout.visibility = View.GONE
-                    binding.routeEditFragmentTimeToLayout.visibility = View.GONE
-                    binding.routeEditFragmentPeriodicityLayout.visibility = View.GONE
-                    binding.routeEditFragmentDriverLayout.visibility = View.GONE
+                    hidePickers()
                 }
-                1 -> {
-                    trainsListTag = 0
-                    binding.routeEditFragmentTrainNumberLayout.endIconDrawable =
-                        getDrawable(requireContext(), R.drawable.ic_arrow_drop_down)
-                    binding.routeEditFragmentDriverLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                        topToBottom = binding.routeEditFragmentTrainNumberLayout.id
-                    }
-                    binding.routeEditFragmentDriverLayout.visibility = View.VISIBLE
-                    binding.routeEditFragmentPeriodicityLayout.visibility = View.VISIBLE
-                    binding.routeEditFragmentTimeToLayout.visibility = View.VISIBLE
-                    binding.routeEditFragmentTimeRestLayout.visibility = View.VISIBLE
-                    binding.routeEditFragmentTimeFromLayout.visibility = View.VISIBLE
-                }
+                1 -> setDefaultConstraints()
             }
         }
 
@@ -119,20 +144,9 @@ class RouteEditFragment : Fragment() {
                     binding.routeEditFragmentTimeRestLayout.visibility = View.GONE
                     binding.routeEditFragmentTimeToLayout.visibility = View.GONE
                     binding.routeEditFragmentPeriodicityLayout.visibility = View.GONE
+                    hidePickers()
                 }
-                1 -> {
-                    driversListTag = 0
-                    binding.routeEditFragmentDriverLayout.endIconDrawable =
-                        getDrawable(requireContext(), R.drawable.ic_arrow_drop_down)
-                    binding.routeEditFragmentPeriodicityLayout
-                        .updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            topToBottom = binding.routeEditFragmentDriverLayout.id
-                        }
-                    binding.routeEditFragmentPeriodicityLayout.visibility = View.VISIBLE
-                    binding.routeEditFragmentTimeToLayout.visibility = View.VISIBLE
-                    binding.routeEditFragmentTimeRestLayout.visibility = View.VISIBLE
-                    binding.routeEditFragmentTimeFromLayout.visibility = View.VISIBLE
-                }
+                1 -> setDefaultConstraints()
             }
         }
 
@@ -149,19 +163,163 @@ class RouteEditFragment : Fragment() {
                     binding.routeEditFragmentTimeFromLayout.visibility = View.GONE
                     binding.routeEditFragmentTimeRestLayout.visibility = View.GONE
                     binding.routeEditFragmentTimeToLayout.visibility = View.GONE
+                    hidePickers()
                 }
-                1 -> {
-                    periodicityListTag = 0
-                    binding.routeEditFragmentPeriodicityLayout.endIconDrawable =
-                        getDrawable(requireContext(), R.drawable.ic_arrow_drop_down)
-                    binding.routeEditFragmentTimeToLayout
-                        .updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            topToBottom = binding.routeEditFragmentPeriodicityLayout.id
-                        }
-                    binding.routeEditFragmentTimeToLayout.visibility = View.VISIBLE
-                    binding.routeEditFragmentTimeRestLayout.visibility = View.VISIBLE
-                    binding.routeEditFragmentTimeFromLayout.visibility = View.VISIBLE
+                1 -> setDefaultConstraints()
+            }
+        }
+
+        binding.routeEditFragmentTimeTo.setOnClickListener {
+            when(timeToTag) {
+                0 -> {
+                    timeToTag = 1
+                    hideSaveCancelButtons()
+                    hidePickers()
+                    with(binding) {
+                        routeEditFragmentTimeRestLayout.visibility = View.GONE
+                        routeEditFragmentTimeFromLayout.visibility = View.GONE
+                        routeEditFragmentTimeToSetButton.visibility = View.VISIBLE
+                        routeEditTimePickerTimeTo.visibility = View.VISIBLE
+                    }
                 }
+                1 -> setDefaultConstraints()
+            }
+        }
+
+        binding.routeEditFragmentTimeRest.setOnClickListener {
+            when(restTag) {
+                0 -> {
+                    restTag = 1
+                    hideSaveCancelButtons()
+                    hidePickers()
+                    with(binding) {
+                        routeEditFragmentTimeRestLayout
+                            .updateLayoutParams<ConstraintLayout.LayoutParams> {
+                                topToBottom = binding.routeEditFragmentPeriodicityLayout.id
+                            }
+                        routeEditFragmentTimeToLayout.visibility = View.GONE
+                        routeEditFragmentTimeFromLayout.visibility = View.GONE
+                        routeEditFragmentRestSetButton.visibility = View.VISIBLE
+                        routeEditTimePickerTimeRest.visibility = View.VISIBLE
+                    }
+                }
+                1 -> setDefaultConstraints()
+            }
+        }
+
+        binding.routeEditFragmentTimeFrom.setOnClickListener {
+            when(timeFromTag) {
+                0 -> {
+                    timeFromTag = 1
+                    hidePickers()
+                    hideSaveCancelButtons()
+                    with(binding) {
+                        routeEditFragmentTimeFromLayout
+                            .updateLayoutParams<ConstraintLayout.LayoutParams> {
+                                topToBottom = binding.routeEditFragmentPeriodicityLayout.id
+                            }
+                        routeEditTimePickerTimeTo.visibility = View.GONE
+                        routeEditFragmentTimeRestLayout.visibility = View.GONE
+                        routeEditFragmentTimeFromSetButton.visibility = View.VISIBLE
+                        routeEditTimePickerTimeFrom.visibility = View.VISIBLE
+                    }
+                }
+                1 -> setDefaultConstraints()
+            }
+        }
+    }
+
+    private fun setDefaultTimeAndDate() {
+        with(binding) {
+            routeFragmentEditDisembarkTimePicker.apply {
+                setIs24HourView(true)
+                hour = 0
+                minute = 0
+            }
+            routeEditTimePickerTimeTo.apply {
+                setIs24HourView(true)
+                hour = 0
+                minute = 0
+            }
+            routeEditTimePickerTimeRest.apply {
+                setIs24HourView(true)
+                hour = 0
+                minute = 0
+            }
+            routeEditTimePickerTimeFrom.apply {
+                setIs24HourView(true)
+                hour = 0
+                minute = 0
+            }
+        }
+    }
+
+    private fun setDefaultConstraints() {
+        hidePickers()
+        setDefaultVisibility()
+        defaultConstraints.applyTo(binding.routeEditConstraints)
+    }
+
+    private fun setDefaultVisibility() {
+        with(binding) {
+            routeEditFragmentSaveButton.visibility = View.VISIBLE
+            routeEditFragmentCancelButton.visibility = View.VISIBLE
+            routeEditFragmentDateTimeLayout.visibility = View.VISIBLE
+            routeEditFragmentTrainNumberLayout.visibility = View.VISIBLE
+            routeEditFragmentDriverLayout.visibility = View.VISIBLE
+            routeEditFragmentPeriodicityLayout.visibility = View.VISIBLE
+            routeEditFragmentTimeToLayout.visibility = View.VISIBLE
+            routeEditFragmentTimeRestLayout.visibility = View.VISIBLE
+            routeEditFragmentTimeFromLayout.visibility = View.VISIBLE
+            routeEditFragmentTrainNumberLayout.endIconDrawable =
+                getDrawable(requireContext(), R.drawable.ic_arrow_drop_down)
+            routeEditFragmentDriverLayout.endIconDrawable =
+                getDrawable(requireContext(), R.drawable.ic_arrow_drop_down)
+            routeEditFragmentPeriodicityLayout.endIconDrawable =
+                getDrawable(requireContext(), R.drawable.ic_arrow_drop_down)
+        }
+        disembarkDateTimeTag = 0
+        trainsListTag = 0
+        driversListTag = 0
+        periodicityListTag = 0
+        timeToTag = 0
+        restTag = 0
+        timeFromTag = 0
+    }
+
+    private fun hidePickers() {
+        with(binding) {
+            routeEditFragmentDisembarkDateTimePickerLayout.visibility = View.GONE
+            routeEditTimePickerTimeTo.visibility = View.GONE
+            routeEditTimePickerTimeRest.visibility = View.GONE
+            routeEditTimePickerTimeFrom.visibility = View.GONE
+            routeEditFragmentDisembarkSetButton.visibility = View.GONE
+            routeEditFragmentTimeToSetButton.visibility = View.GONE
+            routeEditFragmentRestSetButton.visibility = View.GONE
+            routeEditFragmentTimeFromSetButton.visibility = View.GONE
+        }
+    }
+
+    private fun hideSaveCancelButtons() {
+        with(binding) {
+            routeEditFragmentSaveButton.visibility = View.GONE
+            routeEditFragmentCancelButton.visibility = View.GONE
+        }
+    }
+
+    private fun initSetButtons() {
+        with(binding) {
+            routeEditFragmentDisembarkSetButton.setOnClickListener{
+                //todo action
+            }
+            routeEditFragmentTimeToSetButton.setOnClickListener {
+                //todo action
+            }
+            routeEditFragmentRestSetButton.setOnClickListener {
+                //todo action
+            }
+            routeEditFragmentTimeFromSetButton.setOnClickListener {
+                //todo action
             }
         }
     }

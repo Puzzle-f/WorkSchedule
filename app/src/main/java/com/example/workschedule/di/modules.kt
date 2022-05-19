@@ -7,7 +7,6 @@ import com.example.workschedule.domain.*
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
 import com.example.workschedule.ui.main.MainFragmentViewModel
-import com.example.workschedule.ui.route_edit.DateTimePickerViewModel
 import com.example.workschedule.ui.route_edit.RouteEditViewModel
 import com.example.workschedule.ui.train_edit.TrainEditViewModel
 import com.example.workschedule.ui.trains.TrainsViewModel
@@ -36,7 +35,6 @@ val application = module {
             SaveTrainRunUseCase(repository = get())
         )
     }
-    viewModel { DateTimePickerViewModel() }
     viewModel {
         DriversViewModel(
             GetAllDriversListUseCase(repository = get()),

@@ -20,6 +20,7 @@
 
     <string name="save_button">SAVE</string>
     <string name="cancel_button">CANCEL</string>
+    <string name="set_button" translatable="false">SET</string>
 
     <string name="edit_route_disembark_time">Disembark time</string>
     <string name="edit_route_train">Train</string>

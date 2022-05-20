@@ -1,28 +1,24 @@
 package com.example.workschedule.ui.route_edit
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentRouteEditBinding
+import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.drivers.DriversFragmentAdapter
 import com.example.workschedule.ui.trains.TrainsFragmentAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class RouteEditFragment : Fragment() {
+class RouteEditFragment :
+    BaseFragment<FragmentRouteEditBinding>(FragmentRouteEditBinding::inflate) {
     private val routeEditViewModel: RouteEditViewModel by viewModel()
-    private var _binding: FragmentRouteEditBinding? = null
-    private val binding: FragmentRouteEditBinding
-        get() = _binding ?: throw RuntimeException("FragmentRouteEditBinding? is null")
     private val driversAdapter: DriversFragmentAdapter by lazy {
         DriversFragmentAdapter(requireActivity().menuInflater)
     }
@@ -39,55 +35,27 @@ class RouteEditFragment : Fragment() {
     private var timeFromTag: Int = 0
     private val defaultConstraints: ConstraintSet = ConstraintSet()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRouteEditBinding.inflate(inflater, container, false)
-        arguments?.let {
-            trainRunId = it.getInt(TRAIN_RUN_ID)
-        }
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         defaultConstraints.clone(binding.routeEditConstraints)
         initView()
     }
 
-    private fun initView() {
-        trainRunId?.let {
-            //todo  Если есть переданное значение во фрагмент,
-            //todo  то в этом месте должен быть запрос в бд и вывод данных в интерфейс
-            //todo  т.е. запуск фрагмента в режиме редактирования данных
-        }
+    override fun readArguments(bundle: Bundle) {
+        trainRunId = bundle.getInt(TRAIN_RUN_ID)
+    }
+
+    override fun initView() {
         binding.routeEditFragmentDriversRecycler.adapter = driversAdapter
         binding.routeEditFragmentTrainsRecycler.adapter = trainsAdapter
-        lifecycleScope.launchWhenStarted {
-            routeEditViewModel
-                .trains
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect {
-                    trainsAdapter.submitList(it)
-                }
-        }
-        lifecycleScope.launchWhenStarted {
-            routeEditViewModel
-                .drivers
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect {
-                    driversAdapter.submitList(it)
-                }
-        }
-        routeEditViewModel.getDrivers()
-        routeEditViewModel.getTrains()
-
         setDefaultTimeAndDate()
-
         initSetButtons()
+    }
 
+
+    override fun initListeners() {
         binding.routeEditFragmentDateTime.setOnClickListener {
-            when(disembarkDateTimeTag) {
+            when (disembarkDateTimeTag) {
                 0 -> {
                     disembarkDateTimeTag = 1
                     hideSaveCancelButtons()
@@ -117,7 +85,7 @@ class RouteEditFragment : Fragment() {
                         routeEditFragmentDriverLayout
                             .updateLayoutParams<ConstraintLayout.LayoutParams> {
                                 topToBottom = routeEditFragmentGuidelineRecycler.id
-                        }
+                            }
                         routeEditFragmentTimeFromLayout.visibility = View.GONE
                         routeEditFragmentTimeRestLayout.visibility = View.GONE
                         routeEditFragmentTimeToLayout.visibility = View.GONE
@@ -170,7 +138,7 @@ class RouteEditFragment : Fragment() {
         }
 
         binding.routeEditFragmentTimeTo.setOnClickListener {
-            when(timeToTag) {
+            when (timeToTag) {
                 0 -> {
                     timeToTag = 1
                     hideSaveCancelButtons()
@@ -187,7 +155,7 @@ class RouteEditFragment : Fragment() {
         }
 
         binding.routeEditFragmentTimeRest.setOnClickListener {
-            when(restTag) {
+            when (restTag) {
                 0 -> {
                     restTag = 1
                     hideSaveCancelButtons()
@@ -208,7 +176,7 @@ class RouteEditFragment : Fragment() {
         }
 
         binding.routeEditFragmentTimeFrom.setOnClickListener {
-            when(timeFromTag) {
+            when (timeFromTag) {
                 0 -> {
                     timeFromTag = 1
                     hidePickers()
@@ -227,6 +195,30 @@ class RouteEditFragment : Fragment() {
                 1 -> setDefaultConstraints()
             }
         }
+    }
+
+    override fun initObservers() {
+        trainRunId?.let {
+
+        }
+        lifecycleScope.launchWhenStarted {
+            routeEditViewModel
+                .trains
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    trainsAdapter.submitList(it)
+                }
+        }
+        lifecycleScope.launchWhenStarted {
+            routeEditViewModel
+                .drivers
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    driversAdapter.submitList(it)
+                }
+        }
+        routeEditViewModel.getDrivers()
+        routeEditViewModel.getTrains()
     }
 
     private fun setDefaultTimeAndDate() {
@@ -309,7 +301,7 @@ class RouteEditFragment : Fragment() {
 
     private fun initSetButtons() {
         with(binding) {
-            routeEditFragmentDisembarkSetButton.setOnClickListener{
+            routeEditFragmentDisembarkSetButton.setOnClickListener {
                 //todo action
             }
             routeEditFragmentTimeToSetButton.setOnClickListener {
@@ -322,11 +314,6 @@ class RouteEditFragment : Fragment() {
                 //todo action
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

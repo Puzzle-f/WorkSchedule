@@ -102,10 +102,18 @@ val trainRunList = listOf(
 )
 
 // Метод записи хард-кода в Базу Данных для демонстрации
-suspend fun saveFakeDataToDB(dataBase: ScheduleDataBase) {
-    trainList.forEach { dataBase.trainDao().saveTrain(it.toDAO) }
-    driverList.forEach { dataBase.driverDao().saveDriver(it.toDAO) }
-    trainRunList.forEach { dataBase.trainRunDao().saveTrainRun(it.toDAO) }
+suspend fun saveFakeDataToDB(database: ScheduleDataBase) {
+    trainList.forEach { database.trainDao().saveTrain(it.toDAO) }
+    driverList.forEach { database.driverDao().saveDriver(it.toDAO) }
+    trainRunList.forEach { database.trainRunDao().saveTrainRun(it.toDAO) }
+}
+
+// Метод очистки базы данных с очисткой ключей автоинкремента
+fun clearDatabase(database: ScheduleDataBase) {
+    database.runInTransaction {
+        database.clearAllTables()
+        database.openHelper.writableDatabase.execSQL("DELETE FROM sqlite_sequence")
+    }
 }
 
 // todo ↑↑↑ Хардкод, после настройки приложения удалить ↑↑↑

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -27,18 +28,21 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private val navHostFragment =
-        supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-    private val navController = navHostFragment.navController
-    val database: ScheduleDataBase by inject()
+    private val navController: NavController by lazy {
+        (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment)
+            .navController
+    }
+    private val database: ScheduleDataBase by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
+        initDrawer()
+    }
 
+    private fun initDrawer() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         appBarConfiguration = AppBarConfiguration(

@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
 import com.example.workschedule.ui.route_edit.RouteEditFragment.Companion.TRAIN_RUN_ID
+import com.google.android.material.button.MaterialButton
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
@@ -24,11 +26,13 @@ class MainFragment : Fragment() {
     private val binding: FragmentMainBinding
         get() = _binding ?: throw RuntimeException("FragmentMainBinding? = null")
     private val adapter by lazy { MainFragmentAdapter(requireActivity().menuInflater) }
+    private lateinit var buttonNewRoute: MaterialButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+        buttonNewRoute = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_route)
         return binding.root
     }
 
@@ -36,6 +40,11 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.mainFragmentRecyclerView)
         initView()
+    }
+
+    override fun onStart() {
+        buttonNewRoute.visibility = View.VISIBLE
+        super.onStart()
     }
 
     private fun initView() {
@@ -53,7 +62,9 @@ class MainFragment : Fragment() {
                 activity, getString(R.string.mainTableFilled), Toast.LENGTH_LONG
             ).show()
         }
-        binding.mainFragmentAddRouteFAB.setOnClickListener { findNavController().navigate(R.id.nav_route_edit) }
+        buttonNewRoute.setOnClickListener {
+            findNavController().navigate(R.id.nav_route_edit)
+        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -68,6 +79,11 @@ class MainFragment : Fragment() {
             }
         }
         return super.onContextItemSelected(item)
+    }
+
+    override fun onStop() {
+        buttonNewRoute.visibility = View.GONE
+        super.onStop()
     }
 
     override fun onDestroyView() {

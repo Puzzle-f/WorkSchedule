@@ -22,7 +22,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -44,10 +43,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_main,
-                R.id.nav_route_edit,
                 R.id.nav_trains,
                 R.id.nav_drivers,
-                R.id.nav_train_edit,
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

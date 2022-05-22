@@ -6,8 +6,6 @@ import com.example.workschedule.data.database.trainrun.TrainRunEntity
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
-import java.time.LocalDateTime
-import java.time.Month
 import java.util.concurrent.TimeUnit
 
 val Int.hoursToMillis: Long // Экстеншн для перевода интового значения часов в millis
@@ -114,7 +112,7 @@ val TrainRunEntity.fromDTO: TrainRun // Экстеншн преобразова�
 
 val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразования TrainRun в TrainRunEntity
     get() = TrainRunEntity(
-        id,
+        this.id,
         this.trainId,
         this.trainNumber,
         this.trainDirection,

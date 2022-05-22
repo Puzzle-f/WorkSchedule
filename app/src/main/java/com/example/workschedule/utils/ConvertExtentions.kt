@@ -126,7 +126,7 @@ val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразован�
 
 val Driver.FIO: String  // Экстеншн для выделения фамилии с инициалами из объекта машиниста
     get() = StringBuilder()
-        .append(this.surname + " ")
-        .append(if (this.name.isNotBlank()) this.name.first() + ". " else " ")
-        .append(if (this.patronymic.isNotBlank()) this.patronymic.first() + "." else "")
+        .append(this.surname)
+        .append(if (this.name.isNotBlank()) " ${this.name.first()}." else "")
+        .append(if (this.patronymic.isNotBlank()) " ${this.patronymic.first()}." else "")
         .toString()

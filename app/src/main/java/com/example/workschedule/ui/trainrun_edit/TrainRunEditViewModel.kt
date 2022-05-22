@@ -1,9 +1,10 @@
-package com.example.workschedule.ui.route_edit
+package com.example.workschedule.ui.trainrun_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.GetAllDriversListUseCase
 import com.example.workschedule.domain.GetAllTrainsListUseCase
+import com.example.workschedule.domain.GetTrainRunUseCase
 import com.example.workschedule.domain.SaveTrainRunUseCase
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
@@ -13,15 +14,24 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class RouteEditViewModel(
+class TrainRunEditViewModel(
+    private val getTrainRunUseCase: GetTrainRunUseCase,
     private val getAllDriversListUseCase: GetAllDriversListUseCase,
     private val getAllTrainsListUseCase: GetAllTrainsListUseCase,
     private val saveTrainRunUseCase: SaveTrainRunUseCase
 ) : ViewModel() {
+    private var _trainRun = MutableStateFlow<TrainRun?>(null)
+    val trainRun: StateFlow<TrainRun?> = _trainRun.asStateFlow()
     private var _drivers = MutableStateFlow<List<Driver>>(emptyList())
     val drivers: StateFlow<List<Driver>> = _drivers.asStateFlow()
     private var _trains = MutableStateFlow<List<Train>>(emptyList())
     val trains: StateFlow<List<Train>> = _trains.asStateFlow()
+
+    fun getTrainRun(trainRunId: Int) {
+        viewModelScope.launch {
+            _trainRun.emit(getTrainRunUseCase.execute(trainRunId))
+        }
+    }
 
     fun getDrivers() {
         viewModelScope.launch {

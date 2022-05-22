@@ -22,7 +22,7 @@
     <string name="cancel_button">ОТМЕНА</string>
 
     <string name="edit_route_disembark_time">Время выезда</string>
-    <string name="edit_route_train">Поезд</string>
+    <string name="edit_route_train_direction">Направление поезда</string>
     <string name="edit_route_driver">Машинист</string>
     <string name="edit_route_periodicity">Повторяемость</string>
     <string name="edit_route_time_to">Время туда</string>
@@ -52,4 +52,10 @@
     <!--    Main Activity   -->
     <string name="dataAdded">Данные успешно добавлены</string>
     <string name="dataDeleted">Данные успешно удалены</string>
+    <string name="set_button">УСТАНОВИТЬ</string>
+    <string name="periodicity_daily">Ежедневно</string>
+    <string name="periodicity_on_even">По чётным</string>
+    <string name="periodicity_single">Одиночный</string>
+    <string name="periodicity_on_odd">По нечётным</string>
+    <string name="edit_route_train_number">Номер поезда</string>
 </resources>

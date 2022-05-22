@@ -44,10 +44,7 @@ fun List<TrainRun>.fillTrainRunListWithDrivers(drivers: List<Driver>): List<Trai
             if (trainRun.driverId != 0) { //  то заполняем поля выезда
                 with(drivers.find { it.id == trainRun.driverId }) {
                     this?.let {
-                        val driverFIO = "${it.surname} " +
-                                "${if (it.name != "") name.first() else ""}. " +
-                                "${if (it.patronymic != "") patronymic.first() else ""}."
-                        trainRun.driverName = driverFIO
+                        trainRun.driverName = it.FIO
                     }
                 }
                 // Рассчитываем рабочее время в поездке

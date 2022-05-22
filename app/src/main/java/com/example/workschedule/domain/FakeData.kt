@@ -6,7 +6,7 @@ import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.utils.hoursToMillis
 import com.example.workschedule.utils.minutesToMillis
-import com.example.workschedule.utils.toDAO
+import com.example.workschedule.utils.toDTO
 import java.time.LocalDateTime
 import java.time.Month
 
@@ -103,9 +103,9 @@ val trainRunList = listOf(
 
 // Метод записи хард-кода в Базу Данных для демонстрации
 suspend fun saveFakeDataToDB(database: ScheduleDataBase) {
-    trainList.forEach { database.trainDao().saveTrain(it.toDAO) }
-    driverList.forEach { database.driverDao().saveDriver(it.toDAO) }
-    trainRunList.forEach { database.trainRunDao().saveTrainRun(it.toDAO) }
+    trainList.forEach { database.trainDao().saveTrain(it.toDTO) }
+    driverList.forEach { database.driverDao().saveDriver(it.toDTO) }
+    trainRunList.forEach { database.trainRunDao().saveTrainRun(it.toDTO) }
 }
 
 // Метод очистки базы данных с очисткой ключей автоинкремента

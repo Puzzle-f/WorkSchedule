@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/routeEditConstraints"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,53 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_disembark_time"
-        app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_date_and_time"
+        app:endIconMode="custom"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/routeEditFragmentDateTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:focusable="false"
-            android:clickable="true" />
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <LinearLayout
-        android:id="@+id/routeEditFragmentDisembarkDateTimePickerLayout"
-        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentDateTimeLayout"
-        app:layout_constraintBottom_toTopOf="@id/routeEditFragmentGuidelineRecycler"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <DatePicker
-            android:id="@+id/routeEditFragmentDisembarkDatePicker"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:calendarViewShown="false"
-            android:layout_weight="0.5"
-            android:datePickerMode="spinner" />
-
-        <TimePicker
-            android:id="@+id/routeFragmentEditDisembarkTimePicker"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:timePickerMode="spinner" />
-
-    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentTrainNumberLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_route_train"
+        android:hint="@string/edit_route_train_number"
+        app:endIconDrawable="@android:drawable/ic_menu_edit"
         app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_arrow_drop_down"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/routeEditFragmentDateTimeLayout">
@@ -68,81 +41,71 @@
             android:id="@+id/routeEditFragmentTrainNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true" />
+            android:inputType="numberDecimal"
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/routeEditFragmentTrainsRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/routeEditFragmentTrainNumberLayout"
-        app:layout_constraintBottom_toTopOf="@+id/routeEditFragmentDriverLayout"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/fragment_trains_item"/>
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/routeEditFragmentDriverLayout"
+        android:id="@+id/routeEditFragmentTrainDirectionLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_route_driver"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_arrow_drop_down"
+        android:hint="@string/edit_route_train_direction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTrainNumberLayout">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/routeEditFragmentTrainDirection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/routeEditFragmentDriverLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_route_driver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTrainDirectionLayout">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/routeEditFragmentDriver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true" />
+            android:inputType="none"
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/routeEditFragmentDriversRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/routeEditFragmentDriverLayout"
-        app:layout_constraintBottom_toTopOf="@+id/routeEditFragmentPeriodicityLayout"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/fragment_drivers_item"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentPeriodicityLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_periodicity"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_arrow_drop_down"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/routeEditFragmentDriverLayout">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/routeEditFragmentPeriodicity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true" />
+            android:inputType="none"
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/routeEditFragmentPeriodicityRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/routeEditFragmentPeriodicityLayout"
-        app:layout_constraintBottom_toTopOf="@+id/routeEditFragmentTimeToLayout"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentTimeToLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_time_to"
-        app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_timer"
+        app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/routeEditFragmentPeriodicityLayout">
@@ -151,25 +114,17 @@
             android:id="@+id/routeEditFragmentTimeTo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true" />
+            android:inputType="time"
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TimePicker
-        android:id="@+id/routeEditTimePickerTimeTo"
-        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTimeToLayout"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:timePickerMode="spinner" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentTimeRestLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_rest_time"
-        app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_timer"
+        app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTimeToLayout">
@@ -178,25 +133,17 @@
             android:id="@+id/routeEditFragmentTimeRest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true" />
+            android:inputType="time"
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TimePicker
-        android:id="@+id/routeEditTimePickerTimeRest"
-        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTimeRestLayout"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:timePickerMode="spinner" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentTimeFromLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_time_from"
-        app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_timer"
+        app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTimeRestLayout">
@@ -205,92 +152,84 @@
             android:id="@+id/routeEditFragmentTimeFrom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true" />
+            android:inputType="time"
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TimePicker
-        android:id="@+id/routeEditTimePickerTimeFrom"
-        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTimeFromLayout"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:timePickerMode="spinner" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/routeEditFragmentSaveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:text="@string/save_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/routeEditFragmentGuidelineLeft"
-        android:text="@string/save_button"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/routeEditFragmentCancelButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:text="@string/cancel_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/routeEditFragmentGuidelineRight"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/cancel_button"/>
+        app:layout_constraintStart_toStartOf="@id/routeEditFragmentGuidelineRight" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/routeEditFragmentDisembarkSetButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:text="@string/set_button"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/set_button"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/routeEditFragmentTimeToSetButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:text="@string/set_button"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/set_button"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/routeEditFragmentRestSetButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:text="@string/set_button"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/set_button"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/routeEditFragmentTimeFromSetButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:text="@string/set_button"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/set_button"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/routeEditFragmentGuidelineLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.45"
-        android:orientation="vertical"/>
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/routeEditFragmentGuidelineRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.55"
-        android:orientation="vertical"/>
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/routeEditFragmentGuidelineRecycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.90"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
 </androidx.constraintlayout.widget.ConstraintLayout>

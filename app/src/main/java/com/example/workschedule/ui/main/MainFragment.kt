@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
 import com.example.workschedule.ui.base.BaseFragment
-import com.example.workschedule.ui.route_edit.RouteEditFragment.Companion.TRAIN_RUN_ID
+import com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment.Companion.TRAIN_RUN_ID
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {

@@ -1,45 +1,41 @@
 package com.example.workschedule.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
+import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.route_edit.RouteEditFragment.Companion.TRAIN_RUN_ID
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private val mainFragmentViewModel: MainFragmentViewModel by viewModel()
-    private var _binding: FragmentMainBinding? = null
-    private val binding: FragmentMainBinding
-        get() = _binding ?: throw RuntimeException("FragmentMainBinding? = null")
     private val adapter by lazy { MainFragmentAdapter(requireActivity().menuInflater) }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.mainFragmentRecyclerView)
-        initView()
     }
 
-    private fun initView() {
+    override fun readArguments(bundle: Bundle) {}
+
+    override fun initView() {
         binding.mainFragmentRecyclerView.adapter = adapter
+    }
+
+    override fun initListeners() {
+        binding.mainFragmentAddRouteFAB.setOnClickListener { findNavController().navigate(R.id.nav_route_edit) }
+    }
+
+    override fun initObservers() {
         lifecycleScope.launchWhenStarted {
             mainFragmentViewModel.trainsRunList
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
@@ -53,7 +49,6 @@ class MainFragment : Fragment() {
                 activity, getString(R.string.mainTableFilled), Toast.LENGTH_LONG
             ).show()
         }
-        binding.mainFragmentAddRouteFAB.setOnClickListener { findNavController().navigate(R.id.nav_route_edit) }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -68,10 +63,5 @@ class MainFragment : Fragment() {
             }
         }
         return super.onContextItemSelected(item)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -67,7 +67,7 @@ val DriverEntity.fromDAO: Driver // Экстеншн преобразовани�
 val Driver.toDAO: DriverEntity // Экстеншн преобразования Driver в DriverEntity
     get() = DriverEntity(
         this.id,
-        this.personnelNumber,
+        this.personnelNumber ?: 0,
         this.surname,
         this.name,
         this.patronymic,

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -13,18 +14,26 @@ import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
 import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.route_edit.RouteEditFragment.Companion.TRAIN_RUN_ID
+import com.google.android.material.button.MaterialButton
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private val mainFragmentViewModel: MainFragmentViewModel by viewModel()
     private val adapter by lazy { MainFragmentAdapter(requireActivity().menuInflater) }
+    private lateinit var buttonNewRoute: MaterialButton
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        buttonNewRoute = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_route)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.mainFragmentRecyclerView)
     }
 
+    override fun onStart() {
+        buttonNewRoute.visibility = View.VISIBLE
+        super.onStart()
+    }
+    
     override fun readArguments(bundle: Bundle) {}
 
     override fun initView() {
@@ -32,7 +41,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     }
 
     override fun initListeners() {
-        binding.mainFragmentAddRouteFAB.setOnClickListener { findNavController().navigate(R.id.nav_route_edit) }
+        buttonNewRoute.setOnClickListener {
+            findNavController().navigate(R.id.nav_route_edit)
+        }
     }
 
     override fun initObservers() {
@@ -63,5 +74,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             }
         }
         return super.onContextItemSelected(item)
+    }
+
+    override fun onStop() {
+        buttonNewRoute.visibility = View.GONE
+        super.onStop()
     }
 }

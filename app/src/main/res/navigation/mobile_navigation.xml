@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_main"
         android:name="com.example.workschedule.ui.main.MainFragment"
-        android:label="@string/menu_main"
+        android:label="@string/nav_header_title"
         tools:layout="@layout/fragment_main" />
 
     <fragment
@@ -40,11 +40,4 @@
         android:name="com.example.workschedule.ui.route_edit.RouteEditFragment"
         android:label="@string/menu_route_edit"
         tools:layout="@layout/fragment_route_edit" />
-
-    <fragment
-        android:id="@+id/nav_route_datetime_edit"
-        android:name="com.example.workschedule.ui.route_edit.DateTimePickerFragment"
-        android:label="@string/menu_route_edit"
-        tools:layout="@layout/fragment_route_datetime_edit" />
-
 </navigation>

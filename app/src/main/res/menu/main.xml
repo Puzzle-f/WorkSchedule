@@ -3,18 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:title="@string/action_settings"
         android:enabled="false"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/action_fill_db_for_demonstration"
-        android:orderInCategory="100"
+        android:orderInCategory="2"
         android:title="@string/action_fill_db_for_demonstration"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/action_clear_db"
-        android:orderInCategory="100"
+        android:orderInCategory="3"
         android:title="@string/action_clear_db"
         app:showAsAction="never" />
 </menu>

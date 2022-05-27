@@ -3,6 +3,7 @@ package com.example.workschedule.ui.trains
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -12,16 +13,23 @@ import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainsBinding
 import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.train_edit.TrainEditFragment.Companion.TRAIN_ID
+import com.google.android.material.button.MaterialButton
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class TrainsFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding::inflate) {
-
     private val trainsViewModel: TrainsViewModel by viewModel()
     private val adapter: TrainsFragmentAdapter by lazy { TrainsFragmentAdapter(requireActivity().menuInflater) }
+    private lateinit var buttonNewTrain: MaterialButton
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        buttonNewTrain = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_train)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.trainsFragmentRecyclerView)
+    }
+
+    override fun onStart() {
+        buttonNewTrain.visibility = View.VISIBLE
+        super.onStart()
     }
 
     override fun readArguments(bundle: Bundle) {}
@@ -31,7 +39,9 @@ class TrainsFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding
     }
 
     override fun initListeners() {
-        binding.trainsFragmentAddTrainFAB.setOnClickListener { findNavController().navigate(R.id.nav_train_edit) }
+          buttonNewTrain.setOnClickListener {
+            findNavController().navigate(R.id.nav_train_edit)
+        }
     }
 
     override fun initObservers() {
@@ -57,5 +67,10 @@ class TrainsFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding
             }
         }
         return super.onContextItemSelected(item)
+    }
+
+    override fun onStop() {
+        buttonNewTrain.visibility = View.GONE
+        super.onStop()
     }
 }

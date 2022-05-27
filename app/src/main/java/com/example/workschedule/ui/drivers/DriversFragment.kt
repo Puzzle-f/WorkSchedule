@@ -3,7 +3,6 @@ package com.example.workschedule.ui.drivers
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
@@ -22,15 +21,8 @@ class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBind
     private val adapter: DriversFragmentAdapter by lazy { DriversFragmentAdapter(requireActivity().menuInflater) }
     private lateinit var buttonNewDriver: MaterialButton
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDriversBinding.inflate(inflater, container, false)
-        buttonNewDriver = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_driver)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        buttonNewDriver = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_driver)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.driversFragmentRecyclerView)
     }
@@ -80,10 +72,5 @@ class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBind
     override fun onStop() {
         buttonNewDriver.visibility = View.GONE
         super.onStop()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

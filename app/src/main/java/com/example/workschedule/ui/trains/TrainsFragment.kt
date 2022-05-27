@@ -3,7 +3,6 @@ package com.example.workschedule.ui.trains
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
@@ -22,15 +21,8 @@ class TrainsFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding
     private val adapter: TrainsFragmentAdapter by lazy { TrainsFragmentAdapter(requireActivity().menuInflater) }
     private lateinit var buttonNewTrain: MaterialButton
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentTrainsBinding.inflate(inflater, container, false)
-        buttonNewTrain = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_train)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        buttonNewTrain = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_train)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.trainsFragmentRecyclerView)
     }
@@ -80,10 +72,5 @@ class TrainsFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding
     override fun onStop() {
         buttonNewTrain.visibility = View.GONE
         super.onStop()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

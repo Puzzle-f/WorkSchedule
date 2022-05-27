@@ -23,15 +23,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     private val adapter by lazy { MainFragmentAdapter(requireActivity().menuInflater) }
     private lateinit var buttonNewRoute: MaterialButton
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        buttonNewRoute = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_route)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        buttonNewRoute = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_route)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.mainFragmentRecyclerView)
     }
@@ -86,10 +79,5 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     override fun onStop() {
         buttonNewRoute.visibility = View.GONE
         super.onStop()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -1,27 +1,24 @@
 package com.example.workschedule.ui.drivers
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriversBinding
+import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.driver_edit.DriverEditFragment.Companion.DRIVER_ID
 import com.google.android.material.button.MaterialButton
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class DriversFragment : Fragment() {
+class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBinding::inflate) {
     private val driversViewModel: DriversViewModel by viewModel()
-    private var _binding: FragmentDriversBinding? = null
-    private val binding get() = _binding ?: throw RuntimeException("FragmentDriversBinding? = null")
     private val adapter: DriversFragmentAdapter by lazy { DriversFragmentAdapter(requireActivity().menuInflater) }
     private lateinit var buttonNewDriver: MaterialButton
 
@@ -36,16 +33,26 @@ class DriversFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.driversFragmentRecyclerView)
-        initView()
     }
 
     override fun onStart() {
         buttonNewDriver.visibility = View.VISIBLE
         super.onStart()
     }
+    
+    override fun readArguments(bundle: Bundle) {}
 
-    private fun initView() {
+    override fun initView() {
         binding.driversFragmentRecyclerView.adapter = adapter
+    }
+
+    override fun initListeners() {
+        buttonNewDriver.setOnClickListener {
+            findNavController().navigate(R.id.nav_driver_edit)
+        }
+    }
+
+    override fun initObservers() {
         lifecycleScope.launchWhenStarted {
             driversViewModel.drivers
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
@@ -54,10 +61,6 @@ class DriversFragment : Fragment() {
                 }
         }
         driversViewModel.getDrivers()
-
-        buttonNewDriver.setOnClickListener {
-            findNavController().navigate(R.id.nav_driver_edit)
-        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {

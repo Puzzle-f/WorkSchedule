@@ -1,27 +1,24 @@
 package com.example.workschedule.ui.trains
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainsBinding
+import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.train_edit.TrainEditFragment.Companion.TRAIN_ID
 import com.google.android.material.button.MaterialButton
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class TrainsFragment : Fragment() {
+class TrainsFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding::inflate) {
     private val trainsViewModel: TrainsViewModel by viewModel()
-    private var _binding: FragmentTrainsBinding? = null
-    private val binding get() = _binding ?: throw RuntimeException("FragmentTrainsBinding? = null")
     private val adapter: TrainsFragmentAdapter by lazy { TrainsFragmentAdapter(requireActivity().menuInflater) }
     private lateinit var buttonNewTrain: MaterialButton
 
@@ -36,7 +33,6 @@ class TrainsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.trainsFragmentRecyclerView)
-        initView()
     }
 
     override fun onStart() {
@@ -44,8 +40,19 @@ class TrainsFragment : Fragment() {
         super.onStart()
     }
 
-    private fun initView() {
+    override fun readArguments(bundle: Bundle) {}
+
+    override fun initView() {
         binding.trainsFragmentRecyclerView.adapter = adapter
+    }
+
+    override fun initListeners() {
+          buttonNewTrain.setOnClickListener {
+            findNavController().navigate(R.id.nav_train_edit)
+        }
+    }
+
+    override fun initObservers() {
         lifecycleScope.launchWhenStarted {
             trainsViewModel.trains
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
@@ -54,10 +61,6 @@ class TrainsFragment : Fragment() {
                 }
         }
         trainsViewModel.getTrains()
-
-        buttonNewTrain.setOnClickListener {
-            findNavController().navigate(R.id.nav_train_edit)
-        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {

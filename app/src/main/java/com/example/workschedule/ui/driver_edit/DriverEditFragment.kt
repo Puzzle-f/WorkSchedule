@@ -34,7 +34,7 @@ class DriverEditFragment :
         }
         driverEditFragmentSaveButton.setOnClickListener {
             val screenData = Driver(
-                0,
+                driverId ?: 0,
                 driverEditFragmentPersonnelNumber.text.toString().toIntOrNull(),
                 driverEditFragmentSurname.text.toString(),
                 driverEditFragmentName.text.toString(),

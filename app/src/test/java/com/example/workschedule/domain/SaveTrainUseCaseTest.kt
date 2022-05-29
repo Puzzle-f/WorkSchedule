@@ -1,6 +1,7 @@
 package com.example.workschedule.domain
 
 import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.usecases.train.SaveTrainUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test

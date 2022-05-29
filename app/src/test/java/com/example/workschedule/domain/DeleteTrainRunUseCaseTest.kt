@@ -1,5 +1,6 @@
 package com.example.workschedule.domain
 
+import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test

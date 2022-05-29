@@ -2,10 +2,10 @@ package com.example.workschedule.ui.trainrun_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.workschedule.domain.GetAllDriversListUseCase
-import com.example.workschedule.domain.GetAllTrainsListUseCase
-import com.example.workschedule.domain.GetTrainRunUseCase
-import com.example.workschedule.domain.SaveTrainRunUseCase
+import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
+import com.example.workschedule.domain.usecases.train.GetAllTrainsListUseCase
+import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
+import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunUseCase
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun

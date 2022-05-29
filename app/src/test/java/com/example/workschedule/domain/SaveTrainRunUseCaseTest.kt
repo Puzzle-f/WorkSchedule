@@ -1,7 +1,7 @@
 package com.example.workschedule.domain
 
-import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunUseCase
 import com.example.workschedule.utils.hoursToMillis
 import com.example.workschedule.utils.minutesToMillis
 import kotlinx.coroutines.runBlocking

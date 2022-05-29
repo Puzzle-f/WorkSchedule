@@ -2,9 +2,9 @@ package com.example.workschedule.ui.driver_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.workschedule.domain.GetAllTrainsListUseCase
-import com.example.workschedule.domain.GetDriverUseCase
-import com.example.workschedule.domain.SaveDriverUseCase
+import com.example.workschedule.domain.usecases.train.GetAllTrainsListUseCase
+import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
+import com.example.workschedule.domain.usecases.driver.SaveDriverUseCase
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import kotlinx.coroutines.flow.MutableStateFlow

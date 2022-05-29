@@ -2,9 +2,9 @@ package com.example.workschedule.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.workschedule.domain.DeleteTrainRunUseCase
-import com.example.workschedule.domain.GetAllDriversListUseCase
-import com.example.workschedule.domain.GetAllTrainsRunListUseCase
+import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
+import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
+import com.example.workschedule.domain.usecases.trainrun.GetAllTrainsRunListUseCase
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.utils.fillTrainRunListWithDrivers
 import kotlinx.coroutines.flow.MutableStateFlow

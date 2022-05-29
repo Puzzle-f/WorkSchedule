@@ -1,5 +1,6 @@
-package com.example.workschedule.domain
+package com.example.workschedule.domain.usecases.train
 
+import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.models.Train
 
 class SaveTrainUseCase(

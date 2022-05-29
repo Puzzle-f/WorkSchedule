@@ -1,5 +1,6 @@
-package com.example.workschedule.domain
+package com.example.workschedule.domain.usecases.driver
 
+import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.models.Driver
 
 class SaveDriverUseCase(

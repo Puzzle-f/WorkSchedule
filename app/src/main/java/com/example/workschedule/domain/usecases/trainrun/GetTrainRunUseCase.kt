@@ -1,4 +1,6 @@
-package com.example.workschedule.domain
+package com.example.workschedule.domain.usecases.trainrun
+
+import com.example.workschedule.domain.DomainRepository
 
 class GetTrainRunUseCase(
     private val repository: DomainRepository

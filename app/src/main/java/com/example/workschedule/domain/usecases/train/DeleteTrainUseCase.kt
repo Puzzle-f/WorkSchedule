@@ -1,4 +1,6 @@
-package com.example.workschedule.domain
+package com.example.workschedule.domain.usecases.train
+
+import com.example.workschedule.domain.DomainRepository
 
 class DeleteTrainUseCase(
     private val repository: DomainRepository

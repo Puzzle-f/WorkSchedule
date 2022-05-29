@@ -21,9 +21,8 @@
 
     <string name="save_button">СОХРАНИТЬ</string>
     <string name="cancel_button">ОТМЕНА</string>
-    <string name="set_button">Установить</string>
 
-    <string name="edit_route_disembark_time">Время выезда</string>
+    <string name="edit_route_departure_time">Время отправления</string>
     <string name="edit_route_train_direction">Направление поезда</string>
     <string name="edit_route_driver">Машинист</string>
     <string name="edit_route_periodicity">Повторяемость</string>
@@ -33,7 +32,6 @@
     <string name="add_new_route">Добавить выезд</string>
 
     <string name="edit_train_number">Номер поезда</string>
-    <string name="edit_train_direction">Направление</string>
     <string name="add_new_train">Добавить маршрут</string>
 
     <string name="context_menu_edit">Редактировать</string>

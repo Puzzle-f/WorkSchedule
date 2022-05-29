@@ -10,7 +10,7 @@
         android:id="@+id/routeEditFragmentDateTimeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_route_disembark_time"
+        android:hint="@string/edit_route_departure_time"
         app:endIconDrawable="@drawable/ic_date_and_time"
         app:endIconMode="custom"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentTrainDirectionLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+        style="@style/DropDownTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_train_direction"
@@ -65,7 +65,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentDriverLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+        style="@style/DropDownTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_driver"
@@ -83,7 +83,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentPeriodicityLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+        style="@style/DropDownTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_route_periodicity"
@@ -175,42 +175,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/routeEditFragmentGuidelineRight" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/routeEditFragmentDisembarkSetButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/set_button"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/routeEditFragmentTimeToSetButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/set_button"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/routeEditFragmentRestSetButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/set_button"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/routeEditFragmentTimeFromSetButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/set_button"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/routeEditFragmentGuidelineLeft"

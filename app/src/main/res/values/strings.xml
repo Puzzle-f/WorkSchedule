@@ -21,9 +21,8 @@
 
     <string name="save_button">SAVE</string>
     <string name="cancel_button">CANCEL</string>
-    <string name="set_button">SET</string>
 
-    <string name="edit_route_disembark_time">Disembark time</string>
+    <string name="edit_route_departure_time">Departure time</string>
     <string name="edit_route_train_number">Train number</string>
     <string name="edit_route_driver">Driver</string>
     <string name="edit_route_periodicity">Periodicity</string>

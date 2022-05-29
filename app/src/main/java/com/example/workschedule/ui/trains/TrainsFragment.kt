@@ -40,7 +40,7 @@ class TrainsFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding
 
     override fun initListeners() {
           buttonNewTrain.setOnClickListener {
-            findNavController().navigate(R.id.nav_train_edit)
+            findNavController().navigate(R.id.action_nav_trains_to_nav_train_edit)
         }
     }
 
@@ -59,7 +59,7 @@ class TrainsFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding
         when (item.itemId) {
             R.id.action_update_train_from_context -> {
                 val bundle = bundleOf(TRAIN_ID to adapter.clickedId)
-                findNavController().navigate(R.id.nav_train_edit, bundle)
+                findNavController().navigate(R.id.action_nav_trains_to_nav_train_edit, bundle)
             }
             R.id.action_delete_train_from_context -> {
                 adapter.removeItem()

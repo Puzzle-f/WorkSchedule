@@ -28,8 +28,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private val navController: NavController by lazy {
-        (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment)
-            .navController
+        (supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+        ).navController
     }
     private val database: ScheduleDataBase by inject()
 
@@ -39,20 +40,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
         initDrawer()
-    }
-
-    private fun initDrawer() {
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_main,
-                R.id.nav_trains,
-                R.id.nav_drivers,
-            ), drawerLayout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -72,6 +59,26 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun initDrawer() {
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_main,
+                R.id.nav_drivers,
+                R.id.nav_trains,
+            ),
+            drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+        initNavAnimations(navView, drawerLayout)
+    }
+
     private fun actionWithDatabase(
         toastedStringId: Int,
         action: suspend (ScheduleDataBase) -> Unit
@@ -88,7 +95,47 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    private fun initNavAnimations(
+        navView: NavigationView,
+        drawerLayout: DrawerLayout
+    ) {
+        navView.setNavigationItemSelectedListener {
+            if (navController.currentDestination?.id != it.itemId) {
+                drawerLayout.close()
+                when (it.itemId) {
+                    R.id.nav_main -> {
+                        when (navController.currentDestination?.id) {
+                            R.id.nav_drivers ->
+                                navController.navigate(R.id.action_nav_drivers_to_nav_main)
+                        }
+                        when (navController.currentDestination?.id) {
+                            R.id.nav_trains ->
+                                navController.navigate(R.id.action_nav_trains_to_nav_main)
+                        }
+                    }
+                    R.id.nav_drivers -> {
+                        when (navController.currentDestination?.id) {
+                            R.id.nav_main ->
+                                navController.navigate(R.id.action_nav_main_to_nav_drivers)
+                        }
+                        when (navController.currentDestination?.id) {
+                            R.id.nav_trains ->
+                                navController.navigate(R.id.action_nav_trains_to_nav_drivers)
+                        }
+                    }
+                    R.id.nav_trains -> {
+                        when (navController.currentDestination?.id) {
+                            R.id.nav_main ->
+                                navController.navigate(R.id.action_nav_main_to_nav_trains)
+                        }
+                        when (navController.currentDestination?.id) {
+                            R.id.nav_drivers ->
+                                navController.navigate(R.id.action_nav_drivers_to_nav_trains)
+                        }
+                    }
+                }
+                true
+            } else false
+        }
     }
 }

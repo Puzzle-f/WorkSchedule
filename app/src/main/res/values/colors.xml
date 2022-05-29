@@ -19,4 +19,5 @@
     <color name="accent">#3868BC</color>
     <color name="on_primary">#ffffff</color>
     <color name="on_secondary">#000000</color>
+    <color name="ripple">#F6AA91</color>
 </resources>

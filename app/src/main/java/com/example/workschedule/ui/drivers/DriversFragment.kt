@@ -40,7 +40,7 @@ class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBind
 
     override fun initListeners() {
         buttonNewDriver.setOnClickListener {
-            findNavController().navigate(R.id.nav_driver_edit)
+            findNavController().navigate(R.id.action_nav_drivers_to_nav_driver_edit)
         }
     }
 
@@ -59,7 +59,7 @@ class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBind
         when (item.itemId) {
             R.id.action_update_driver_from_context -> {
                 val bundle = bundleOf(DRIVER_ID to adapter.clickedDriverId)
-                findNavController().navigate(R.id.nav_driver_edit, bundle)
+                findNavController().navigate(R.id.action_nav_drivers_to_nav_driver_edit, bundle)
             }
             R.id.action_delete_driver_from_context -> {
                 adapter.removeItem()

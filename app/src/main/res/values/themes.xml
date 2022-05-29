@@ -19,6 +19,8 @@
         <item name="colorControlActivated">@color/primary</item>
         <!-- Text input style. -->
         <item name="textInputStyle">@style/TextInputTheme</item>
+        <!-- Button style. -->
+        <item name="materialButtonStyle">@style/ButtonTheme</item>
     </style>
 
     <style name="Theme.WorkSchedule.NoActionBar">
@@ -34,12 +36,18 @@
     <style name="PopupTheme" parent="Theme.WorkSchedule">
         <item name="android:textColorPrimary">@color/on_secondary</item>
     </style>
-    
+
     <style name="TextInputTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/secondary_light</item>
     </style>
 
     <style name="DropDownTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
         <item name="boxBackgroundColor">@color/secondary_light</item>
+    </style>
+
+    <style name="ButtonTheme" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/primary_dark</item>
+        <item name="android:background">@drawable/ripple_borderless</item>
     </style>
 </resources>

@@ -7,4 +7,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="fragment_padding">10dp</dimen>
     <dimen name="icon_size">24dp</dimen>
+    <dimen name="toolbar_item_padding">5dp</dimen>
 </resources>

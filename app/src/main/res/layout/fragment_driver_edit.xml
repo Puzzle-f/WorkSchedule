@@ -70,7 +70,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/driverEditFragmentRoutesLabel"
         android:layout_width="wrap_content"
         android:text="@string/edit_driver_routes_admittance"

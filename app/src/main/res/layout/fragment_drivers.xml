@@ -7,30 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/driversFragmentAddDriverFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/driversFragmentFABGuideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/driversFragmentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/driversFragmentFABGuideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/fragment_drivers_item" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/driversFragmentFABGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.9"
-        android:orientation="horizontal"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,28 +3,35 @@ package com.example.workschedule.ui.drivers
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriversBinding
 import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.driver_edit.DriverEditFragment.Companion.DRIVER_ID
+import com.google.android.material.button.MaterialButton
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBinding::inflate) {
-
     private val driversViewModel: DriversViewModel by viewModel()
     private val adapter: DriversFragmentAdapter by lazy { DriversFragmentAdapter(requireActivity().menuInflater) }
+    private lateinit var buttonNewDriver: MaterialButton
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        buttonNewDriver = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_driver)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.driversFragmentRecyclerView)
     }
 
+    override fun onStart() {
+        buttonNewDriver.visibility = View.VISIBLE
+        super.onStart()
+    }
+    
     override fun readArguments(bundle: Bundle) {}
 
     override fun initView() {
@@ -32,8 +39,8 @@ class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBind
     }
 
     override fun initListeners() {
-        binding.driversFragmentAddDriverFAB.setOnClickListener {
-            it.findNavController().navigate(R.id.nav_driver_edit)
+        buttonNewDriver.setOnClickListener {
+            findNavController().navigate(R.id.nav_driver_edit)
         }
     }
 
@@ -60,5 +67,10 @@ class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBind
             }
         }
         return super.onContextItemSelected(item)
+    }
+
+    override fun onStop() {
+        buttonNewDriver.visibility = View.GONE
+        super.onStop()
     }
 }

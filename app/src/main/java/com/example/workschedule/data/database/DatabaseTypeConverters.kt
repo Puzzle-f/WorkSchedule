@@ -1,6 +1,9 @@
 package com.example.workschedule.data.database
 
 import androidx.room.TypeConverter
+import com.example.workschedule.domain.models.TrainPeriodicity
+import com.example.workschedule.utils.toInt
+import com.example.workschedule.utils.toPeriodicity
 import java.time.LocalDateTime
 
 class AccessListConverter {
@@ -21,4 +24,12 @@ class DateTimeConverter {
 
     @TypeConverter
     fun toDateString(date: LocalDateTime?): String? = date?.toString()
+}
+
+class PeriodicityConverter {
+    @TypeConverter
+    fun toInt(periodicity: TrainPeriodicity): Int = periodicity.toInt
+
+    @TypeConverter
+    fun toPeriodicity(number: Int): TrainPeriodicity = number.toPeriodicity
 }

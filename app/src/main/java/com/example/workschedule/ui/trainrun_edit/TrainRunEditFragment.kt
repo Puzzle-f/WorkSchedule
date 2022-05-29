@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,11 +13,10 @@ import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainrunEditBinding
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.ui.base.BaseFragment
-import com.example.workschedule.utils.FIO
-import com.example.workschedule.utils.timeToMillis
-import com.example.workschedule.utils.toTimeString
+import com.example.workschedule.utils.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -48,6 +48,7 @@ class TrainRunEditFragment :
     private var trainRunId: Int? = null
     private var trainsList: List<Train> = mutableListOf()
     private var driversList: List<Driver> = mutableListOf()
+    private var trainPeriodicity = TrainPeriodicity.SINGLE
 
     override fun readArguments(bundle: Bundle) {
         trainRunId = bundle.getInt(TRAIN_RUN_ID)
@@ -57,6 +58,10 @@ class TrainRunEditFragment :
         binding.routeEditFragmentDriver.setAdapter(driversAdapter)
         binding.routeEditFragmentTrainDirection.setAdapter(trainsAdapter)
         binding.routeEditFragmentPeriodicity.setAdapter(periodicityAdapter)
+        binding.routeEditFragmentPeriodicity.setText(
+            periodicityAdapter.getItem(0).toString(),
+            false
+        )
     }
 
     private fun pickDateTime(time: LocalDateTime) {
@@ -88,12 +93,30 @@ class TrainRunEditFragment :
                     LocalDateTime.now()
             )
         }
+        binding.routeEditFragmentTrainDirection.addTextChangedListener { text ->
+            if (!text.isNullOrBlank()) {
+                val directionId = trainsList.find { it.direction == text.toString() }?.id
+                driversAdapter.clear()
+                driversAdapter.add(getString(R.string.edit_periodicity_default_item))
+                driversAdapter.addAll(driversList.filter { directionId in it.accessTrainsId }
+                    .map { it.FIO })
+                driversAdapter.notifyDataSetChanged()
+                binding.routeEditFragmentDriver.setText(
+                    driversAdapter.getItem(0).toString(),
+                    false
+                )
+            }
+        }
+        binding.routeEditFragmentPeriodicity.setOnItemClickListener { _, _, position, _ ->
+            trainPeriodicity = position.toPeriodicity
+        }
         binding.routeEditFragmentSaveButton.setOnClickListener {
             val trainDirection = binding.routeEditFragmentTrainDirection.text.toString()
             val trainId = trainsList.find { it.direction == trainDirection }?.id ?: 0
             val trainNumber = binding.routeEditFragmentTrainNumber.text.toString().toInt()
-            val driverName = binding.routeEditFragmentDriver.text.toString()
-            val driverId = driversList.find { it.FIO == driverName }?.id ?: 0
+            val driverNameText = binding.routeEditFragmentDriver.text.toString()
+            val driverName = if (driverNameText != driversAdapter.getItem(0)) driverNameText else ""
+            val driverId = driversList.find { it.FIO == driverNameText }?.id ?: 0
             val startTime = LocalDateTime.parse(
                 binding.routeEditFragmentDateTime.text,
                 DateTimeFormatter.ofPattern("dd.MM.y HH:mm")
@@ -107,6 +130,7 @@ class TrainRunEditFragment :
                     trainId,
                     trainNumber,
                     trainDirection,
+                    trainPeriodicity,
                     driverId,
                     driverName,
                     startTime,
@@ -152,8 +176,13 @@ class TrainRunEditFragment :
                 .collect { list ->
                     driversList = list
                     driversAdapter.clear()
+                    driversAdapter.add(getString(R.string.edit_periodicity_default_item))
                     driversAdapter.addAll(list.map { it.FIO })
                     driversAdapter.notifyDataSetChanged()
+                    binding.routeEditFragmentDriver.setText(
+                        driversAdapter.getItem(0).toString(),
+                        false
+                    )
                 }
         }
         trainRunEditViewModel.getDrivers()
@@ -166,8 +195,11 @@ class TrainRunEditFragment :
         )
         routeEditFragmentTrainNumber.setText(trainRun.trainNumber.toString())
         routeEditFragmentTrainDirection.setText(trainRun.trainDirection, false)
+        trainPeriodicity = trainRun.trainPeriodicity
+        routeEditFragmentPeriodicity.setText(
+            periodicityAdapter.getItem(trainPeriodicity.toInt).toString(), false
+        )
         routeEditFragmentDriver.setText(trainRun.driverName, false)
-        routeEditFragmentPeriodicity.setText("")
         routeEditFragmentTimeTo.setText(trainRun.travelTime.toTimeString)
         routeEditFragmentTimeRest.setText(trainRun.travelRestTime.toTimeString)
         routeEditFragmentTimeFrom.setText(trainRun.backTravelTime.toTimeString)

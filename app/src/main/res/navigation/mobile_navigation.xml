@@ -37,7 +37,8 @@
 
     <fragment
         android:id="@+id/nav_route_edit"
-        android:name="com.example.workschedule.ui.route_edit.RouteEditFragment"
+        android:name="com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment"
         android:label="@string/menu_route_edit"
-        tools:layout="@layout/fragment_route_edit" />
+        tools:layout="@layout/fragment_trainrun_edit" />
+
 </navigation>

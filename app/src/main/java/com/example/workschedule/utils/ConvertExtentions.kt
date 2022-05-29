@@ -29,16 +29,20 @@ val Long.toHoursTimeString: String
         return "$hours"
     }
 
-val List<TrainEntity>.fromDAOListTrain: List<Train> // Экстеншн преобразования списка TrainEntity в Train
+// Экстеншн для перевода строки HH:mm в millis
+val String.timeToMillis: Long
+    get() = this.split(':')[0].toLong() * 60 * 60 * 1000 + this.split(':')[1].toLong() * 60 * 1000
+
+val List<TrainEntity>.fromDTOListTrain: List<Train> // Экстеншн преобразования списка TrainEntity в Train
     get() = this.map { Train(it.id, it.direction) }
 
-val TrainEntity.fromDAO: Train // Экстеншн преобразования TrainEntity в Train
+val TrainEntity.fromDTO: Train // Экстеншн преобразования TrainEntity в Train
     get() = Train(this.id, this.direction)
 
-val Train.toDAO: TrainEntity // Экстеншн преобразования Train в TrainEntity
+val Train.toDTO: TrainEntity // Экстеншн преобразования Train в TrainEntity
     get() = TrainEntity(this.id, this.direction)
 
-val List<DriverEntity>.fromDAOListDriver: List<Driver> // Экстеншн преобразования списка DriverEntity в Driver
+val List<DriverEntity>.fromDTOListDriver: List<Driver> // Экстеншн преобразования списка DriverEntity в Driver
     get() = this.map {
         Driver(
             it.id,
@@ -52,7 +56,7 @@ val List<DriverEntity>.fromDAOListDriver: List<Driver> // Экстеншн пр�
         )
     }
 
-val DriverEntity.fromDAO: Driver // Экстеншн преобразования DriverEntity в Driver
+val DriverEntity.fromDTO: Driver // Экстеншн преобразования DriverEntity в Driver
     get() = Driver(
         this.id,
         this.personnelNumber,
@@ -64,7 +68,7 @@ val DriverEntity.fromDAO: Driver // Экстеншн преобразовани�
         this.accessTrainsId
     )
 
-val Driver.toDAO: DriverEntity // Экстеншн преобразования Driver в DriverEntity
+val Driver.toDTO: DriverEntity // Экстеншн преобразования Driver в DriverEntity
     get() = DriverEntity(
         this.id,
         this.personnelNumber ?: 0,
@@ -76,7 +80,7 @@ val Driver.toDAO: DriverEntity // Экстеншн преобразования 
         this.accessTrainsId
     )
 
-val List<TrainRunEntity>.fromDAOListTrainRun: List<TrainRun> // Экстеншн преобразования списка TrainRunEntity в TrainRun
+val List<TrainRunEntity>.fromDTOListTrainRun: List<TrainRun> // Экстеншн преобразования списка TrainRunEntity в TrainRun
     get() = this.map {
         TrainRun(
             it.id,
@@ -92,7 +96,7 @@ val List<TrainRunEntity>.fromDAOListTrainRun: List<TrainRun> // Экстеншн
         )
     }
 
-val TrainRunEntity.fromDAO: TrainRun // Экстеншн преобразования TrainRunEntity в TrainRun
+val TrainRunEntity.fromDTO: TrainRun // Экстеншн преобразования TrainRunEntity в TrainRun
     get() = TrainRun(
         this.id,
         this.trainId,
@@ -106,7 +110,7 @@ val TrainRunEntity.fromDAO: TrainRun // Экстеншн преобразова�
         this.backTravelTime
     )
 
-val TrainRun.toDAO: TrainRunEntity // Экстеншн преобразования TrainRun в TrainRunEntity
+val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразования TrainRun в TrainRunEntity
     get() = TrainRunEntity(
         this.id,
         this.trainId,
@@ -119,3 +123,10 @@ val TrainRun.toDAO: TrainRunEntity // Экстеншн преобразован�
         this.travelRestTime,
         this.backTravelTime
     )
+
+val Driver.FIO: String  // Экстеншн для выделения фамилии с инициалами из объекта машиниста
+    get() = StringBuilder()
+        .append(this.surname)
+        .append(if (this.name.isNotBlank()) " ${this.name.first()}." else "")
+        .append(if (this.patronymic.isNotBlank()) " ${this.patronymic.first()}." else "")
+        .toString()

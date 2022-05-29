@@ -24,7 +24,7 @@
     <string name="set_button">SET</string>
 
     <string name="edit_route_disembark_time">Disembark time</string>
-    <string name="edit_route_train">Train</string>
+    <string name="edit_route_train_number">Train number</string>
     <string name="edit_route_driver">Driver</string>
     <string name="edit_route_periodicity">Periodicity</string>
     <string name="edit_route_time_to">Time to</string>
@@ -56,4 +56,10 @@
     <!--    Main Activity   -->
     <string name="dataAdded">Data added successfully</string>
     <string name="dataDeleted">Data deleted successfully</string>
+
+    <string name="periodicity_daily">Daily</string>
+    <string name="periodicity_on_even">On Even</string>
+    <string name="periodicity_on_odd">On odd</string>
+    <string name="periodicity_single">Single</string>
+    <string name="edit_route_train_direction">Train direction</string>
 </resources>

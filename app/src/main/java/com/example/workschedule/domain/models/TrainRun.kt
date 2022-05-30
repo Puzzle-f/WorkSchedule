@@ -10,6 +10,7 @@ import java.time.LocalDateTime
  * @param trainId ID поезда
  * @param trainNumber номер поезда
  * @param trainDirection направление поезда
+ * @param trainPeriodicity периодичность поезда
  * @param driverId Id машиниста
  * @param driverName ФИО машиниста
  * @param startTime время отправления
@@ -22,6 +23,7 @@ data class TrainRun(
     val trainId: Int,
     val trainNumber: Int,
     val trainDirection: String,
+    val trainPeriodicity: TrainPeriodicity,
     var driverId: Int,
     var driverName: String,
     val startTime: LocalDateTime,

@@ -54,10 +54,11 @@
     <!--    Main Activity   -->
     <string name="dataAdded">Данные успешно добавлены</string>
     <string name="dataDeleted">Данные успешно удалены</string>
-    <string name="set_button">УСТАНОВИТЬ</string>
     <string name="periodicity_daily">Ежедневно</string>
     <string name="periodicity_on_even">По чётным</string>
     <string name="periodicity_single">Одиночный</string>
     <string name="periodicity_on_odd">По нечётным</string>
     <string name="edit_route_train_number">Номер поезда</string>
+    <string name="edit_periodicity_default_item">Автоматически</string>
+    <string name="edit_train_direction">Направление</string>
 </resources>

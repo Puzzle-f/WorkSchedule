@@ -24,6 +24,10 @@ class DomainRepositoryImpl(
         database.trainRunDao().saveTrainRun(trainRun.toDTO)
     }
 
+    override suspend fun saveTrainRunList(trainRunList: List<TrainRun>) {
+        database.trainRunDao().saveTrainRun(*trainRunList.map { it.toDTO }.toTypedArray())
+    }
+
     override suspend fun deleteTrainRun(trainRunId: Int) {
         database.trainRunDao().deleteTrainRunById(trainRunId)
     }

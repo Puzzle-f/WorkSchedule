@@ -25,6 +25,7 @@
         android:id="@+id/trainEditFragmentSaveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:padding="10dp"
         android:text="@string/save_button"
         app:layout_constraintBottom_toBottomOf="parent"

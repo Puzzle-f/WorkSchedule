@@ -39,6 +39,7 @@ class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBind
     }
 
     override fun initListeners() {
+
         buttonNewDriver.setOnClickListener {
             findNavController().navigate(R.id.nav_driver_edit)
         }

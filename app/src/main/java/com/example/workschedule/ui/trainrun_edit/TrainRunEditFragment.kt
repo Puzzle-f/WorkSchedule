@@ -169,6 +169,8 @@ class TrainRunEditFragment :
             trainPeriodicity = position.toPeriodicity
         }
         routeEditFragmentSaveButton.setOnClickListener {
+            routeEditFragmentTimeTo.clearFocus()
+            routeEditFragmentTimeRest.clearFocus()
             routeEditFragmentTimeFrom.clearFocus()
             val trainDirection = routeEditFragmentTrainDirection.text.toString()
             val trainId = trainsList.find { it.direction == trainDirection }?.id ?: 0

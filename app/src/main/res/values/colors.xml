@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#CF7F85</color>
     <color name="icon_grey">#676768</color>
+    <color name="colorPrimary">#bc214b</color>
+    <color name="colorPrimaryDark">#9e1c40</color>
+    <color name="colorAccent">#D81B60</color>
 </resources>

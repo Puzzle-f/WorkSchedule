@@ -8,14 +8,38 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorOnSecondary">@color/on_secondary</item>
+        <!-- Accent color. -->
+        <item name="colorAccent">@color/accent</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/secondary</item>
         <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@color/secondary</item>
+        <!-- Controls colors. -->
+        <item name="colorControlHighlight">@color/primary_light</item>
+        <item name="colorControlActivated">@color/primary</item>
+        <!-- Text input style. -->
+        <item name="textInputStyle">@style/TextInputTheme</item>
     </style>
 
     <style name="Theme.WorkSchedule.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="Theme.WorkSchedule">
+        <item name="android:textColorPrimary">@color/on_primary</item>
+        <item name="android:textColorSecondary">@color/on_primary</item>
+    </style>
+
+    <style name="PopupTheme" parent="Theme.WorkSchedule">
+        <item name="android:textColorPrimary">@color/on_secondary</item>
+    </style>
+
+    <style name="TextInputTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/secondary_light</item>
+    </style>
+
+    <style name="DropDownTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/secondary_light</item>
     </style>
 </resources>

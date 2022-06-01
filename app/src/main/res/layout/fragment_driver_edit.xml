@@ -98,8 +98,9 @@
         android:padding="10dp"
         android:text="@string/save_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/driverEditFragmentLeftGuideline"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/driverEditFragmentRightGuideline"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/driverEditFragmentCancelButton"
@@ -108,8 +109,8 @@
         android:padding="10dp"
         android:text="@string/cancel_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/driverEditFragmentRightGuideline" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/driverEditFragmentLeftGuideline"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/driverEditFragmentLeftGuideline"

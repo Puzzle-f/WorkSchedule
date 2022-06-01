@@ -27,20 +27,22 @@
         android:layout_height="wrap_content"
         android:enabled="false"
         android:padding="10dp"
+        android:layout_marginTop="25dp"
         android:text="@string/save_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/trainEditFragmentLeftGuideline"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/trainEditFragmentDirectionLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/trainEditFragmentRightGuideline" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/trainEditFragmentCancelButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:layout_marginTop="25dp"
         android:text="@string/cancel_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/trainEditFragmentRightGuideline" />
+        app:layout_constraintTop_toBottomOf="@id/trainEditFragmentDirectionLayout"
+        app:layout_constraintEnd_toEndOf="@id/trainEditFragmentLeftGuideline"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/trainEditFragmentLeftGuideline"

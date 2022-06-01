@@ -18,4 +18,5 @@ interface DomainRepository {
     suspend fun getTrain(trainId: Int): Train
     suspend fun saveTrain(train: Train)
     suspend fun deleteTrain(trainId: Int)
+    suspend fun saveTrainRunList(trainRunList: List<TrainRun>)
 }

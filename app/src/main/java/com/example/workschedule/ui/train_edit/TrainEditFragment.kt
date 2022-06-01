@@ -1,7 +1,10 @@
 package com.example.workschedule.ui.train_edit
 
 import android.os.Bundle
+import android.view.View
+import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -13,10 +16,17 @@ import com.example.workschedule.domain.models.Train
 import com.example.workschedule.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class TrainEditFragment : BaseFragment<FragmentTrainEditBinding>(FragmentTrainEditBinding::inflate) {
+class TrainEditFragment :
+    BaseFragment<FragmentTrainEditBinding>(FragmentTrainEditBinding::inflate) {
 
     private val trainEditViewModel: TrainEditViewModel by viewModel()
     private var trainId: Int? = null
+
+    internal data class EditTextValidation(
+        var validTrainDirection: Boolean = false
+    )
+
+    private val editTextValidation = EditTextValidation()
 
     override fun readArguments(bundle: Bundle) {
         trainId = bundle.getInt(TRAIN_ID)
@@ -25,24 +35,25 @@ class TrainEditFragment : BaseFragment<FragmentTrainEditBinding>(FragmentTrainEd
     override fun initView() {}
 
     override fun initListeners() {
-        binding.trainEditFragmentCancelButton.setOnClickListener {
-            findNavController().navigateUp()
+        binding.trainEditFragmentDirection.addTextChangedListener { text ->
+            editTextValidation.validTrainDirection = !text.isNullOrBlank()
+            checkSaveButtonEnable()
         }
         binding.trainEditFragmentSaveButton.setOnClickListener {
             trainEditViewModel.saveTrain(
-                Train(0, binding.trainEditFragmentDirection.text.toString())
+                Train(trainId ?: 0, binding.trainEditFragmentDirection.text.toString())
             )
             Toast.makeText(activity, getString(R.string.trainEditTrainAdded), Toast.LENGTH_LONG)
                 .show()
             findNavController().navigateUp()
         }
-        binding.trainEditFragmentDirection.doAfterTextChanged {
-            when {
-                it?.isNotEmpty() == true ->
-                    binding.trainEditFragmentSaveButton.isEnabled = true
-                else -> binding.trainEditFragmentSaveButton.isEnabled = false
-            }
+        binding.trainEditFragmentCancelButton.setOnClickListener {
+            findNavController().navigateUp()
         }
+    }
+
+    private fun checkSaveButtonEnable() = with(editTextValidation) {
+        binding.trainEditFragmentSaveButton.isEnabled = validTrainDirection
     }
 
     override fun initObservers() {

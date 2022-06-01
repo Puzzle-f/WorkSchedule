@@ -12,10 +12,7 @@ import com.example.workschedule.domain.usecases.train.DeleteTrainUseCase
 import com.example.workschedule.domain.usecases.train.GetAllTrainsListUseCase
 import com.example.workschedule.domain.usecases.train.GetTrainUseCase
 import com.example.workschedule.domain.usecases.train.SaveTrainUseCase
-import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
-import com.example.workschedule.domain.usecases.trainrun.GetAllTrainsRunListUseCase
-import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
-import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunUseCase
+import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
 import com.example.workschedule.ui.main.MainFragmentViewModel
@@ -37,6 +34,7 @@ val application = module {
         MainFragmentViewModel(
             GetAllTrainsRunListUseCase(repository = get()),
             GetAllDriversListUseCase(repository = get()),
+            SaveTrainRunListUseCase(repository = get()),
             DeleteTrainRunUseCase(repository = get())
         )
     }
@@ -45,7 +43,8 @@ val application = module {
             GetTrainRunUseCase(repository = get()),
             GetAllDriversListUseCase(repository = get()),
             GetAllTrainsListUseCase(repository = get()),
-            SaveTrainRunUseCase(repository = get())
+            SaveTrainRunUseCase(repository = get()),
+            SaveTrainRunListUseCase(repository = get())
         )
     }
     viewModel {

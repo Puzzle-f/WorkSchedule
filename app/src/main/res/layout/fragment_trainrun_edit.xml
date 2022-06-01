@@ -13,8 +13,8 @@
         android:hint="@string/edit_route_departure_time"
         app:endIconDrawable="@drawable/ic_date_and_time"
         app:endIconMode="custom"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -160,6 +160,7 @@
         android:id="@+id/routeEditFragmentSaveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:padding="10dp"
         android:text="@string/save_button"
         app:layout_constraintBottom_toBottomOf="parent"

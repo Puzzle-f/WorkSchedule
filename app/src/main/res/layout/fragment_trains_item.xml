@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/trainsItemContainer"
+    android:id="@+id/mainItemContainer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    app:rippleColor="@color/primary_light"
+    android:elevation="@dimen/card_elevation"
+    android:layout_marginHorizontal="@dimen/margin_horizontal"
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/trainsFragmentRecyclerItemDestination"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Moscow" />
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainsFragmentRecyclerItemDestination" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/gradient_card">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/trainsItemContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/trainsFragmentRecyclerItemDestination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Moscow" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trainsFragmentRecyclerItemDestination" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

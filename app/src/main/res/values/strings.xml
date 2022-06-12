@@ -13,7 +13,7 @@
     <string name="user_name_label">Name</string>
     <string name="user_patronymic">Patronymic</string>
     <string name="menu_driver_edit">Driver</string>
-    <string name="menu_schedule_all_drivers">schedule all drivers</string>
+    <string name="menu_schedule_all_drivers">Schedule all drivers</string>
     <string name="menu_route_edit">Create route</string>
     <string name="menu_edit_set">Set</string>
 

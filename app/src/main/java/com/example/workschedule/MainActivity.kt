@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private val navController: NavController by lazy {
         (supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-        ).navController
+                ).navController
     }
     private val database: ScheduleDataBase by inject()
 
@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_main,
                 R.id.nav_drivers,
                 R.id.nav_trains,
+                R.id.nav_schedule_all_drivers
             ),
             drawerLayout
         )
@@ -132,6 +133,9 @@ class MainActivity : AppCompatActivity() {
                             R.id.nav_drivers ->
                                 navController.navigate(R.id.action_nav_drivers_to_nav_trains)
                         }
+                    }
+                    R.id.nav_schedule_all_drivers -> {
+                        navController.navigate(R.id.action_nav_to_schedule_all_drivers)
                     }
                 }
                 true

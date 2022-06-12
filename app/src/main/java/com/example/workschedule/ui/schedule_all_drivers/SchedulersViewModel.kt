@@ -2,16 +2,17 @@ package com.example.workschedule.ui.schedule_all_drivers
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.workschedule.domain.GetAllDriversListUseCase
-import com.example.workschedule.domain.GetTrainRunListForDriverUseCase
-import com.example.workschedule.ui.schedule_all_drivers.model.HorizontalRVModel
-import com.example.workschedule.ui.schedule_all_drivers.model.VerticalRVModel
+import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
+import com.example.workschedule.domain.usecases.trainrun.GetTrainRunListForDriverUseCase
+import com.example.workschedule.ui.schedule_all_drivers.adapters_model.HorizontalRVModel
+import com.example.workschedule.ui.schedule_all_drivers.adapters_model.VerticalRVModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.format.DateTimeFormatter
 
 class SchedulersViewModel(
     private val getAllDriversListUseCase: GetAllDriversListUseCase,
@@ -43,7 +44,7 @@ class SchedulersViewModel(
         driverTrainRuns.forEach {
             listHorizontalRVModel.add(
                 HorizontalRVModel(
-                    it.startTime.toString(),
+                    it.startTime.format(DateTimeFormatter.ofPattern("dd.MM.y")),
                     it.trainNumber.toString()
                 )
             )

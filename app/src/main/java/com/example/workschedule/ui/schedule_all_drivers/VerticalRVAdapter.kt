@@ -1,41 +1,30 @@
 package com.example.workschedule.ui.schedule_all_drivers
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.VerticalItemBinding
 import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.domain.models.TrainRun
-import com.example.workschedule.ui.schedule_all_drivers.model.Horizontal_RVModel
+import com.example.workschedule.ui.schedule_all_drivers.model.HorizontalRVModel
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
-import kotlinx.coroutines.flow.StateFlow
-import java.util.ArrayList
 
-class Vertical_RVAdapter(
+class VerticalRVAdapter(
     private val driver: Driver,
-    private val trains: List<Horizontal_RVModel>,
-//    private val trains: StateFlow <List<Horizontal_RVModel>>
-) :
-    Section(
-        SectionParameters.builder()
-            .itemResourceId(R.layout.vertical_item)
-//                можно добавить заголовок
-//            .headerResourceId(R.layout.vertical_header)
-            .build()
-    ) {
+    private val trainsRuns: List<HorizontalRVModel>,
+) : Section(
+    SectionParameters.builder()
+        .itemResourceId(R.layout.vertical_item)
+        .build()
+) {
+    override fun getContentItemsTotal() = 1
 
-    override fun getContentItemsTotal(): Int {
-        Log.d("", "trains.value.size = ${trains.size}")
-        return trains.size
-    }
-
-    class ItemViewHolder(val bindingItem: VerticalItemBinding) :
+    inner class ItemViewHolder(private val bindingItem: VerticalItemBinding) :
         RecyclerView.ViewHolder(bindingItem.root) {
         private val horizontalRecyclerView: RecyclerView
-        val horizontalAdapter: Horizontal_RVAdapter
+        private val horizontalAdapter: HorizontalRVAdapter
 
         init {
             val context = itemView.context
@@ -48,8 +37,15 @@ class Vertical_RVAdapter(
                     EqualSpacingItemDecoration.HORIZONTAL
                 )
             )
-            horizontalAdapter = Horizontal_RVAdapter(context)
+            horizontalAdapter = HorizontalRVAdapter()
             horizontalRecyclerView.adapter = horizontalAdapter
+        }
+
+        @SuppressLint("NotifyDataSetChanged")
+        fun bind(position: Int) {
+            bindingItem.subcategoryText.text = driver.surname
+            horizontalAdapter.submitList(trainsRuns)
+            horizontalAdapter.setRowIndex(position)
         }
     }
 
@@ -58,10 +54,6 @@ class Vertical_RVAdapter(
     }
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val itemHolder = holder as ItemViewHolder
-        itemHolder.bindingItem.subcategoryText.text = driver.surname
-        itemHolder.horizontalAdapter.setHorizontalData(trains)
-        itemHolder.horizontalAdapter.setRowIndex(position)
-
+        (holder as ItemViewHolder).bind(position)
     }
 }

@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 class EqualSpacingItemDecoration(
     private val spacing: Int,
     private var displayMode: Int
-) :
-    RecyclerView.ItemDecoration() {
+) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,

@@ -3,10 +3,11 @@ package com.example.workschedule.domain
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.utils.hoursToMillis
 import com.example.workschedule.utils.minutesToMillis
-import com.example.workschedule.utils.toDAO
+import com.example.workschedule.utils.toDTO
 import java.time.LocalDateTime
 import java.time.Month
 
@@ -55,57 +56,65 @@ val driverList = listOf(
 
 val trainRunList = listOf(
     TrainRun(
-        1, 1, 120, "Москва", 0, "",
+        1, 1, 120, "Москва", TrainPeriodicity.SINGLE, 0, "",
         LocalDateTime.of(2022, Month.APRIL, 1, 6, 30),
         8.hoursToMillis + 25.minutesToMillis, 6.hoursToMillis, 8.hoursToMillis
     ),
     TrainRun(
-        2, 4, 48, "Ростов-на-Дону", 0, "",
+        2, 4, 48, "Ростов-на-Дону", TrainPeriodicity.SINGLE, 0, "",
         LocalDateTime.of(2022, Month.APRIL, 1, 12, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
     TrainRun(
-        3, 2, 92, "Санкт-Петербург", 0, "",
+        3, 2, 92, "Санкт-Петербург", TrainPeriodicity.SINGLE, 0, "",
         LocalDateTime.of(2022, Month.APRIL, 1, 16, 30),
         5.hoursToMillis, 5.hoursToMillis, 5.hoursToMillis
     ),
     TrainRun(
-        4, 3, 32, "Краснодар", 0, "",
+        4, 3, 32, "Краснодар", TrainPeriodicity.SINGLE, 0, "",
         LocalDateTime.of(2022, Month.APRIL, 2, 3, 30),
         6.hoursToMillis, 8.hoursToMillis, 6.hoursToMillis
     ),
     TrainRun(
-        5, 5, 51, "Воронеж", 0, "",
+        5, 5, 51, "Воронеж", TrainPeriodicity.SINGLE, 0, "",
         LocalDateTime.of(2022, Month.APRIL, 2, 6, 30),
         7.hoursToMillis, 4.hoursToMillis, 6.hoursToMillis
     ),
     TrainRun(
-        6, 6, 96, "Туапсе", 0, "",
+        6, 6, 96, "Туапсе", TrainPeriodicity.SINGLE, 0, "",
         LocalDateTime.of(2022, Month.APRIL, 2, 22, 30),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis
     ),
     TrainRun(
-        7, 7, 72, "Ставрополь", 0, "",
+        7, 7, 72, "Ставрополь", TrainPeriodicity.SINGLE, 0, "",
         LocalDateTime.of(2022, Month.APRIL, 3, 2, 30),
         7.hoursToMillis, 4.hoursToMillis, 7.hoursToMillis
     ),
     TrainRun(
-        8, 1, 120, "Москва", 0, "",
+        8, 1, 120, "Москва", TrainPeriodicity.SINGLE, 0, "",
         LocalDateTime.of(2022, Month.APRIL, 3, 6, 30),
         8.hoursToMillis, 4.hoursToMillis, 9.hoursToMillis
     ),
     TrainRun(
-        9, 9, 99, "Нижний Новгород", 0, "",
+        9, 9, 99, "Нижний Новгород", TrainPeriodicity.SINGLE, 0, "",
         LocalDateTime.of(2022, Month.APRIL, 3, 8, 30),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis
     )
 )
 
 // Метод записи хард-кода в Базу Данных для демонстрации
-suspend fun saveFakeDataToDB(dataBase: ScheduleDataBase) {
-    trainList.forEach { dataBase.trainDao().saveTrain(it.toDAO) }
-    driverList.forEach { dataBase.driverDao().saveDriver(it.toDAO) }
-    trainRunList.forEach { dataBase.trainRunDao().saveTrainRun(it.toDAO) }
+suspend fun saveFakeDataToDB(database: ScheduleDataBase) {
+    trainList.forEach { database.trainDao().saveTrain(it.toDTO) }
+    driverList.forEach { database.driverDao().saveDriver(it.toDTO) }
+    trainRunList.forEach { database.trainRunDao().saveTrainRun(it.toDTO) }
+}
+
+// Метод очистки базы данных с очисткой ключей автоинкремента
+fun clearDatabase(database: ScheduleDataBase) {
+    database.runInTransaction {
+        database.clearAllTables()
+        database.openHelper.writableDatabase.execSQL("DELETE FROM sqlite_sequence")
+    }
 }
 
 // todo ↑↑↑ Хардкод, после настройки приложения удалить ↑↑↑

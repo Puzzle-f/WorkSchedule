@@ -4,12 +4,20 @@ import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.*
+import com.example.workschedule.domain.usecases.driver.DeleteDriverUseCase
+import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
+import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
+import com.example.workschedule.domain.usecases.driver.SaveDriverUseCase
+import com.example.workschedule.domain.usecases.train.DeleteTrainUseCase
+import com.example.workschedule.domain.usecases.train.GetAllTrainsListUseCase
+import com.example.workschedule.domain.usecases.train.GetTrainUseCase
+import com.example.workschedule.domain.usecases.train.SaveTrainUseCase
+import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
 import com.example.workschedule.ui.main.MainFragmentViewModel
-import com.example.workschedule.ui.route_edit.DateTimePickerViewModel
-import com.example.workschedule.ui.route_edit.RouteEditViewModel
 import com.example.workschedule.ui.schedule_all_drivers.SchedulersViewModel
+import com.example.workschedule.ui.trainrun_edit.TrainRunEditViewModel
 import com.example.workschedule.ui.train_edit.TrainEditViewModel
 import com.example.workschedule.ui.trains.TrainsViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -27,17 +35,19 @@ val application = module {
         MainFragmentViewModel(
             GetAllTrainsRunListUseCase(repository = get()),
             GetAllDriversListUseCase(repository = get()),
+            SaveTrainRunListUseCase(repository = get()),
             DeleteTrainRunUseCase(repository = get())
         )
     }
     viewModel {
-        RouteEditViewModel(
+        TrainRunEditViewModel(
+            GetTrainRunUseCase(repository = get()),
             GetAllDriversListUseCase(repository = get()),
             GetAllTrainsListUseCase(repository = get()),
-            SaveTrainRunUseCase(repository = get())
+            SaveTrainRunUseCase(repository = get()),
+            SaveTrainRunListUseCase(repository = get())
         )
     }
-    viewModel { DateTimePickerViewModel() }
     viewModel {
         DriversViewModel(
             GetAllDriversListUseCase(repository = get()),

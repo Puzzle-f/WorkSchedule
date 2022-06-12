@@ -9,7 +9,7 @@ import com.example.workschedule.domain.models.Driver
 @Dao
 interface TrainRunDao {
     //    Получить все поездки
-    @Query("SELECT * FROM TrainRunEntity")
+    @Query("SELECT * FROM TrainRunEntity ORDER BY startTime")
     suspend fun getAllTrainRuns(): List<TrainRunEntity>
 
     //    Получить поездку по номеру id поездки
@@ -20,9 +20,9 @@ interface TrainRunDao {
     @Query("SELECT * FROM TrainRunEntity WHERE driverId LIKE :driverId")
     suspend fun getTrainRunByDriverId(driverId: Int): List<TrainRunEntity>
 
-    //    сформировать поездку
+    //    Сохранить поездку
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveTrainRun(trainRun: TrainRunEntity)
+    suspend fun saveTrainRun(vararg trainRun: TrainRunEntity)
 
     @Query("DELETE FROM TrainRunEntity WHERE id = :trainRunId")
     suspend fun deleteTrainRunById(trainRunId: Int)

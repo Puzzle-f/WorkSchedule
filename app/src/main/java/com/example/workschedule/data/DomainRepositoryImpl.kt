@@ -12,16 +12,20 @@ class DomainRepositoryImpl(
 ) : DomainRepository {
 
     override suspend fun getAllTrainsRunList(): List<TrainRun> =
-        database.trainRunDao().getAllTrainRuns().fromDAOListTrainRun
+        database.trainRunDao().getAllTrainRuns().fromDTOListTrainRun
 
     override suspend fun getTrainRun(trainRunId: Int): TrainRun =
-        database.trainRunDao().getTrainRunById(trainRunId).fromDAO
+        database.trainRunDao().getTrainRunById(trainRunId).fromDTO
 
     override suspend fun getTrainRunListForDriverId(driverId: Int): List<TrainRun> =
-        database.trainRunDao().getTrainRunByDriverId(driverId).fromDAOListTrainRun
+        database.trainRunDao().getTrainRunByDriverId(driverId).fromDTOListTrainRun
 
     override suspend fun saveTrainRun(trainRun: TrainRun) {
-        database.trainRunDao().saveTrainRun(trainRun.toDAO)
+        database.trainRunDao().saveTrainRun(trainRun.toDTO)
+    }
+
+    override suspend fun saveTrainRunList(trainRunList: List<TrainRun>) {
+        database.trainRunDao().saveTrainRun(*trainRunList.map { it.toDTO }.toTypedArray())
     }
 
     override suspend fun deleteTrainRun(trainRunId: Int) {
@@ -29,13 +33,13 @@ class DomainRepositoryImpl(
     }
 
     override suspend fun getAllDriversList(): List<Driver> =
-        database.driverDao().getAllDrivers().fromDAOListDriver
+        database.driverDao().getAllDrivers().fromDTOListDriver
 
     override suspend fun getDriver(driverId: Int): Driver =
-        database.driverDao().getDriverById(driverId).fromDAO
+        database.driverDao().getDriverById(driverId).fromDTO
 
     override suspend fun saveDriver(driver: Driver) {
-        database.driverDao().saveDriver(driver.toDAO)
+        database.driverDao().saveDriver(driver.toDTO)
     }
 
     override suspend fun deleteDriver(driverId: Int) {
@@ -43,13 +47,13 @@ class DomainRepositoryImpl(
     }
 
     override suspend fun getAllTrainsList(): List<Train> =
-        database.trainDao().getAllTrains().fromDAOListTrain
+        database.trainDao().getAllTrains().fromDTOListTrain
 
     override suspend fun getTrain(trainId: Int): Train =
-        database.trainDao().getTrainById(trainId).fromDAO
+        database.trainDao().getTrainById(trainId).fromDTO
 
     override suspend fun saveTrain(train: Train) {
-        database.trainDao().saveTrain(train.toDAO)
+        database.trainDao().saveTrain(train.toDTO)
     }
 
     override suspend fun deleteTrain(trainId: Int) {

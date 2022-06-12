@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriversItemBinding
 import com.example.workschedule.domain.models.Driver
+import com.example.workschedule.utils.FIO
 import com.example.workschedule.utils.toHoursTimeString
 
 class DriversFragmentAdapter(
@@ -46,10 +47,7 @@ class DriversFragmentAdapter(
         fun bind(position: Int) = with(binding) {
             driversFragmentRecyclerItemPersonnelNumber.text =
                 currentList[position].personnelNumber.toString()
-            driversFragmentRecyclerItemDriverFIO.text =
-                "${currentList[position].surname} " +
-                        "${currentList[position].name.first()}. " +
-                        "${currentList[position].patronymic.first()}."
+            driversFragmentRecyclerItemDriverFIO.text = currentList[position].FIO
             driversFragmentRecyclerItemHours.text =
                 currentList[position].workedTime.toHoursTimeString + "/" +
                         currentList[position].totalTime.toHoursTimeString

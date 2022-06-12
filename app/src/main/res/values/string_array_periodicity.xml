@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="periodicity">
+        <item>@string/periodicity_single</item>
+        <item>@string/periodicity_on_odd</item>
+        <item>@string/periodicity_on_even</item>
+        <item>@string/periodicity_daily</item>
+    </string-array>
+</resources>

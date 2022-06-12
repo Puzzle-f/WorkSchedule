@@ -1,12 +1,11 @@
 package com.example.workschedule.ui.train_edit
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,32 +13,50 @@ import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainEditBinding
 import com.example.workschedule.domain.models.Train
+import com.example.workschedule.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class TrainEditFragment : Fragment() {
+class TrainEditFragment :
+    BaseFragment<FragmentTrainEditBinding>(FragmentTrainEditBinding::inflate) {
 
     private val trainEditViewModel: TrainEditViewModel by viewModel()
-    private var _binding: FragmentTrainEditBinding? = null
-    private val binding
-        get() = _binding ?: throw RuntimeException("FragmentTrainEditBinding? = null")
     private var trainId: Int? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentTrainEditBinding.inflate(inflater, container, false)
-        arguments?.let {
-            trainId = it.getInt(TRAIN_ID)
+    internal data class EditTextValidation(
+        var validTrainDirection: Boolean = false
+    )
+
+    private val editTextValidation = EditTextValidation()
+
+    override fun readArguments(bundle: Bundle) {
+        trainId = bundle.getInt(TRAIN_ID)
+    }
+
+    override fun initView() {}
+
+    override fun initListeners() {
+        binding.trainEditFragmentDirection.addTextChangedListener { text ->
+            editTextValidation.validTrainDirection = !text.isNullOrBlank()
+            checkSaveButtonEnable()
         }
-        return binding.root
+        binding.trainEditFragmentSaveButton.setOnClickListener {
+            trainEditViewModel.saveTrain(
+                Train(trainId ?: 0, binding.trainEditFragmentDirection.text.toString())
+            )
+            Toast.makeText(activity, getString(R.string.trainEditTrainAdded), Toast.LENGTH_LONG)
+                .show()
+            findNavController().navigateUp()
+        }
+        binding.trainEditFragmentCancelButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
+    private fun checkSaveButtonEnable() = with(editTextValidation) {
+        binding.trainEditFragmentSaveButton.isEnabled = validTrainDirection
     }
 
-    private fun initView() {
+    override fun initObservers() {
         trainId?.let {
             lifecycleScope.launchWhenStarted {
                 trainEditViewModel.train
@@ -52,35 +69,6 @@ class TrainEditFragment : Fragment() {
             }
             trainEditViewModel.getTrain(it)
         }
-        binding.trainEditFragmentSaveButton.setOnClickListener {
-            trainEditViewModel.saveTrain(
-                Train(
-                    0,
-                    binding.trainEditFragmentDirection.text.toString()
-                )
-            )
-            Toast.makeText(
-                activity,
-                getString(R.string.trainEditTrainAdded),
-                Toast.LENGTH_LONG
-            ).show()
-            findNavController().navigateUp()
-        }
-        binding.trainEditFragmentCancelButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
-        binding.trainEditFragmentDirection.doAfterTextChanged {
-            when {
-                it?.isNotEmpty() == true ->
-                    binding.trainEditFragmentSaveButton.isEnabled = true
-                else -> binding.trainEditFragmentSaveButton.isEnabled = false
-            }
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

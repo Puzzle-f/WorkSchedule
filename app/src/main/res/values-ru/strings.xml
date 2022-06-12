@@ -3,35 +3,37 @@
     <string name="app_name">WorkSchedule</string>
     <string name="navigation_drawer_open">Открыть навигационное меню</string>
     <string name="navigation_drawer_close">Закрыть навигационное меню</string>
-    <string name="nav_header_title">Рабочее расписание</string>
+    <string name="nav_header_title">Главная</string>
     <string name="nav_header_desc">Заголовок навигации</string>
     <string name="action_settings">Настройки</string>
 
-    <string name="menu_main">Главная</string>
+    <string name="menu_main">Расписание выездов</string>
 
     <string name="user_surname_label">Фамилия</string>
     <string name="user_name_label">Имя</string>
     <string name="user_patronymic">Отчество</string>
     <string name="menu_driver_edit">Машинист</string>
-    <string name="menu_route_edit">Маршрут</string>
     <string name="menu_schedule_all_drivers">График всех машинистов</string>
+    <string name="menu_route_edit">Создать выезд</string>
     <string name="menu_edit_set">Установить</string>
 
     <string name="edit_driver_routes_admittance">Допуски к рейсам:</string>
+    <string name="add_new_driver">Добавить машиниста</string>
 
     <string name="save_button">СОХРАНИТЬ</string>
     <string name="cancel_button">ОТМЕНА</string>
 
-    <string name="edit_route_disembark_time">Время выезда</string>
-    <string name="edit_route_train">Поезд</string>
+    <string name="edit_route_departure_time">Время отправления</string>
+    <string name="edit_route_train_direction">Направление поезда</string>
     <string name="edit_route_driver">Машинист</string>
     <string name="edit_route_periodicity">Повторяемость</string>
     <string name="edit_route_time_to">Время туда</string>
     <string name="edit_route_rest_time">Отдых там</string>
     <string name="edit_route_time_from">Время обратно</string>
+    <string name="add_new_route">Добавить выезд</string>
 
     <string name="edit_train_number">Номер поезда</string>
-    <string name="edit_train_direction">Направление</string>
+    <string name="add_new_train">Добавить маршрут</string>
 
     <string name="context_menu_edit">Редактировать</string>
     <string name="context_menu_delete">Удалить</string>
@@ -46,7 +48,7 @@
     <string name="date">Дата</string>
     <string name="train_number_example">номер</string>
 
-    <!--Фрагменты-->
+    <!--    Фрагменты   -->
     <string name="driverEditDataInputIncorrect">Введите корректные данные</string>
     <string name="driverEditDataInputSuccess">Машинист успешно добавлен</string>
     <string name="mainTableFilled">Таблица выездов заполнена машинистами</string>
@@ -55,4 +57,11 @@
     <!--    Main Activity   -->
     <string name="dataAdded">Данные успешно добавлены</string>
     <string name="dataDeleted">Данные успешно удалены</string>
+    <string name="periodicity_daily">Ежедневно</string>
+    <string name="periodicity_on_even">По чётным</string>
+    <string name="periodicity_single">Одиночный</string>
+    <string name="periodicity_on_odd">По нечётным</string>
+    <string name="edit_route_train_number">Номер поезда</string>
+    <string name="edit_periodicity_default_item">Автоматически</string>
+    <string name="edit_train_direction">Направление</string>
 </resources>

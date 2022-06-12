@@ -8,20 +8,86 @@
     <fragment
         android:id="@+id/nav_main"
         android:name="com.example.workschedule.ui.main.MainFragment"
-        android:label="@string/menu_main"
-        tools:layout="@layout/fragment_main" />
-
-    <fragment
-        android:id="@+id/nav_trains"
-        android:name="com.example.workschedule.ui.trains.TrainsFragment"
-        android:label="@string/menu_trains"
-        tools:layout="@layout/fragment_trains" />
+        android:label="@string/nav_header_title"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_nav_main_to_nav_route_edit"
+            app:destination="@id/nav_route_edit"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_nav_main_to_nav_drivers"
+            app:destination="@id/nav_drivers"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_main_to_nav_trains"
+            app:destination="@id/nav_trains"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_drivers"
         android:name="com.example.workschedule.ui.drivers.DriversFragment"
         android:label="@string/drivers"
-        tools:layout="@layout/fragment_drivers" />
+        tools:layout="@layout/fragment_drivers" >
+        <action
+            android:id="@+id/action_nav_drivers_to_nav_driver_edit"
+            app:destination="@id/nav_driver_edit"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_nav_drivers_to_nav_main"
+            app:destination="@id/nav_main"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_drivers_to_nav_trains"
+            app:destination="@id/nav_trains"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_trains"
+        android:name="com.example.workschedule.ui.trains.TrainsFragment"
+        android:label="@string/menu_trains"
+        tools:layout="@layout/fragment_trains" >
+        <action
+            android:id="@+id/action_nav_trains_to_nav_train_edit"
+            app:destination="@id/nav_train_edit"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_nav_trains_to_nav_main"
+            app:destination="@id/nav_main"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_trains_to_nav_drivers"
+            app:destination="@id/nav_drivers"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_train_edit"
@@ -37,16 +103,10 @@
 
     <fragment
         android:id="@+id/nav_route_edit"
-        android:name="com.example.workschedule.ui.route_edit.RouteEditFragment"
+        android:name="com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment"
         android:label="@string/menu_route_edit"
-        tools:layout="@layout/fragment_route_edit" />
-
-    <fragment
-        android:id="@+id/nav_route_datetime_edit"
-        android:name="com.example.workschedule.ui.route_edit.DateTimePickerFragment"
-        android:label="@string/menu_route_edit"
-        tools:layout="@layout/fragment_route_datetime_edit" />
-
+        tools:layout="@layout/fragment_trainrun_edit" />
+  
     <fragment
         android:id="@+id/schedule_all_drivers"
         android:name="com.example.workschedule.ui.schedule_all_drivers.SchedulersFragment"

@@ -2,15 +2,17 @@ package com.example.workschedule.ui.driver_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.workschedule.domain.GetAllTrainsListUseCase
-import com.example.workschedule.domain.GetDriverUseCase
-import com.example.workschedule.domain.SaveDriverUseCase
+import com.example.workschedule.domain.usecases.train.GetAllTrainsListUseCase
+import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
+import com.example.workschedule.domain.usecases.driver.SaveDriverUseCase
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DriverEditViewModel(
     private val getDriverUseCase: GetDriverUseCase,
@@ -24,18 +26,18 @@ class DriverEditViewModel(
 
     fun getDriver(driverId: Int) {
         viewModelScope.launch {
-            _driver.emit(getDriverUseCase.execute(driverId))
+            _driver.emit(withContext(Dispatchers.IO) { getDriverUseCase.execute(driverId) })
         }
     }
 
     fun getTrains() {
         viewModelScope.launch {
-            _trains.emit(getAllTrainsListUseCase.execute())
+            _trains.emit(withContext(Dispatchers.IO) { getAllTrainsListUseCase.execute() })
         }
     }
 
     fun saveDriver(driver: Driver) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             saveDriverUseCase.execute(driver)
         }
     }

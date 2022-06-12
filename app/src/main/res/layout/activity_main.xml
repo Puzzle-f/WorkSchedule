@@ -18,8 +18,9 @@
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@drawable/gradient_navigation"
         android:layout_gravity="start"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:fitsSystemWindows="false"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>

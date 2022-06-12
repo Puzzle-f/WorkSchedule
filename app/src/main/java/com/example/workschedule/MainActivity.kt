@@ -70,8 +70,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_main,
                 R.id.nav_drivers,
-                R.id.nav_trains,
-                R.id.nav_schedule_all_drivers
+                R.id.nav_trains
             ),
             drawerLayout
         )

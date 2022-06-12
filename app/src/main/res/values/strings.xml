@@ -13,6 +13,7 @@
     <string name="user_name_label">Name</string>
     <string name="user_patronymic">Patronymic</string>
     <string name="menu_driver_edit">Driver</string>
+    <string name="menu_schedule_all_drivers">schedule all drivers</string>
     <string name="menu_route_edit">Create route</string>
     <string name="menu_edit_set">Set</string>
 
@@ -29,6 +30,8 @@
     <string name="edit_route_time_to">Time to</string>
     <string name="edit_route_rest_time">Rest</string>
     <string name="edit_route_time_from">Time from</string>
+    <string name="date">Date</string>
+    <string name="train_number_example">number</string>
     <string name="add_new_route">Add new route</string>
 
     <string name="edit_train_number">Train number</string>

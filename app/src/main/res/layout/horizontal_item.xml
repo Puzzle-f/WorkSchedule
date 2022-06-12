@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/item_horizontal_layout"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:background="@color/icon_grey"
+android:orientation="vertical">
+
+
+<TextView
+    android:id="@+id/item_date"
+    android:layout_width="40dp"
+    android:layout_height="10dp"
+    android:gravity="center"
+    android:text="@string/date"
+    android:layout_marginBottom="1dp"
+    android:textColor="@android:color/white"
+    android:textStyle="bold"
+    android:textSize="8sp"/>
+
+    <TextView
+        android:id="@+id/item_train_number"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:text="@string/train_number_example"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginEnd="3dp"
+        android:layout_marginStart="3dp"/>
+
+</LinearLayout>

@@ -13,6 +13,7 @@
     <string name="user_name_label">Имя</string>
     <string name="user_patronymic">Отчество</string>
     <string name="menu_driver_edit">Машинист</string>
+    <string name="menu_schedule_all_drivers">График всех машинистов</string>
     <string name="menu_route_edit">Создать выезд</string>
     <string name="menu_edit_set">Установить</string>
 
@@ -44,6 +45,8 @@
     <string name="id">Табельный номер</string>
     <string name="action_fill_db_for_demonstration">Заполнить БД для демонстрации</string>
     <string name="action_clear_db">Очистить БД</string>
+    <string name="date">Дата</string>
+    <string name="train_number_example">номер</string>
 
     <!--    Фрагменты   -->
     <string name="driverEditDataInputIncorrect">Введите корректные данные</string>

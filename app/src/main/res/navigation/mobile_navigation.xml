@@ -106,4 +106,11 @@
         android:name="com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment"
         android:label="@string/menu_route_edit"
         tools:layout="@layout/fragment_trainrun_edit" />
+  
+    <fragment
+        android:id="@+id/schedule_all_drivers"
+        android:name="com.example.workschedule.ui.schedule_all_drivers.SchedulersFragment"
+        android:label="@string/menu_driver_edit"
+        tools:layout="@layout/fragment_schedule_all_drivers" />
+
 </navigation>

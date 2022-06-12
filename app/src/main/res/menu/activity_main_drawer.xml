@@ -16,5 +16,9 @@
             android:id="@+id/nav_trains"
             android:icon="@android:drawable/ic_menu_sort_alphabetically"
             android:title="@string/menu_trains" />
+        <item
+            android:id="@+id/schedule_all_drivers"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="@string/menu_schedule_all_drivers" />
     </group>
 </menu>

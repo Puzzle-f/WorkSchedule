@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.VerticalItemBinding
 import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.ui.schedule_all_drivers.model.HorizontalRVModel
+import com.example.workschedule.ui.schedule_all_drivers.adapters_model.HorizontalRVModel
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 

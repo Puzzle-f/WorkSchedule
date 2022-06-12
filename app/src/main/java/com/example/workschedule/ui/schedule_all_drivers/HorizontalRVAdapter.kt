@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.databinding.HorizontalItemBinding
-import com.example.workschedule.ui.schedule_all_drivers.model.HorizontalRVModel
+import com.example.workschedule.ui.schedule_all_drivers.adapters_model.HorizontalRVModel
 
 class HorizontalRVAdapter :
     ListAdapter<HorizontalRVModel, HorizontalRVAdapter.ItemViewHolder>(HorizontalCallback) {

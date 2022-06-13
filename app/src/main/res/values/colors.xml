@@ -25,4 +25,7 @@
 
     <color name="navigation_gradient_dark">#82A5E2</color>
     <color name="navigation_gradient_light">#F8D4DF</color>
+
+    <color name="main_gradient_dark">#DDE7FA</color>
+    <color name="main_gradient_light">#F4E5E9</color>
 </resources>

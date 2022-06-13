@@ -163,10 +163,9 @@
         android:enabled="false"
         android:padding="10dp"
         android:text="@string/save_button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/routeEditFragmentButtonsGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/routeEditFragmentGuidelineRight" />
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/routeEditFragmentCancelButton"
@@ -174,10 +173,9 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="@string/cancel_button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/routeEditFragmentButtonsGuideline"
         app:layout_constraintEnd_toEndOf="@id/routeEditFragmentGuidelineLeft"
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/routeEditFragmentGuidelineLeft"
@@ -192,4 +190,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.55" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/routeEditFragmentButtonsGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
 </androidx.constraintlayout.widget.ConstraintLayout>

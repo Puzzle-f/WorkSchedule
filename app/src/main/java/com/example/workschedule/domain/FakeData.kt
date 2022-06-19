@@ -14,7 +14,7 @@ import java.time.Month
 // todo ↓↓↓ Хардкод, после настройки приложения удалить ↓↓↓
 
 const val restHours = 16  // Константа опряделяющая количество часов отдыха после работы
-
+const val secondNightWorkBan = true // Константа условия запрета двух ночей подряд
 
 val trainList = listOf(
     Train(1, "Москва"),

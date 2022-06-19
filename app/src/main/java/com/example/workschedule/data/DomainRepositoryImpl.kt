@@ -42,6 +42,10 @@ class DomainRepositoryImpl(
         database.driverDao().saveDriver(driver.toDTO)
     }
 
+    override suspend fun saveDriverList(driverList: List<Driver>) {
+        database.driverDao().saveDriverList(driverList.toDTOListDriver)
+    }
+
     override suspend fun deleteDriver(driverId: Int) {
         database.driverDao().deleteDriverById(driverId)
     }

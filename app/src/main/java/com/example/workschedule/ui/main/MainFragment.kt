@@ -52,14 +52,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
                     adapter.submitList(it)
+                    if (it.isNotEmpty()) {
+                        Toast.makeText(
+                            activity, getString(R.string.mainTableFilled), Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
         }
         mainFragmentViewModel.getTrainsRunList()
-        if (adapter.currentList.isNotEmpty()) {
-            Toast.makeText(
-                activity, getString(R.string.mainTableFilled), Toast.LENGTH_LONG
-            ).show()
-        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {

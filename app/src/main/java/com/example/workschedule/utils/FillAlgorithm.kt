@@ -117,20 +117,20 @@ fun List<TrainRun>.fillTrainRunListWithDrivers(drivers: List<Driver>): List<Trai
                 } // Отсеиваем по условию работы двух ночей подряд
                 // Из оставшихся выбираем того машиниста, у которого меньше всего отработано часов
                 .minByOrNull { it.totalTime }?.id ?: 0
-            if (trainRun.driverId != 0) { //  то заполняем поля выезда
-                with(drivers.find { it.id == trainRun.driverId }) {
-                    this?.let {
-                        trainRun.driverName = it.FIO
+            if (trainRun.driverId != 0) { // Если машинист найден
+                drivers.find { it.id == trainRun.driverId }?.let { driver ->
+                    trainRun.driverName = driver.FIO
+                    // Рассчитываем рабочее время в поездке
+                    val workTime = trainRun.travelTime + trainRun.backTravelTime
+                    driver.totalTime = driver.totalTime.plus(workTime)
+                    val travelEndTime = trainRun.startTime.plus(
+                        trainRun.travelTime + trainRun.travelRestTime + trainRun.backTravelTime,
+                        ChronoUnit.MILLIS
+                    )
+                    if (LocalDateTime.now() > travelEndTime) {
+                        driver.workedTime = driver.workedTime.plus(workTime)
                     }
-                }
-                // Рассчитываем рабочее время в поездке
-                val workTime = drivers.find { it.id == trainRun.driverId }?.totalTime?.plus(
-                    trainRun.travelTime + trainRun.backTravelTime
-                )
-                // Если расчет успешный прибавляем время поездки к рабочему времени машиниста
-                if (workTime != null) {
-                    drivers.find { it.id == trainRun.driverId }?.totalTime = workTime
-                }
+                } //  то заполняем поля выезда и
             } else {
                 // Вернуть сообщение, что не хватает машинистов для закрытия всех выездов
             }

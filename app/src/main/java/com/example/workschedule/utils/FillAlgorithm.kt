@@ -29,34 +29,35 @@ fun getBusyOrRestDriversIdsOnTime(trainRunList: List<TrainRun>, time: LocalDateT
  * которые были прошлую ночь в рейсе и попадают в ночь в этом выезде. Т.е. списка тех кого нельзя ставить на новый выезд в
  * определенное время.
  */
-fun getDriversIdsWhoWorkSecondNight(trainRunList: List<TrainRun>, time: LocalDateTime): List<Int> {
+fun getDriversIdsWhoWorkSecondNight(
+    trainRunList: List<TrainRun>, currentTrainRun: TrainRun, drivers: List<Driver>
+): List<Int> {
     fun periodInNight(
-        searchDay: LocalDateTime,
-        startTime: LocalDateTime,
-        endTime: LocalDateTime
+        searchDay: LocalDateTime, startTime: LocalDateTime, endTime: LocalDateTime
     ): Boolean {
         val nightStart = searchDay.toLocalDate().atStartOfDay()
         val nightEnd = nightStart.plusHours(6)
         return startTime <= nightEnd && endTime >= nightStart
     }
-    return trainRunList
+
+    val lastNightWorkDriversIdList = trainRunList
         .asSequence()
         .filter { it.driverId > 0 } // Отсеиваем записи в которых машинисты еще не назначены
         .filter {
-            time.minusDays(1).toLocalDate().atStartOfDay() > it.startTime.plus(
+            currentTrainRun.startTime.minusDays(1).toLocalDate().atStartOfDay() > it.startTime.plus(
                 it.travelTime + it.travelRestTime + it.backTravelTime,
                 ChronoUnit.MILLIS
             )
         }   // Отсеиваем тех у кого смена закончилась до вчерашней ночи
         .filter {
             periodInNight(
-                time.minusDays(1),
+                currentTrainRun.startTime.minusDays(1),
                 it.startTime,
                 it.startTime.plus(
                     it.travelTime, ChronoUnit.MILLIS
                 )
             ) || periodInNight(
-                time.minusDays(1),
+                currentTrainRun.startTime.minusDays(1),
                 it.startTime.plus(
                     it.travelTime + it.travelRestTime, ChronoUnit.MILLIS
                 ),
@@ -65,26 +66,44 @@ fun getDriversIdsWhoWorkSecondNight(trainRunList: List<TrainRun>, time: LocalDat
                 )
             )
         }   // Выбираем тех, кто работал в прошлую ночь
-        .filter {
-            periodInNight(
-                time,
-                it.startTime,
-                it.startTime.plus(
-                    it.travelTime, ChronoUnit.MILLIS
-                )
-            ) || periodInNight(
-                time,
-                it.startTime.plus(
-                    it.travelTime + it.travelRestTime, ChronoUnit.MILLIS
-                ),
-                it.startTime.plus(
-                    it.travelTime + it.travelRestTime + it.backTravelTime, ChronoUnit.MILLIS
-                )
-            )
-        }   // Выбираем тех, кто попадёт в работу в нынешнюю ночь
         .map { it.driverId }    // Мапим в список их Id
         .toList()
+    val startTime = currentTrainRun.startTime
+    val currentTrainRunInNight =
+        periodInNight(
+            startTime, startTime, startTime.plus(
+                currentTrainRun.travelTime, ChronoUnit.MILLIS
+            )
+        ) || periodInNight(
+            startTime, startTime.plus(
+                currentTrainRun.travelTime + currentTrainRun.travelRestTime, ChronoUnit.MILLIS
+            ),
+            startTime.plus(
+                currentTrainRun.travelTime + currentTrainRun.travelRestTime + currentTrainRun.backTravelTime,
+                ChronoUnit.MILLIS
+            )
+        )
+    return if (!currentTrainRunInNight) {
+        listOf()
+    } else {
+        drivers.getFreeDriversForTrainRun(
+            trainRunList, currentTrainRun
+        ) // Берем список свободных машинистов на данное направление
+            .map { it.id } // Мапим их Id в список
+            .filter { it in lastNightWorkDriversIdList } // Оставляем тех, кто работал прошлой ночью
+    }
 }
+
+fun List<Driver>.getFreeDriversForTrainRun(
+    trainRunList: List<TrainRun>, trainRun: TrainRun
+): List<Driver> =
+    this // Берём список машинистов
+        // Отсеиваем тех, кто не имеет доступа к этому поезду
+        .filter { trainRun.trainId in it.accessTrainsId }
+        // Отсеиваем тех кто занят или на отдыхе после выезда
+        .filter {
+            it.id !in getBusyOrRestDriversIdsOnTime(trainRunList, trainRun.startTime)
+        }
 
 /**
  * Метод для заполнения списка выезда поездов машинистами из списка машинистов по алгоритму
@@ -92,17 +111,11 @@ fun getDriversIdsWhoWorkSecondNight(trainRunList: List<TrainRun>, time: LocalDat
 fun List<TrainRun>.fillTrainRunListWithDrivers(drivers: List<Driver>): List<TrainRun> {
     this.forEach { trainRun ->  // Для каждого выезда поезда
         if (trainRun.driverId == 0) {   // Если машинист не назначен
-            trainRun.driverId = drivers // Берём список машинистов
-                // Отсеиваем тех, кто не имеет доступа к этому поезду
-                .filter { trainRun.trainId in it.accessTrainsId }
-                // Отсеиваем тех кто занят или на отдыхе после выезда
-                .filter {
-                    it.id !in getBusyOrRestDriversIdsOnTime(this, trainRun.startTime)
-                }
+            trainRun.driverId = drivers.getFreeDriversForTrainRun(this, trainRun)
                 // Отсеиваем по условию работы двух ночей подряд
                 .filter {
                     if (secondNightWorkBan) {
-                        it.id !in getDriversIdsWhoWorkSecondNight(this, trainRun.startTime)
+                        it.id !in getDriversIdsWhoWorkSecondNight(this, trainRun, drivers)
                     } else {
                         true
                     }

@@ -40,12 +40,6 @@ class MainFragmentViewModel(
         }
     }
 
-    fun clearListTrainRun(){
-        viewModelScope.launch {
-            deleteTrainRunUseCase.executeAll()
-        }
-    }
-
     fun deleteTrainRun(trainRunId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteTrainRunUseCase.execute(trainRunId)

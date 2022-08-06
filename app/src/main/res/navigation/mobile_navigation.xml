@@ -78,7 +78,7 @@
     <fragment
         android:id="@+id/nav_trains"
         android:name="com.example.workschedule.ui.trains.TrainsFragment"
-        android:label="@string/menu_trains"
+        android:label="@string/menu_direction"
         tools:layout="@layout/fragment_trains" >
         <action
             android:id="@+id/action_nav_trains_to_nav_train_edit"

@@ -17,16 +17,19 @@ import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.databinding.ActivityMainBinding
 import com.example.workschedule.domain.clearDatabase
 import com.example.workschedule.domain.saveFakeDataToDB
+import com.example.workschedule.ui.main.MainFragmentViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val mainViewModel: MainViewModel by viewModel()
     private val navController: NavController by lazy {
         (supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
@@ -54,6 +57,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_clear_db -> {
                 actionWithDatabase(R.string.dataDeleted) { clearDatabase(it) }
+            }
+            R.id.action_clear_train_run -> {
+                mainViewModel.clearTrainRun()
             }
         }
         return super.onOptionsItemSelected(item)

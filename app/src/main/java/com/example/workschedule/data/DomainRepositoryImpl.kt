@@ -32,6 +32,10 @@ class DomainRepositoryImpl(
         database.trainRunDao().deleteTrainRunById(trainRunId)
     }
 
+    override suspend fun deleteAllTrainRuns() {
+        database.trainRunDao().deleteAllTrainRuns()
+    }
+
     override suspend fun getAllDriversList(): List<Driver> =
         database.driverDao().getAllDrivers().fromDTOListDriver
 

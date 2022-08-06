@@ -9,4 +9,6 @@
     <item android:id="@+id/action_delete_from_context"
         android:title="@string/context_menu_delete"
         app:showAsAction="never"/>
+
+
 </menu>

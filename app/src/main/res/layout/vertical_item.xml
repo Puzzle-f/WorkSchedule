@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/subcategory_text"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/vertical_item_name_text_margin"
         android:background="@color/primary_dark"

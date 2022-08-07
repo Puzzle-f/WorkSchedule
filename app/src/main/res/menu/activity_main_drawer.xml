@@ -15,7 +15,7 @@
         <item
             android:id="@+id/nav_trains"
             android:icon="@android:drawable/ic_menu_sort_alphabetically"
-            android:title="@string/menu_trains" />
+            android:title="@string/menu_direction" />
         <item
             android:id="@+id/nav_schedule_all_drivers"
             android:icon="@android:drawable/ic_menu_info_details"

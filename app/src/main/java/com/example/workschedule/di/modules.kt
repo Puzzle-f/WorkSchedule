@@ -1,7 +1,6 @@
 package com.example.workschedule.di
 
 import androidx.room.Room
-import com.example.workschedule.MainViewModel
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.*
@@ -78,11 +77,6 @@ val application = module {
         SchedulersViewModel(
             GetAllDriversListUseCase(repository = get()),
             GetTrainRunListForDriverUseCase(repository = get())
-        )
-    }
-    viewModel {
-        MainViewModel(
-            DeleteTrainRunUseCase(repository = get())
         )
     }
 }

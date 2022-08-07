@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private val mainViewModel: MainViewModel by viewModel()
     private val navController: NavController by lazy {
         (supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
@@ -57,9 +56,6 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_clear_db -> {
                 actionWithDatabase(R.string.dataDeleted) { clearDatabase(it) }
-            }
-            R.id.action_clear_train_run -> {
-                mainViewModel.clearTrainRun()
             }
         }
         return super.onOptionsItemSelected(item)

@@ -35,6 +35,12 @@ class MainFragmentAdapter(
         submitList(currentListMutable)
     }
 
+    fun removeAllItems(){
+        val currentListMutable = currentList.toMutableList()
+        currentListMutable.clear()
+        submitList(currentListMutable)
+    }
+
     inner class MainViewHolder(private val binding: FragmentMainItemBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnCreateContextMenuListener {
 

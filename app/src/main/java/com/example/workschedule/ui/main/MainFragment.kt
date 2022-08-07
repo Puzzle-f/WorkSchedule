@@ -72,6 +72,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 adapter.removeItem()
                 mainFragmentViewModel.deleteTrainRun(adapter.clickedTrainRunId)
             }
+            R.id.action_delete_all_from_context -> {
+                mainFragmentViewModel.deleteAllTrainRun()
+                adapter.removeAllItems()
+            }
         }
         return super.onContextItemSelected(item)
     }

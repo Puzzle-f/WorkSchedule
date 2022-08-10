@@ -14,4 +14,8 @@
     <item android:id="@+id/action_delete_driver_from_context"
         android:title="@string/context_menu_delete"
         app:showAsAction="never"/>
+
+    <item android:id="@+id/action_delete_all_drivers_from_context"
+        android:title="@string/action_clear_train_run"
+        app:showAsAction="never"/>
 </menu>

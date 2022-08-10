@@ -48,7 +48,7 @@
     <string name="id">Id</string>
     <string name="action_fill_db_for_demonstration">Fill DB for demonstration</string>
     <string name="action_clear_db">Clear DB</string>
-    <string name="action_clear_train_run">Clear TrainRun</string>
+    <string name="action_clear_train_run">Clear All</string>
 
 
     <!--    Fragments   -->

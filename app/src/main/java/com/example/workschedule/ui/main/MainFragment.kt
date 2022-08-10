@@ -27,6 +27,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         buttonNewRoute = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_route)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.mainFragmentRecyclerView)
+//        binding.mainFragmentRecyclerView.getLayoutManager()?.scrollToPosition(15)
     }
 
     override fun onStart() {

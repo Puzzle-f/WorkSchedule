@@ -4,10 +4,7 @@ import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.*
-import com.example.workschedule.domain.usecases.driver.DeleteDriverUseCase
-import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
-import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
-import com.example.workschedule.domain.usecases.driver.SaveDriverUseCase
+import com.example.workschedule.domain.usecases.driver.*
 import com.example.workschedule.domain.usecases.train.DeleteTrainUseCase
 import com.example.workschedule.domain.usecases.train.GetAllTrainsListUseCase
 import com.example.workschedule.domain.usecases.train.GetTrainUseCase
@@ -36,7 +33,8 @@ val application = module {
             GetAllTrainsRunListUseCase(repository = get()),
             GetAllDriversListUseCase(repository = get()),
             SaveTrainRunListUseCase(repository = get()),
-            DeleteTrainRunUseCase(repository = get())
+            DeleteTrainRunUseCase(repository = get()),
+            DeleteAllTrainRunUseCase(repository = get())
         )
     }
     viewModel {
@@ -51,7 +49,8 @@ val application = module {
     viewModel {
         DriversViewModel(
             GetAllDriversListUseCase(repository = get()),
-            DeleteDriverUseCase(repository = get())
+            DeleteDriverUseCase(repository = get()),
+            DeleteAllDriversUseCase(repository = get())
         )
     }
     viewModel {

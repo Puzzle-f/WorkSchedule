@@ -6,5 +6,4 @@ class DeleteTrainRunUseCase(
     private val repository: DomainRepository
 ) {
     suspend fun execute(trainRunId: Int) = repository.deleteTrainRun(trainRunId)
-    suspend fun executeAll() = repository.deleteAllTrainRuns()
 }

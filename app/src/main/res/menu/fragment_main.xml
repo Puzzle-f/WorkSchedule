@@ -11,7 +11,7 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_delete_all_from_context"
-        android:title="Delete all"
+        android:title="@string/action_clear_train_run"
         app:showAsAction="never"/>
 
 

@@ -66,6 +66,10 @@ class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBind
                 adapter.removeItem()
                 driversViewModel.deleteDriver(adapter.clickedDriverId)
             }
+            R.id.action_delete_all_drivers_from_context ->{
+                adapter.removeAll()
+                driversViewModel.deleteAllDrivers()
+            }
         }
         return super.onContextItemSelected(item)
     }

@@ -22,10 +22,10 @@ interface TrainRunDao {
     //    Сохранить поездку
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveTrainRun(vararg trainRun: TrainRunEntity)
-
+    //  удалить поездку по id
     @Query("DELETE FROM TrainRunEntity WHERE id = :trainRunId")
     suspend fun deleteTrainRunById(trainRunId: Int)
-
+    //    Удалить все поездки TrainRun
     @Query("DELETE FROM TrainRunEntity")
     suspend fun deleteAllTrainRuns()
 }

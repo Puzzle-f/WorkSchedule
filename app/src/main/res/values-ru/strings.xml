@@ -47,7 +47,7 @@
     <string name="action_clear_db">Очистить БД</string>
     <string name="date">Дата</string>
     <string name="train_number_example">номер</string>
-    <string name="action_clear_train_run">Очистить поезда</string>
+    <string name="action_clear_train_run">Удалить все</string>
 
     <!--    Фрагменты   -->
     <string name="driverEditDataInputIncorrect">Введите корректные данные</string>

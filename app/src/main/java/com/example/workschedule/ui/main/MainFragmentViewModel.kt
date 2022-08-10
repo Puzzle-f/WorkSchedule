@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
-import com.example.workschedule.domain.usecases.driver.SaveDriverListUseCase
+import com.example.workschedule.domain.usecases.trainrun.DeleteAllTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.GetAllTrainsRunListUseCase
 import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunListUseCase
@@ -22,7 +22,7 @@ class MainFragmentViewModel(
     private val getAllDriversListUseCase: GetAllDriversListUseCase,
     private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
     private val deleteTrainRunUseCase: DeleteTrainRunUseCase,
-    private val saveDriverListUseCase: SaveDriverListUseCase
+    private val deleteAllTrainRunUseCase: DeleteAllTrainRunUseCase
 ) : ViewModel() {
 
     private var _trainsRunList = MutableStateFlow<List<TrainRun>>(emptyList())
@@ -49,9 +49,9 @@ class MainFragmentViewModel(
         }
     }
 
-    fun deleteAllTrainRun(){
+    fun deleteAllTrainRun() {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteTrainRunUseCase.executeAll()
+            deleteAllTrainRunUseCase.execute()
         }
     }
 }

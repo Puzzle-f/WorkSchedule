@@ -36,6 +36,12 @@ class DriversFragmentAdapter(
         submitList(currentListMutable)
     }
 
+    fun removeAll(){
+        val currentListMutable = currentList.toMutableList()
+        currentListMutable.clear()
+        submitList(currentListMutable)
+    }
+
     inner class DriversViewHolder(private val binding: FragmentDriversItemBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnCreateContextMenuListener {
 

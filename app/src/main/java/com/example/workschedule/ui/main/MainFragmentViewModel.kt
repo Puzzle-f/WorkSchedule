@@ -27,6 +27,8 @@ class MainFragmentViewModel(
 
     private var _trainsRunList = MutableStateFlow<List<TrainRun>>(emptyList())
     val trainsRunList: StateFlow<List<TrainRun>> = _trainsRunList.asStateFlow()
+    var positionAdapter = 0
+    val currentData = LocalDateTime.now()
 
     fun getTrainsRunList() {
         viewModelScope.launch {

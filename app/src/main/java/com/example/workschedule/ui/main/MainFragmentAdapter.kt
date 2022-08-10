@@ -8,6 +8,7 @@ import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainItemBinding
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.utils.toTimeString
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class MainFragmentAdapter(

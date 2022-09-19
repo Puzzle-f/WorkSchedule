@@ -1,5 +1,6 @@
 package com.example.workschedule.ui.trainrun_edit
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.Driver
@@ -67,6 +68,7 @@ class TrainRunEditViewModel(
                         (1..daysInMonth).map { trainRun.changeDay(it) }
                     )
                 }
+                Log.e("", "trainRun = ${trainRun.isEditManually}")
             } else {
                 saveTrainRunUseCase.execute(trainRun)
             }

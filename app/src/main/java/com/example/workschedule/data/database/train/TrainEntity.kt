@@ -11,4 +11,5 @@ data class TrainEntity(
     var id: Int,
     @field:ColumnInfo(name = "direction")
     val direction: String
+
 )

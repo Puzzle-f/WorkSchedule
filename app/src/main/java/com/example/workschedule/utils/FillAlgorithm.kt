@@ -19,8 +19,26 @@ fun getBusyOrRestDriversIdsOnTime(trainRunList: List<TrainRun>, time: LocalDateT
                 it.travelTime + it.travelRestTime + it.backTravelTime + restHours.hoursToMillis,
                 ChronoUnit.MILLIS
             )
-        }   // Выбираем тех, кто в рейсе или на отдыхе после рейса
+        }
+            // отсеиваем тех, у кого будет 3-я ночь
+        .filter {
+            it.driverId
+
+            true
+        }
+        // Выбираем тех, кто в рейсе или на отдыхе после рейса
         .map { it.driverId }    // Мапим в список их Id
+}
+
+fun d(t: List<TrainRun>, time: LocalDateTime){
+    var count = 0
+    t.forEach{
+        var localTime = it.startTime
+        if(it.startTime.isAfter(localTime.withHour(0).withMinute(0)) &&
+            it.startTime.isBefore(localTime.withHour(6).withMinute(0))){
+            count++
+        }
+    }
 }
 
 /**

@@ -40,11 +40,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
         initDrawer()
+        initRecalculation()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
+    }
+
+    fun initRecalculation(){
+        binding.appBarMain.recalculation.setOnClickListener{
+            Toast.makeText(this, "TEST", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -18,6 +18,9 @@
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
         <action
+            android:id="@+id/action_nav_main_to_nav_route_redact"
+            app:destination="@id/route_redact"/>
+        <action
             android:id="@+id/action_nav_main_to_nav_drivers"
             app:destination="@id/nav_drivers"
             app:enterAnim="@anim/fade_in"
@@ -129,6 +132,13 @@
         android:name="com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment"
         android:label="@string/menu_route_edit"
         tools:layout="@layout/fragment_trainrun_edit" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/route_redact"
+        android:name="com.example.workschedule.ui.trainrun_edit.trainrun_redact.TrainRunRedactFragment"
+        android:label = "@string/redact"
+        tools:layout="@layout/fragment_trainrun_edit">
     </fragment>
   
     <fragment

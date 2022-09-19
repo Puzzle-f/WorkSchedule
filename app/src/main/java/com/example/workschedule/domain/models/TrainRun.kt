@@ -29,5 +29,6 @@ data class TrainRun(
     val startTime: LocalDateTime,
     val travelTime: Long,
     val travelRestTime: Long,
-    val backTravelTime: Long
+    val backTravelTime: Long,
+    var isEditManually: Boolean
 )

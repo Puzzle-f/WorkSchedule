@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -47,6 +48,11 @@ class TrainRunEditFragment :
             R.array.periodicity,
             R.layout.fragment_trainrun_edit_dropdown_list_item
         )
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Toast.makeText(context, "Добавление", Toast.LENGTH_SHORT).show()
     }
     private var trainRunId: Int? = null
     private var trainsList: List<Train> = mutableListOf()
@@ -176,7 +182,11 @@ class TrainRunEditFragment :
             val trainId = trainsList.find { it.direction == trainDirection }?.id ?: 0
             val trainNumber = routeEditFragmentTrainNumber.text.toString().toInt()
             val driverNameText = routeEditFragmentDriver.text.toString()
-            val driverName = if (driverNameText != driversAdapter.getItem(0)) driverNameText else ""
+            var isEditManually = false
+            val driverName = if (driverNameText != driversAdapter.getItem(0)){
+                isEditManually = true
+                driverNameText
+            }  else ""
             val driverId = driversList.find { it.FIO == driverNameText }?.id ?: 0
             val startTime = LocalDateTime.parse(
                 routeEditFragmentDateTime.text,
@@ -197,7 +207,8 @@ class TrainRunEditFragment :
                     startTime,
                     travelTime,
                     restTime,
-                    backTravelTime
+                    backTravelTime,
+                    isEditManually
                 )
             )
             findNavController().navigateUp()

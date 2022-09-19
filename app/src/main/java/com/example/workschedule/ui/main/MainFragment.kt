@@ -37,6 +37,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     override fun onStart() {
         buttonNewRoute.visibility = View.VISIBLE
         super.onStart()
+        setRVToPosition()
     }
     
     override fun readArguments(bundle: Bundle) {}
@@ -54,7 +55,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     fun setRVToPosition(){
         binding.mainFragmentRecyclerView.layoutManager?.scrollToPosition(20)
     }
-
 
     override fun initObservers() {
         lifecycleScope.launchWhenStarted {
@@ -74,9 +74,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+//            R.id.action_update_from_context -> {
+//                val bundle = bundleOf(TRAIN_RUN_ID to adapter.clickedTrainRunId)
+//                findNavController().navigate(R.id.action_nav_main_to_nav_route_edit, bundle)
+//            }
             R.id.action_update_from_context -> {
                 val bundle = bundleOf(TRAIN_RUN_ID to adapter.clickedTrainRunId)
-                findNavController().navigate(R.id.action_nav_main_to_nav_route_edit, bundle)
+                findNavController().navigate(R.id.action_nav_main_to_nav_route_redact, bundle)
             }
             R.id.action_delete_from_context -> {
                 adapter.removeItem()

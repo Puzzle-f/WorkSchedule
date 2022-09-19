@@ -70,7 +70,8 @@ val List<DriverEntity>.fromDTOListDriver: List<Driver> // Экстеншн пр�
             it.patronymic,
             it.workedTime,
             it.totalTime,
-            it.accessTrainsId
+            it.accessTrainsId,
+//            it.countNight
         )
     }
 
@@ -83,7 +84,8 @@ val DriverEntity.fromDTO: Driver // Экстеншн преобразовани�
         this.patronymic,
         this.workedTime,
         this.totalTime,
-        this.accessTrainsId
+        this.accessTrainsId,
+//        this.countNight
     )
 
 val Driver.toDTO: DriverEntity // Экстеншн преобразования Driver в DriverEntity
@@ -95,7 +97,8 @@ val Driver.toDTO: DriverEntity // Экстеншн преобразования 
         this.patronymic,
         this.workedTime,
         this.totalTime,
-        this.accessTrainsId
+        this.accessTrainsId,
+//        this.countNight
     )
 
 val List<TrainRunEntity>.fromDTOListTrainRun: List<TrainRun> // Экстеншн преобразования списка TrainRunEntity в TrainRun
@@ -111,7 +114,8 @@ val List<TrainRunEntity>.fromDTOListTrainRun: List<TrainRun> // Экстеншн
             it.startTime,
             it.travelTime,
             it.travelRestTime,
-            it.backTravelTime
+            it.backTravelTime,
+            it.isEditManually
         )
     }
 
@@ -127,7 +131,8 @@ val TrainRunEntity.fromDTO: TrainRun // Экстеншн преобразова�
         this.startTime,
         this.travelTime,
         this.travelRestTime,
-        this.backTravelTime
+        this.backTravelTime,
+        this.isEditManually
     )
 
 val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразования TrainRun в TrainRunEntity
@@ -142,7 +147,8 @@ val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразован�
         this.startTime,
         this.travelTime,
         this.travelRestTime,
-        this.backTravelTime
+        this.backTravelTime,
+        this.isEditManually
     )
 
 val Driver.FIO: String  // Экстеншн для выделения фамилии с инициалами из объекта машиниста
@@ -165,6 +171,7 @@ fun TrainRun.changeDay(dayNumber: Int): TrainRun {
         LocalDateTime.of(time.year, time.month.value, dayNumber, time.hour, time.minute),
         this.travelTime,
         this.travelRestTime,
-        this.backTravelTime
+        this.backTravelTime,
+        this.isEditManually
     )
 }

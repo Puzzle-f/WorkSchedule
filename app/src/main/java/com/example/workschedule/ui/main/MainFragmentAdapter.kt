@@ -70,10 +70,13 @@ class MainFragmentAdapter(
 
             if (mainFragmentRecyclerItemDriver.text == "") {
                 layoutContainer.setBackgroundResource(R.color.red)
-            } else
+            }
+            else
                 if (currentList[adapterPosition].isEditManually) {
                     layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
-                } else {
+                }
+                else
+                {
                     layoutContainer.setBackgroundResource(R.color.on_primary)
                 }
         }

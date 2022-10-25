@@ -68,7 +68,6 @@ class TrainRunEditViewModel(
                         (1..daysInMonth).map { trainRun.changeDay(it) }
                     )
                 }
-                Log.e("", "trainRun = ${trainRun.isEditManually}")
             } else {
                 saveTrainRunUseCase.execute(trainRun)
             }

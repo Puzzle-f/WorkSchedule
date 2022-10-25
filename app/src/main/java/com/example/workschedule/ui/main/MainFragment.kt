@@ -37,7 +37,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     override fun onStart() {
         buttonNewRoute.visibility = View.VISIBLE
         super.onStart()
-        setRVToPosition()
     }
     
     override fun readArguments(bundle: Bundle) {}
@@ -52,24 +51,21 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         }
     }
 
-    fun setRVToPosition(){
-        binding.mainFragmentRecyclerView.layoutManager?.scrollToPosition(20)
-    }
-
     override fun initObservers() {
         lifecycleScope.launchWhenStarted {
             mainFragmentViewModel.trainsRunList
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect {
                     adapter.submitList(it)
+                    Log.e("", "MainFragment initObservers()")
+                    if (it.isNotEmpty()) {
+                        Toast.makeText(
+                            activity, getString(R.string.mainTableFilled), Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
         }
         mainFragmentViewModel.getTrainsRunList()
-        if (adapter.currentList.isNotEmpty()) {
-            Toast.makeText(
-                activity, getString(R.string.mainTableFilled), Toast.LENGTH_LONG
-            ).show()
-        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -92,11 +88,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             }
         }
         return super.onContextItemSelected(item)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setRVToPosition()
     }
 
     override fun onStop() {

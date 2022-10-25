@@ -27,7 +27,8 @@ val application = module {
         Room.databaseBuilder(
             get(), ScheduleDataBase::class.java,
             "ScheduleDB.db"
-        ).addMigrations(MIGRATION_1_2)
+        )
+            .addMigrations(MIGRATION_1_2)
             .build()
     }
     single<DomainRepository> { DomainRepositoryImpl(database = get()) }

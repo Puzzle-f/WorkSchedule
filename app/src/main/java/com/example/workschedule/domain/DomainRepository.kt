@@ -14,6 +14,7 @@ interface DomainRepository {
     suspend fun getTrainRunListForDriverId(driverId: Int): List<TrainRun>
     suspend fun getDriver(driverId: Int): Driver?
     suspend fun saveDriver(driver: Driver)
+    suspend fun saveDriverList(driverList: List<Driver>)
     suspend fun deleteDriver(driverId: Int)
     suspend fun deleteAllDriversList()
     suspend fun getAllTrainsList(): List<Train>

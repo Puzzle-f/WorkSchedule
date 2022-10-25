@@ -36,5 +36,5 @@ data class TrainRunEntity(
     @field:ColumnInfo(name = "backTravelTime")
     val backTravelTime: Long,
     @field:ColumnInfo(name = "isEditManually")
-    val isEditManually: Boolean
+    var isEditManually: Boolean
 )

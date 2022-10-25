@@ -49,6 +49,7 @@ class TrainRunEditFragment :
             R.layout.fragment_trainrun_edit_dropdown_list_item
         )
     }
+    var isEditManually = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -182,7 +183,6 @@ class TrainRunEditFragment :
             val trainId = trainsList.find { it.direction == trainDirection }?.id ?: 0
             val trainNumber = routeEditFragmentTrainNumber.text.toString().toInt()
             val driverNameText = routeEditFragmentDriver.text.toString()
-            var isEditManually = false
             val driverName = if (driverNameText != driversAdapter.getItem(0)){
                 isEditManually = true
                 driverNameText

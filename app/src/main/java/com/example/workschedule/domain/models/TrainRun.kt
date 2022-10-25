@@ -17,6 +17,7 @@ import java.time.LocalDateTime
  * @param travelTime время пути в пункт назначения
  * @param travelRestTime время отдыха перед отправлением обратно
  * @param backTravelTime время пути обратно в пункт отправления
+ * @param isEditManually если выезд редактировался вручную
  */
 data class TrainRun(
     val id: Int,

@@ -15,7 +15,7 @@ interface TrainRunDao {
     @Query("SELECT * FROM TrainRunEntity WHERE id LIKE :trainRunId")
     suspend fun getTrainRunById(trainRunId: Int): TrainRunEntity
 
-    //    Получить поездку по номеру id машиниста
+    //    Получить поездки по номеру id машиниста
     @Query("SELECT * FROM TrainRunEntity WHERE driverId LIKE :driverId ORDER BY startTime")
     suspend fun getTrainRunByDriverId(driverId: Int): List<TrainRunEntity>
 

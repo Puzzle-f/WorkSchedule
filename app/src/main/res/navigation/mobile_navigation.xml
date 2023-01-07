@@ -17,9 +17,9 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
-        <action
-            android:id="@+id/action_nav_main_to_nav_route_redact"
-            app:destination="@id/route_redact"/>
+<!--        <action-->
+<!--            android:id="@+id/action_nav_main_to_nav_route_redact"-->
+<!--            app:destination="@id/route_redact"/>-->
         <action
             android:id="@+id/action_nav_main_to_nav_drivers"
             app:destination="@id/nav_drivers"

@@ -38,7 +38,8 @@ val application = module {
             GetAllDriversListUseCase(repository = get()),
             SaveTrainRunListUseCase(repository = get()),
             DeleteTrainRunUseCase(repository = get()),
-            DeleteAllTrainRunUseCase(repository = get())
+            DeleteAllTrainRunUseCase(repository = get()),
+            GetTrainRunListForDriverUseCase(repository = get())
         )
     }
     viewModel {

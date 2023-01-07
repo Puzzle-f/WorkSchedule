@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
-import com.example.workschedule.domain.usecases.trainrun.DeleteAllTrainRunUseCase
-import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
-import com.example.workschedule.domain.usecases.trainrun.GetAllTrainsRunListUseCase
-import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunListUseCase
+import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.utils.fillTrainRunListWithDrivers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,13 +19,12 @@ class MainFragmentViewModel(
     private val getAllDriversListUseCase: GetAllDriversListUseCase,
     private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
     private val deleteTrainRunUseCase: DeleteTrainRunUseCase,
-    private val deleteAllTrainRunUseCase: DeleteAllTrainRunUseCase
+    private val deleteAllTrainRunUseCase: DeleteAllTrainRunUseCase,
+    private val getTrainRunListForDriverUseCase: GetTrainRunListForDriverUseCase
 ) : ViewModel() {
 
     private var _trainsRunList = MutableStateFlow<List<TrainRun>>(emptyList())
     val trainsRunList: StateFlow<List<TrainRun>> = _trainsRunList.asStateFlow()
-    var positionAdapter = 0
-    val currentData = LocalDateTime.now()
 
     fun getTrainsRunList() {
         viewModelScope.launch {
@@ -40,7 +36,6 @@ class MainFragmentViewModel(
             }
             withContext(Dispatchers.Default) { trainRunList.fillTrainRunListWithDrivers(driverList) }
             withContext(Dispatchers.IO) { saveTrainRunListUseCase.execute(trainRunList) }
-//            withContext(Dispatchers.IO) { saveDriverListUseCase.execute(driverList) }
             _trainsRunList.emit(trainRunList)
         }
     }
@@ -56,4 +51,6 @@ class MainFragmentViewModel(
             deleteAllTrainRunUseCase.execute()
         }
     }
+
+    fun getCountNightForDriver(){}
 }

@@ -32,6 +32,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         initView()
         initObservers()
         initListeners()
+        Log.e("", "BaseFragment onViewCreated()")
     }
 
     abstract fun readArguments(bundle: Bundle)

@@ -20,7 +20,7 @@ class MainFragmentViewModel(
     private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
     private val deleteTrainRunUseCase: DeleteTrainRunUseCase,
     private val deleteAllTrainRunUseCase: DeleteAllTrainRunUseCase,
-    private val getTrainRunListForDriverUseCase: GetTrainRunListForDriverUseCase
+//    private val getTrainRunListByDriverIdAfterDateUseCase: GetTrainRunListByDriverIdAfterDateUseCase
 ) : ViewModel() {
 
     private var _trainsRunList = MutableStateFlow<List<TrainRun>>(emptyList())

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import java.time.LocalDateTime
 
 @Dao
 interface TrainRunDao {
@@ -18,6 +19,10 @@ interface TrainRunDao {
     //    Получить поездки по номеру id машиниста
     @Query("SELECT * FROM TrainRunEntity WHERE driverId LIKE :driverId ORDER BY startTime")
     suspend fun getTrainRunByDriverId(driverId: Int): List<TrainRunEntity>
+
+    //    Получить список поездок для указанного машиниста после указанного времени
+//    @Query("SELECT * FROM TrainRunEntity WHERE driverId LIKE :driverId AND backTravelTime >= :date")
+//    suspend fun getTrainRunByDriverIdAfterDate(driverId: Int, date: Long): List<TrainRunEntity>
 
     //    Сохранить поездку
     @Insert(onConflict = OnConflictStrategy.REPLACE)

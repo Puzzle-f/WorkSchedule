@@ -7,7 +7,9 @@ import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
+import java.time.Instant
 import java.time.LocalDateTime
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 val Int.hoursToMillis: Long // Экстеншн для перевода интового значения часов в millis
@@ -173,7 +175,7 @@ val Driver.FIO: String  // Экстеншн для выделения фамил
         .toString()
 
 fun TrainRun.changeDay(dayNumber: Int): TrainRun {
-    val time = this.startTime
+    val time = this.startTime.toLocalDateTime()
     return TrainRun(
         0,
         this.trainId,
@@ -182,10 +184,20 @@ fun TrainRun.changeDay(dayNumber: Int): TrainRun {
         this.trainPeriodicity,
         this.driverId,
         this.driverName,
-        LocalDateTime.of(time.year, time.month.value, dayNumber, time.hour, time.minute),
+        LocalDateTime.of(time.year, time.month.value, dayNumber, time.hour, time.minute).toLong(),
         this.travelTime,
         this.travelRestTime,
         this.backTravelTime,
         this.isEditManually
     )
 }
+
+fun Long.toLocalDateTime(): LocalDateTime =
+    LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(this),
+        TimeZone.getDefault().toZoneId()
+    )
+
+fun LocalDateTime.toLong() =
+    this.atZone(TimeZone.getDefault().toZoneId())
+        .toInstant().toEpochMilli()

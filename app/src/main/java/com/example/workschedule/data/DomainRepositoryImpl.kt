@@ -21,8 +21,8 @@ class DomainRepositoryImpl(
     override suspend fun getTrainRunListForDriverId(driverId: Int): List<TrainRun> =
         database.trainRunDao().getTrainRunByDriverId(driverId).fromDTOListTrainRun
 
-//    override suspend fun getTrainRunByDriverIdAfterDate(driverId: Int, date: Long): List<TrainRun> =
-//        database.trainRunDao().getTrainRunByDriverIdAfterDate(driverId, date).fromDTOListTrainRun
+    override suspend fun getTrainRunByDriverIdAfterDate(driverId: Int, date: Long): List<TrainRun> =
+        database.trainRunDao().getTrainRunByDriverIdAfterDate(driverId, date).fromDTOListTrainRun
 
     override suspend fun saveTrainRun(trainRun: TrainRun) {
         database.trainRunDao().saveTrainRun(trainRun.toDTO)

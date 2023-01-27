@@ -6,6 +6,7 @@ import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
 import com.example.workschedule.domain.usecases.trainrun.GetTrainRunListForDriverUseCase
 import com.example.workschedule.ui.schedule_all_drivers.adapters_model.HorizontalRVModel
 import com.example.workschedule.ui.schedule_all_drivers.adapters_model.VerticalRVModel
+import com.example.workschedule.utils.toLocalDateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -44,7 +45,7 @@ class SchedulersViewModel(
         driverTrainRuns.forEach {
             listHorizontalRVModel.add(
                 HorizontalRVModel(
-                    it.startTime.format(DateTimeFormatter.ofPattern("dd.MM.y")),
+                    it.startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y")),
                     it.trainNumber.toString()
                 )
             )

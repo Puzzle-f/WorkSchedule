@@ -12,6 +12,7 @@ import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunListUseCase
 import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunUseCase
 import com.example.workschedule.utils.changeDay
+import com.example.workschedule.utils.toLocalDateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -53,7 +54,7 @@ class TrainRunRedactViewModel(
 
     fun saveTrainRun(trainRun: TrainRun) {
         viewModelScope.launch(Dispatchers.IO) {
-            val daysInMonth = trainRun.startTime.toLocalDate().lengthOfMonth()
+            val daysInMonth = trainRun.startTime.toLocalDateTime().toLocalDate().lengthOfMonth()
             if (trainRun.id == 0) {
                 when (trainRun.trainPeriodicity) {
                     TrainPeriodicity.SINGLE -> saveTrainRunUseCase.execute(trainRun)

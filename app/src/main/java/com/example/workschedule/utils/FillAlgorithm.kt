@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit
 fun getBusyOrRestDriversIdsOnTime(trainRunList: List<TrainRun>, time: LocalDateTime) = trainRunList
     .filter { it.driverId > 0 } // Отсеиваем записи в которых машинисты еще не назначены
     .filter {
-        time >= it.startTime && time <= it.startTime.plus(
+        time >= it.startTime.toLocalDateTime() && time <= it.startTime.toLocalDateTime().plus(
             it.travelTime + it.travelRestTime + it.backTravelTime + restHours.hoursToMillis,
             ChronoUnit.MILLIS
         )
@@ -50,29 +50,29 @@ fun LocalDateTime.isNightPeriod(): Boolean {
 fun TrainRun.expectedWorkNights(): Int {
     var countNight = 0
 //    если явка туда - ночь
-    if (this.startTime.isNightPeriod()) {
+    if (this.startTime.toLocalDateTime().isNightPeriod()) {
         countNight++
     }
 //    иначе, если середина поездки - ночь
-    else if (this.startTime.plus(this.travelTime / 2, ChronoUnit.MILLIS).isNightPeriod()) {
+    else if (this.startTime.toLocalDateTime().plus(this.travelTime / 2, ChronoUnit.MILLIS).isNightPeriod()) {
         countNight++
     }
 //    иначе, если сдача туда - ночь, а явка и сдача принадлежат к разным суткам
-    else if (this.startTime.plus(
+    else if (this.startTime.toLocalDateTime().plus(
             this.travelTime, ChronoUnit.MILLIS
-        ).isNightPeriod() && (this.startTime.toLocalDate()
-            .atStartOfDay() != this.startTime.plus(
+        ).isNightPeriod() && (this.startTime.toLocalDateTime().toLocalDate()
+            .atStartOfDay() != this.startTime.toLocalDateTime().plus(
             this.travelTime, ChronoUnit.MILLIS
         ).toLocalDate().atStartOfDay())) {
         countNight++
     }
 //    если явка обратно - ночь и эта явка принадлежит следующим суткам от явки основной
-    if (this.startTime.plus(
+    if (this.startTime.toLocalDateTime().plus(
             this.travelTime + this.travelRestTime,
             ChronoUnit.MILLIS
-        ).isNightPeriod()&&(this.startTime.plus(
+        ).isNightPeriod()&&(this.startTime.toLocalDateTime().plus(
             this.travelTime + this.travelRestTime,
-            ChronoUnit.MILLIS).toLocalDate().atStartOfDay()==this.startTime.plus(
+            ChronoUnit.MILLIS).toLocalDate().atStartOfDay()==this.startTime.toLocalDateTime().plus(
             Period.ofDays(1)
         ).toLocalDate().atStartOfDay()
         ))
@@ -80,14 +80,14 @@ fun TrainRun.expectedWorkNights(): Int {
         countNight++
     }
 //    если сдача обратно - ночь, а явка обратно и сдача обратно принадлежат к разным суткам
-    if (this.startTime.plus(
+    if (this.startTime.toLocalDateTime().plus(
             this.travelTime + this.travelRestTime + this.backTravelTime,
             ChronoUnit.MILLIS
-        ).isNightPeriod() && (this.startTime.plus(
+        ).isNightPeriod() && (this.startTime.toLocalDateTime().plus(
             this.travelTime + this.travelRestTime,
             ChronoUnit.MILLIS
         ).toLocalDate()
-            .atStartOfDay() != this.startTime.plus(
+            .atStartOfDay() != this.startTime.toLocalDateTime().plus(
             this.travelTime + this.travelRestTime + this.backTravelTime,
             ChronoUnit.MILLIS
         ).toLocalDate().atStartOfDay()
@@ -96,14 +96,14 @@ fun TrainRun.expectedWorkNights(): Int {
         countNight++
     }
 //    если середина поездки обратно - ночь, а явка и сдача принадлежат разным суткам
-    if (this.startTime.plus(
+    if (this.startTime.toLocalDateTime().plus(
             this.travelTime + this.travelRestTime + this.backTravelTime/2,
             ChronoUnit.MILLIS
-        ).isNightPeriod() && (this.startTime.plus(
+        ).isNightPeriod() && (this.startTime.toLocalDateTime().plus(
             this.travelTime + this.travelRestTime,
             ChronoUnit.MILLIS
         ).toLocalDate()
-            .atStartOfDay() != this.startTime.plus(
+            .atStartOfDay() != this.startTime.toLocalDateTime().plus(
             this.travelTime + this.travelRestTime + this.backTravelTime,
             ChronoUnit.MILLIS
         ).toLocalDate().atStartOfDay()
@@ -195,7 +195,7 @@ fun List<TrainRun>.fillTrainRunListWithDriversMy(drivers: List<Driver>): List<Tr
                     // Рассчитываем рабочее время в поездке
                     val workTime = trainRun.travelTime + trainRun.backTravelTime
                     driver.totalTime = driver.totalTime.plus(workTime)
-                    val travelEndTime = trainRun.startTime.plus(
+                    val travelEndTime = trainRun.startTime.toLocalDateTime().plus(
                         trainRun.travelTime + trainRun.travelRestTime + trainRun.backTravelTime,
                         ChronoUnit.MILLIS
                     )
@@ -217,7 +217,7 @@ fun List<Driver>.getFreeDriversForTrainRun(trainRunList: List<TrainRun>, trainRu
         // Отсеиваем тех, кто не имеет допуска к этому направлению
         .filter { trainRun.trainId in it.accessTrainsId }
         // Отсеиваем тех кто занят или на отдыхе после поездки
-        .filter { it.id !in getBusyOrRestDriversIdsOnTime(trainRunList, trainRun.startTime) }
+        .filter { it.id !in getBusyOrRestDriversIdsOnTime(trainRunList, trainRun.startTime.toLocalDateTime()) }
 //            отсеиваем тех, для кого текущая поездка будет с 3-й ночью
 //        .filter { it.noThirdNight(trainRunList, trainRun) }
 
@@ -246,7 +246,7 @@ fun List<TrainRun>.fillTrainRunListWithDrivers(drivers: List<Driver>): List<Trai
                     // Рассчитываем рабочее время в поездке
                     val workTime = trainRun.travelTime + trainRun.backTravelTime
                     driver.totalTime = driver.totalTime.plus(workTime)
-                    val travelEndTime = trainRun.startTime.plus(
+                    val travelEndTime = trainRun.startTime.toLocalDateTime().plus(
                         trainRun.travelTime + trainRun.travelRestTime + trainRun.backTravelTime,
                         ChronoUnit.MILLIS
                     )

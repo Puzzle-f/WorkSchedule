@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainItemBinding
 import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toTimeString
 import java.time.format.DateTimeFormatter
 
@@ -50,9 +51,9 @@ class MainFragmentAdapter(
 
         fun bind(position: Int) = with(binding) {
             mainFragmentRecyclerItemDate.text =
-                currentList[position].startTime.format(DateTimeFormatter.ofPattern("dd.MM.y"))
+                currentList[position].startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y"))
             mainFragmentRecyclerItemTime.text =
-                currentList[position].startTime.format(DateTimeFormatter.ofPattern(" HH:mm"))
+                currentList[position].startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern(" HH:mm"))
             mainFragmentRecyclerItemTrain.text =
                 with(currentList[position]) { "$trainNumber $trainDirection" }
             mainFragmentRecyclerItemDriver.text = currentList[position].driverName

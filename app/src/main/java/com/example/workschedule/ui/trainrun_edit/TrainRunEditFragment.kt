@@ -191,7 +191,7 @@ class TrainRunEditFragment :
             val startTime = LocalDateTime.parse(
                 routeEditFragmentDateTime.text,
                 DateTimeFormatter.ofPattern("dd.MM.y HH:mm")
-            )
+            ).toLong()
             val travelTime = routeEditFragmentTimeTo.text.toString().timeToMillis
             val restTime = routeEditFragmentTimeRest.text.toString().timeToMillis
             val backTravelTime = routeEditFragmentTimeFrom.text.toString().timeToMillis
@@ -269,7 +269,7 @@ class TrainRunEditFragment :
 
     private fun renderData(trainRun: TrainRun) = with(binding) {
         routeEditFragmentDateTime.setText(
-            trainRun.startTime.format(DateTimeFormatter.ofPattern("dd.MM.y HH:mm"))
+            trainRun.startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y HH:mm"))
         )
         routeEditFragmentTrainNumber.setText(trainRun.trainNumber.toString())
         routeEditFragmentTrainDirection.setText(trainRun.trainDirection, false)

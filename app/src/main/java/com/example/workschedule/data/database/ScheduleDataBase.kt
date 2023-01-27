@@ -14,7 +14,7 @@ import com.example.workschedule.data.database.trainrun.TrainRunEntity
 @Database(
     entities = [DriverEntity::class, TrainEntity::class, TrainRunEntity::class],
     version = 2,
-    exportSchema = false
+    exportSchema = true
 )
 
 abstract class ScheduleDataBase : RoomDatabase() {
@@ -27,6 +27,45 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL(
             "ALTER TABLE TrainRunEntity ADD COLUMN isEditManually BIT"
+        )
+    }
+}
+
+val MIGRATION_2_3 = object : Migration(2,3){
+    override fun migrate(database: SupportSQLiteDatabase) {
+//        создаем новую таблицу сo startTime типа INTEGER (будем хранить Long)
+        database.execSQL(
+            "CREATE TABLE train_run_new (id INTEGER, " +
+                    "trainID INTEGER, " +
+                    "trainNumber INTEGER, " +
+                    "trainDirection TEXT, " +
+                    "trainPeriodicity INTEGER, " +
+                    "driverId INTEGER, " +
+                    "driverName TEXT, " +
+                    "startTime INTEGER, " +
+                    "travelTime INTEGER, " +
+                    "travelRestTime INTEGER, " +
+                    "backTravelTime INTEGER, " +
+                    "isEditManually BIT)"
+        )
+//      копируем данные в новую таблицу из старой
+        database.execSQL(
+            "INSERT INTO train_run_new(id, trainID, trainNumber, " +
+                    "trainDirection, trainPeriodicity, driverId, " +
+                    "driverName, startTime, travelTime, travelRestTime, " +
+                    "backTravelTime, isEditManually) " +
+                    "SELECT id, trainID, " +
+                    "trainNumber, trainDirection, trainPeriodicity, " +
+                    "driverId, driverName, startTime, travelTime, " +
+                    "travelRestTime, backTravelTime, isEditManually FROM TrainRunEntity"
+        )
+//        удаляем старую таблицу
+        database.execSQL(
+            "DROP TABLE TrainRunEntity"
+        )
+//        переименовываем новую таблицу в старую
+        database.execSQL(
+            "ALTER TABLE train_run_new RENAME TO TrainRunEntity"
         )
     }
 }

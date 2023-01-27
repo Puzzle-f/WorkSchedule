@@ -6,9 +6,6 @@ import com.example.workschedule.utils.toInt
 import com.example.workschedule.utils.toPeriodicity
 import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.temporal.TemporalAccessor
-import java.time.temporal.TemporalField
 import java.util.*
 
 class AccessListConverter {
@@ -24,25 +21,15 @@ class AccessListConverter {
 
 class DateTimeConverter {
     @TypeConverter
-    fun toDate(dateString: String?): LocalDateTime? =
-        dateString?.let { LocalDateTime.parse(dateString) }
-
+    fun longToLocalDateTime(date: Long): LocalDateTime =
+        LocalDateTime.ofInstant(
+            Instant.ofEpochMilli(date),
+            TimeZone.getDefault().toZoneId()
+        )
     @TypeConverter
-    fun toDateString(date: LocalDateTime?): String? = date?.toString()
-
-//    @TypeConverter
-//    fun toDate(dateLong: Long): LocalDateTime? =
-//        LocalDateTime.ofInstant(
-//            Instant.ofEpochMilli(dateLong),
-//            TimeZone.getDefault().toZoneId()
-//        )
-//
-//    @TypeConverter
-//    fun toDateString(date: LocalDateTime): Long =
-//        date.atZone(TimeZone.getDefault().toZoneId())
-//            .toInstant().toEpochMilli()
-
-
+    fun localDateTimeToLong(date: LocalDateTime): Long =
+        date.atZone(TimeZone.getDefault().toZoneId())
+            .toInstant().toEpochMilli()
 }
 
 class PeriodicityConverter {

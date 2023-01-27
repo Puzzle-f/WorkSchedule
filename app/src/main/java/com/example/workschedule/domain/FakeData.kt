@@ -8,6 +8,7 @@ import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.utils.hoursToMillis
 import com.example.workschedule.utils.minutesToMillis
 import com.example.workschedule.utils.toDTO
+import com.example.workschedule.utils.toLong
 import java.time.LocalDateTime
 import java.time.Month
 
@@ -50,381 +51,381 @@ val driverList = listOf(
 val trainRunList = listOf(
     TrainRun(
         1, 1, 120, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 1, 6, 30),
+        LocalDateTime.of(2022, Month.APRIL, 1, 6, 30).toLong(),
         8.hoursToMillis + 25.minutesToMillis, 6.hoursToMillis, 8.hoursToMillis, false
     ),
     TrainRun(
         2, 4, 48, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 1, 12, 30),
+        LocalDateTime.of(2022, Month.APRIL, 1, 12, 30).toLong(),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis, false
     ),
     TrainRun(
         3, 2, 92, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 1, 16, 30),
+        LocalDateTime.of(2022, Month.APRIL, 1, 16, 30).toLong(),
         5.hoursToMillis, 5.hoursToMillis, 5.hoursToMillis, false
     ),
     TrainRun(
         4, 3, 32, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 2, 3, 30),
+        LocalDateTime.of(2022, Month.APRIL, 2, 3, 30).toLong(),
         6.hoursToMillis, 8.hoursToMillis, 6.hoursToMillis, false
     ),
     TrainRun(
         5, 5, 51, "9 км", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 2, 6, 30),
+        LocalDateTime.of(2022, Month.APRIL, 2, 6, 30).toLong(),
         7.hoursToMillis, 4.hoursToMillis, 6.hoursToMillis, false
     ),
     TrainRun(
         6, 6, 96, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 2, 22, 30),
+        LocalDateTime.of(2022, Month.APRIL, 2, 22, 30).toLong(),
         8.hoursToMillis, 4.hoursToMillis, 8.hoursToMillis, false
     ),
     TrainRun(
         7, 7, 72, "Адлер", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 3, 2, 30),
+        LocalDateTime.of(2022, Month.APRIL, 3, 2, 30).toLong(),
         7.hoursToMillis, 4.hoursToMillis, 7.hoursToMillis, false
     ),
     TrainRun(
         8, 1, 120, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 3, 6, 30),
+        LocalDateTime.of(2022, Month.APRIL, 3, 6, 30).toLong(),
         8.hoursToMillis, 4.hoursToMillis, 9.hoursToMillis, false
     ),
     TrainRun(
         9, 2, 125, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 3, 8, 30),
+        LocalDateTime.of(2022, Month.APRIL, 3, 8, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         10, 3, 120, "Таганрог", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 4, 9, 30),
+        LocalDateTime.of(2022, Month.APRIL, 4, 9, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         11, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 4, 7, 30),
+        LocalDateTime.of(2022, Month.APRIL, 4, 7, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         12, 1, 103, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 4, 18, 30),
+        LocalDateTime.of(2022, Month.APRIL, 4, 18, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         13, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 4, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 4, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         14, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 5, 8, 30),
+        LocalDateTime.of(2022, Month.APRIL, 5, 8, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         15, 5, 102, "Адлер", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 5, 10, 30),
+        LocalDateTime.of(2022, Month.APRIL, 5, 10, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         16, 3, 120, "Таганрог", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 5, 12, 30),
+        LocalDateTime.of(2022, Month.APRIL, 5, 12, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         17, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 5, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 5, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         18, 6, 382, "9 км", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 5, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 5, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         19, 6, 382, "9 км", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 6, 8, 30),
+        LocalDateTime.of(2022, Month.APRIL, 6, 8, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         20, 3, 120, "Таганрог", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 6, 10, 30),
+        LocalDateTime.of(2022, Month.APRIL, 6, 10, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         21, 1, 92, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 6, 18, 30),
+        LocalDateTime.of(2022, Month.APRIL, 6, 18, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         22, 1, 3, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 6, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 6, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         23, 1, 103, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 7, 8, 30),
+        LocalDateTime.of(2022, Month.APRIL, 7, 8, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         24, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 7, 10, 30),
+        LocalDateTime.of(2022, Month.APRIL, 7, 10, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         25, 3, 120, "Таганрог", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 7, 11, 30),
+        LocalDateTime.of(2022, Month.APRIL, 7, 11, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         26, 5, 102, "Адлер", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 7, 18, 30),
+        LocalDateTime.of(2022, Month.APRIL, 7, 18, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         27, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 7, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 7, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         28, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 7, 22, 30),
+        LocalDateTime.of(2022, Month.APRIL, 7, 22, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         29, 2, 125, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 8, 8, 30),
+        LocalDateTime.of(2022, Month.APRIL, 8, 8, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         30, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 8, 10, 30),
+        LocalDateTime.of(2022, Month.APRIL, 8, 10, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         31, 3, 120, "Таганрог", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 8, 12, 30),
+        LocalDateTime.of(2022, Month.APRIL, 8, 12, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         32, 1, 3, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 8, 18, 30),
+        LocalDateTime.of(2022, Month.APRIL, 8, 18, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         33, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 8, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 8, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         34, 6, 33, "9 км", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 8, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 8, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         35, 2, 125, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 9, 8, 30),
+        LocalDateTime.of(2022, Month.APRIL, 9, 8, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         36, 5, 102, "Адлер", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 9, 10, 30),
+        LocalDateTime.of(2022, Month.APRIL, 9, 10, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         37, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 9, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 9, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         38, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 9, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 9, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         39, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 9, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 9, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         40, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 10, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 10, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         41, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 10, 10, 30),
+        LocalDateTime.of(2022, Month.APRIL, 10, 10, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         42, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 10, 12, 30),
+        LocalDateTime.of(2022, Month.APRIL, 10, 12, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         43, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 10, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 10, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         44, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 11, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 11, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         45, 3, 33, "Таганрог", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 11, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 11, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         46, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 11, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 11, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         47, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 12, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 12, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         48, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 12, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 12, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         49, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 12, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 12, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         50, 6, 101, "9 км", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 12, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 12, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         51, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 13, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 13, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         52, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 13, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 13, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         53, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 13, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 13, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         54, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 13, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 13, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         55, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 14, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 14, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         56, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 14, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 14, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         57, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 14, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 14, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         58, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 15, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 15, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         59, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 15, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 15, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         60, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 16, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 16, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         61, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 16, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 16, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         62, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 16, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 16, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         63, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 16, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 16, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         64, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 17, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 17, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         65, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 17, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 17, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         66, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 17, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 17, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         67, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 17, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 17, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         68, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 18, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 18, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         69, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 18, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 18, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         70, 2, 61, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 18, 14, 30),
+        LocalDateTime.of(2022, Month.APRIL, 18, 14, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         71, 1, 101, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 18, 15, 30),
+        LocalDateTime.of(2022, Month.APRIL, 18, 15, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         72, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 18, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 18, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ), TrainRun(
         22, 1, 3, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 19, 20, 30),
+        LocalDateTime.of(2022, Month.APRIL, 19, 20, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         23, 1, 103, "Лиски", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 19, 8, 30),
+        LocalDateTime.of(2022, Month.APRIL, 19, 8, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         24, 2, 33, "Россошь", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 19, 10, 30),
+        LocalDateTime.of(2022, Month.APRIL, 19, 10, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     ),
     TrainRun(
         25, 3, 120, "Таганрог", TrainPeriodicity.SINGLE, 0, "",
-        LocalDateTime.of(2022, Month.APRIL, 19, 11, 30),
+        LocalDateTime.of(2022, Month.APRIL, 19, 11, 30).toLong(),
         13.hoursToMillis, 4.hoursToMillis, 13.hoursToMillis + 23.minutesToMillis, false
     )
 )

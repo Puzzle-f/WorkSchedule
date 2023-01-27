@@ -3,6 +3,7 @@ package com.example.workschedule.di
 import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.MIGRATION_1_2
+import com.example.workschedule.data.database.MIGRATION_2_3
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.driver.*
@@ -39,7 +40,7 @@ val application = module {
             SaveTrainRunListUseCase(repository = get()),
             DeleteTrainRunUseCase(repository = get()),
             DeleteAllTrainRunUseCase(repository = get()),
-//            GetTrainRunListByDriverIdAfterDateUseCase(repository = get())
+            GetTrainRunListByDriverIdAfterDateUseCase(repository = get())
         )
     }
     viewModel {

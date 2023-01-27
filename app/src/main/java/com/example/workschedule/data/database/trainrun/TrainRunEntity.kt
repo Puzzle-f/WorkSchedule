@@ -7,10 +7,9 @@ import androidx.room.TypeConverters
 import com.example.workschedule.data.database.DateTimeConverter
 import com.example.workschedule.data.database.PeriodicityConverter
 import com.example.workschedule.domain.models.TrainPeriodicity
-import java.time.LocalDateTime
 
 @Entity
-@TypeConverters(DateTimeConverter::class, PeriodicityConverter::class)
+@TypeConverters(PeriodicityConverter::class, DateTimeConverter::class)
 data class TrainRunEntity(
     @PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
@@ -28,7 +27,7 @@ data class TrainRunEntity(
     @field:ColumnInfo(name = "driverName")
     val driverName: String,
     @field:ColumnInfo(name = "startTime")
-    val startTime: LocalDateTime,
+    val startTime: Long,
     @field:ColumnInfo(name = "travelTime")
     val travelTime: Long,
     @field:ColumnInfo(name = "travelRestTime")

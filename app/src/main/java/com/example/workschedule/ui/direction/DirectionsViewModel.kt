@@ -1,8 +1,8 @@
-package com.example.workschedule.ui.trains
+package com.example.workschedule.ui.direction
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.usecases.train.DeleteTrainUseCase
 import com.example.workschedule.domain.usecases.train.GetAllTrainsListUseCase
 import kotlinx.coroutines.Dispatchers
@@ -17,8 +17,8 @@ class TrainsViewModel(
     private val deleteTrainUseCase: DeleteTrainUseCase
 ) : ViewModel() {
 
-    private var _trains = MutableStateFlow<List<Train>>(emptyList())
-    val trains: StateFlow<List<Train>> = _trains.asStateFlow()
+    private var _trains = MutableStateFlow<List<Direction>>(emptyList())
+    val trains: StateFlow<List<Direction>> = _trains.asStateFlow()
 
     fun getTrains() {
         viewModelScope.launch {

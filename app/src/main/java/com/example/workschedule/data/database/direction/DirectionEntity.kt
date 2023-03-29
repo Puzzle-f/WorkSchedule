@@ -1,12 +1,11 @@
-package com.example.workschedule.data.database.train
+package com.example.workschedule.data.database.direction
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
-data class TrainEntity(
-    @PrimaryKey(autoGenerate = true)
+@Entity(primaryKeys = ["id", "direction"])
+data class DirectionEntity(
     @field:ColumnInfo(name = "id")
     var id: Int,
     @field:ColumnInfo(name = "direction")

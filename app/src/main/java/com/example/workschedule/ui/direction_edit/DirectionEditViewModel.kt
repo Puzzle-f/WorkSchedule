@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.usecases.train.GetTrainUseCase
 import com.example.workschedule.domain.usecases.train.SaveTrainUseCase
-import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.Direction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +17,8 @@ class TrainEditViewModel(
     private val saveTrainUseCase: SaveTrainUseCase
 ) : ViewModel() {
 
-    private var _train = MutableStateFlow<Train?>(null)
-    val train: StateFlow<Train?> = _train.asStateFlow()
+    private var _train = MutableStateFlow<Direction?>(null)
+    val train: StateFlow<Direction?> = _train.asStateFlow()
 
     fun getTrain(number: Int) {
         viewModelScope.launch {
@@ -26,7 +26,7 @@ class TrainEditViewModel(
         }
     }
 
-    fun saveTrain(train: Train) {
+    fun saveTrain(train: Direction) {
         viewModelScope.launch(Dispatchers.IO) {
             saveTrainUseCase.execute(train)
         }

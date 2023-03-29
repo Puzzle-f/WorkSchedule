@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainsItemBinding
-import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.Direction
 
 class TrainsFragmentAdapter(
     private val menuInflater: MenuInflater
 ) :
-    ListAdapter<Train, TrainsFragmentAdapter.MainViewHolder>(TrainCallback) {
+    ListAdapter<Direction, TrainsFragmentAdapter.MainViewHolder>(TrainCallback) {
 
     var clickedId = -1
     private var itemPosition = -1
@@ -41,10 +41,10 @@ class TrainsFragmentAdapter(
         }
 
         fun bind(position: Int) = with(binding) {
-            trainsFragmentRecyclerItemDestination.text = currentList[position].direction
+            trainsFragmentRecyclerItemDestination.text = currentList[position].nameDirection
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition
-                clickedId = currentList[adapterPosition].id
+                clickedId = currentList[adapterPosition].idDirection
                 false
             }
         }
@@ -56,8 +56,8 @@ class TrainsFragmentAdapter(
         }
     }
 
-    companion object TrainCallback : DiffUtil.ItemCallback<Train>() {
-        override fun areItemsTheSame(oldItem: Train, newItem: Train) = oldItem == newItem
-        override fun areContentsTheSame(oldItem: Train, newItem: Train) = oldItem == newItem
+    companion object TrainCallback : DiffUtil.ItemCallback<Direction>() {
+        override fun areItemsTheSame(oldItem: Direction, newItem: Direction) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: Direction, newItem: Direction) = oldItem == newItem
     }
 }

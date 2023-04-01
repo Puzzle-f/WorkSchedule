@@ -10,7 +10,7 @@ data class PermissionEntity(
     @field: ColumnInfo(name = "id")
     val id: Int,
     @field: ColumnInfo(name = "id_driver")
-    val id_driver: Int,
+    val idDriver: Int,
     @field: ColumnInfo(name = "id_direction")
     val idDirection: Int
 )

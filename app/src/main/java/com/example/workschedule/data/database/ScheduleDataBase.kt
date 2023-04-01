@@ -4,15 +4,20 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.workschedule.data.database.driver.DriverDao
-import com.example.workschedule.data.database.driver.DriverEntity
+import com.example.workschedule.data.database.block.BlockEntity
 import com.example.workschedule.data.database.direction.DirectionDao
 import com.example.workschedule.data.database.direction.DirectionEntity
+import com.example.workschedule.data.database.driver.DriverDao
+import com.example.workschedule.data.database.driver.DriverEntity
+import com.example.workschedule.data.database.permission.PermissionEntity
+import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.data.database.trainrun.TrainRunDao
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
+import com.example.workschedule.data.database.weekend.WeekendEntity
 
 @Database(
-    entities = [DriverEntity::class, DirectionEntity::class, TrainRunEntity::class],
+    entities = [BlockEntity::class, DirectionEntity::class, DriverEntity::class, PermissionEntity::class,
+                StatusEntity::class, TrainRunEntity::class, WeekendEntity::class],
     version = 2,
     exportSchema = true
 )
@@ -31,7 +36,7 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
     }
 }
 
-val MIGRATION_2_3 = object : Migration(2,3){
+val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(database: SupportSQLiteDatabase) {
 //        создаем новую таблицу сo startTime типа INTEGER (будем хранить Long)
         database.execSQL(

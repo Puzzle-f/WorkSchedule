@@ -67,4 +67,5 @@
     <string name="periodicity_single">Single</string>
     <string name="edit_route_train_direction">Train direction</string>
     <string name="edit_periodicity_default_item">Automatically</string>
+    <string name="redact">redact</string>
 </resources>

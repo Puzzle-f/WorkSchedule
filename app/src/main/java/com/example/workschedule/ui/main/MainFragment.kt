@@ -1,8 +1,10 @@
 package com.example.workschedule.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -10,6 +12,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
 import com.example.workschedule.ui.base.BaseFragment
@@ -27,7 +32,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         buttonNewRoute = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_route)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.mainFragmentRecyclerView)
-//        binding.mainFragmentRecyclerView.getLayoutManager()?.scrollToPosition(15)
     }
 
     override fun onStart() {
@@ -50,7 +54,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     override fun initObservers() {
         lifecycleScope.launchWhenStarted {
             mainFragmentViewModel.trainsRunList
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect {
                     adapter.submitList(it)
                     if (it.isNotEmpty()) {
@@ -69,6 +73,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 val bundle = bundleOf(TRAIN_RUN_ID to adapter.clickedTrainRunId)
                 findNavController().navigate(R.id.action_nav_main_to_nav_route_edit, bundle)
             }
+//            R.id.action_update_from_context -> {
+//                val bundle = bundleOf(TRAIN_RUN_ID to adapter.clickedTrainRunId)
+//                findNavController().navigate(R.id.action_nav_main_to_nav_route_redact, bundle)
+//            }
             R.id.action_delete_from_context -> {
                 adapter.removeItem()
                 mainFragmentViewModel.deleteTrainRun(adapter.clickedTrainRunId)

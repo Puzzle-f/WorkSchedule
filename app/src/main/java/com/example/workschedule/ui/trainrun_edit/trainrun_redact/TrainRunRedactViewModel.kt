@@ -1,4 +1,4 @@
-package com.example.workschedule.ui.trainrun_edit
+package com.example.workschedule.ui.trainrun_edit.trainrun_redact
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TrainRunEditViewModel(
+class TrainRunRedactViewModel(
     private val getTrainRunUseCase: GetTrainRunUseCase,
     private val getAllDriversListUseCase: GetAllDriversListUseCase,
     private val getAllTrainsListUseCase: GetAllTrainsListUseCase,

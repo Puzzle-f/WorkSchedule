@@ -16,6 +16,7 @@
     <string name="menu_schedule_all_drivers">График всех машинистов</string>
     <string name="menu_route_edit">Создать выезд</string>
     <string name="menu_edit_set">Установить</string>
+    <string name="redact">редактировать</string>
 
     <string name="edit_driver_routes_admittance">Допуски к рейсам:</string>
     <string name="add_new_driver">Добавить машиниста</string>

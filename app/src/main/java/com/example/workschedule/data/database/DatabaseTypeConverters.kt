@@ -4,7 +4,9 @@ import androidx.room.TypeConverter
 import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.utils.toInt
 import com.example.workschedule.utils.toPeriodicity
+import java.time.Instant
 import java.time.LocalDateTime
+import java.util.*
 
 class AccessListConverter {
     @TypeConverter
@@ -19,11 +21,15 @@ class AccessListConverter {
 
 class DateTimeConverter {
     @TypeConverter
-    fun toDate(dateString: String?): LocalDateTime? =
-        dateString?.let { LocalDateTime.parse(dateString) }
-
+    fun longToLocalDateTime(date: Long): LocalDateTime =
+        LocalDateTime.ofInstant(
+            Instant.ofEpochMilli(date),
+            TimeZone.getDefault().toZoneId()
+        )
     @TypeConverter
-    fun toDateString(date: LocalDateTime?): String? = date?.toString()
+    fun localDateTimeToLong(date: LocalDateTime): Long =
+        date.atZone(TimeZone.getDefault().toZoneId())
+            .toInstant().toEpochMilli()
 }
 
 class PeriodicityConverter {

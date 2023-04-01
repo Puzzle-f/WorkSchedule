@@ -1,10 +1,12 @@
-package com.example.workschedule.ui.trainrun_edit
+package com.example.workschedule.ui.trainrun_edit.trainrun_redact
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
@@ -25,9 +27,9 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class TrainRunEditFragment :
+class TrainRunRedactFragment :
     BaseFragment<FragmentTrainrunEditBinding>(FragmentTrainrunEditBinding::inflate) {
-    private val trainRunEditViewModel: TrainRunEditViewModel by viewModel()
+    private val trainRunEditViewModel: TrainRunRedactViewModel by viewModel()
     private val driversAdapter by lazy {
         ArrayAdapter<String>(
             requireActivity(),
@@ -35,6 +37,12 @@ class TrainRunEditFragment :
             mutableListOf()
         )
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Toast.makeText(context, "Редактирование", Toast.LENGTH_SHORT).show()
+    }
+
     private val trainsAdapter by lazy {
         ArrayAdapter<String>(
             requireActivity(),
@@ -48,12 +56,6 @@ class TrainRunEditFragment :
             R.array.periodicity,
             R.layout.fragment_trainrun_edit_dropdown_list_item
         )
-    }
-    var isEditManually = false
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(context, "Добавление", Toast.LENGTH_SHORT).show()
     }
     private var trainRunId: Int? = null
     private var trainsList: List<Train> = mutableListOf()
@@ -183,10 +185,7 @@ class TrainRunEditFragment :
             val trainId = trainsList.find { it.direction == trainDirection }?.id ?: 0
             val trainNumber = routeEditFragmentTrainNumber.text.toString().toInt()
             val driverNameText = routeEditFragmentDriver.text.toString()
-            val driverName = if (driverNameText != driversAdapter.getItem(0)){
-                isEditManually = true
-                driverNameText
-            }  else ""
+            val driverName = if (driverNameText != driversAdapter.getItem(0)) driverNameText else ""
             val driverId = driversList.find { it.FIO == driverNameText }?.id ?: 0
             val startTime = LocalDateTime.parse(
                 routeEditFragmentDateTime.text,
@@ -208,7 +207,7 @@ class TrainRunEditFragment :
                     travelTime,
                     restTime,
                     backTravelTime,
-                    isEditManually
+                    true
                 )
             )
             findNavController().navigateUp()

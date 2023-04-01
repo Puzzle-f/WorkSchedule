@@ -7,7 +7,9 @@ import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Train
 import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
+import java.time.Instant
 import java.time.LocalDateTime
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 val Int.hoursToMillis: Long // Экстеншн для перевода интового значения часов в millis
@@ -71,6 +73,21 @@ val List<DriverEntity>.fromDTOListDriver: List<Driver> // Экстеншн пр�
             it.workedTime,
             it.totalTime,
             it.accessTrainsId
+//            it.countNight
+        )
+    }
+
+val List<Driver>.toDTOListDriver: List<DriverEntity> // Экстеншн преобразования списка Driver в DriverEntity
+    get() = this.map {
+        DriverEntity(
+            it.id,
+            it.personnelNumber,
+            it.surname,
+            it.name,
+            it.patronymic,
+            it.workedTime,
+            it.totalTime,
+            it.accessTrainsId
         )
     }
 
@@ -98,6 +115,7 @@ val DriverEntity.fromDTO: Driver // Экстеншн преобразовани�
         this.workedTime,
         this.totalTime,
         this.accessTrainsId
+//        this.countNight
     )
 
 val Driver.toDTO: DriverEntity // Экстеншн преобразования Driver в DriverEntity
@@ -110,6 +128,7 @@ val Driver.toDTO: DriverEntity // Экстеншн преобразования 
         this.workedTime,
         this.totalTime,
         this.accessTrainsId
+//        this.countNight
     )
 
 val List<TrainRunEntity>.fromDTOListTrainRun: List<TrainRun> // Экстеншн преобразования списка TrainRunEntity в TrainRun
@@ -125,7 +144,8 @@ val List<TrainRunEntity>.fromDTOListTrainRun: List<TrainRun> // Экстеншн
             it.startTime,
             it.travelTime,
             it.travelRestTime,
-            it.backTravelTime
+            it.backTravelTime,
+            it.isEditManually
         )
     }
 
@@ -141,7 +161,8 @@ val TrainRunEntity.fromDTO: TrainRun // Экстеншн преобразова�
         this.startTime,
         this.travelTime,
         this.travelRestTime,
-        this.backTravelTime
+        this.backTravelTime,
+        this.isEditManually
     )
 
 val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразования TrainRun в TrainRunEntity
@@ -156,7 +177,8 @@ val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразован�
         this.startTime,
         this.travelTime,
         this.travelRestTime,
-        this.backTravelTime
+        this.backTravelTime,
+        this.isEditManually
     )
 
 val Driver.FIO: String  // Экстеншн для выделения фамилии с инициалами из объекта машиниста
@@ -167,7 +189,7 @@ val Driver.FIO: String  // Экстеншн для выделения фамил
         .toString()
 
 fun TrainRun.changeDay(dayNumber: Int): TrainRun {
-    val time = this.startTime
+    val time = this.startTime.toLocalDateTime()
     return TrainRun(
         0,
         this.trainId,
@@ -176,9 +198,20 @@ fun TrainRun.changeDay(dayNumber: Int): TrainRun {
         this.trainPeriodicity,
         this.driverId,
         this.driverName,
-        LocalDateTime.of(time.year, time.month.value, dayNumber, time.hour, time.minute),
+        LocalDateTime.of(time.year, time.month.value, dayNumber, time.hour, time.minute).toLong(),
         this.travelTime,
         this.travelRestTime,
-        this.backTravelTime
+        this.backTravelTime,
+        this.isEditManually
     )
 }
+
+fun Long.toLocalDateTime(): LocalDateTime =
+    LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(this),
+        TimeZone.getDefault().toZoneId()
+    )
+
+fun LocalDateTime.toLong() =
+    this.atZone(TimeZone.getDefault().toZoneId())
+        .toInstant().toEpochMilli()

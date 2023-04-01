@@ -21,4 +21,5 @@ data class Driver(
     var workedTime: Long,
     var totalTime: Long,
     var accessTrainsId: List<Int>
+//    var countNight: Int = 0
 )

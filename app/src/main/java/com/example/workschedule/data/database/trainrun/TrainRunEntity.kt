@@ -7,32 +7,23 @@ import androidx.room.TypeConverters
 import com.example.workschedule.data.database.DateTimeConverter
 import com.example.workschedule.data.database.PeriodicityConverter
 import com.example.workschedule.domain.models.TrainPeriodicity
-import java.time.LocalDateTime
 
 @Entity
-@TypeConverters(DateTimeConverter::class, PeriodicityConverter::class)
+@TypeConverters(PeriodicityConverter::class, DateTimeConverter::class)
 data class TrainRunEntity(
     @PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
     val id: Int,
-    @field:ColumnInfo(name = "trainId")
-    val trainId: Int,
-    @field:ColumnInfo(name = "trainNumber")
-    val trainNumber: Int,
-    @field:ColumnInfo(name = "trainDirection")
-    val trainDirection: String,
-    @field:ColumnInfo(name = "trainPeriodicity")
-    val trainPeriodicity: TrainPeriodicity,
-    @field:ColumnInfo(name = "driverId")
-    val driverId: Int,
-    @field:ColumnInfo(name = "driverName")
-    val driverName: String,
-    @field:ColumnInfo(name = "startTime")
-    val startTime: LocalDateTime,
-    @field:ColumnInfo(name = "travelTime")
-    val travelTime: Long,
-    @field:ColumnInfo(name = "travelRestTime")
-    val travelRestTime: Long,
-    @field:ColumnInfo(name = "backTravelTime")
-    val backTravelTime: Long
+    @field:ColumnInfo(name = "driver_id")
+    var driverId: Int,
+    @field:ColumnInfo(name = "direction")
+    val direction: Int,
+    @field:ColumnInfo(name = "start_time")
+    val startTime: Long,
+    @field:ColumnInfo(name = "end_time")
+    val endTime: Long,
+    @field:ColumnInfo(name = "count_night")
+    val countNight: Int,
+    @field:ColumnInfo(name = "work_time")
+    val workTime: Long
 )

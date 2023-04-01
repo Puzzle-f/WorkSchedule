@@ -1,18 +1,15 @@
 package com.example.workschedule.ui.train_edit
 
 import android.os.Bundle
-import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainEditBinding
-import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -41,7 +38,7 @@ class TrainEditFragment :
         }
         binding.trainEditFragmentSaveButton.setOnClickListener {
             trainEditViewModel.saveTrain(
-                Train(trainId ?: 0, binding.trainEditFragmentDirection.text.toString())
+                Direction(trainId ?: 0, binding.trainEditFragmentDirection.text.toString())
             )
             Toast.makeText(activity, getString(R.string.trainEditTrainAdded), Toast.LENGTH_LONG)
                 .show()
@@ -63,7 +60,7 @@ class TrainEditFragment :
                     .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                     .collect { train ->
                         train?.let { trainNotNull ->
-                            binding.trainEditFragmentDirection.setText(trainNotNull.direction)
+                            binding.trainEditFragmentDirection.setText(trainNotNull.nameDirection)
                         }
                     }
             }

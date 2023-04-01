@@ -28,4 +28,5 @@
 
     <color name="main_gradient_dark">#DDE7FA</color>
     <color name="main_gradient_light">#F4E5E9</color>
+    <color name="background_is_edit_manually">#C0C0C0</color>
 </resources>

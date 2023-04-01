@@ -3,7 +3,7 @@ package com.example.workschedule.data
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.utils.*
 
@@ -58,17 +58,17 @@ class DomainRepositoryImpl(
         database.driverDao().deleteAllDrivers()
     }
 
-    override suspend fun getAllTrainsList(): List<Train> =
-        database.trainDao().getAllTrains().fromDTOListTrain
+    override suspend fun getAllTrainsList(): List<Direction> =
+        database.directionDao().getAllDirections().fromDTOListTrain
 
-    override suspend fun getTrain(trainId: Int): Train =
-        database.trainDao().getTrainById(trainId).fromDTO
+    override suspend fun getDirection(directionId: Int): Direction =
+        database.directionDao().getDirectionById(directionId).fromDTO
 
-    override suspend fun saveTrain(train: Train) {
-        database.trainDao().saveTrain(train.toDTO)
+    override suspend fun saveDirection(direction: Direction) {
+        database.directionDao().saveDirection(direction.toDTO)
     }
 
     override suspend fun deleteTrain(trainId: Int) {
-        database.trainDao().deleteTrainById(trainId)
+        database.directionDao().deleteDirectionById(trainId)
     }
 }

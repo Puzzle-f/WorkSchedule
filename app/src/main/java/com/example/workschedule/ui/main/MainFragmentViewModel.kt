@@ -35,6 +35,7 @@ class MainFragmentViewModel(
                 it.driverId = 0
             }
             withContext(Dispatchers.IO) { saveTrainRunListUseCase.execute(trainRunList) }
+            withContext(Dispatchers.IO) { saveDriverListUseCase.execute(driverList) }
             _trainsRunList.emit(trainRunList)
         }
     }

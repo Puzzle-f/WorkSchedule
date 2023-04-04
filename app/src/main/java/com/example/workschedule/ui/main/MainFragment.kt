@@ -57,10 +57,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect {
                     adapter.submitList(it)
-                    Log.e("", "MainFragment initObservers()")
                     if (it.isNotEmpty()) {
                         Toast.makeText(
-                            activity, getString(R.string.mainTableFilled), Toast.LENGTH_SHORT
+                            activity, getString(R.string.mainTableFilled), Toast.LENGTH_LONG
                         ).show()
                     }
                 }

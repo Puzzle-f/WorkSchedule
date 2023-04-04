@@ -63,12 +63,13 @@ class DriverEditFragment :
                     driverEditFragmentPersonnelNumber.text.toString().toInt(),
                     driverEditFragmentSurname.text.toString(),
                     driverEditFragmentName.text.toString(),
-                    driverEditFragmentPatronymic.text.toString(),
-                    0,
-                    0,
-                    adapter.getAccessList()
+                    driverEditFragmentPatronymic.text.toString()
                 )
             )
+
+            driverEditViewModel.savePermissions(adapter.permissionListFromAdapter)
+
+
             Toast.makeText(
                 activity, getString(R.string.driverEditDataInputSuccess), Toast.LENGTH_LONG
             ).show()
@@ -93,18 +94,21 @@ class DriverEditFragment :
                         driver?.let {
                             renderData(driver)
                         }
+
                     }
             }
+            driverEditViewModel.getPermissions(it)
             driverEditViewModel.getDriver(it)
         }
         lifecycleScope.launchWhenStarted {
-            driverEditViewModel.trains
+            driverEditViewModel.directions
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
                     adapter.submitList(it)
                 }
         }
-        driverEditViewModel.getTrains()
+        driverEditViewModel.getDirections()
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -113,8 +117,9 @@ class DriverEditFragment :
         driverEditFragmentSurname.setText(driver.surname)
         driverEditFragmentName.setText(driver.name)
         driverEditFragmentPatronymic.setText(driver.patronymic)
-        adapter.setAccessList(driver.accessTrainsId)
+        adapter.permissionList(driverEditViewModel.permissions.value)
         adapter.notifyDataSetChanged()
+
     }
 
     companion object {

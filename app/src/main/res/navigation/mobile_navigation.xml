@@ -80,7 +80,7 @@
 
     <fragment
         android:id="@+id/nav_trains"
-        android:name="com.example.workschedule.ui.trains.TrainsFragment"
+        android:name="com.example.workschedule.ui.direction.DirectionFragment"
         android:label="@string/menu_direction"
         tools:layout="@layout/fragment_trains" >
         <action
@@ -115,7 +115,7 @@
 
     <fragment
         android:id="@+id/nav_train_edit"
-        android:name="com.example.workschedule.ui.train_edit.TrainEditFragment"
+        android:name="com.example.workschedule.ui.direction_edit.DirectionEditFragment"
         android:label="@string/menu_train_edit"
         tools:layout="@layout/fragment_train_edit" >
     </fragment>

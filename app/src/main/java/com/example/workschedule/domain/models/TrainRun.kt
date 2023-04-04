@@ -5,29 +5,20 @@ package com.example.workschedule.domain.models
  * заполнения данными о времени, машинистах, и других данных.
  *
  * @param id идентификатор поезда в сетке выездов
- * @param trainId ID поезда
- * @param trainNumber номер поезда
- * @param trainDirection направление поезда
- * @param trainPeriodicity периодичность поезда
  * @param driverId Id машиниста
- * @param driverName ФИО машиниста
- * @param startTime время отправления (LocalDateTime, приведённый к Long)
- * @param travelTime время пути в пункт назначения
- * @param travelRestTime время отдыха перед отправлением обратно
- * @param backTravelTime время пути обратно в пункт отправления
- * @param isEditManually если выезд редактировался вручную
+ * @param direction -
+ * @param startTime время явки у первого блока
+ * @param endTime - время окончания работы у последнего блока
+ * @param countNight - отработано ночей подряд за текущую поездку
+ * @param workTime - отработано часов за текущую поездку
  */
+
 data class TrainRun(
     val id: Int,
-    val trainId: Int,
-    val trainNumber: Int,
-    val trainDirection: String,
-    val trainPeriodicity: TrainPeriodicity,
     var driverId: Int,
-    var driverName: String,
+    val direction: Int,
     val startTime: Long,
-    val travelTime: Long,
-    val travelRestTime: Long,
-    val backTravelTime: Long,
-    var isEditManually: Boolean
+    val endTime: Long,
+    val countNight: Int,
+    val workTime: Long
 )

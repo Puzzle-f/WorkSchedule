@@ -55,7 +55,7 @@
     <string name="driverEditDataInputIncorrect">Enter correct data</string>
     <string name="driverEditDataInputSuccess">Driver added successfully</string>
     <string name="mainTableFilled">Routes table has been filled with drivers data</string>
-    <string name="trainEditTrainAdded">Train added successfully</string>
+    <string name="trainEditTrainAdded">Direction added successfully</string>
 
     <!--    Main Activity   -->
     <string name="dataAdded">Data added successfully</string>

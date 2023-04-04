@@ -7,12 +7,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.databinding.FragmentDriverEditItemBinding
-import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.Direction
+import com.example.workschedule.domain.models.Permission
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlin.jvm.internal.Intrinsics
 
 class DriverEditAdapter :
-    ListAdapter<Train, DriverEditAdapter.WorkerEditViewHolder>(WorkerEditCallback) {
+    ListAdapter<Direction, DriverEditAdapter.WorkerEditViewHolder>(WorkerEditCallback) {
 
-    private var accessIdList: MutableList<Int> = mutableListOf()
+    var permissionListFromAdapter: MutableList<Int> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerEditViewHolder =
         WorkerEditViewHolder(
@@ -34,32 +40,29 @@ class DriverEditAdapter :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setAccessList(accessList: List<Int>) {
-        accessIdList = accessList.toMutableList()
+    fun permissionList(permissions: List<Permission>) {
+        permissionListFromAdapter.addAll(permissions.map { it.idDirection })
         notifyDataSetChanged()
     }
 
-    fun getAccessList(): List<Int> = accessIdList
-
     inner class WorkerEditViewHolder(private val binding: FragmentDriverEditItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(train: Train) = with(binding) {
-            editDriverFragmentRecyclerItemDestination.text = train.direction
-            if (train.id in accessIdList) editDriverFragmentRecyclerItemSwitch.isChecked = true
+        fun bind(direction: Direction) = with(binding) {
+            editDriverFragmentRecyclerItemDestination.text = direction.name
+            if (direction.id in permissionListFromAdapter) editDriverFragmentRecyclerItemSwitch.isChecked = true
             editDriverFragmentRecyclerItemSwitch.setOnClickListener {
-                if (editDriverFragmentRecyclerItemSwitch.isChecked && train.id !in accessIdList) {
-                    accessIdList.add(train.id)
+                if (editDriverFragmentRecyclerItemSwitch.isChecked && direction.id !in permissionListFromAdapter) {
+                    permissionListFromAdapter.add(direction.id)
                 }
-                if (!editDriverFragmentRecyclerItemSwitch.isChecked && train.id in accessIdList) {
-                    accessIdList.remove(train.id)
+                if (!editDriverFragmentRecyclerItemSwitch.isChecked && direction.id in permissionListFromAdapter) {
+                    permissionListFromAdapter.remove(direction.id)
                 }
             }
         }
     }
 
-    companion object WorkerEditCallback : DiffUtil.ItemCallback<Train>() {
-        override fun areItemsTheSame(oldItem: Train, newItem: Train) = oldItem == newItem
-        override fun areContentsTheSame(oldItem: Train, newItem: Train) = oldItem == newItem
+    companion object WorkerEditCallback : DiffUtil.ItemCallback<Direction>() {
+        override fun areItemsTheSame(oldItem: Direction, newItem: Direction) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: Direction, newItem: Direction) = oldItem == newItem
     }
 }

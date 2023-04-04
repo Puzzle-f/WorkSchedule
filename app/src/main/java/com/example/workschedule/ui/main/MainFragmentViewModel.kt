@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
-import com.example.workschedule.utils.fillTrainRunListWithDrivers
 import com.example.workschedule.utils.toLocalDateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,9 +32,8 @@ class MainFragmentViewModel(
             val driverList = withContext(Dispatchers.IO) { getAllDriversListUseCase.execute() }
             trainRunList.filter { it.startTime.toLocalDateTime() >= LocalDateTime.now() }.forEach {
                 it.driverId = 0
-                it.driverName = ""
+                it.driverId = 0
             }
-            withContext(Dispatchers.Default) { trainRunList.fillTrainRunListWithDrivers(driverList) }
             withContext(Dispatchers.IO) { saveTrainRunListUseCase.execute(trainRunList) }
             _trainsRunList.emit(trainRunList)
         }

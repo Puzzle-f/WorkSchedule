@@ -3,23 +3,25 @@ package com.example.workschedule.di
 import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.MIGRATION_1_2
-import com.example.workschedule.data.database.MIGRATION_2_3
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.driver.*
-import com.example.workschedule.domain.usecases.train.DeleteTrainUseCase
-import com.example.workschedule.domain.usecases.train.GetAllTrainsListUseCase
-import com.example.workschedule.domain.usecases.train.GetTrainUseCase
-import com.example.workschedule.domain.usecases.train.SaveTrainUseCase
+import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
+import com.example.workschedule.domain.usecases.permission.SavePermissionForDriverIfNotAvailableUseCase
+import com.example.workschedule.domain.usecases.permission.SavePermissionsUseCase
+import com.example.workschedule.domain.usecases.train.DeleteDirectionUseCase
+import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
+import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
+import com.example.workschedule.domain.usecases.train.SaveDirectionUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
 import com.example.workschedule.ui.main.MainFragmentViewModel
 import com.example.workschedule.ui.schedule_all_drivers.SchedulersViewModel
-import com.example.workschedule.ui.train_edit.TrainEditViewModel
+import com.example.workschedule.ui.direction_edit.DirectionEditViewModel
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditViewModel
 import com.example.workschedule.ui.trainrun_edit.trainrun_redact.TrainRunRedactViewModel
-import com.example.workschedule.ui.trains.TrainsViewModel
+import com.example.workschedule.ui.direction.DirectionsViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -30,6 +32,7 @@ val application = module {
             "ScheduleDB.db"
         )
             .addMigrations(MIGRATION_1_2)
+            .fallbackToDestructiveMigration()
             .build()
     }
     single<DomainRepository> { DomainRepositoryImpl(database = get()) }
@@ -47,7 +50,7 @@ val application = module {
         TrainRunEditViewModel(
             GetTrainRunUseCase(repository = get()),
             GetAllDriversListUseCase(repository = get()),
-            GetAllTrainsListUseCase(repository = get()),
+            GetAllDirectionsListUseCase(repository = get()),
             SaveTrainRunUseCase(repository = get()),
             SaveTrainRunListUseCase(repository = get())
         )
@@ -56,7 +59,7 @@ val application = module {
         TrainRunRedactViewModel(
             GetTrainRunUseCase(repository = get()),
             GetAllDriversListUseCase(repository = get()),
-            GetAllTrainsListUseCase(repository = get()),
+            GetAllDirectionsListUseCase(repository = get()),
             SaveTrainRunUseCase(repository = get()),
             SaveTrainRunListUseCase(repository = get())
         )
@@ -71,20 +74,23 @@ val application = module {
     viewModel {
         DriverEditViewModel(
             GetDriverUseCase(repository = get()),
-            GetAllTrainsListUseCase(repository = get()),
-            SaveDriverUseCase(repository = get())
+            GetAllDirectionsListUseCase(repository = get()),
+            SaveDriverUseCase(repository = get()),
+            SavePermissionsUseCase(repository = get()),
+            GetPermissionsForDriverUseCase(repository = get()),
+            SavePermissionForDriverIfNotAvailableUseCase(repository = get())
         )
     }
     viewModel {
-        TrainsViewModel(
-            GetAllTrainsListUseCase(repository = get()),
-            DeleteTrainUseCase(repository = get())
+        DirectionsViewModel(
+            GetAllDirectionsListUseCase(repository = get()),
+            DeleteDirectionUseCase(repository = get())
         )
     }
     viewModel {
-        TrainEditViewModel(
-            GetTrainUseCase(repository = get()),
-            SaveTrainUseCase(repository = get())
+        DirectionEditViewModel(
+            GetDirectionUseCase(repository = get()),
+            SaveDirectionUseCase(repository = get())
         )
     }
     viewModel {

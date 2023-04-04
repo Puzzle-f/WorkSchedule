@@ -50,36 +50,36 @@ class MainFragmentAdapter(
         }
 
         fun bind(position: Int) = with(binding) {
-            mainFragmentRecyclerItemDate.text =
-                currentList[position].startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y"))
-            mainFragmentRecyclerItemTime.text =
-                currentList[position].startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern(" HH:mm"))
-            mainFragmentRecyclerItemTrain.text =
-                with(currentList[position]) { "$trainNumber $trainDirection" }
-            mainFragmentRecyclerItemDriver.text = currentList[position].driverName
-            mainFragmentRecyclerItemTravelTimeTo.text =
-                currentList[position].travelTime.toTimeString
-            mainFragmentRecyclerItemRestTime.text =
-                currentList[position].travelRestTime.toTimeString
-            mainFragmentRecyclerItemTravelFrom.text =
-                currentList[position].backTravelTime.toTimeString
-            itemView.setOnLongClickListener {
-                itemPosition = adapterPosition
-                clickedTrainRunId = currentList[adapterPosition].id
-                false
-            }
-
-            if (mainFragmentRecyclerItemDriver.text == "") {
-                layoutContainer.setBackgroundResource(R.color.red)
-            }
-            else
-                if (currentList[adapterPosition].isEditManually) {
-                    layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
-                }
-                else
-                {
-                    layoutContainer.setBackgroundResource(R.color.on_primary)
-                }
+//            mainFragmentRecyclerItemDate.text =
+//                currentList[position].startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y"))
+//            mainFragmentRecyclerItemTime.text =
+//                currentList[position].startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern(" HH:mm"))
+//            mainFragmentRecyclerItemTrain.text =
+//                with(currentList[position]) { "$trainNumber $trainDirection" }
+//            mainFragmentRecyclerItemDriver.text = currentList[position].driverName
+//            mainFragmentRecyclerItemTravelTimeTo.text =
+//                currentList[position].travelTime.toTimeString
+//            mainFragmentRecyclerItemRestTime.text =
+//                currentList[position].travelRestTime.toTimeString
+//            mainFragmentRecyclerItemTravelFrom.text =
+//                currentList[position].backTravelTime.toTimeString
+//            itemView.setOnLongClickListener {
+//                itemPosition = adapterPosition
+//                clickedTrainRunId = currentList[adapterPosition].id
+//                false
+//            }
+//
+//            if (mainFragmentRecyclerItemDriver.text == "") {
+//                layoutContainer.setBackgroundResource(R.color.red)
+//            }
+//            else
+//                if (currentList[adapterPosition].isEditManually) {
+//                    layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
+//                }
+//                else
+//                {
+//                    layoutContainer.setBackgroundResource(R.color.on_primary)
+//                }
         }
 
         override fun onCreateContextMenu(

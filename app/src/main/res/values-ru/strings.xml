@@ -54,7 +54,7 @@
     <string name="driverEditDataInputIncorrect">Введите корректные данные</string>
     <string name="driverEditDataInputSuccess">Машинист успешно добавлен</string>
     <string name="mainTableFilled">Таблица выездов заполнена машинистами</string>
-    <string name="trainEditTrainAdded">Поезд успешно добавлен</string>
+    <string name="trainEditTrainAdded">Направление успешно добавлено</string>
 
     <!--    Main Activity   -->
     <string name="dataAdded">Данные успешно добавлены</string>

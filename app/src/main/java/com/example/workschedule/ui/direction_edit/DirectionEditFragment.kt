@@ -1,4 +1,4 @@
-package com.example.workschedule.ui.train_edit
+package com.example.workschedule.ui.direction_edit
 
 import android.os.Bundle
 import android.widget.Toast
@@ -13,10 +13,10 @@ import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class TrainEditFragment :
+class DirectionEditFragment :
     BaseFragment<FragmentTrainEditBinding>(FragmentTrainEditBinding::inflate) {
 
-    private val trainEditViewModel: TrainEditViewModel by viewModel()
+    private val trainEditViewModel: DirectionEditViewModel by viewModel()
     private var trainId: Int? = null
 
     internal data class EditTextValidation(
@@ -37,7 +37,7 @@ class TrainEditFragment :
             checkSaveButtonEnable()
         }
         binding.trainEditFragmentSaveButton.setOnClickListener {
-            trainEditViewModel.saveTrain(
+            trainEditViewModel.saveDirection(
                 Direction(trainId ?: 0, binding.trainEditFragmentDirection.text.toString())
             )
             Toast.makeText(activity, getString(R.string.trainEditTrainAdded), Toast.LENGTH_LONG)
@@ -56,19 +56,19 @@ class TrainEditFragment :
     override fun initObservers() {
         trainId?.let {
             lifecycleScope.launchWhenStarted {
-                trainEditViewModel.train
+                trainEditViewModel.direction
                     .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                    .collect { train ->
-                        train?.let { trainNotNull ->
-                            binding.trainEditFragmentDirection.setText(trainNotNull.nameDirection)
+                    .collect { direction ->
+                        direction?.let { trainNotNull ->
+                            binding.trainEditFragmentDirection.setText(trainNotNull.name)
                         }
                     }
             }
-            trainEditViewModel.getTrain(it)
+            trainEditViewModel.getDirection(it)
         }
     }
 
     companion object {
-        const val TRAIN_ID = "train_id"
+        const val TRAIN_ID = "direction_id"
     }
 }

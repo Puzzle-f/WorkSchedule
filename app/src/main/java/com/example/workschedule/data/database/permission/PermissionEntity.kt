@@ -7,8 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class PermissionEntity(
     @PrimaryKey(autoGenerate = true)
-    @field: ColumnInfo(name = "id")
-    val id: Int,
+    var id: Int = 0,
     @field: ColumnInfo(name = "id_driver")
     val idDriver: Int,
     @field: ColumnInfo(name = "id_direction")

@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
@@ -18,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainrunEditBinding
 import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.ui.base.BaseFragment
@@ -58,7 +56,7 @@ class TrainRunRedactFragment :
         )
     }
     private var trainRunId: Int? = null
-    private var trainsList: List<Train> = mutableListOf()
+    private var trainsList: List<Direction> = mutableListOf()
     private var driversList: List<Driver> = mutableListOf()
     private var trainPeriodicity = TrainPeriodicity.SINGLE
 
@@ -137,10 +135,11 @@ class TrainRunRedactFragment :
         }
         routeEditFragmentTrainDirection.addTextChangedListener { text ->
             if (!text.isNullOrBlank()) {
-                val directionId = trainsList.find { it.direction == text.toString() }?.id
+                val directionId = trainsList.find { it.name == text.toString() }?.id
                 driversAdapter.clear()
                 driversAdapter.add(getString(R.string.edit_periodicity_default_item))
-                driversAdapter.addAll(driversList.filter { directionId in it.accessTrainsId }
+                driversAdapter.addAll(driversList
+//                    .filter { directionId in it.accessTrainsId }
                     .map { it.FIO })
                 driversAdapter.notifyDataSetChanged()
                 routeEditFragmentDriver.setText(
@@ -182,7 +181,7 @@ class TrainRunRedactFragment :
             routeEditFragmentTimeRest.clearFocus()
             routeEditFragmentTimeFrom.clearFocus()
             val trainDirection = routeEditFragmentTrainDirection.text.toString()
-            val trainId = trainsList.find { it.direction == trainDirection }?.id ?: 0
+            val trainId = trainsList.find { it.name == trainDirection }?.id ?: 0
             val trainNumber = routeEditFragmentTrainNumber.text.toString().toInt()
             val driverNameText = routeEditFragmentDriver.text.toString()
             val driverName = if (driverNameText != driversAdapter.getItem(0)) driverNameText else ""
@@ -194,22 +193,22 @@ class TrainRunRedactFragment :
             val travelTime = routeEditFragmentTimeTo.text.toString().timeToMillis
             val restTime = routeEditFragmentTimeRest.text.toString().timeToMillis
             val backTravelTime = routeEditFragmentTimeFrom.text.toString().timeToMillis
-            trainRunEditViewModel.saveTrainRun(
-                TrainRun(
-                    trainRunId ?: 0,
-                    trainId,
-                    trainNumber,
-                    trainDirection,
-                    trainPeriodicity,
-                    driverId,
-                    driverName,
-                    startTime,
-                    travelTime,
-                    restTime,
-                    backTravelTime,
-                    true
-                )
-            )
+//            trainRunEditViewModel.saveTrainRun(
+//                TrainRun(
+//                    trainRunId ?: 0,
+//                    trainId,
+//                    trainNumber,
+//                    trainDirection,
+//                    trainPeriodicity,
+//                    driverId,
+//                    driverName,
+//                    startTime,
+//                    travelTime,
+//                    restTime,
+//                    backTravelTime,
+//                    true
+//                )
+//            )
             findNavController().navigateUp()
         }
         routeEditFragmentCancelButton.setOnClickListener {
@@ -242,7 +241,7 @@ class TrainRunRedactFragment :
                 .collect { list ->
                     trainsList = list
                     trainsAdapter.clear()
-                    trainsAdapter.addAll(list.map { it.direction })
+                    trainsAdapter.addAll(list.map { it.name })
                     trainsAdapter.notifyDataSetChanged()
                 }
         }
@@ -270,16 +269,16 @@ class TrainRunRedactFragment :
         routeEditFragmentDateTime.setText(
             trainRun.startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y HH:mm"))
         )
-        routeEditFragmentTrainNumber.setText(trainRun.trainNumber.toString())
-        routeEditFragmentTrainDirection.setText(trainRun.trainDirection, false)
-        trainPeriodicity = trainRun.trainPeriodicity
-        routeEditFragmentPeriodicity.setText(
-            periodicityAdapter.getItem(trainPeriodicity.toInt).toString(), false
-        )
-        routeEditFragmentDriver.setText(trainRun.driverName, false)
-        routeEditFragmentTimeTo.setText(trainRun.travelTime.toTimeString)
-        routeEditFragmentTimeRest.setText(trainRun.travelRestTime.toTimeString)
-        routeEditFragmentTimeFrom.setText(trainRun.backTravelTime.toTimeString)
+//        routeEditFragmentTrainNumber.setText(trainRun.trainNumber.toString())
+//        routeEditFragmentTrainDirection.setText(trainRun.trainDirection, false)
+//        trainPeriodicity = trainRun.trainPeriodicity
+//        routeEditFragmentPeriodicity.setText(
+//            periodicityAdapter.getItem(trainPeriodicity.toInt).toString(), false
+//        )
+//        routeEditFragmentDriver.setText(trainRun.driverName, false)
+//        routeEditFragmentTimeTo.setText(trainRun.travelTime.toTimeString)
+//        routeEditFragmentTimeRest.setText(trainRun.travelRestTime.toTimeString)
+//        routeEditFragmentTimeFrom.setText(trainRun.backTravelTime.toTimeString)
     }
 
     companion object {

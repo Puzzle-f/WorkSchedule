@@ -1,9 +1,9 @@
-package com.example.workschedule.ui.train_edit
+package com.example.workschedule.ui.direction_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.workschedule.domain.usecases.train.GetTrainUseCase
-import com.example.workschedule.domain.usecases.train.SaveTrainUseCase
+import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
+import com.example.workschedule.domain.usecases.train.SaveDirectionUseCase
 import com.example.workschedule.domain.models.Direction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,23 +12,23 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TrainEditViewModel(
-    private val getTrainUseCase: GetTrainUseCase,
-    private val saveTrainUseCase: SaveTrainUseCase
+class DirectionEditViewModel(
+    private val getDirectionUseCase: GetDirectionUseCase,
+    private val saveDirectionUseCase: SaveDirectionUseCase
 ) : ViewModel() {
 
-    private var _train = MutableStateFlow<Direction?>(null)
-    val train: StateFlow<Direction?> = _train.asStateFlow()
+    private var _direction = MutableStateFlow<Direction?>(null)
+    val direction: StateFlow<Direction?> = _direction.asStateFlow()
 
-    fun getTrain(number: Int) {
+    fun getDirection(number: Int) {
         viewModelScope.launch {
-            _train.emit(withContext(Dispatchers.IO) { getTrainUseCase.execute(number) })
+            _direction.emit(withContext(Dispatchers.IO) { getDirectionUseCase.execute(number) })
         }
     }
 
-    fun saveTrain(train: Direction) {
+    fun saveDirection(direction: Direction) {
         viewModelScope.launch(Dispatchers.IO) {
-            saveTrainUseCase.execute(train)
+            saveDirectionUseCase.execute(direction)
         }
     }
 }

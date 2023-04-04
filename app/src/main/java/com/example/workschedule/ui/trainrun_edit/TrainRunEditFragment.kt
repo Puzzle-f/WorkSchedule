@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainrunEditBinding
 import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.domain.models.Train
+import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.ui.base.BaseFragment
@@ -56,7 +56,7 @@ class TrainRunEditFragment :
         Toast.makeText(context, "Добавление", Toast.LENGTH_SHORT).show()
     }
     private var trainRunId: Int? = null
-    private var trainsList: List<Train> = mutableListOf()
+    private var trainsList: List<Direction> = mutableListOf()
     private var driversList: List<Driver> = mutableListOf()
     private var trainPeriodicity = TrainPeriodicity.SINGLE
 
@@ -135,10 +135,11 @@ class TrainRunEditFragment :
         }
         routeEditFragmentTrainDirection.addTextChangedListener { text ->
             if (!text.isNullOrBlank()) {
-                val directionId = trainsList.find { it.direction == text.toString() }?.id
+                val directionId = trainsList.find { it.name == text.toString() }?.id
                 driversAdapter.clear()
                 driversAdapter.add(getString(R.string.edit_periodicity_default_item))
-                driversAdapter.addAll(driversList.filter { directionId in it.accessTrainsId }
+                driversAdapter.addAll(driversList
+//                    .filter { directionId in it.accessTrainsId }
                     .map { it.FIO })
                 driversAdapter.notifyDataSetChanged()
                 routeEditFragmentDriver.setText(
@@ -180,7 +181,7 @@ class TrainRunEditFragment :
             routeEditFragmentTimeRest.clearFocus()
             routeEditFragmentTimeFrom.clearFocus()
             val trainDirection = routeEditFragmentTrainDirection.text.toString()
-            val trainId = trainsList.find { it.direction == trainDirection }?.id ?: 0
+            val trainId = trainsList.find { it.name == trainDirection }?.id ?: 0
             val trainNumber = routeEditFragmentTrainNumber.text.toString().toInt()
             val driverNameText = routeEditFragmentDriver.text.toString()
             val driverName = if (driverNameText != driversAdapter.getItem(0)){
@@ -195,22 +196,22 @@ class TrainRunEditFragment :
             val travelTime = routeEditFragmentTimeTo.text.toString().timeToMillis
             val restTime = routeEditFragmentTimeRest.text.toString().timeToMillis
             val backTravelTime = routeEditFragmentTimeFrom.text.toString().timeToMillis
-            trainRunEditViewModel.saveTrainRun(
-                TrainRun(
-                    trainRunId ?: 0,
-                    trainId,
-                    trainNumber,
-                    trainDirection,
-                    trainPeriodicity,
-                    driverId,
-                    driverName,
-                    startTime,
-                    travelTime,
-                    restTime,
-                    backTravelTime,
-                    isEditManually
-                )
-            )
+//            trainRunEditViewModel.saveTrainRun(
+//                TrainRun(
+//                    trainRunId ?: 0,
+//                    trainId,
+//                    trainNumber,
+//                    trainDirection,
+//                    trainPeriodicity,
+//                    driverId,
+//                    driverName,
+//                    startTime,
+//                    travelTime,
+//                    restTime,
+//                    backTravelTime,
+//                    isEditManually
+//                )
+//            )
             findNavController().navigateUp()
         }
         routeEditFragmentCancelButton.setOnClickListener {
@@ -243,7 +244,7 @@ class TrainRunEditFragment :
                 .collect { list ->
                     trainsList = list
                     trainsAdapter.clear()
-                    trainsAdapter.addAll(list.map { it.direction })
+//                    trainsAdapter.addAll(list.map { it.nameDirection })
                     trainsAdapter.notifyDataSetChanged()
                 }
         }
@@ -271,16 +272,16 @@ class TrainRunEditFragment :
         routeEditFragmentDateTime.setText(
             trainRun.startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y HH:mm"))
         )
-        routeEditFragmentTrainNumber.setText(trainRun.trainNumber.toString())
-        routeEditFragmentTrainDirection.setText(trainRun.trainDirection, false)
-        trainPeriodicity = trainRun.trainPeriodicity
-        routeEditFragmentPeriodicity.setText(
-            periodicityAdapter.getItem(trainPeriodicity.toInt).toString(), false
-        )
-        routeEditFragmentDriver.setText(trainRun.driverName, false)
-        routeEditFragmentTimeTo.setText(trainRun.travelTime.toTimeString)
-        routeEditFragmentTimeRest.setText(trainRun.travelRestTime.toTimeString)
-        routeEditFragmentTimeFrom.setText(trainRun.backTravelTime.toTimeString)
+//        routeEditFragmentTrainNumber.setText(trainRun.trainNumber.toString())
+//        routeEditFragmentTrainDirection.setText(trainRun.trainDirection, false)
+//        trainPeriodicity = trainRun.trainPeriodicity
+//        routeEditFragmentPeriodicity.setText(
+//            periodicityAdapter.getItem(trainPeriodicity.toInt).toString(), false
+//        )
+//        routeEditFragmentDriver.setText(trainRun.driverName, false)
+//        routeEditFragmentTimeTo.setText(trainRun.travelTime.toTimeString)
+//        routeEditFragmentTimeRest.setText(trainRun.travelRestTime.toTimeString)
+//        routeEditFragmentTimeFrom.setText(trainRun.backTravelTime.toTimeString)
     }
 
     companion object {

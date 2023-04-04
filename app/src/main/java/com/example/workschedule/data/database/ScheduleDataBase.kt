@@ -9,6 +9,7 @@ import com.example.workschedule.data.database.direction.DirectionDao
 import com.example.workschedule.data.database.direction.DirectionEntity
 import com.example.workschedule.data.database.driver.DriverDao
 import com.example.workschedule.data.database.driver.DriverEntity
+import com.example.workschedule.data.database.permission.PermissionDao
 import com.example.workschedule.data.database.permission.PermissionEntity
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.data.database.trainrun.TrainRunDao
@@ -26,6 +27,7 @@ abstract class ScheduleDataBase : RoomDatabase() {
     abstract fun driverDao(): DriverDao
     abstract fun directionDao(): DirectionDao
     abstract fun trainRunDao(): TrainRunDao
+    abstract fun permissionDao(): PermissionDao
 }
 
 val MIGRATION_1_2 = object : Migration(1, 2) {

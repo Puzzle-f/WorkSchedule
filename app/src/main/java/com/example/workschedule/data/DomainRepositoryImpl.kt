@@ -4,6 +4,7 @@ import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Direction
+import com.example.workschedule.domain.models.Permission
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.utils.*
 
@@ -27,6 +28,22 @@ class DomainRepositoryImpl(
     override suspend fun saveTrainRunList(trainRunList: List<TrainRun>) {
         database.trainRunDao().saveTrainRun(*trainRunList.map { it.toDTO }.toTypedArray())
     }
+
+    override suspend fun savePermissions(permissions: List<Permission>) {
+        database.permissionDao().addPermissionToDriver(permissions.map { it.toDTO })
+    }
+
+    override suspend fun getPermissionsForDriver(idDriver: Int): List<Permission> =
+        database.permissionDao().getPermissionsForDriver(idDriver).map { it.fromDto }
+
+    override suspend fun deletePermissionsToDriver(permission: Permission) {
+        database.permissionDao().deletePermissionsToDriver(permission.toDTO)
+    }
+
+    override suspend fun addPermToDriverIfNotAvailable(permission: Permission) {
+        database.permissionDao().addPermToDriverIfNotAvailable(permission.toDTO)
+    }
+
 
     override suspend fun deleteTrainRun(trainRunId: Int) {
         database.trainRunDao().deleteTrainRunById(trainRunId)

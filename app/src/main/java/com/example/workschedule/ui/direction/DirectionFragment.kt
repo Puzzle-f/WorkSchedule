@@ -1,4 +1,4 @@
-package com.example.workschedule.ui.trains
+package com.example.workschedule.ui.direction
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,12 +12,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentTrainsBinding
 import com.example.workschedule.ui.base.BaseFragment
-import com.example.workschedule.ui.train_edit.TrainEditFragment.Companion.TRAIN_ID
+import com.example.workschedule.ui.direction_edit.DirectionEditFragment.Companion.TRAIN_ID
 import com.google.android.material.button.MaterialButton
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class TrainsFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding::inflate) {
-    private val trainsViewModel: TrainsViewModel by viewModel()
+class DirectionFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding::inflate) {
+    private val trainsViewModel: DirectionsViewModel by viewModel()
     private val adapter: TrainsFragmentAdapter by lazy { TrainsFragmentAdapter(requireActivity().menuInflater) }
     private lateinit var buttonNewTrain: MaterialButton
 

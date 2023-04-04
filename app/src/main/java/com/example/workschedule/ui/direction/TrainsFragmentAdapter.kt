@@ -1,4 +1,4 @@
-package com.example.workschedule.ui.trains
+package com.example.workschedule.ui.direction
 
 import android.view.*
 import androidx.recyclerview.widget.DiffUtil
@@ -41,10 +41,10 @@ class TrainsFragmentAdapter(
         }
 
         fun bind(position: Int) = with(binding) {
-            trainsFragmentRecyclerItemDestination.text = currentList[position].nameDirection
+            trainsFragmentRecyclerItemDestination.text = currentList[position].name
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition
-                clickedId = currentList[adapterPosition].idDirection
+                clickedId = currentList[adapterPosition].id
                 false
             }
         }

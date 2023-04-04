@@ -1,7 +1,7 @@
 package com.example.workschedule.domain
 
-import com.example.workschedule.domain.models.Train
-import com.example.workschedule.domain.usecases.train.SaveTrainUseCase
+import com.example.workschedule.domain.models.Direction
+import com.example.workschedule.domain.usecases.train.SaveDirectionUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
@@ -19,11 +19,11 @@ class SaveTrainUseCaseTest {
 
     @Test
     fun should_invoke_one_time() {
-        val useCase = SaveTrainUseCase(domainRepository)
-        val train = Train(id = 1, direction = "Moscow")
+        val useCase = SaveDirectionUseCase(domainRepository)
+        val direction = Direction(idDirection = 1, nameDirection = "Moscow")
         runBlocking {
-            useCase.execute(train)
-            Mockito.verify(domainRepository, Mockito.times(1)).saveTrain(train)
+            useCase.execute(direction)
+            Mockito.verify(domainRepository, Mockito.times(1)).saveDirection(direction)
         }
     }
 }

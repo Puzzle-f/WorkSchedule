@@ -3,9 +3,13 @@ package com.example.workschedule.data.database.status
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.workschedule.data.database.DateTimeConverter
+import com.example.workschedule.data.database.PeriodicityConverter
 import java.time.LocalDateTime
 
 @Entity
+@TypeConverters(DateTimeConverter::class)
 data class StatusEntity(
     @PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")

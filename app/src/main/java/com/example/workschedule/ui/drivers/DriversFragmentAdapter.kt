@@ -54,9 +54,7 @@ class DriversFragmentAdapter(
             driversFragmentRecyclerItemPersonnelNumber.text =
                 currentList[position].personnelNumber.toString()
             driversFragmentRecyclerItemDriverFIO.text = currentList[position].FIO
-            driversFragmentRecyclerItemHours.text =
-                currentList[position].workedTime.toHoursTimeString + "/" +
-                        currentList[position].totalTime.toHoursTimeString
+            driversFragmentRecyclerItemHours.text = "отработано часов"
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition
                 clickedDriverId = currentList[adapterPosition].id

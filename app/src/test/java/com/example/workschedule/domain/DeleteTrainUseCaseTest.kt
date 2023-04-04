@@ -1,6 +1,6 @@
 package com.example.workschedule.domain
 
-import com.example.workschedule.domain.usecases.train.DeleteTrainUseCase
+import com.example.workschedule.domain.usecases.train.DeleteDirectionUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Test
@@ -18,7 +18,7 @@ class DeleteTrainUseCaseTest {
 
     @Test
     fun should_invoke_one_time() {
-        val useCase = DeleteTrainUseCase(domainRepository)
+        val useCase = DeleteDirectionUseCase(domainRepository)
         val trainId = 1
         runBlocking {
             useCase.execute(trainId)

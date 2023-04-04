@@ -3,8 +3,8 @@ package com.example.workschedule.domain.usecases.train
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.models.Direction
 
-class SaveTrainUseCase(
+class SaveDirectionUseCase(
     private val repository: DomainRepository
 ) {
-    suspend fun execute(train: Direction) = repository.saveTrain(train)
+    suspend fun execute(direction: Direction) = repository.saveDirection(direction)
 }

@@ -9,18 +9,20 @@ interface PermissionDao {
     suspend fun getAllPermissions(): List<PermissionEntity>
 
     //    получить список заключений для машиниста по id.
-    @Query("SELECT * FROM PermissionEntity WHERE id_driver = idDriver")
-    suspend fun getAllPermissionForIdDriver(idDriver: Int): List<PermissionEntity>
+    @Query("SELECT * FROM PermissionEntity WHERE id_driver = :idDriver")
+    suspend fun getPermissionsForDriver(idDriver: Int): List<PermissionEntity>
 
     //  добавить заключения машинисту
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addPermissionToDriver(permissionList: List<PermissionEntity>)
 
-    //    удалить заключения у машиниста
-    @Query("DELETE * FROM PermissionEntity WHERE id_driver = driverId" +
-            "AND idDirection IN (:directionIdList)")
-    suspend fun deletePermissionsToDriver(driverId: Int, directionIdList: List<Int>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addPermToDriverIfNotAvailable(permission: PermissionEntity)
+
+    //    удалить заключение
+    @Delete
+    suspend fun deletePermissionsToDriver(permission: PermissionEntity)
     //    удалить таблицу
-    @Query("DELETE * FROM PermissionEntity")
+    @Query("DELETE FROM PermissionEntity")
     suspend fun deleteAllPermissions()
 }

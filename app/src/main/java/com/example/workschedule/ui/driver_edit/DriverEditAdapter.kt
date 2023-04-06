@@ -1,6 +1,7 @@
 package com.example.workschedule.ui.driver_edit
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,11 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.databinding.FragmentDriverEditItemBinding
 import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.Permission
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlin.jvm.internal.Intrinsics
 
 class DriverEditAdapter :
     ListAdapter<Direction, DriverEditAdapter.WorkerEditViewHolder>(WorkerEditCallback) {
@@ -40,9 +36,11 @@ class DriverEditAdapter :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun permissionList(permissions: List<Permission>) {
-        permissionListFromAdapter.addAll(permissions.map { it.idDirection })
-        notifyDataSetChanged()
+    fun permissionList() {
+        val b = Bundle().getIntArray(KEY_PERMISSION)
+        if(b!=null){
+            permissionListFromAdapter = b.toMutableList()
+        }
     }
 
     inner class WorkerEditViewHolder(private val binding: FragmentDriverEditItemBinding) :
@@ -51,10 +49,10 @@ class DriverEditAdapter :
             editDriverFragmentRecyclerItemDestination.text = direction.name
             if (direction.id in permissionListFromAdapter) editDriverFragmentRecyclerItemSwitch.isChecked = true
             editDriverFragmentRecyclerItemSwitch.setOnClickListener {
-                if (editDriverFragmentRecyclerItemSwitch.isChecked && direction.id !in permissionListFromAdapter) {
+                if (editDriverFragmentRecyclerItemSwitch.isChecked) {
                     permissionListFromAdapter.add(direction.id)
                 }
-                if (!editDriverFragmentRecyclerItemSwitch.isChecked && direction.id in permissionListFromAdapter) {
+                if (!editDriverFragmentRecyclerItemSwitch.isChecked) {
                     permissionListFromAdapter.remove(direction.id)
                 }
             }
@@ -66,3 +64,4 @@ class DriverEditAdapter :
         override fun areContentsTheSame(oldItem: Direction, newItem: Direction) = oldItem == newItem
     }
 }
+val KEY_PERMISSION = "KEY_PERMISSION"

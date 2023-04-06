@@ -4,20 +4,16 @@ import androidx.room.*
 
 @Dao
 interface PermissionDao {
-    // Получить весь список заключений
-    @Query("SELECT * FROM PermissionEntity ORDER BY id")
-    suspend fun getAllPermissions(): List<PermissionEntity>
-
     //    получить список заключений для машиниста по id.
     @Query("SELECT * FROM PermissionEntity WHERE id_driver = :idDriver")
     suspend fun getPermissionsForDriver(idDriver: Int): List<PermissionEntity>
 
     //  добавить заключения машинисту
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addPermissionToDriver(permissionList: List<PermissionEntity>)
+    suspend fun addPermissionToDriver(permissionList: PermissionEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addPermToDriverIfNotAvailable(permission: PermissionEntity)
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun addPermToDriverIfNotAvailable(permission: PermissionEntity)
 
     //    удалить заключение
     @Delete

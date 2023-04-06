@@ -24,8 +24,8 @@ interface DomainRepository {
     suspend fun saveDirection(direction: Direction)
     suspend fun deleteTrain(trainId: Int)
     suspend fun saveTrainRunList(trainRunList: List<TrainRun>)
-    suspend fun savePermissions(permissions: List<Permission>)
+    suspend fun addPermission(permission: Permission)
     suspend fun getPermissionsForDriver(idDriver: Int): List<Permission>
-    suspend fun deletePermissionsToDriver(permission: Permission)
-    suspend fun addPermToDriverIfNotAvailable(permission: Permission)
+    suspend fun deletePermission(permission: Permission)
+    suspend fun updateDriver(driver: Driver)
 }

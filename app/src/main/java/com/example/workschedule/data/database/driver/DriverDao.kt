@@ -1,9 +1,6 @@
 package com.example.workschedule.data.database.driver
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface DriverDao {
@@ -13,11 +10,13 @@ interface DriverDao {
     // Получить машиниста по id
     @Query("SELECT * FROM DriverEntity WHERE id LIKE :driverId")
     suspend fun getDriverById(driverId: Int): DriverEntity
-    // Сохранить нового или изменить машиниста
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    // Сохранить нового машиниста
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun saveDriver(driver: DriverEntity)
+    @Update
+    suspend fun updateDriver(driver: DriverEntity)
     // Сохранить список машинистов
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun saveDriverList(driverList: List<DriverEntity>)
     // Удалить машиниста
     @Query("DELETE FROM DriverEntity WHERE id = :driverId")

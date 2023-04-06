@@ -29,21 +29,20 @@ class DomainRepositoryImpl(
         database.trainRunDao().saveTrainRun(*trainRunList.map { it.toDTO }.toTypedArray())
     }
 
-    override suspend fun savePermissions(permissions: List<Permission>) {
-        database.permissionDao().addPermissionToDriver(permissions.map { it.toDTO })
+    override suspend fun addPermission(permission: Permission) {
+        database.permissionDao().addPermissionToDriver(permission.toDTO)
     }
 
     override suspend fun getPermissionsForDriver(idDriver: Int): List<Permission> =
         database.permissionDao().getPermissionsForDriver(idDriver).map { it.fromDto }
 
-    override suspend fun deletePermissionsToDriver(permission: Permission) {
+    override suspend fun deletePermission(permission: Permission) {
         database.permissionDao().deletePermissionsToDriver(permission.toDTO)
     }
 
-    override suspend fun addPermToDriverIfNotAvailable(permission: Permission) {
-        database.permissionDao().addPermToDriverIfNotAvailable(permission.toDTO)
+    override suspend fun updateDriver(driver: Driver) {
+        database.driverDao().updateDriver(driver.toDTO)
     }
-
 
     override suspend fun deleteTrainRun(trainRunId: Int) {
         database.trainRunDao().deleteTrainRunById(trainRunId)

@@ -2,12 +2,20 @@ package com.example.workschedule.data.database.permission
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
+import com.example.workschedule.data.database.driver.DriverEntity
 
-@Entity
+//@Entity(primaryKeys = ["id_driver","id_direction"])
+@Entity(primaryKeys = ["id_driver","id_direction"],
+    foreignKeys = [ForeignKey(
+        entity = DriverEntity::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("id_driver"),
+        onDelete = CASCADE
+    )]
+)
 data class PermissionEntity(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
     @field: ColumnInfo(name = "id_driver")
     val idDriver: Int,
     @field: ColumnInfo(name = "id_direction")

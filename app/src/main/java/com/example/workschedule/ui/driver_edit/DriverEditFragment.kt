@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriverEditBinding
 import com.example.workschedule.domain.models.Driver
+import com.example.workschedule.domain.models.Permission
 import com.example.workschedule.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -57,19 +58,19 @@ class DriverEditFragment :
             checkSaveButtonEnable()
         }
         driverEditFragmentSaveButton.setOnClickListener {
-            driverEditViewModel.saveDriver(
-                Driver(
-                    driverId ?: 0,
-                    driverEditFragmentPersonnelNumber.text.toString().toInt(),
-                    driverEditFragmentSurname.text.toString(),
-                    driverEditFragmentName.text.toString(),
-                    driverEditFragmentPatronymic.text.toString()
-                )
+            val driverLocal = Driver(
+                driverId ?: 0,
+                driverEditFragmentPersonnelNumber.text.toString().toInt(),
+                driverEditFragmentSurname.text.toString(),
+                driverEditFragmentName.text.toString(),
+                driverEditFragmentPatronymic.text.toString()
             )
-
+            if (driverId == null) {
+                driverEditViewModel.saveDriver(driverLocal)
+            } else {
+                driverEditViewModel.updateDriver(driverLocal)
+            }
             driverEditViewModel.savePermissions(adapter.permissionListFromAdapter)
-
-
             Toast.makeText(
                 activity, getString(R.string.driverEditDataInputSuccess), Toast.LENGTH_LONG
             ).show()
@@ -87,18 +88,18 @@ class DriverEditFragment :
 
     override fun initObservers() {
         driverId?.let {
+            driverEditViewModel.getPermissions(it)
+            driverEditViewModel.getDriver(it)
             lifecycleScope.launchWhenStarted {
                 driverEditViewModel.driver
                     .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                     .collect { driver ->
                         driver?.let {
-                            renderData(driver)
+                            renderDataDriver(driver)
                         }
 
                     }
             }
-            driverEditViewModel.getPermissions(it)
-            driverEditViewModel.getDriver(it)
         }
         lifecycleScope.launchWhenStarted {
             driverEditViewModel.directions
@@ -107,20 +108,33 @@ class DriverEditFragment :
                     adapter.submitList(it)
                 }
         }
+        lifecycleScope.launchWhenStarted {
+            driverEditViewModel.permissions
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { permissions ->
+                    adapter.permissionListFromAdapter.addAll(permissions.map { it.idDirection })
+                    renderDataPermission()
+                }
+        }
         driverEditViewModel.getDirections()
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun renderData(driver: Driver) = with(binding) {
+    private fun renderDataDriver(driver: Driver) = with(binding) {
         driverEditFragmentPersonnelNumber.setText("${driver.personnelNumber}")
         driverEditFragmentSurname.setText(driver.surname)
         driverEditFragmentName.setText(driver.name)
         driverEditFragmentPatronymic.setText(driver.patronymic)
-        adapter.permissionList(driverEditViewModel.permissions.value)
         adapter.notifyDataSetChanged()
-
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun renderDataPermission() {
+        adapter.permissionList()
+        adapter.notifyDataSetChanged()
+    }
+
 
     companion object {
         const val DRIVER_ID = "driver_id"

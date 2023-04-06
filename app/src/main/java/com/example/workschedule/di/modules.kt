@@ -7,8 +7,8 @@ import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.driver.*
 import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
-import com.example.workschedule.domain.usecases.permission.SavePermissionForDriverIfNotAvailableUseCase
-import com.example.workschedule.domain.usecases.permission.SavePermissionsUseCase
+import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
+import com.example.workschedule.domain.usecases.permission.DeletePermissionUseCase
 import com.example.workschedule.domain.usecases.train.DeleteDirectionUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
@@ -76,9 +76,10 @@ val application = module {
             GetDriverUseCase(repository = get()),
             GetAllDirectionsListUseCase(repository = get()),
             SaveDriverUseCase(repository = get()),
-            SavePermissionsUseCase(repository = get()),
+            AddPermissionsUseCase(repository = get()),
             GetPermissionsForDriverUseCase(repository = get()),
-            SavePermissionForDriverIfNotAvailableUseCase(repository = get())
+            UpdateDriverUseCase(repository = get()),
+            DeletePermissionUseCase(repository = get())
         )
     }
     viewModel {

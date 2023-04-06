@@ -29,13 +29,11 @@ class MainFragmentViewModel(
     fun getTrainsRunList() {
         viewModelScope.launch {
             val trainRunList = withContext(Dispatchers.IO) { getAllTrainsRunListUseCase.execute() }
-            val driverList = withContext(Dispatchers.IO) { getAllDriversListUseCase.execute() }
             trainRunList.filter { it.startTime.toLocalDateTime() >= LocalDateTime.now() }.forEach {
                 it.driverId = 0
                 it.driverId = 0
             }
             withContext(Dispatchers.IO) { saveTrainRunListUseCase.execute(trainRunList) }
-            withContext(Dispatchers.IO) { saveDriverListUseCase.execute(driverList) }
             _trainsRunList.emit(trainRunList)
         }
     }

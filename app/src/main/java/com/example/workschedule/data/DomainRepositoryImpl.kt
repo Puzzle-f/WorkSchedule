@@ -2,11 +2,9 @@ package com.example.workschedule.data
 
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
-import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.domain.models.Direction
-import com.example.workschedule.domain.models.Permission
-import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.models.*
 import com.example.workschedule.utils.*
+import java.time.LocalDateTime
 
 class DomainRepositoryImpl(
     private val database: ScheduleDataBase
@@ -38,6 +36,14 @@ class DomainRepositoryImpl(
 
     override suspend fun deletePermission(permission: Permission) {
         database.permissionDao().deletePermissionsToDriver(permission.toDTO)
+    }
+
+    override suspend fun getWeekends(idDriver: Int, dateTime: Long): List<Weekend> =
+        database.weekendDao().getAllWeekendsForDriver(idDriver, dateTime).map { it.toWeekend }
+
+
+    override suspend fun saveWeekend(weekend: Weekend) {
+        database.weekendDao().saveWeekend(weekend.toEntity)
     }
 
     override suspend fun updateDriver(driver: Driver) {
@@ -84,7 +90,7 @@ class DomainRepositoryImpl(
         database.directionDao().saveDirection(direction.toDTO)
     }
 
-    override suspend fun deleteTrain(trainId: Int) {
+    override suspend fun deleteDirection(trainId: Int) {
         database.directionDao().deleteDirectionById(trainId)
     }
 }

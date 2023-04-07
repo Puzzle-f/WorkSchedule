@@ -70,6 +70,10 @@ class DriversFragment : BaseFragment<FragmentDriversBinding>(FragmentDriversBind
                 adapter.removeAll()
                 driversViewModel.deleteAllDrivers()
             }
+            R.id.add_weekends ->{
+                val bundle = bundleOf(DRIVER_ID to adapter.clickedDriverId)
+                findNavController().navigate(R.id.nav_weekends, bundle)
+            }
         }
         return super.onContextItemSelected(item)
     }

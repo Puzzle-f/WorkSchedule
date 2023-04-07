@@ -1,6 +1,5 @@
 package com.example.workschedule.domain.models
 
-import java.time.LocalDateTime
 
 /**
  * класс описывает выходной день машиниста
@@ -8,7 +7,6 @@ import java.time.LocalDateTime
  * */
 
 data class Weekend(
-    val id: Int,
     val driverId: Int,
-    val date: LocalDateTime
+    val date: Long
 )

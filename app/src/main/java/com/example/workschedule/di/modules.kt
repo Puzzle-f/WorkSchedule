@@ -1,5 +1,6 @@
 package com.example.workschedule.di
 
+import androidx.core.os.persistableBundleOf
 import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.MIGRATION_1_2
@@ -14,6 +15,8 @@ import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCas
 import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
 import com.example.workschedule.domain.usecases.train.SaveDirectionUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
+import com.example.workschedule.domain.usecases.weekend.GetWeekendsUseCase
+import com.example.workschedule.domain.usecases.weekend.SaveWeekendUseCase
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
 import com.example.workschedule.ui.main.MainFragmentViewModel
@@ -21,6 +24,7 @@ import com.example.workschedule.ui.schedule_all_drivers.SchedulersViewModel
 import com.example.workschedule.ui.direction_edit.DirectionEditViewModel
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditViewModel
 import com.example.workschedule.ui.direction.DirectionsViewModel
+import com.example.workschedule.ui.weekend.WeekendViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -90,5 +94,9 @@ val application = module {
             GetTrainRunListForDriverUseCase(repository = get())
         )
     }
+    viewModel { WeekendViewModel(
+        GetWeekendsUseCase(repository = get()),
+        SaveWeekendUseCase(repository = get())
+    ) }
 }
 

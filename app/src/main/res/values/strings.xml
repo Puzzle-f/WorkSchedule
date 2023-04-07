@@ -74,4 +74,6 @@
     <string name="title_radio_button_count_night">nights in a row</string>
     <string name="work_time">worked time</string>
     <string name="notes">Notes</string>
+    <string name="add_weekends">Add weekends</string>
+    <string name="weekends">Weekends</string>
 </resources>

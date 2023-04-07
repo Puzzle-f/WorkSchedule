@@ -27,7 +27,7 @@
     <string name="edit_route_train_number">Train number</string>
     <string name="edit_route_driver">Driver</string>
     <string name="edit_route_periodicity">Periodicity</string>
-    <string name="edit_route_time_to">Time to</string>
+    <string name="edit_route_time_to">Travel time</string>
     <string name="edit_route_rest_time">Rest</string>
     <string name="edit_route_time_from">Time from</string>
     <string name="date">Date</string>
@@ -68,4 +68,10 @@
     <string name="edit_route_train_direction">Train direction</string>
     <string name="edit_periodicity_default_item">Automatically</string>
     <string name="redact">redact</string>
+    <string name="count_night_radio_button1" translatable="false">0</string>
+    <string name="count_night_radio_button2" translatable="false">1</string>
+    <string name="count_night_radio_button3" translatable="false">2</string>
+    <string name="title_radio_button_count_night">nights in a row</string>
+    <string name="work_time">worked time</string>
+    <string name="notes">Notes</string>
 </resources>

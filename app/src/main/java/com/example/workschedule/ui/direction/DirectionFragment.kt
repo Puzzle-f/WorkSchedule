@@ -10,13 +10,13 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
-import com.example.workschedule.databinding.FragmentTrainsBinding
+import com.example.workschedule.databinding.FragmentDirectionsBinding
 import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.direction_edit.DirectionEditFragment.Companion.TRAIN_ID
 import com.google.android.material.button.MaterialButton
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class DirectionFragment : BaseFragment<FragmentTrainsBinding>(FragmentTrainsBinding::inflate) {
+class DirectionFragment : BaseFragment<FragmentDirectionsBinding>(FragmentDirectionsBinding::inflate) {
     private val trainsViewModel: DirectionsViewModel by viewModel()
     private val adapter: TrainsFragmentAdapter by lazy { TrainsFragmentAdapter(requireActivity().menuInflater) }
     private lateinit var buttonNewTrain: MaterialButton

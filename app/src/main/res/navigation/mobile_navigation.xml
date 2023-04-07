@@ -82,7 +82,7 @@
         android:id="@+id/nav_trains"
         android:name="com.example.workschedule.ui.direction.DirectionFragment"
         android:label="@string/menu_direction"
-        tools:layout="@layout/fragment_trains" >
+        tools:layout="@layout/fragment_directions" >
         <action
             android:id="@+id/action_nav_trains_to_nav_train_edit"
             app:destination="@id/nav_train_edit"
@@ -117,7 +117,7 @@
         android:id="@+id/nav_train_edit"
         android:name="com.example.workschedule.ui.direction_edit.DirectionEditFragment"
         android:label="@string/menu_train_edit"
-        tools:layout="@layout/fragment_train_edit" >
+        tools:layout="@layout/fragment_direction_edit" >
     </fragment>
 
     <fragment
@@ -134,13 +134,6 @@
         tools:layout="@layout/fragment_trainrun_edit" >
     </fragment>
 
-    <fragment
-        android:id="@+id/route_redact"
-        android:name="com.example.workschedule.ui.trainrun_edit.trainrun_redact.TrainRunRedactFragment"
-        android:label = "@string/redact"
-        tools:layout="@layout/fragment_trainrun_edit">
-    </fragment>
-  
     <fragment
         android:id="@+id/nav_schedule_all_drivers"
         android:name="com.example.workschedule.ui.schedule_all_drivers.SchedulersFragment"

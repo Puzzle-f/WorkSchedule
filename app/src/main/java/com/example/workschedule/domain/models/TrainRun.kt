@@ -8,17 +8,21 @@ package com.example.workschedule.domain.models
  * @param driverId Id машиниста
  * @param direction -
  * @param startTime время явки у первого блока
- * @param endTime - время окончания работы у последнего блока
+ * @param travelTime - время окончания работы у последнего блока
  * @param countNight - отработано ночей подряд за текущую поездку
  * @param workTime - отработано часов за текущую поездку
  */
 
 data class TrainRun(
     val id: Int,
+    val number: String,
     var driverId: Int,
     val direction: Int,
     val startTime: Long,
-    val endTime: Long,
+    val travelTime: Long,
     val countNight: Int,
-    val workTime: Long
+    val workTime: Long,
+    val periodicity: TrainPeriodicity,
+    val isEditManually: Boolean,
+    val note: String?
 )

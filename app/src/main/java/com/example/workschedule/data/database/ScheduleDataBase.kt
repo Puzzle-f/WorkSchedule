@@ -14,6 +14,7 @@ import com.example.workschedule.data.database.permission.PermissionEntity
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.data.database.trainrun.TrainRunDao
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
+import com.example.workschedule.data.database.weekend.WeekendDao
 import com.example.workschedule.data.database.weekend.WeekendEntity
 
 @Database(
@@ -28,6 +29,7 @@ abstract class ScheduleDataBase : RoomDatabase() {
     abstract fun directionDao(): DirectionDao
     abstract fun trainRunDao(): TrainRunDao
     abstract fun permissionDao(): PermissionDao
+    abstract fun weekendDao(): WeekendDao
 }
 
 val MIGRATION_1_2 = object : Migration(1, 2) {

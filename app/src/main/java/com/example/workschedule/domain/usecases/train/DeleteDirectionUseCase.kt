@@ -5,5 +5,5 @@ import com.example.workschedule.domain.DomainRepository
 class DeleteDirectionUseCase(
     private val repository: DomainRepository
 ) {
-    suspend fun execute(trainId: Int) = repository.deleteTrain(trainId)
+    suspend fun execute(trainId: Int) = repository.deleteDirection(trainId)
 }

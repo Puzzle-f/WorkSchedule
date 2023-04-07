@@ -69,4 +69,6 @@
     <string name="edit_train_direction">Направление</string>
     <string name="work_time">Рабочее время</string>
     <string name="notes">Заметки</string>
+    <string name="add_weekends">Добавить выходные</string>
+    <string name="weekends">Выходные</string>
 </resources>

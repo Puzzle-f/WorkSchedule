@@ -22,7 +22,7 @@ class DeleteTrainUseCaseTest {
         val trainId = 1
         runBlocking {
             useCase.execute(trainId)
-            Mockito.verify(domainRepository, Mockito.times(1)).deleteTrain(trainId)
+            Mockito.verify(domainRepository, Mockito.times(1)).deleteDirection(trainId)
         }
     }
 }

@@ -1,9 +1,10 @@
 package com.example.workschedule.utils
 
-import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.direction.DirectionEntity
+import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.permission.PermissionEntity
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
+import com.example.workschedule.data.database.weekend.WeekendEntity
 import com.example.workschedule.domain.models.*
 import java.time.Instant
 import java.time.LocalDateTime
@@ -161,10 +162,21 @@ val Permission.toDTO: PermissionEntity
     )
 
 val PermissionEntity.fromDto: Permission
-        get() = Permission(
-            this.idDriver,
-            this.idDirection
-        )
+    get() = Permission(
+        this.idDriver,
+        this.idDirection
+    )
+val Weekend.toEntity: WeekendEntity
+    get() = WeekendEntity(
+        this.driverId,
+        this.date
+    )
+
+val WeekendEntity.toWeekend: Weekend
+    get() = Weekend(
+        this.driverId,
+        this.date
+    )
 
 fun TrainRun.changeDay(dayNumber: Int): TrainRun {
     val time = this.startTime.toLocalDateTime()
@@ -173,7 +185,8 @@ fun TrainRun.changeDay(dayNumber: Int): TrainRun {
         this.number,
         this.driverId,
         this.direction,
-        startTime = LocalDateTime.of(time.year, time.month.value, dayNumber, time.hour, time.minute).toLong(),
+        startTime = LocalDateTime.of(time.year, time.month.value, dayNumber, time.hour, time.minute)
+            .toLong(),
         this.travelTime,
         this.countNight,
         this.workTime,

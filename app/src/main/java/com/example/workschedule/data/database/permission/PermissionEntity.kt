@@ -6,7 +6,6 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import com.example.workschedule.data.database.driver.DriverEntity
 
-//@Entity(primaryKeys = ["id_driver","id_direction"])
 @Entity(primaryKeys = ["id_driver","id_direction"],
     foreignKeys = [ForeignKey(
         entity = DriverEntity::class,

@@ -11,6 +11,10 @@
         android:title="@string/context_menu_edit"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/add_weekends"
+        android:title="@string/add_weekends"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/action_delete_driver_from_context"
         android:title="@string/context_menu_delete"
         app:showAsAction="never"/>

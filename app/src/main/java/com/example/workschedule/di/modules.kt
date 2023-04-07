@@ -20,7 +20,6 @@ import com.example.workschedule.ui.main.MainFragmentViewModel
 import com.example.workschedule.ui.schedule_all_drivers.SchedulersViewModel
 import com.example.workschedule.ui.direction_edit.DirectionEditViewModel
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditViewModel
-import com.example.workschedule.ui.trainrun_edit.trainrun_redact.TrainRunRedactViewModel
 import com.example.workschedule.ui.direction.DirectionsViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -48,15 +47,6 @@ val application = module {
     }
     viewModel {
         TrainRunEditViewModel(
-            GetTrainRunUseCase(repository = get()),
-            GetAllDriversListUseCase(repository = get()),
-            GetAllDirectionsListUseCase(repository = get()),
-            SaveTrainRunUseCase(repository = get()),
-            SaveTrainRunListUseCase(repository = get())
-        )
-    }
-    viewModel {
-        TrainRunRedactViewModel(
             GetTrainRunUseCase(repository = get()),
             GetAllDriversListUseCase(repository = get()),
             GetAllDirectionsListUseCase(repository = get()),

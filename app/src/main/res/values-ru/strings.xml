@@ -14,7 +14,7 @@
     <string name="user_patronymic">Отчество</string>
     <string name="menu_driver_edit">Машинист</string>
     <string name="menu_schedule_all_drivers">График всех машинистов</string>
-    <string name="menu_route_edit">Создать выезд</string>
+    <string name="menu_route_edit">Создать поездку</string>
     <string name="menu_edit_set">Установить</string>
     <string name="redact">редактировать</string>
 
@@ -28,7 +28,7 @@
     <string name="edit_route_train_direction">Направление поезда</string>
     <string name="edit_route_driver">Машинист</string>
     <string name="edit_route_periodicity">Повторяемость</string>
-    <string name="edit_route_time_to">Время туда</string>
+    <string name="edit_route_time_to">Время поездки</string>
     <string name="edit_route_rest_time">Отдых там</string>
     <string name="edit_route_time_from">Время обратно</string>
     <string name="add_new_route">Добавить выезд</string>
@@ -49,6 +49,7 @@
     <string name="date">Дата</string>
     <string name="train_number_example">номер</string>
     <string name="action_clear_train_run">Удалить все</string>
+    <string name="title_radio_button_count_night">ночей подряд</string>
 
     <!--    Фрагменты   -->
     <string name="driverEditDataInputIncorrect">Введите корректные данные</string>
@@ -66,4 +67,6 @@
     <string name="edit_route_train_number">Номер поезда</string>
     <string name="edit_periodicity_default_item">Автоматически</string>
     <string name="edit_train_direction">Направление</string>
+    <string name="work_time">Рабочее время</string>
+    <string name="notes">Заметки</string>
 </resources>

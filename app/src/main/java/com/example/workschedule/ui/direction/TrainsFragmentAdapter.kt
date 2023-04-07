@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
-import com.example.workschedule.databinding.FragmentTrainsItemBinding
+import com.example.workschedule.databinding.FragmentDirectionItemBinding
 import com.example.workschedule.domain.models.Direction
 
 class TrainsFragmentAdapter(
@@ -18,7 +18,7 @@ class TrainsFragmentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MainViewHolder(
-            FragmentTrainsItemBinding.inflate(
+            FragmentDirectionItemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
@@ -33,7 +33,7 @@ class TrainsFragmentAdapter(
         submitList(currentListMutable)
     }
 
-    inner class MainViewHolder(private val binding: FragmentTrainsItemBinding) :
+    inner class MainViewHolder(private val binding: FragmentDirectionItemBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnCreateContextMenuListener {
 
         init {

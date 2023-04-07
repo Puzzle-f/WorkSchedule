@@ -104,35 +104,47 @@ val List<TrainRunEntity>.fromDTOListTrainRun: List<TrainRun> // Экстеншн
     get() = this.map {
         TrainRun(
             it.id,
+            it.number,
             it.driverId,
             it.direction,
             it.startTime,
             it.endTime,
             it.countNight,
-            it.workTime
+            it.workTime,
+            it.periodicity.toPeriodicity,
+            it.isEditManually,
+            it.note
         )
     }
 
 val TrainRunEntity.fromDTO: TrainRun // Экстеншн преобразования TrainRunEntity в TrainRun
     get() = TrainRun(
         this.id,
+        this.number,
         this.driverId,
         this.direction,
         this.startTime,
         this.endTime,
         this.countNight,
-        this.workTime
+        this.workTime,
+        this.periodicity.toPeriodicity,
+        this.isEditManually,
+        this.note
     )
 
 val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразования TrainRun в TrainRunEntity
     get() = TrainRunEntity(
         this.id,
+        this.number,
         this.driverId,
         this.direction,
         this.startTime,
-        this.endTime,
+        this.travelTime,
         this.countNight,
-        this.workTime
+        this.workTime,
+        this.periodicity.toInt,
+        this.isEditManually,
+        this.note
     )
 
 val Driver.FIO: String  // Экстеншн для выделения фамилии с инициалами из объекта машиниста
@@ -144,35 +156,32 @@ val Driver.FIO: String  // Экстеншн для выделения фамил
 
 val Permission.toDTO: PermissionEntity
     get() = PermissionEntity(
-//        this.id,
         this.idDriver,
         this.idDirection
     )
 
 val PermissionEntity.fromDto: Permission
         get() = Permission(
-//            this.id,
             this.idDriver,
             this.idDirection
         )
 
-//fun TrainRun.changeDay(dayNumber: Int): TrainRun {
-//    val time = this.startTime.toLocalDateTime()
-//    return TrainRun(
-//        0,
-//        this.trainId,
-//        this.trainNumber,
-//        this.trainDirection,
-//        this.trainPeriodicity,
-//        this.driverId,
-//        this.driverName,
-//        LocalDateTime.of(time.year, time.month.value, dayNumber, time.hour, time.minute).toLong(),
-//        this.travelTime,
-//        this.travelRestTime,
-//        this.backTravelTime,
-//        this.isEditManually
-//    )
-//}
+fun TrainRun.changeDay(dayNumber: Int): TrainRun {
+    val time = this.startTime.toLocalDateTime()
+    return TrainRun(
+        0,
+        this.number,
+        this.driverId,
+        this.direction,
+        startTime = LocalDateTime.of(time.year, time.month.value, dayNumber, time.hour, time.minute).toLong(),
+        this.travelTime,
+        this.countNight,
+        this.workTime,
+        this.periodicity,
+        this.isEditManually,
+        this.note
+    )
+}
 
 fun Long.toLocalDateTime(): LocalDateTime =
     LocalDateTime.ofInstant(

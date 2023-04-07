@@ -14,6 +14,8 @@ data class TrainRunEntity(
     @PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
     val id: Int,
+    @field:ColumnInfo(name = "number")
+    val number: String,
     @field:ColumnInfo(name = "driver_id")
     var driverId: Int,
     @field:ColumnInfo(name = "direction")
@@ -25,5 +27,11 @@ data class TrainRunEntity(
     @field:ColumnInfo(name = "count_night")
     val countNight: Int,
     @field:ColumnInfo(name = "work_time")
-    val workTime: Long
+    val workTime: Long,
+    @field:ColumnInfo(name = "periodicity")
+    val periodicity: Int,
+    @field:ColumnInfo(name = "is_edit_manually")
+    val isEditManually: Boolean,
+    @field:ColumnInfo(name = "other_notes")
+    val note: String?
 )

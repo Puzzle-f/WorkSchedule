@@ -7,6 +7,25 @@
     android:padding="@dimen/fragment_padding">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/routeEditFragmentTrainNumberLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_route_train_number"
+        app:endIconDrawable="@android:drawable/ic_menu_edit"
+        app:endIconMode="custom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/routeEditFragmentTrainNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentDateTimeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +34,7 @@
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentPeriodicityLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/routeEditFragmentDateTime"
@@ -26,24 +45,6 @@
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/routeEditFragmentTrainNumberLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_route_train_number"
-        app:endIconDrawable="@android:drawable/ic_menu_edit"
-        app:endIconMode="custom"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentDateTimeLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/routeEditFragmentTrainNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:textSize="20sp" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentTrainDirectionLayout"
@@ -108,7 +109,7 @@
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentPeriodicityLayout">
+        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentDateTimeLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/routeEditFragmentTimeTo"
@@ -119,10 +120,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/routeEditFragmentTimeRestLayout"
+        android:id="@+id/routeEditFragmentWorkTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_route_rest_time"
+        android:hint="@string/work_time"
         app:endIconDrawable="@drawable/ic_timer"
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,31 +131,66 @@
         app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTimeToLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/routeEditFragmentTimeRest"
+            android:id="@+id/workTimeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="time"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/routeEditFragmentTimeFromLayout"
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_route_time_from"
-        app:endIconDrawable="@drawable/ic_timer"
-        app:endIconMode="custom"
+        android:tooltipText="dfgh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentTimeRestLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/routeEditFragmentTimeFrom"
+        app:layout_constraintTop_toBottomOf="@id/routeEditFragmentWorkTime">
+      <RadioButton
+          android:id="@+id/radio_button1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:paddingEnd="50dp"
+          android:text="@string/count_night_radio_button1"/>
+        <RadioButton
+            android:id="@+id/radio_button2"
+            android:text="@string/count_night_radio_button2"
+            android:paddingEnd="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RadioButton
+            android:id="@+id/radio_button3"
+            android:text="@string/count_night_radio_button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="time"
-            android:textSize="20sp" />
+            android:text="@string/title_radio_button_count_night"
+            android:textSize="18sp"
+            android:paddingStart="20dp"/>
+    </RadioGroup>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/notes"
+        app:layout_constraintTop_toBottomOf="@id/radio_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/noteEditText"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            />
     </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/routeEditFragmentSaveButton"

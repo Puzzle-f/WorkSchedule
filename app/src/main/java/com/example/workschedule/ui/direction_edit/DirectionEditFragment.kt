@@ -8,13 +8,13 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
-import com.example.workschedule.databinding.FragmentTrainEditBinding
+import com.example.workschedule.databinding.FragmentDirectionEditBinding
 import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DirectionEditFragment :
-    BaseFragment<FragmentTrainEditBinding>(FragmentTrainEditBinding::inflate) {
+    BaseFragment<FragmentDirectionEditBinding>(FragmentDirectionEditBinding::inflate) {
 
     private val trainEditViewModel: DirectionEditViewModel by viewModel()
     private var trainId: Int? = null

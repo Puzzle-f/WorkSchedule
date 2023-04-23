@@ -4,7 +4,6 @@ import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.models.*
 import com.example.workschedule.utils.*
-import java.time.LocalDateTime
 
 class DomainRepositoryImpl(
     private val database: ScheduleDataBase
@@ -45,6 +44,9 @@ class DomainRepositoryImpl(
     override suspend fun saveWeekend(weekend: Weekend) {
         database.weekendDao().saveWeekend(weekend.toEntity)
     }
+
+    override suspend fun getDriverByPersonalNumberAndSurname(personalNumber: Int, surname: String): Driver =
+        database.driverDao().getDriverByPersonalNumberAndSurname(personalNumber, surname).fromDTO
 
     override suspend fun updateDriver(driver: Driver) {
         database.driverDao().updateDriver(driver.toDTO)

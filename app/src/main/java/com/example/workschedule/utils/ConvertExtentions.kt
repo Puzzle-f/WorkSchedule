@@ -65,7 +65,7 @@ val List<DriverEntity>.fromDTOListDriver: List<Driver> // Экстеншн пр�
     get() = this.map {
         Driver(
             it.id,
-            it.personnelNumber,
+            it.personalNumber,
             it.surname,
             it.name,
             it.patronymic
@@ -76,7 +76,7 @@ val List<Driver>.toDTOListDriver: List<DriverEntity> // Экстеншн пре�
     get() = this.map {
         DriverEntity(
             it.id,
-            it.personnelNumber,
+            it.personalNumber,
             it.surname,
             it.name,
             it.patronymic
@@ -86,7 +86,7 @@ val List<Driver>.toDTOListDriver: List<DriverEntity> // Экстеншн пре�
 val DriverEntity.fromDTO: Driver // Экстеншн преобразования DriverEntity в Driver
     get() = Driver(
         this.id,
-        this.personnelNumber,
+        this.personalNumber,
         this.surname,
         this.name,
         this.patronymic
@@ -95,7 +95,7 @@ val DriverEntity.fromDTO: Driver // Экстеншн преобразовани�
 val Driver.toDTO: DriverEntity // Экстеншн преобразования Driver в DriverEntity
     get() = DriverEntity(
         this.id,
-        this.personnelNumber,
+        this.personalNumber,
         this.surname,
         this.name,
         this.patronymic

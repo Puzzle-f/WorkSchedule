@@ -12,8 +12,9 @@ import androidx.navigation.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriverEditBinding
 import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.domain.models.Permission
 import com.example.workschedule.ui.base.BaseFragment
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DriverEditFragment :
@@ -65,14 +66,25 @@ class DriverEditFragment :
                 driverEditFragmentName.text.toString(),
                 driverEditFragmentPatronymic.text.toString()
             )
-            if (driverId == null) {
-                driverEditViewModel.saveDriver(driverLocal)
+            if (driverLocal.id == 0) {
+                lifecycleScope.launch {
+                    driverEditViewModel.saveDriver(driverLocal).join()
+                    driverEditViewModel.getDriverByPersonalNumberAndSurname(
+                        driverLocal.personalNumber,
+                        driverLocal.surname
+                    )
+                }
             } else {
                 driverEditViewModel.updateDriver(driverLocal)
             }
+
             driverEditViewModel.savePermissions(adapter.permissionListFromAdapter)
             Toast.makeText(
-                activity, getString(R.string.driverEditDataInputSuccess), Toast.LENGTH_LONG
+                activity,
+                getString(R.string.driverEditDataInputSuccess) +
+                        "${driverEditViewModel.newDriver.value?.id} "+
+                        " ${adapter.permissionListFromAdapter}",
+                Toast.LENGTH_LONG
             ).show()
             it.findNavController().navigateUp()
         }
@@ -80,6 +92,7 @@ class DriverEditFragment :
             it.findNavController().navigateUp()
         }
     }
+
 
     private fun checkSaveButtonEnable() = with(editTextValidation) {
         binding.driverEditFragmentSaveButton.isEnabled =
@@ -122,7 +135,7 @@ class DriverEditFragment :
 
     @SuppressLint("NotifyDataSetChanged")
     private fun renderDataDriver(driver: Driver) = with(binding) {
-        driverEditFragmentPersonnelNumber.setText("${driver.personnelNumber}")
+        driverEditFragmentPersonnelNumber.setText("${driver.personalNumber}")
         driverEditFragmentSurname.setText(driver.surname)
         driverEditFragmentName.setText(driver.name)
         driverEditFragmentPatronymic.setText(driver.patronymic)

@@ -46,7 +46,8 @@ val application = module {
             SaveTrainRunListUseCase(repository = get()),
             DeleteTrainRunUseCase(repository = get()),
             DeleteAllTrainRunUseCase(repository = get()),
-            GetTrainRunListByDriverIdAfterDateUseCase(repository = get())
+            GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
+            GetAllDirectionsListUseCase(repository = get())
         )
     }
     viewModel {
@@ -73,7 +74,8 @@ val application = module {
             AddPermissionsUseCase(repository = get()),
             GetPermissionsForDriverUseCase(repository = get()),
             UpdateDriverUseCase(repository = get()),
-            DeletePermissionUseCase(repository = get())
+            DeletePermissionUseCase(repository = get()),
+            GetDriverByPersonalNumberAndSurname(repository = get())
         )
     }
     viewModel {

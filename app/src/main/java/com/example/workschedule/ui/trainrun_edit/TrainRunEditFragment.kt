@@ -230,6 +230,7 @@ class TrainRunEditFragment :
     }
 
     override fun initObservers() {
+        trainRunEditViewModel.getDrivers()
         trainRunId?.let { trainRunId ->
             lifecycleScope.launchWhenStarted {
                 trainRunEditViewModel
@@ -268,25 +269,36 @@ class TrainRunEditFragment :
                     )
                 }
         }
-        trainRunEditViewModel.getDrivers()
         trainRunEditViewModel.getDirections()
     }
 
     private fun renderData(trainRun: TrainRun) = with(binding) {
+//        val surname = trainRunEditViewModel.drivers.value.last { it.id == trainRunId }.surname
         routeEditFragmentDateTime.setText(
             trainRun.startTime.toLocalDateTime()
                 .format(DateTimeFormatter.ofPattern("dd.MM.y HH:mm"))
         )
-//        routeEditFragmentTrainNumber.setText(trainRun.trainNumber.toString())
-//        routeEditFragmentTrainDirection.setText(trainRun.trainDirection, false)
-//        trainPeriodicity = trainRun.trainPeriodicity
-//        routeEditFragmentPeriodicity.setText(
-//            periodicityAdapter.getItem(trainPeriodicity.toInt).toString(), false
-//        )
-//        routeEditFragmentDriver.setText(trainRun.driverName, false)
-//        routeEditFragmentTimeTo.setText(trainRun.travelTime.toTimeString)
-//        routeEditFragmentTimeRest.setText(trainRun.travelRestTime.toTimeString)
-//        routeEditFragmentTimeFrom.setText(trainRun.backTravelTime.toTimeString)
+        routeEditFragmentTrainNumber.setText(trainRun.number)
+        routeEditFragmentTrainDirection.setText(trainRun.direction.toString(), false)
+        trainPeriodicity = trainRun.periodicity
+        routeEditFragmentPeriodicity.setText(
+            periodicityAdapter.getItem(trainPeriodicity.toInt).toString(), false
+        )
+//        routeEditFragmentDriver.setText(trainRun.driverId.toString(), false)
+//        routeEditFragmentDriver.setText(surname)
+        routeEditFragmentTimeTo.setText(trainRun.travelTime.toTimeString)
+        workTimeEditText.setText(trainRun.travelTime.toTimeString)
+        radioGroup.check(
+            when (trainRun.countNight) {
+                0 -> R.id.radio_button1
+                1 -> R.id.radio_button2
+                2 -> R.id.radio_button3
+                else -> {
+                    0
+                }
+            }
+        )
+        noteEditText.setText(trainRun.note)
     }
 
     companion object {

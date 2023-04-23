@@ -32,5 +32,6 @@ interface DomainRepository {
 
     suspend fun getWeekends(idDriver: Int, dateTime: Long): List<Weekend>
     suspend fun saveWeekend(weekend: Weekend)
+    suspend fun getDriverByPersonalNumberAndSurname(personalNumber: Int, surname: String): Driver
 
 }

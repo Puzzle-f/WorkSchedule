@@ -84,7 +84,7 @@
                 tools:text="8:25" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/mainFragmentRecyclerItemRestTime"
+                android:id="@+id/mainFragmentRecyclerItemWorkTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
@@ -95,13 +95,13 @@
                 tools:text="4" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/mainFragmentRecyclerItemTravelFrom"
+                android:id="@+id/mainFragmentRecyclerItemCountNight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mainFragmentRecyclerItemRestTime"
+                app:layout_constraintTop_toBottomOf="@id/mainFragmentRecyclerItemWorkTime"
                 app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
                 tools:text="8:40" />
 

@@ -1,6 +1,5 @@
 package com.example.workschedule.di
 
-import androidx.core.os.persistableBundleOf
 import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.MIGRATION_1_2
@@ -56,14 +55,16 @@ val application = module {
             GetAllDriversListUseCase(repository = get()),
             GetAllDirectionsListUseCase(repository = get()),
             SaveTrainRunUseCase(repository = get()),
-            SaveTrainRunListUseCase(repository = get())
+            SaveTrainRunListUseCase(repository = get()),
+            UpdateTrainRunUseCase(repository = get())
         )
     }
     viewModel {
         DriversViewModel(
             GetAllDriversListUseCase(repository = get()),
             DeleteDriverUseCase(repository = get()),
-            DeleteAllDriversUseCase(repository = get())
+            DeleteAllDriversUseCase(repository = get()),
+            ClearDriverForTrainRunUseCase(repository = get())
         )
     }
     viewModel {

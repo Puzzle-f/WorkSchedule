@@ -22,8 +22,16 @@ class DomainRepositoryImpl(
         database.trainRunDao().saveTrainRun(trainRun.toDTO)
     }
 
+    override suspend fun updateTrainRun(trainRun: TrainRun) {
+        database.trainRunDao().update(trainRun.toDTO)
+    }
+
     override suspend fun saveTrainRunList(trainRunList: List<TrainRun>) {
         database.trainRunDao().saveTrainRun(*trainRunList.map { it.toDTO }.toTypedArray())
+    }
+
+    override suspend fun clearDriverForTrainRun(driverId: Int) {
+        database.trainRunDao().clearDriverForTrainRun(driverId)
     }
 
     override suspend fun addPermission(permission: Permission) {

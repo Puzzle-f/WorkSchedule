@@ -1,12 +1,12 @@
 package com.example.workschedule.ui.drivers
 
-import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.usecases.driver.DeleteDriverUseCase
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.usecases.driver.DeleteAllDriversUseCase
+import com.example.workschedule.domain.usecases.trainrun.ClearDriverForTrainRunUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +17,8 @@ import kotlinx.coroutines.withContext
 class DriversViewModel(
     private val getAllDriversListUseCase: GetAllDriversListUseCase,
     private val deleteDriverUseCase: DeleteDriverUseCase,
-    private val deleteAllDriversUseCase: DeleteAllDriversUseCase
+    private val deleteAllDriversUseCase: DeleteAllDriversUseCase,
+    private val clearDriverForTrainRun: ClearDriverForTrainRunUseCase
 ) : ViewModel() {
 
     private var _drivers = MutableStateFlow<List<Driver>>(emptyList())
@@ -31,6 +32,7 @@ class DriversViewModel(
 
     fun deleteDriver(driverId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            clearDriverForTrainRun.execute(driverId)
             deleteDriverUseCase.execute(driverId)
         }
     }

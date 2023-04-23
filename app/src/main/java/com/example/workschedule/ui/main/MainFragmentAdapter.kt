@@ -71,7 +71,7 @@ class MainFragmentAdapter(
                 false
             }
 
-            if (mainFragmentRecyclerItemDriver.text == "") {
+            if (mainFragmentRecyclerItemDriver.text == "" || mainFragmentRecyclerItemDriver.text == "0") {
                 layoutContainer.setBackgroundResource(R.color.red)
             }
             else

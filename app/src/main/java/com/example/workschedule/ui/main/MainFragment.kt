@@ -56,14 +56,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                     if (data.isNotEmpty()) {
                         adapter.submitList(data)
                         adapter.notifyDataSetChanged()
-
                     }
-//                    else
-//                        Toast.makeText(
-//                        activity,
-//                        "data пуста!!! ",
-//                        Toast.LENGTH_LONG
-//                    ).show()
                 }
         }
         mainFragmentViewModel.getMainFragmentData()

@@ -6,7 +6,7 @@ data class MainFragmentData(
     val time: String,
     val trainNumber: Int,
     val direction: String,
-    var driver: String,
+    var driver: String?,
     val roadTime: String,
     val workTime: String,
     val countNight: Int,

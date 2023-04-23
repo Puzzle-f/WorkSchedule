@@ -48,13 +48,6 @@ class DriverEditViewModel(
         }
     }
 
-//    fun getDriverByPersonalNumberAndSurname(persNum: Int, surname: String){
-//            viewModelScope.launch {
-//                    _newDriver.emit(withContext(Dispatchers.IO){getDriverByPersonalNumberAndSurname.execute(persNum, surname)})
-//            }
-//    }
-
-
     suspend fun getDriverByPersonalNumberAndSurname(persNum: Int, surname: String)=
         _newDriver.emit(withContext(Dispatchers.IO){getDriverByPersonalNumberAndSurname.execute(persNum, surname)})
 

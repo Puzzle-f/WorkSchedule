@@ -70,7 +70,6 @@ class TrainRunEditFragment :
         var validTravelTime: Boolean = false,
         var validWorkTime: Boolean = false,
         var validDriverFIO: Boolean = false,
-//        var validRestTime: Boolean = false,
 
     )
 
@@ -98,14 +97,15 @@ class TrainRunEditFragment :
         val startHour = time.hour
         val startMinute = time.minute
 
-        DatePickerDialog(requireContext(), { _, year, month, day ->
+        val d = DatePickerDialog(requireContext(), { _, year, month, day ->
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val pickedDateTime = LocalDateTime.of(year, month + 1, day, hour, minute)
                 binding.routeEditFragmentDateTime.setText(
                     pickedDateTime.format(DateTimeFormatter.ofPattern("dd.MM.y HH:mm"))
                 )
             }, startHour, startMinute, true).show()
-        }, startYear, startMonth, startDay).show()
+        }, startYear, startMonth, startDay)
+        d.show()
     }
 
     @SuppressLint("SetTextI18n")
@@ -141,7 +141,6 @@ class TrainRunEditFragment :
                 driversAdapter.clear()
                 driversAdapter.add(getString(R.string.edit_periodicity_default_item))
                 driversAdapter.addAll(driversList
-//                    .filter { directionId in it.accessTrainsId }
                     .map { it.FIO })
                 driversAdapter.notifyDataSetChanged()
                 routeEditFragmentDriver.setText(
@@ -187,10 +186,6 @@ class TrainRunEditFragment :
             val directionId = trainsList.find { it.name == direction }?.id ?: 0
             val trainNumber = routeEditFragmentTrainNumber.text.toString().toInt()
             val driverNameText = routeEditFragmentDriver.text.toString()
-//            val driverName = if (driverNameText != driversAdapter.getItem(0)){
-//                isEditManually = true
-//                driverNameText
-//            }  else ""
             val driverId = driversList.find { it.FIO == driverNameText }?.id ?: 0
             val startTime = LocalDateTime.parse(
                 routeEditFragmentDateTime.text,
@@ -233,13 +228,13 @@ class TrainRunEditFragment :
         trainRunId?.let { trainRunId ->
             lifecycleScope.launchWhenStarted {
                 trainRunEditViewModel
-                    .trainRun
+                    .trainRunEditVisual
                     .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                    .collect {
-                        it?.let { renderData(it) }
+                    .collect { visualData ->
+                        visualData?.let { renderData(visualData) }
                     }
             }
-            trainRunEditViewModel.getTrainRun(trainRunId)
+            trainRunEditViewModel.getTrainRunData(trainRunId)
         }
         lifecycleScope.launchWhenStarted {
             trainRunEditViewModel
@@ -271,24 +266,26 @@ class TrainRunEditFragment :
         trainRunEditViewModel.getDirections()
     }
 
-    private fun renderData(trainRun: TrainRun) = with(binding) {
-//        val surname = trainRunEditViewModel.drivers.value.last { it.id == trainRunId }.surname
+    private fun renderData(data: TrainRunEditVisual) = with(binding) {
+        val driver = if(data.driver==null) "" else data.driver
+//        routeEditFragmentDateTime.setText(data.startTime.toLocalDateTime().toString())
+        pickDateTime(data.startTime.toLocalDateTime())
+
+        val pickedDateTime = data.startTime.toLocalDateTime()
         routeEditFragmentDateTime.setText(
-            trainRun.startTime.toLocalDateTime()
-                .format(DateTimeFormatter.ofPattern("dd.MM.y HH:mm"))
-        )
-        routeEditFragmentTrainNumber.setText(trainRun.number)
-        routeEditFragmentTrainDirection.setText(trainRun.direction.toString(), false)
-        trainPeriodicity = trainRun.periodicity
+            pickedDateTime.format(DateTimeFormatter.ofPattern("dd.MM.y HH:mm")))
+        routeEditFragmentTrainNumber.setText(data.number)
+        routeEditFragmentTrainDirection.setText(data.direction)
+        trainPeriodicity = data.periodicity
         routeEditFragmentPeriodicity.setText(
-            periodicityAdapter.getItem(trainPeriodicity.toInt).toString(), false
+            periodicityAdapter.getItem(data.periodicity.toInt).toString(),
+            false
         )
-//        routeEditFragmentDriver.setText(trainRun.driverId.toString(), false)
-//        routeEditFragmentDriver.setText(surname)
-        routeEditFragmentTimeTo.setText(trainRun.travelTime.toTimeString)
-        workTimeEditText.setText(trainRun.travelTime.toTimeString)
+        routeEditFragmentDriver.setText(driver)
+        routeEditFragmentTimeTo.setText(data.travelTime)
+        workTimeEditText.setText(data.workTime)
         radioGroup.check(
-            when (trainRun.countNight) {
+            when (data.countNight) {
                 0 -> R.id.radio_button1
                 1 -> R.id.radio_button2
                 2 -> R.id.radio_button3
@@ -297,7 +294,7 @@ class TrainRunEditFragment :
                 }
             }
         )
-        noteEditText.setText(trainRun.note)
+        noteEditText.setText(data.note)
     }
 
     companion object {

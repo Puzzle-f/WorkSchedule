@@ -11,12 +11,15 @@ import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCas
 import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunListUseCase
 import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunUseCase
+import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.utils.changeDay
 import com.example.workschedule.utils.toLocalDateTime
+import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -25,7 +28,8 @@ class TrainRunEditViewModel(
     private val getAllDriversListUseCase: GetAllDriversListUseCase,
     private val getAllDirectionsListUseCase: GetAllDirectionsListUseCase,
     private val saveTrainRunUseCase: SaveTrainRunUseCase,
-    private val saveTrainRunListUseCase: SaveTrainRunListUseCase
+    private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
+    private val updateTrainRunUseCase: UpdateTrainRunUseCase
 ) : ViewModel() {
     private var _trainRun = MutableStateFlow<TrainRun?>(null)
     val trainRun: StateFlow<TrainRun?> = _trainRun.asStateFlow()
@@ -34,9 +38,33 @@ class TrainRunEditViewModel(
     private var _directions = MutableStateFlow<List<Direction>>(emptyList())
     val directions: StateFlow<List<Direction>> = _directions.asStateFlow()
 
-    fun getTrainRun(trainRunId: Int) {
+    private var _trainRunEditVisual = MutableStateFlow<TrainRunEditVisual?>(null)
+    val trainRunEditVisual: StateFlow<TrainRunEditVisual?> = _trainRunEditVisual.asStateFlow()
+
+    fun getTrainRunData(trainRunId: Int) {
         viewModelScope.launch {
             _trainRun.emit(withContext(Dispatchers.IO) { getTrainRunUseCase.execute(trainRunId) })
+            _drivers.emit(withContext(Dispatchers.IO) { getAllDriversListUseCase.execute() })
+            _directions.emit(withContext(Dispatchers.IO) { getAllDirectionsListUseCase.execute() })
+            if (trainRunId != 0) {
+                combine(trainRun, drivers, directions) { trainRun, drivers, directions ->
+                    val driver = if(trainRun!!.driverId==0) "" else
+                        drivers.first { trainRun.driverId == it.id }.surname
+                    val localData = TrainRunEditVisual(
+                        trainRun.number,
+                        driver,
+                        directions.first { trainRun.direction == it.id }.name,
+                        trainRun.startTime,
+                        trainRun.travelTime.toTimeString,
+                        trainRun.countNight,
+                        trainRun.workTime.toTimeString,
+                        trainRun.periodicity,
+                        trainRun.isEditManually,
+                        trainRun.note
+                    )
+                    localData
+                }.collect { _trainRunEditVisual.emit(withContext(Dispatchers.IO) { it }) }
+            }
         }
     }
 
@@ -69,7 +97,7 @@ class TrainRunEditViewModel(
                     )
                 }
             } else {
-                saveTrainRunUseCase.execute(trainRun)
+                updateTrainRunUseCase.execute(trainRun)
             }
         }
     }

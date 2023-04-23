@@ -90,17 +90,13 @@ class DriverEditViewModel(
             saveDriverUseCase.execute(driver)
         }
 
-
-
-
-
     fun updateDriver(driver: Driver) {
         viewModelScope.launch(Dispatchers.IO) {
                 updateDriverUseCase.execute(driver)
         }
     }
 
-    fun savePermissions(p: List<Int>) {
+    fun savePermissions(driverId: Int?, p: List<Int>) {
             viewModelScope.launch {
                 p.forEach { idPermission ->
                     if (driver.value != null &&
@@ -108,8 +104,8 @@ class DriverEditViewModel(
                             .contains(idPermission)
                     ) {
                         savePermissions.execute(Permission(driver.value!!.id, idPermission))
-                    } else if(newDriver.value!=null){
-                        savePermissions.execute(Permission(newDriver.value!!.id, idPermission))
+                    } else if(driverId!=null){
+                        savePermissions.execute(Permission(driverId, idPermission))
                     }
 
                 }

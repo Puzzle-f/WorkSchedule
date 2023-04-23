@@ -13,7 +13,6 @@ import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriverEditBinding
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.ui.base.BaseFragment
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -73,16 +72,23 @@ class DriverEditFragment :
                         driverLocal.personalNumber,
                         driverLocal.surname
                     )
+                    driverEditViewModel.savePermissions(
+                        driverEditViewModel.newDriver.value?.id,
+                        adapter.permissionListFromAdapter
+                    )
                 }
             } else {
                 driverEditViewModel.updateDriver(driverLocal)
+                driverEditViewModel.savePermissions(
+                    driverLocal.id,
+                    adapter.permissionListFromAdapter
+                )
             }
 
-            driverEditViewModel.savePermissions(adapter.permissionListFromAdapter)
             Toast.makeText(
                 activity,
                 getString(R.string.driverEditDataInputSuccess) +
-                        "${driverEditViewModel.newDriver.value?.id} "+
+                        "${driverEditViewModel.newDriver.value?.id} " +
                         " ${adapter.permissionListFromAdapter}",
                 Toast.LENGTH_LONG
             ).show()
@@ -110,7 +116,6 @@ class DriverEditFragment :
                         driver?.let {
                             renderDataDriver(driver)
                         }
-
                     }
             }
         }

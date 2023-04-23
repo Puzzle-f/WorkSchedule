@@ -68,8 +68,8 @@ class TrainRunEditFragment :
         var validTrainPeriodicity: Boolean = false,
         var validDateTime: Boolean = false,
         var validTravelTime: Boolean = false,
-        var validWorkTime: Boolean = false
-//        var validDriverFIO: Boolean = false,
+        var validWorkTime: Boolean = false,
+        var validDriverFIO: Boolean = false,
 //        var validRestTime: Boolean = false,
 
     )
@@ -138,7 +138,6 @@ class TrainRunEditFragment :
         }
         routeEditFragmentTrainDirection.addTextChangedListener { text ->
             if (!text.isNullOrBlank()) {
-                val directionId = trainsList.find { it.name == text.toString() }?.id
                 driversAdapter.clear()
                 driversAdapter.add(getString(R.string.edit_periodicity_default_item))
                 driversAdapter.addAll(driversList
@@ -157,10 +156,10 @@ class TrainRunEditFragment :
             editTextValidation.validTrainPeriodicity = !text.isNullOrBlank()
             checkSaveButtonEnable()
         }
-//        routeEditFragmentDriver.addTextChangedListener { text ->
-//            editTextValidation.validDriverFIO = !text.isNullOrBlank()
-//            checkSaveButtonEnable()
-//        }
+        routeEditFragmentDriver.addTextChangedListener { text ->
+            editTextValidation.validDriverFIO = !text.isNullOrBlank()
+            checkSaveButtonEnable()
+        }
         routeEditFragmentTimeTo.addTextChangedListener { text ->
             editTextValidation.validTravelTime = !text.isNullOrBlank()
             checkSaveButtonEnable()

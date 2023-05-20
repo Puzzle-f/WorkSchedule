@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter
 class MainFragmentAdapter(
     private val menuInflater: MenuInflater
 ) :
-    ListAdapter<TrainRun, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
+    ListAdapter<MainFragmentData, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
 
     var clickedTrainRunId = -1
     private var itemPosition = -1
@@ -50,36 +50,38 @@ class MainFragmentAdapter(
         }
 
         fun bind(position: Int) = with(binding) {
-//            mainFragmentRecyclerItemDate.text =
-//                currentList[position].startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y"))
-//            mainFragmentRecyclerItemTime.text =
-//                currentList[position].startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern(" HH:mm"))
-//            mainFragmentRecyclerItemTrain.text =
-//                with(currentList[position]) { "$trainNumber $trainDirection" }
-//            mainFragmentRecyclerItemDriver.text = currentList[position].driverName
-//            mainFragmentRecyclerItemTravelTimeTo.text =
-//                currentList[position].travelTime.toTimeString
-//            mainFragmentRecyclerItemRestTime.text =
-//                currentList[position].travelRestTime.toTimeString
-//            mainFragmentRecyclerItemTravelFrom.text =
-//                currentList[position].backTravelTime.toTimeString
-//            itemView.setOnLongClickListener {
-//                itemPosition = adapterPosition
-//                clickedTrainRunId = currentList[adapterPosition].id
-//                false
-//            }
-//
-//            if (mainFragmentRecyclerItemDriver.text == "") {
-//                layoutContainer.setBackgroundResource(R.color.red)
-//            }
-//            else
-//                if (currentList[adapterPosition].isEditManually) {
-//                    layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
-//                }
-//                else
-//                {
-//                    layoutContainer.setBackgroundResource(R.color.on_primary)
-//                }
+            mainFragmentRecyclerItemDate.text =
+                currentList[position].data
+//                    .startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y"))
+            mainFragmentRecyclerItemTime.text =
+                currentList[position].time
+//                    .startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern(" HH:mm"))
+            mainFragmentRecyclerItemTrain.text =
+                with(currentList[position]) { "$trainNumber $direction" }
+            mainFragmentRecyclerItemDriver.text = currentList[position].driver
+            mainFragmentRecyclerItemTravelTimeTo.text =
+                currentList[position].roadTime
+            mainFragmentRecyclerItemWorkTime.text =
+                currentList[position].workTime
+            mainFragmentRecyclerItemCountNight.text =
+                currentList[position].countNight.toString()
+            itemView.setOnLongClickListener {
+                itemPosition = adapterPosition
+                clickedTrainRunId = currentList[adapterPosition].id
+                false
+            }
+
+            if (mainFragmentRecyclerItemDriver.text == "" || mainFragmentRecyclerItemDriver.text == "0") {
+                layoutContainer.setBackgroundResource(R.color.red)
+            }
+            else
+                if (currentList[adapterPosition].isEditManually) {
+                    layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
+                }
+                else
+                {
+                    layoutContainer.setBackgroundResource(R.color.on_primary)
+                }
         }
 
         override fun onCreateContextMenu(
@@ -89,8 +91,8 @@ class MainFragmentAdapter(
         }
     }
 
-    companion object DomainPersonModelCallback : DiffUtil.ItemCallback<TrainRun>() {
-        override fun areItemsTheSame(oldItem: TrainRun, newItem: TrainRun) = oldItem == newItem
-        override fun areContentsTheSame(oldItem: TrainRun, newItem: TrainRun) = oldItem == newItem
+    companion object DomainPersonModelCallback : DiffUtil.ItemCallback<MainFragmentData>() {
+        override fun areItemsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) = oldItem == newItem
     }
 }

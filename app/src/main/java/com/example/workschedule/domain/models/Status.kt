@@ -1,6 +1,5 @@
 package com.example.workschedule.domain.models
 
-import java.time.LocalDateTime
 
 /**
  * содержит статус работы машиниста
@@ -20,7 +19,7 @@ import java.time.LocalDateTime
 data class Status(
     val id: Int,
     val idDriver: Int,
-    val date: LocalDateTime,
+    val date: Long,
     val status: Int,
     val countNight: Int,
     val workedTime: Long,

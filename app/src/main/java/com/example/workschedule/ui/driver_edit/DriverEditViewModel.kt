@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Permission
+import com.example.workschedule.domain.usecases.driver.GetDriverByPersonalNumberAndSurnameUseCase
 import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
 import com.example.workschedule.domain.usecases.driver.SaveDriverUseCase
 import com.example.workschedule.domain.usecases.driver.UpdateDriverUseCase
@@ -13,12 +14,10 @@ import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
 import com.example.workschedule.domain.usecases.permission.DeletePermissionUseCase
 import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DriverEditViewModel(
     private val getDriverUseCase: GetDriverUseCase,
@@ -28,10 +27,14 @@ class DriverEditViewModel(
     private val getPermissionsForDriverUseCase: GetPermissionsForDriverUseCase,
     private val updateDriverUseCase: UpdateDriverUseCase,
     private val deletePermissionUseCase: DeletePermissionUseCase,
+    private val getDriverByPersonalNumberAndSurname: GetDriverByPersonalNumberAndSurnameUseCase
 ) : ViewModel() {
     private var _driver = MutableStateFlow<Driver?>(null)
     val driver: StateFlow<Driver?> = _driver.asStateFlow()
     private val bundlePermissions = Bundle()
+
+    private var _newDriver = MutableStateFlow<Driver?>(null)
+    val newDriver: StateFlow<Driver?> = _newDriver.asStateFlow()
 
     private var _directions = MutableStateFlow<List<Direction>>(emptyList())
     val directions: StateFlow<List<Direction>> = _directions.asStateFlow()
@@ -44,6 +47,12 @@ class DriverEditViewModel(
             _driver.emit(withContext(Dispatchers.IO) { getDriverUseCase.execute(driverId) })
         }
     }
+
+    suspend fun getDriverByPersonalNumberAndSurname(persNum: Int, surname: String)=
+        _newDriver.emit(withContext(Dispatchers.IO){getDriverByPersonalNumberAndSurname.execute(persNum, surname)})
+
+
+
 
     fun getDirections() {
         viewModelScope.launch {
@@ -63,32 +72,42 @@ class DriverEditViewModel(
             permissions.value.map { it.idDirection } as ArrayList<Int>)
     }
 
-    fun saveDriver(driver: Driver) {
-        viewModelScope.launch(Dispatchers.IO) {
+//    fun saveDriver(driver: Driver) {
+//            viewModelScope.launch(Dispatchers.IO) {
+//                saveDriverUseCase.execute(driver)
+//            }
+//    }
+
+    suspend fun saveDriver(driver: Driver)=
+        viewModelScope.async {
             saveDriverUseCase.execute(driver)
         }
-    }
 
     fun updateDriver(driver: Driver) {
         viewModelScope.launch(Dispatchers.IO) {
-            updateDriverUseCase.execute(driver)
+                updateDriverUseCase.execute(driver)
         }
     }
 
-    fun savePermissions(p: List<Int>) {
-        viewModelScope.launch {
-            p.forEach { idPermission ->
-                if (driver.value != null && !permissions.value.map { it.idDirection }
-                        .contains(idPermission)) {
-                    savePermissions.execute(Permission(driver.value!!.id, idPermission))
-                }
-            }
-            permissions.value.forEach { permissionOld ->
-                if (!p.contains(permissionOld.idDirection)) {
-                    deletePermissionUseCase.execute(permissionOld)
-                }
-            }
+    fun savePermissions(driverId: Int?, p: List<Int>) {
+            viewModelScope.launch {
+                p.forEach { idPermission ->
+                    if (driver.value != null &&
+                        !permissions.value.map { it.idDirection }
+                            .contains(idPermission)
+                    ) {
+                        savePermissions.execute(Permission(driver.value!!.id, idPermission))
+                    } else if(driverId!=null){
+                        savePermissions.execute(Permission(driverId, idPermission))
+                    }
 
-        }
+                }
+                permissions.value.forEach { permissionOld ->
+                    if (!p.contains(permissionOld.idDirection)) {
+                        deletePermissionUseCase.execute(permissionOld)
+                    }
+                }
+
+            }
     }
 }

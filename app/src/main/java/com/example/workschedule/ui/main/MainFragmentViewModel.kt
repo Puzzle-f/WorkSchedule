@@ -2,17 +2,21 @@ package com.example.workschedule.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.workschedule.domain.models.Direction
+import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
+import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.utils.toLocalDateTime
+import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
 
 class MainFragmentViewModel(
     private val getAllTrainsRunListUseCase: GetAllTrainsRunListUseCase,
@@ -20,21 +24,48 @@ class MainFragmentViewModel(
     private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
     private val deleteTrainRunUseCase: DeleteTrainRunUseCase,
     private val deleteAllTrainRunUseCase: DeleteAllTrainRunUseCase,
-    private val getTrainRunListByDriverIdAfterDateUseCase: GetTrainRunListByDriverIdAfterDateUseCase
+    private val getTrainRunListByDriverIdAfterDateUseCase: GetTrainRunListByDriverIdAfterDateUseCase,
+    private val getAllDirectionsListUseCase: GetAllDirectionsListUseCase
 ) : ViewModel() {
 
-    private var _trainsRunList = MutableStateFlow<List<TrainRun>>(emptyList())
-    val trainsRunList: StateFlow<List<TrainRun>> = _trainsRunList.asStateFlow()
+    private var _trainRunList = MutableStateFlow<List<TrainRun>>(emptyList())
+    val trainRunList: StateFlow<List<TrainRun>> = _trainRunList.asStateFlow()
 
-    fun getTrainsRunList() {
+    private var _drivers = MutableStateFlow<List<Driver>>(emptyList())
+    val drivers: StateFlow<List<Driver>> = _drivers.asStateFlow()
+
+    private var _directions = MutableStateFlow<List<Direction>>(emptyList())
+    val directions: StateFlow<List<Direction>> = _directions.asStateFlow()
+
+    private var _data = MutableStateFlow<List<MainFragmentData>>(emptyList())
+    val data: StateFlow<List<MainFragmentData>> = _data.asStateFlow()
+
+    fun getMainFragmentData() {
         viewModelScope.launch {
-            val trainRunList = withContext(Dispatchers.IO) { getAllTrainsRunListUseCase.execute() }
-            trainRunList.filter { it.startTime.toLocalDateTime() >= LocalDateTime.now() }.forEach {
-                it.driverId = 0
-                it.driverId = 0
-            }
-            withContext(Dispatchers.IO) { saveTrainRunListUseCase.execute(trainRunList) }
-            _trainsRunList.emit(trainRunList)
+            _trainRunList.emit(withContext(Dispatchers.IO) { getAllTrainsRunListUseCase.execute() })
+            _drivers.emit(withContext(Dispatchers.IO) { getAllDriversListUseCase.execute() })
+            _directions.emit(withContext(Dispatchers.IO) { getAllDirectionsListUseCase.execute() })
+            combine(trainRunList, drivers, directions) { trainRunIt, driversIt, directionsIt ->
+                val listData = mutableListOf<MainFragmentData>()
+                trainRunIt.forEach { trainRunThis ->
+                    val driverId = if (trainRunThis.driverId != 0)
+                        driversIt.first { it.id == trainRunThis.driverId }.surname else 0
+                    val dataElement = MainFragmentData(
+                        trainRunThis.id,
+                        trainRunThis.startTime.toLocalDateTime().toLocalDate().toString(),
+                        trainRunThis.startTime.toLocalDateTime().toLocalTime().toString(),
+                        trainRunThis.number.toInt(),
+                        directionsIt.first { it.id == trainRunThis.direction }.name,
+                        driverId.toString(),
+                        trainRunThis.travelTime.toTimeString,
+                        trainRunThis.workTime.toTimeString,
+                        trainRunThis.countNight,
+                        trainRunThis.isEditManually
+                    )
+                    listData.add(dataElement)
+                }
+                listData
+            }.collect { _data.emit(withContext(Dispatchers.IO) { it }) }
         }
     }
 
@@ -49,6 +80,4 @@ class MainFragmentViewModel(
             deleteAllTrainRunUseCase.execute()
         }
     }
-
-    fun getCountNightForDriver(){}
 }

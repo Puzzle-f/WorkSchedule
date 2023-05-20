@@ -9,7 +9,6 @@ import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriversItemBinding
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.utils.FIO
-import com.example.workschedule.utils.toHoursTimeString
 
 class DriversFragmentAdapter(
     private val menuInflater: MenuInflater
@@ -52,7 +51,7 @@ class DriversFragmentAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) = with(binding) {
             driversFragmentRecyclerItemPersonnelNumber.text =
-                currentList[position].personnelNumber.toString()
+                currentList[position].personalNumber.toString()
             driversFragmentRecyclerItemDriverFIO.text = currentList[position].FIO
             driversFragmentRecyclerItemHours.text = "отработано часов"
             itemView.setOnLongClickListener {

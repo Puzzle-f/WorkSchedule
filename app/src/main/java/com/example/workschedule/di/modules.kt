@@ -1,15 +1,14 @@
 package com.example.workschedule.di
 
-import androidx.core.os.persistableBundleOf
 import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
-import com.example.workschedule.data.database.MIGRATION_1_2
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.driver.*
 import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
 import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
 import com.example.workschedule.domain.usecases.permission.DeletePermissionUseCase
+import com.example.workschedule.domain.usecases.status.CreateListStatusForTrainRunUseCase
 import com.example.workschedule.domain.usecases.train.DeleteDirectionUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
@@ -34,7 +33,7 @@ val application = module {
             get(), ScheduleDataBase::class.java,
             "ScheduleDB.db"
         )
-            .addMigrations(MIGRATION_1_2)
+//            .addMigrations(MIGRATION_1_2)
             .fallbackToDestructiveMigration()
             .build()
     }
@@ -46,7 +45,8 @@ val application = module {
             SaveTrainRunListUseCase(repository = get()),
             DeleteTrainRunUseCase(repository = get()),
             DeleteAllTrainRunUseCase(repository = get()),
-            GetTrainRunListByDriverIdAfterDateUseCase(repository = get())
+            GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
+            GetAllDirectionsListUseCase(repository = get())
         )
     }
     viewModel {
@@ -55,14 +55,18 @@ val application = module {
             GetAllDriversListUseCase(repository = get()),
             GetAllDirectionsListUseCase(repository = get()),
             SaveTrainRunUseCase(repository = get()),
-            SaveTrainRunListUseCase(repository = get())
+            SaveTrainRunListUseCase(repository = get()),
+            UpdateTrainRunUseCase(repository = get()),
+            CreateListStatusForTrainRunUseCase(repository = get()),
+            GetTrainRunByNumberAndStartTimeUseCase(repository = get())
         )
     }
     viewModel {
         DriversViewModel(
             GetAllDriversListUseCase(repository = get()),
             DeleteDriverUseCase(repository = get()),
-            DeleteAllDriversUseCase(repository = get())
+            DeleteAllDriversUseCase(repository = get()),
+            ClearDriverForTrainRunUseCase(repository = get())
         )
     }
     viewModel {
@@ -73,7 +77,8 @@ val application = module {
             AddPermissionsUseCase(repository = get()),
             GetPermissionsForDriverUseCase(repository = get()),
             UpdateDriverUseCase(repository = get()),
-            DeletePermissionUseCase(repository = get())
+            DeletePermissionUseCase(repository = get()),
+            GetDriverByPersonalNumberAndSurnameUseCase(repository = get())
         )
     }
     viewModel {

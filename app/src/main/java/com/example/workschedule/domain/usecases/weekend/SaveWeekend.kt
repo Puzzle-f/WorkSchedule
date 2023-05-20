@@ -6,5 +6,5 @@ import com.example.workschedule.domain.models.Weekend
 class SaveWeekendUseCase(
     private val repository: DomainRepository
 ) {
-    suspend fun execute(weekend: Weekend) = repository.saveWeekend(weekend)
+//    suspend fun execute(weekend: Weekend) = repository.saveWeekend(weekend)
 }

@@ -76,4 +76,11 @@
     <string name="notes">Notes</string>
     <string name="add_weekends">Add weekends</string>
     <string name="weekends">Weekends</string>
+
+    <!--    Settings Fragment-->
+    <string name="planning_horizon">Planning horizon, days</string>
+    <string name="settings">Settings</string>
+    <string name="default_horizon_planing">5</string>
+    <string name="min_rest">min rest, hours</string>
+    <string name="min_rest_value">16</string>
 </resources>

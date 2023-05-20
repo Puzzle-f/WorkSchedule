@@ -22,7 +22,7 @@ class SaveDriverUseCaseTest {
         val useCase = SaveDriverUseCase(domainRepository)
         val driver = Driver(
             id = 0,
-            personnelNumber = 15,
+            personalNumber = 15,
             surname = "Иванов",
             name = "Иван",
             patronymic = "Иванович",

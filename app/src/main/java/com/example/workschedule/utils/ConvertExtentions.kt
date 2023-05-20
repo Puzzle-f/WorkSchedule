@@ -3,6 +3,7 @@ package com.example.workschedule.utils
 import com.example.workschedule.data.database.direction.DirectionEntity
 import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.permission.PermissionEntity
+import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
 import com.example.workschedule.data.database.weekend.WeekendEntity
 import com.example.workschedule.domain.models.*
@@ -65,7 +66,7 @@ val List<DriverEntity>.fromDTOListDriver: List<Driver> // Экстеншн пр�
     get() = this.map {
         Driver(
             it.id,
-            it.personnelNumber,
+            it.personalNumber,
             it.surname,
             it.name,
             it.patronymic
@@ -76,7 +77,7 @@ val List<Driver>.toDTOListDriver: List<DriverEntity> // Экстеншн пре�
     get() = this.map {
         DriverEntity(
             it.id,
-            it.personnelNumber,
+            it.personalNumber,
             it.surname,
             it.name,
             it.patronymic
@@ -86,7 +87,7 @@ val List<Driver>.toDTOListDriver: List<DriverEntity> // Экстеншн пре�
 val DriverEntity.fromDTO: Driver // Экстеншн преобразования DriverEntity в Driver
     get() = Driver(
         this.id,
-        this.personnelNumber,
+        this.personalNumber,
         this.surname,
         this.name,
         this.patronymic
@@ -95,7 +96,7 @@ val DriverEntity.fromDTO: Driver // Экстеншн преобразовани�
 val Driver.toDTO: DriverEntity // Экстеншн преобразования Driver в DriverEntity
     get() = DriverEntity(
         this.id,
-        this.personnelNumber,
+        this.personalNumber,
         this.surname,
         this.name,
         this.patronymic
@@ -166,6 +167,30 @@ val PermissionEntity.fromDto: Permission
         this.idDriver,
         this.idDirection
     )
+
+val Status.toDTO: StatusEntity
+get() = StatusEntity(
+    this.id,
+    this.idDriver,
+    this.date,
+    this.status,
+    this.countNight,
+    this.workedTime,
+    this.idBlock
+)
+
+val StatusEntity.fromDTO: Status
+get() = Status(
+    this.id,
+    this.idDriver,
+    this.date,
+    this.status,
+    this.countNight,
+    this.workedTime,
+    this.idBlock
+)
+
+
 val Weekend.toEntity: WeekendEntity
     get() = WeekendEntity(
         this.driverId,

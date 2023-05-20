@@ -1,20 +1,14 @@
 package com.example.workschedule.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewTreeObserver
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
 import com.example.workschedule.ui.base.BaseFragment
@@ -34,12 +28,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         registerForContextMenu(binding.mainFragmentRecyclerView)
     }
 
+
     override fun onStart() {
         buttonNewRoute.visibility = View.VISIBLE
         super.onStart()
     }
-    
-    override fun readArguments(bundle: Bundle) {}
+
+    override fun readArguments(bundle: Bundle) {
+
+    }
 
     override fun initView() {
         binding.mainFragmentRecyclerView.adapter = adapter
@@ -53,18 +50,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
 
     override fun initObservers() {
         lifecycleScope.launchWhenStarted {
-            mainFragmentViewModel.trainsRunList
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect {
-                    adapter.submitList(it)
-                    if (it.isNotEmpty()) {
-                        Toast.makeText(
-                            activity, getString(R.string.mainTableFilled), Toast.LENGTH_LONG
-                        ).show()
+            mainFragmentViewModel.data
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { data ->
+                    if (data.isNotEmpty()) {
+                        adapter.submitList(data)
+                        adapter.notifyDataSetChanged()
                     }
                 }
         }
-        mainFragmentViewModel.getTrainsRunList()
+        mainFragmentViewModel.getMainFragmentData()
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -74,8 +69,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 findNavController().navigate(R.id.action_nav_main_to_nav_route_edit, bundle)
             }
             R.id.action_delete_from_context -> {
-                adapter.removeItem()
                 mainFragmentViewModel.deleteTrainRun(adapter.clickedTrainRunId)
+                adapter.removeItem()
             }
             R.id.action_delete_all_from_context -> {
                 mainFragmentViewModel.deleteAllTrainRun()

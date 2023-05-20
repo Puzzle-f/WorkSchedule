@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_settings_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.77" />
+
+    <TextView
+        android:paddingTop="20dp"
+        android:id="@+id/tv_horizon_planing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/planning_horizon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_settings_line_horizontal" />
+
+    <EditText
+        android:id="@+id/horizon_planing_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_horizon_planing"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_horizon_planing"
+        app:layout_constraintStart_toEndOf="@+id/fragment_settings_line" />
+    <TextView
+        android:paddingTop="20dp"
+        android:id="@+id/min_rest_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/min_rest"
+        app:layout_constraintTop_toBottomOf="@id/tv_horizon_planing"
+        app:layout_constraintStart_toStartOf="@id/tv_horizon_planing"/>
+<EditText
+    android:id="@+id/min_rest_value_edit_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/min_rest_value"
+    app:layout_constraintStart_toStartOf="@id/fragment_settings_line"
+    app:layout_constraintBottom_toBottomOf="@id/min_rest_tv"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_settings_line_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.08"
+        android:orientation="horizontal"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

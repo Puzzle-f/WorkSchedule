@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    fun initRecalculation(){
-        binding.appBarMain.recalculation.setOnClickListener{
+    fun initRecalculation() {
+        binding.appBarMain.recalculation.setOnClickListener {
             Toast.makeText(this, "TEST", Toast.LENGTH_LONG).show()
         }
     }
@@ -77,7 +77,8 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_main,
                 R.id.nav_drivers,
-                R.id.nav_trains
+                R.id.nav_trains,
+                R.id.nav_settings
             ),
             drawerLayout
         )
@@ -142,6 +143,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.nav_schedule_all_drivers -> {
                         navController.navigate(R.id.action_nav_to_schedule_all_drivers)
+                    }
+                    R.id.nav_settings -> {
+                        navController.navigate(R.id.action_nav_main_to_settings)
                     }
                 }
                 true

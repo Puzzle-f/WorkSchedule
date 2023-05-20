@@ -2,13 +2,13 @@ package com.example.workschedule.di
 
 import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
-import com.example.workschedule.data.database.MIGRATION_1_2
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.driver.*
 import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
 import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
 import com.example.workschedule.domain.usecases.permission.DeletePermissionUseCase
+import com.example.workschedule.domain.usecases.status.CreateListStatusForTrainRunUseCase
 import com.example.workschedule.domain.usecases.train.DeleteDirectionUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
@@ -33,7 +33,7 @@ val application = module {
             get(), ScheduleDataBase::class.java,
             "ScheduleDB.db"
         )
-            .addMigrations(MIGRATION_1_2)
+//            .addMigrations(MIGRATION_1_2)
             .fallbackToDestructiveMigration()
             .build()
     }
@@ -56,7 +56,9 @@ val application = module {
             GetAllDirectionsListUseCase(repository = get()),
             SaveTrainRunUseCase(repository = get()),
             SaveTrainRunListUseCase(repository = get()),
-            UpdateTrainRunUseCase(repository = get())
+            UpdateTrainRunUseCase(repository = get()),
+            CreateListStatusForTrainRunUseCase(repository = get()),
+            GetTrainRunByNumberAndStartTimeUseCase(repository = get())
         )
     }
     viewModel {
@@ -76,7 +78,7 @@ val application = module {
             GetPermissionsForDriverUseCase(repository = get()),
             UpdateDriverUseCase(repository = get()),
             DeletePermissionUseCase(repository = get()),
-            GetDriverByPersonalNumberAndSurname(repository = get())
+            GetDriverByPersonalNumberAndSurnameUseCase(repository = get())
         )
     }
     viewModel {

@@ -7,12 +7,11 @@ import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
+import com.example.workschedule.domain.usecases.status.CreateListStatusForTrainRunUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
-import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
-import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunListUseCase
-import com.example.workschedule.domain.usecases.trainrun.SaveTrainRunUseCase
-import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
+import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.utils.changeDay
+import com.example.workschedule.utils.fromDTO
 import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +28,9 @@ class TrainRunEditViewModel(
     private val getAllDirectionsListUseCase: GetAllDirectionsListUseCase,
     private val saveTrainRunUseCase: SaveTrainRunUseCase,
     private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
-    private val updateTrainRunUseCase: UpdateTrainRunUseCase
+    private val updateTrainRunUseCase: UpdateTrainRunUseCase,
+    private val createListStatusForTrainRun: CreateListStatusForTrainRunUseCase,
+    private val getTrainRunByNumberAndStartTime: GetTrainRunByNumberAndStartTimeUseCase
 ) : ViewModel() {
     private var _trainRun = MutableStateFlow<TrainRun?>(null)
     val trainRun: StateFlow<TrainRun?> = _trainRun.asStateFlow()
@@ -37,6 +38,9 @@ class TrainRunEditViewModel(
     val drivers: StateFlow<List<Driver>> = _drivers.asStateFlow()
     private var _directions = MutableStateFlow<List<Direction>>(emptyList())
     val directions: StateFlow<List<Direction>> = _directions.asStateFlow()
+
+    private var _newTrainRun = MutableStateFlow<TrainRun?>(null)
+    val newTrainRun: StateFlow<TrainRun?> = _newTrainRun
 
     private var _trainRunEditVisual = MutableStateFlow<TrainRunEditVisual?>(null)
     val trainRunEditVisual: StateFlow<TrainRunEditVisual?> = _trainRunEditVisual.asStateFlow()
@@ -68,11 +72,21 @@ class TrainRunEditViewModel(
         }
     }
 
+    fun createListStatuses(){
+        viewModelScope.launch {
+            createListStatusForTrainRun.execute(newTrainRun.value!!)
+        }
+    }
+
     fun getDrivers() {
         viewModelScope.launch {
             _drivers.emit(withContext(Dispatchers.IO) { getAllDriversListUseCase.execute() })
         }
     }
+
+    suspend fun getTrainRunByNumberAndStartTime(number: Int, startTime: Long)=
+        _newTrainRun.emit(withContext(Dispatchers.IO){getTrainRunByNumberAndStartTime.execute(number, startTime).fromDTO})
+
 
     fun getDirections() {
         viewModelScope.launch {
@@ -80,7 +94,7 @@ class TrainRunEditViewModel(
         }
     }
 
-    fun saveTrainRun(trainRun: TrainRun) {
+    fun saveTrainRun(trainRun: TrainRun) =
         viewModelScope.launch(Dispatchers.IO) {
             val daysInMonth = trainRun.startTime.toLocalDateTime().toLocalDate().lengthOfMonth()
             if (trainRun.id == 0) {
@@ -100,5 +114,6 @@ class TrainRunEditViewModel(
                 updateTrainRunUseCase.execute(trainRun)
             }
         }
-    }
+
+
 }

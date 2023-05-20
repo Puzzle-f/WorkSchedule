@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Permission
-import com.example.workschedule.domain.usecases.driver.GetDriverByPersonalNumberAndSurname
+import com.example.workschedule.domain.usecases.driver.GetDriverByPersonalNumberAndSurnameUseCase
 import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
 import com.example.workschedule.domain.usecases.driver.SaveDriverUseCase
 import com.example.workschedule.domain.usecases.driver.UpdateDriverUseCase
@@ -27,7 +27,7 @@ class DriverEditViewModel(
     private val getPermissionsForDriverUseCase: GetPermissionsForDriverUseCase,
     private val updateDriverUseCase: UpdateDriverUseCase,
     private val deletePermissionUseCase: DeletePermissionUseCase,
-    private val getDriverByPersonalNumberAndSurname: GetDriverByPersonalNumberAndSurname
+    private val getDriverByPersonalNumberAndSurname: GetDriverByPersonalNumberAndSurnameUseCase
 ) : ViewModel() {
     private var _driver = MutableStateFlow<Driver?>(null)
     val driver: StateFlow<Driver?> = _driver.asStateFlow()

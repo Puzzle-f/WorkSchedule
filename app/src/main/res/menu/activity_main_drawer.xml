@@ -20,5 +20,9 @@
             android:id="@+id/nav_schedule_all_drivers"
             android:icon="@android:drawable/ic_menu_info_details"
             android:title="@string/menu_schedule_all_drivers" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/settings_icon"
+            android:title="@string/settings"/>
     </group>
 </menu>

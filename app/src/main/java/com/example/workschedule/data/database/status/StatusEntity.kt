@@ -1,14 +1,24 @@
 package com.example.workschedule.data.database.status
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.ForeignKey.Companion.CASCADE
 import com.example.workschedule.data.database.DateTimeConverter
-import com.example.workschedule.data.database.PeriodicityConverter
-import java.time.LocalDateTime
+import com.example.workschedule.data.database.driver.DriverEntity
+import com.example.workschedule.data.database.trainrun.TrainRunEntity
 
-@Entity
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = DriverEntity::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("id_driver"),
+        onDelete = CASCADE
+    ), ForeignKey(
+        entity = TrainRunEntity::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("id_block"),
+        onDelete = CASCADE
+    )]
+)
 @TypeConverters(DateTimeConverter::class)
 data class StatusEntity(
     @PrimaryKey(autoGenerate = true)
@@ -17,7 +27,7 @@ data class StatusEntity(
     @field:ColumnInfo(name = "id_driver")
     val idDriver: Int,
     @field:ColumnInfo(name = "date")
-    val date: LocalDateTime,
+    val date: Long,
     @field:ColumnInfo(name = "status")
     val status: Int,
     @field:ColumnInfo(name = "count_night")

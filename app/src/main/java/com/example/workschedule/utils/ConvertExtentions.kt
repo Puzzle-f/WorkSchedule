@@ -3,6 +3,7 @@ package com.example.workschedule.utils
 import com.example.workschedule.data.database.direction.DirectionEntity
 import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.permission.PermissionEntity
+import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
 import com.example.workschedule.data.database.weekend.WeekendEntity
 import com.example.workschedule.domain.models.*
@@ -166,6 +167,30 @@ val PermissionEntity.fromDto: Permission
         this.idDriver,
         this.idDirection
     )
+
+val Status.toDTO: StatusEntity
+get() = StatusEntity(
+    this.id,
+    this.idDriver,
+    this.date,
+    this.status,
+    this.countNight,
+    this.workedTime,
+    this.idBlock
+)
+
+val StatusEntity.fromDTO: Status
+get() = Status(
+    this.id,
+    this.idDriver,
+    this.date,
+    this.status,
+    this.countNight,
+    this.workedTime,
+    this.idBlock
+)
+
+
 val Weekend.toEntity: WeekendEntity
     get() = WeekendEntity(
         this.driverId,

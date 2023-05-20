@@ -10,6 +10,14 @@
         android:name="com.example.workschedule.ui.main.MainFragment"
         android:label="@string/nav_header_title"
         tools:layout="@layout/fragment_main" >
+
+        <action
+            android:id="@+id/action_nav_main_to_settings"
+            app:destination="@id/nav_settings"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
         <action
             android:id="@+id/action_nav_main_to_nav_route_edit"
             app:destination="@id/nav_route_edit"
@@ -80,6 +88,13 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"/>
+        <action
+            android:id="@+id/action_nav_drivers_to_settings"
+            app:destination="@id/nav_settings"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
 
     <fragment
@@ -116,6 +131,49 @@
             app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_nav_to_schedule_all_drivers"
+            app:destination="@id/nav_schedule_all_drivers"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            />
+        <action
+            android:id="@+id/action_nav_trains_to_settings"
+            app:destination="@id/nav_settings"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.workschedule.ui.settings.SettingsFragment"
+        tools:layout="@layout/fragment_settings"
+        android:label="@string/settings">
+        <action
+            android:id="@+id/action_nav_settings_to_nav_main"
+            app:destination="@id/nav_main"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_settings_to_nav_drivers"
+            app:destination="@id/nav_drivers"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_settings_to_nav_trains"
+            app:destination="@id/nav_trains"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_settings_to_nav_schedule_all_drivers"
             app:destination="@id/nav_schedule_all_drivers"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"

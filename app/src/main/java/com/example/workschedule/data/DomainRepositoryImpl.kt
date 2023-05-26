@@ -17,7 +17,7 @@ class DomainRepositoryImpl(
     override suspend fun getAllTrainsRunList(): List<TrainRun> =
         database.trainRunDao().getAllTrainRuns().fromDTOListTrainRun
 
-    override suspend fun getTrainRun(trainRunId: Int): TrainRun =
+    override suspend fun getTrainRun(trainRunId: Int): TrainRun? =
         database.trainRunDao().getTrainRunById(trainRunId).fromDTO
 
     override suspend fun getTrainRunListForDriverId(driverId: Int): List<TrainRun> =
@@ -39,8 +39,8 @@ class DomainRepositoryImpl(
         database.trainRunDao().clearDriverForTrainRun(driverId)
     }
 
-    override suspend fun getTrainRunByNumberAndStartTimeUseCase(number: Int, startTime: Long) =
-        database.trainRunDao().getTrainRunByNumberAndStartTimeUseCase(number, startTime).fromDTO
+    override suspend fun getTrainRunByNumberAndStartTimeUseCase(number: Int, startDate: Long) =
+        database.trainRunDao().getTrainRunByNumberAndStartTimeUseCase(number, startDate).fromDTO
 
 
     override suspend fun deleteTrainRun(trainRunId: Int) {

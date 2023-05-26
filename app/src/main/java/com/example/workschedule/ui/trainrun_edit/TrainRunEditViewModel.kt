@@ -74,6 +74,7 @@ class TrainRunEditViewModel(
 
     fun createListStatuses(){
         viewModelScope.launch {
+            if(newTrainRun.value != null)
             createListStatusForTrainRun.execute(newTrainRun.value!!)
         }
     }

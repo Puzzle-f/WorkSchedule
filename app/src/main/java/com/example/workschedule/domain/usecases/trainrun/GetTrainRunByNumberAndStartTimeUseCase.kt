@@ -7,5 +7,5 @@ import com.example.workschedule.utils.toDTO
 class GetTrainRunByNumberAndStartTimeUseCase(
     private val repository: DomainRepository
 ) {
-    suspend fun execute(number: Int, startTime: Long): TrainRunEntity = repository.getTrainRunByNumberAndStartTimeUseCase(number, startTime).toDTO
+    suspend fun execute(number: Int, startTime: Long): TrainRunEntity? = repository.getTrainRunByNumberAndStartTimeUseCase(number, startTime)?.toDTO
 }

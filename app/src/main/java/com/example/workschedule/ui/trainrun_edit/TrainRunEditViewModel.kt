@@ -10,10 +10,7 @@ import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
 import com.example.workschedule.domain.usecases.status.CreateListStatusForTrainRunUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
-import com.example.workschedule.utils.changeDay
-import com.example.workschedule.utils.fromDTO
-import com.example.workschedule.utils.toLocalDateTime
-import com.example.workschedule.utils.toTimeString
+import com.example.workschedule.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -53,7 +50,7 @@ class TrainRunEditViewModel(
             if (trainRunId != 0) {
                 combine(trainRun, drivers, directions) { trainRun, drivers, directions ->
                     val driver = if(trainRun!!.driverId==0) "" else
-                        drivers.first { trainRun.driverId == it.id }.surname
+                        drivers.first { trainRun.driverId == it.id }.FIO
                     val localData = TrainRunEditVisual(
                         trainRun.number,
                         driver,

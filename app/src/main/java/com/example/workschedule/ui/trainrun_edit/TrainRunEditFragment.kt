@@ -279,9 +279,7 @@ class TrainRunEditFragment :
     }
 
     private fun renderData(data: TrainRunEditVisual) = with(binding) {
-        val driver = if (data.driver == null) "" else data.driver
-//        routeEditFragmentDateTime.setText(data.startTime.toLocalDateTime().toString())
-        pickDateTime(data.startTime.toLocalDateTime())
+//        pickDateTime(data.startTime.toLocalDateTime())
 
         val pickedDateTime = data.startTime.toLocalDateTime()
         routeEditFragmentDateTime.setText(
@@ -294,7 +292,26 @@ class TrainRunEditFragment :
             periodicityAdapter.getItem(data.periodicity.toInt).toString(),
             false
         )
-        routeEditFragmentDriver.setText(driver)
+
+        lifecycleScope.launchWhenStarted {
+            trainRunEditViewModel
+                .drivers
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { list ->
+                    driversList = list
+                    driversAdapter.clear()
+                    driversAdapter.add(getString(R.string.edit_periodicity_default_item))
+                    driversAdapter.addAll(list.map { it.FIO })
+                    var indexFirstDriver = driversList.indexOfFirst { it.FIO == data.driver }+1
+//                    if(list!=null) indexFirstDriver = driversList.indexOfFirst { it.FIO == data.driver }
+                    driversAdapter.notifyDataSetChanged()
+                    binding.routeEditFragmentDriver.setText(
+                        driversAdapter.getItem(indexFirstDriver).toString(),
+                        false
+                    )
+                }
+        }
+
         routeEditFragmentTimeTo.setText(data.travelTime)
         workTimeEditText.setText(data.workTime)
         radioGroup.check(

@@ -211,18 +211,38 @@ class TrainRunEditFragment :
                 note
             )
 
-            if (trainRunLocal.id == 0) {
-                lifecycleScope.launch {
-                    trainRunEditViewModel.saveTrainRun(trainRunLocal).join()
+            lifecycleScope.launch {
+//                если TrainRun создан впервые
+                if (trainRunLocal.id == 0) {
+                    trainRunEditViewModel.saveTrainRun(trainRunLocal)
                     trainRunEditViewModel.getTrainRunByNumberAndStartTime(
                         trainRunLocal.number.toInt(),
                         trainRunLocal.startTime
                     )
-                    if (trainRunEditViewModel.newTrainRun.value?.driverId != 0)
-                        trainRunEditViewModel.createListStatuses()
+                    if ((trainRunEditViewModel.newTrainRun.value?.driverId ?: 0) != 0) {
+                        trainRunEditViewModel.recalculateStatusesForForDriverAfterTimeUseCase(
+                            trainRunEditViewModel.newTrainRun.value?.driverId!!,
+                            trainRunEditViewModel.newTrainRun.value?.startTime!!
+                        )
+                    }
+                } else {
+//                если TrainRun редактируется
+                    trainRunEditViewModel.saveTrainRun(trainRunLocal)
+                        trainRunEditViewModel.recalculateStatusesForForDriverAfterTimeUseCase(
+                            trainRunLocal.driverId,
+                            trainRunLocal.startTime
+                        )
+//                        if ((trainRunLocal.driverId != trainRunEditViewModel.trainRun.value?.driverId)
+//                            &&
+//                            trainRunEditViewModel.trainRun.value?.driverId != 0
+//                        )
+//                            trainRunEditViewModel.recalculateStatusesForForDriverAfterTimeUseCase(
+//                                trainRunEditViewModel.trainRun.value?.driverId!!,
+//                                trainRunLocal.startTime
+//                            )
                 }
-            } else trainRunEditViewModel.saveTrainRun(trainRunLocal)
 
+            }
             findNavController().navigateUp()
         }
         routeEditFragmentCancelButton.setOnClickListener {
@@ -279,10 +299,6 @@ class TrainRunEditFragment :
     }
 
     private fun renderData(data: TrainRunEditVisual) = with(binding) {
-        val driver = if (data.driver == null) "" else data.driver
-//        routeEditFragmentDateTime.setText(data.startTime.toLocalDateTime().toString())
-        pickDateTime(data.startTime.toLocalDateTime())
-
         val pickedDateTime = data.startTime.toLocalDateTime()
         routeEditFragmentDateTime.setText(
             pickedDateTime.format(DateTimeFormatter.ofPattern("dd.MM.y HH:mm"))
@@ -294,7 +310,25 @@ class TrainRunEditFragment :
             periodicityAdapter.getItem(data.periodicity.toInt).toString(),
             false
         )
-        routeEditFragmentDriver.setText(driver)
+
+        lifecycleScope.launchWhenStarted {
+            trainRunEditViewModel
+                .drivers
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { list ->
+                    driversList = list
+                    driversAdapter.clear()
+                    driversAdapter.add(getString(R.string.edit_periodicity_default_item))
+                    driversAdapter.addAll(list.map { it.FIO })
+                    val indexFirstDriver = driversList.indexOfFirst { it.FIO == data.driver } + 1
+                    driversAdapter.notifyDataSetChanged()
+                    binding.routeEditFragmentDriver.setText(
+                        driversAdapter.getItem(indexFirstDriver).toString(),
+                        false
+                    )
+                }
+        }
+
         routeEditFragmentTimeTo.setText(data.travelTime)
         workTimeEditText.setText(data.workTime)
         radioGroup.check(

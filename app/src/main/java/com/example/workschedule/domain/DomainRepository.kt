@@ -1,13 +1,14 @@
 package com.example.workschedule.domain
 
 import com.example.workschedule.data.database.status.StatusEntity
+import com.example.workschedule.data.database.trainrun.TrainRunEntity
 import com.example.workschedule.domain.models.*
 import java.security.Permissions
 import java.time.LocalDateTime
 
 interface DomainRepository {
     suspend fun getAllTrainsRunList(): List<TrainRun>
-    suspend fun getTrainRun(trainRunId: Int): TrainRun
+    suspend fun getTrainRun(trainRunId: Int): TrainRun?
     suspend fun saveTrainRun(trainRun: TrainRun)
     suspend fun updateTrainRun(trainRun: TrainRun)
     suspend fun deleteTrainRun(trainRunId: Int)
@@ -15,7 +16,8 @@ interface DomainRepository {
     suspend fun getTrainRunListForDriverId(driverId: Int): List<TrainRun>
     suspend fun saveTrainRunList(trainRunList: List<TrainRun>)
     suspend fun clearDriverForTrainRun(driverId: Int)
-    suspend fun getTrainRunByNumberAndStartTimeUseCase(number: Int, startDate: Long): TrainRun
+    suspend fun getTrainRunByNumberAndStartTimeUseCase(number: Int, startDate: Long): TrainRun?
+    suspend fun getTrainRunByDriverIdAfterTime(driverId: Int, dateTime: Long): List<TrainRun>
 
     suspend fun getAllDriversList(): List<Driver>
     suspend fun getDriver(driverId: Int): Driver?
@@ -39,6 +41,8 @@ interface DomainRepository {
 //    suspend fun getWeekends(idDriver: Int, dateTime: Long): List<Weekend>
 //    suspend fun saveWeekend(weekend: Weekend)
 
-    suspend fun getLastStatus(driverId: Int, date: Long): StatusEntity
+    suspend fun getLastStatus(driverId: Int, date: Long): StatusEntity?
     suspend fun createStatus(status: StatusEntity)
+    suspend fun deleteStatusForTrainRunIdUseCse(trainRunId: Int)
+    suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTime: Long)
 }

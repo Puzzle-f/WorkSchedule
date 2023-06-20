@@ -119,8 +119,10 @@ val List<TrainRunEntity>.fromDTOListTrainRun: List<TrainRun> // Экстеншн
         )
     }
 
-val TrainRunEntity.fromDTO: TrainRun // Экстеншн преобразования TrainRunEntity в TrainRun
-    get() = TrainRun(
+val TrainRunEntity?.fromDTO: TrainRun? // Экстеншн преобразования TrainRunEntity в TrainRun
+    get() = if(this == null) null
+            else
+        TrainRun(
         this.id,
         this.number,
         this.driverId,

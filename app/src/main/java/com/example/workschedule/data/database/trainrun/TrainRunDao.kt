@@ -15,6 +15,9 @@ interface TrainRunDao {
     @Query("SELECT * FROM TrainRunEntity WHERE driver_id LIKE :driverId ORDER BY start_time")
     suspend fun getTrainRunByDriverId(driverId: Int): List<TrainRunEntity>
 
+    @Query("SELECT * FROM TrainRunEntity WHERE driver_id LIKE :driverId AND start_time >= :dateTime ORDER BY start_time")
+    suspend fun getTrainRunByDriverIdAfterTime(driverId: Int, dateTime: Long): List<TrainRunEntity>
+
     @Query("SELECT * FROM TrainRunEntity WHERE number LIKE :number AND start_time LIKE :startTime")
     suspend fun getTrainRunByNumberAndStartTimeUseCase(number: Int, startTime: Long): TrainRunEntity
 

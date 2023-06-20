@@ -18,9 +18,15 @@ interface StatusDao {
     @Query("SELECT * FROM StatusEntity WHERE id_driver LIKE :driverId")
     suspend fun getStatusesForDriver(driverId: Int): List<StatusEntity>
 
-    @Query("SELECT * FROM StatusEntity WHERE id_driver LIKE :driverId AND date < :dateLong ORDER BY date DESC LIMIT 1")
-    suspend fun getLastStatusForDriver(driverId: Int, dateLong: Long): StatusEntity
+    @Query("SELECT * FROM StatusEntity WHERE id_driver LIKE :driverId AND date <= :dateLong ORDER BY date DESC LIMIT 1")
+    suspend fun getLastStatusForDriver(driverId: Int, dateLong: Long): StatusEntity?
+
+    @Query("DELETE FROM StatusEntity WHERE id_driver LIKE :driverId AND date >= :dateTimeLong")
+    suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTimeLong: Long)
 
     @Query("DELETE FROM StatusEntity WHERE id LIKE :idStatus")
     suspend fun deleteStatus(idStatus: Int)
+
+    @Query("DELETE FROM StatusEntity WHERE id_block LIKE :trainRunId")
+    suspend fun deleteStatusForTrainRunIdUseCse(trainRunId: Int)
 }

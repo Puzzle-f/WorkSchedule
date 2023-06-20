@@ -6,6 +6,6 @@ import java.time.LocalDateTime
 class GetTrainRunListByDriverIdAfterDateUseCase(
     private val repository: DomainRepository
 ) {
-//    suspend fun execute(driverId: Int, date: Long) =
-//        repository.getTrainRunByDriverIdAfterDate(driverId, date)
+    suspend fun execute(driverId: Int, date: Long) =
+        repository.getTrainRunByDriverIdAfterTime(driverId, date)
 }

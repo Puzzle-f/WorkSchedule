@@ -17,7 +17,7 @@ class DomainRepositoryImpl(
     override suspend fun getAllTrainsRunList(): List<TrainRun> =
         database.trainRunDao().getAllTrainRuns().fromDTOListTrainRun
 
-    override suspend fun getTrainRun(trainRunId: Int): TrainRun =
+    override suspend fun getTrainRun(trainRunId: Int): TrainRun? =
         database.trainRunDao().getTrainRunById(trainRunId).fromDTO
 
     override suspend fun getTrainRunListForDriverId(driverId: Int): List<TrainRun> =
@@ -39,9 +39,13 @@ class DomainRepositoryImpl(
         database.trainRunDao().clearDriverForTrainRun(driverId)
     }
 
-    override suspend fun getTrainRunByNumberAndStartTimeUseCase(number: Int, startTime: Long) =
-        database.trainRunDao().getTrainRunByNumberAndStartTimeUseCase(number, startTime).fromDTO
+    override suspend fun getTrainRunByNumberAndStartTimeUseCase(number: Int, startDate: Long) =
+        database.trainRunDao().getTrainRunByNumberAndStartTimeUseCase(number, startDate).fromDTO
 
+    override suspend fun getTrainRunByDriverIdAfterTime(
+        driverId: Int,
+        dateTime: Long
+    ) = database.trainRunDao().getTrainRunByDriverIdAfterTime(driverId, dateTime).fromDTOListTrainRun
 
     override suspend fun deleteTrainRun(trainRunId: Int) {
         database.trainRunDao().deleteTrainRunById(trainRunId)
@@ -77,7 +81,7 @@ class DomainRepositoryImpl(
     ): Driver =
         database.driverDao().getDriverByPersonalNumberAndSurname(personalNumber, surname).fromDTO
 
-        //    Status
+    //    Status
 
     override suspend fun getLastStatus(driverId: Int, date: Long) =
         database.statusDao().getLastStatusForDriver(driverId, date)
@@ -86,11 +90,19 @@ class DomainRepositoryImpl(
     override suspend fun createStatus(status: StatusEntity) =
         database.statusDao().saveStatus(status)
 
+    override suspend fun deleteStatusForTrainRunIdUseCse(trainRunId: Int) {
+        database.statusDao().deleteStatusForTrainRunIdUseCse(trainRunId)
+    }
+
+    override suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTime: Long) {
+        database.statusDao().deleteStatusesForDriverAfterDate(driverId, dateTime)
+    }
+
     override suspend fun updateDriver(driver: Driver) {
         database.driverDao().updateDriver(driver.toDTO)
     }
 
-        //      Driver
+    //      Driver
 
     override suspend fun getAllDriversList(): List<Driver> =
         database.driverDao().getAllDrivers().fromDTOListDriver
@@ -117,7 +129,7 @@ class DomainRepositoryImpl(
         database.driverDao().deleteAllDrivers()
     }
 
-        //          Direction
+    //          Direction
     override suspend fun getAllTrainsList(): List<Direction> =
         database.directionDao().getAllDirections().fromDTOListTrain
 

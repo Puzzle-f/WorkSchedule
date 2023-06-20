@@ -8,6 +8,7 @@ import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
 import com.example.workschedule.domain.usecases.status.CreateListStatusForTrainRunUseCase
+import com.example.workschedule.domain.usecases.status.DeleteStatusesForDriverAfterDateUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.utils.*
@@ -26,9 +27,13 @@ class TrainRunEditViewModel(
     private val saveTrainRunUseCase: SaveTrainRunUseCase,
     private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
     private val updateTrainRunUseCase: UpdateTrainRunUseCase,
-    private val createListStatusForTrainRun: CreateListStatusForTrainRunUseCase,
-    private val getTrainRunByNumberAndStartTime: GetTrainRunByNumberAndStartTimeUseCase
+    private val getTrainRunByNumberAndStartTime: GetTrainRunByNumberAndStartTimeUseCase,
+    private val deleteStatusesForDriverAfterDateUseCase: DeleteStatusesForDriverAfterDateUseCase,
+    private val getTrainRunListByDriverIdAfterDateUseCase: GetTrainRunListByDriverIdAfterDateUseCase,
+    private val createListStatusForTrainRunUseCase: CreateListStatusForTrainRunUseCase
 ) : ViewModel() {
+    private var _trainRunNewAfterTime = MutableStateFlow<List<TrainRun>?>(null)
+    val trainRunNewAfterTime: StateFlow<List<TrainRun>?> = _trainRunNewAfterTime.asStateFlow()
     private var _trainRun = MutableStateFlow<TrainRun?>(null)
     val trainRun: StateFlow<TrainRun?> = _trainRun.asStateFlow()
     private var _drivers = MutableStateFlow<List<Driver>>(emptyList())
@@ -49,7 +54,7 @@ class TrainRunEditViewModel(
             _directions.emit(withContext(Dispatchers.IO) { getAllDirectionsListUseCase.execute() })
             if (trainRunId != 0) {
                 combine(trainRun, drivers, directions) { trainRun, drivers, directions ->
-                    val driver = if(trainRun!!.driverId==0) "" else
+                    val driver = if (trainRun!!.driverId == 0) "" else
                         drivers.first { trainRun.driverId == it.id }.FIO
                     val localData = TrainRunEditVisual(
                         trainRun.number,
@@ -69,10 +74,16 @@ class TrainRunEditViewModel(
         }
     }
 
-    fun createListStatuses(){
-        viewModelScope.launch {
-            if(newTrainRun.value != null)
-            createListStatusForTrainRun.execute(newTrainRun.value!!)
+    fun recalculateStatusesForForDriverAfterTimeUseCase(driverId: Int, date: Long) {
+        viewModelScope.launch (Dispatchers.IO){
+            deleteStatusesForDriverAfterDateUseCase.execute(driverId, date)
+            getTrainRunListByDriverIdAfterDateUseCase(driverId, date)
+            trainRunNewAfterTime.collect {
+                println("*** $it")
+                it?.forEach {
+                    createListStatusForTrainRunUseCase.execute(it)
+                }
+            }
         }
     }
 
@@ -82,8 +93,24 @@ class TrainRunEditViewModel(
         }
     }
 
-    suspend fun getTrainRunByNumberAndStartTime(number: Int, startTime: Long)=
-        _newTrainRun.emit(withContext(Dispatchers.IO){getTrainRunByNumberAndStartTime.execute(number, startTime).fromDTO})
+    private fun getTrainRunListByDriverIdAfterDateUseCase(driverId: Int, date: Long) =
+        viewModelScope.launch {
+            _trainRunNewAfterTime.emit(withContext(Dispatchers.IO) {
+                getTrainRunListByDriverIdAfterDateUseCase.execute(
+                    driverId,
+                    date
+                )
+            }
+            )
+        }
+
+    suspend fun getTrainRunByNumberAndStartTime(number: Int, startTime: Long) =
+        _newTrainRun.emit(withContext(Dispatchers.IO) {
+            getTrainRunByNumberAndStartTime.execute(
+                number,
+                startTime
+            ).fromDTO
+        })
 
 
     fun getDirections() {
@@ -112,6 +139,4 @@ class TrainRunEditViewModel(
                 updateTrainRunUseCase.execute(trainRun)
             }
         }
-
-
 }

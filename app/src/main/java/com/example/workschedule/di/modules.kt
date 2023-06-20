@@ -5,10 +5,11 @@ import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.driver.*
-import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
 import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
 import com.example.workschedule.domain.usecases.permission.DeletePermissionUseCase
+import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
 import com.example.workschedule.domain.usecases.status.CreateListStatusForTrainRunUseCase
+import com.example.workschedule.domain.usecases.status.DeleteStatusesForDriverAfterDateUseCase
 import com.example.workschedule.domain.usecases.train.DeleteDirectionUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
@@ -16,13 +17,13 @@ import com.example.workschedule.domain.usecases.train.SaveDirectionUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.domain.usecases.weekend.GetWeekendsUseCase
 import com.example.workschedule.domain.usecases.weekend.SaveWeekendUseCase
+import com.example.workschedule.ui.direction.DirectionsViewModel
+import com.example.workschedule.ui.direction_edit.DirectionEditViewModel
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
 import com.example.workschedule.ui.main.MainFragmentViewModel
 import com.example.workschedule.ui.schedule_all_drivers.SchedulersViewModel
-import com.example.workschedule.ui.direction_edit.DirectionEditViewModel
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditViewModel
-import com.example.workschedule.ui.direction.DirectionsViewModel
 import com.example.workschedule.ui.weekend.WeekendViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -57,8 +58,11 @@ val application = module {
             SaveTrainRunUseCase(repository = get()),
             SaveTrainRunListUseCase(repository = get()),
             UpdateTrainRunUseCase(repository = get()),
-            CreateListStatusForTrainRunUseCase(repository = get()),
-            GetTrainRunByNumberAndStartTimeUseCase(repository = get())
+            GetTrainRunByNumberAndStartTimeUseCase(repository = get()),
+            DeleteStatusesForDriverAfterDateUseCase(repository = get()),
+//            CreateStatusesForDriverAfterTimeUseCase(repository = get()),
+            GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
+            CreateListStatusForTrainRunUseCase(repository = get())
         )
     }
     viewModel {
@@ -99,9 +103,11 @@ val application = module {
             GetTrainRunListForDriverUseCase(repository = get())
         )
     }
-    viewModel { WeekendViewModel(
-        GetWeekendsUseCase(repository = get()),
-        SaveWeekendUseCase(repository = get())
-    ) }
+    viewModel {
+        WeekendViewModel(
+            GetWeekendsUseCase(repository = get()),
+            SaveWeekendUseCase(repository = get())
+        )
+    }
 }
 

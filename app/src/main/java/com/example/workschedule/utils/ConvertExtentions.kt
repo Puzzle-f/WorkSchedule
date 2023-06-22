@@ -172,7 +172,6 @@ val PermissionEntity.fromDto: Permission
 
 val Status.toDTO: StatusEntity
 get() = StatusEntity(
-    this.id,
     this.idDriver,
     this.date,
     this.status,
@@ -183,7 +182,6 @@ get() = StatusEntity(
 
 val StatusEntity.fromDTO: Status
 get() = Status(
-    this.id,
     this.idDriver,
     this.date,
     this.status,

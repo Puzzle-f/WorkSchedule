@@ -17,7 +17,6 @@ package com.example.workschedule.domain.models
  * */
 
 data class Status(
-    val id: Int,
     val idDriver: Int,
     val date: Long,
     val status: Int,

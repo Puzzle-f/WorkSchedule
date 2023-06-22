@@ -232,19 +232,19 @@ class TrainRunEditFragment :
                             trainRunLocal.driverId,
                             trainRunLocal.startTime
                         )
-//                        if ((trainRunLocal.driverId != trainRunEditViewModel.trainRun.value?.driverId)
-//                            &&
-//                            trainRunEditViewModel.trainRun.value?.driverId != 0
-//                        )
-//                            trainRunEditViewModel.recalculateStatusesForForDriverAfterTimeUseCase(
-//                                trainRunEditViewModel.trainRun.value?.driverId!!,
-//                                trainRunLocal.startTime
-//                            )
+                        if ((trainRunEditViewModel.trainRun.value?.driverId != trainRunLocal.driverId) &&
+                            ((trainRunEditViewModel.trainRun.value ?: 0) != 0)
+                        ){
+                            trainRunEditViewModel.recalculateStatusesForForDriverAfterTimeUseCase(
+                                trainRunEditViewModel.trainRun.value!!.driverId,
+                                trainRunEditViewModel.trainRun.value!!.startTime
+                            )
+                        }
                 }
-
             }
             findNavController().navigateUp()
         }
+
         routeEditFragmentCancelButton.setOnClickListener {
             findNavController().navigateUp()
         }

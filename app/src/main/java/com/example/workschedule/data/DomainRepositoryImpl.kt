@@ -90,10 +90,6 @@ class DomainRepositoryImpl(
     override suspend fun createStatus(status: StatusEntity) =
         database.statusDao().saveStatus(status)
 
-    override suspend fun deleteStatusForTrainRunIdUseCse(trainRunId: Int) {
-        database.statusDao().deleteStatusForTrainRunIdUseCse(trainRunId)
-    }
-
     override suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTime: Long) {
         database.statusDao().deleteStatusesForDriverAfterDate(driverId, dateTime)
     }

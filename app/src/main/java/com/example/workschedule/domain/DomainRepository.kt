@@ -43,6 +43,5 @@ interface DomainRepository {
 
     suspend fun getLastStatus(driverId: Int, date: Long): StatusEntity?
     suspend fun createStatus(status: StatusEntity)
-    suspend fun deleteStatusForTrainRunIdUseCse(trainRunId: Int)
     suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTime: Long)
 }

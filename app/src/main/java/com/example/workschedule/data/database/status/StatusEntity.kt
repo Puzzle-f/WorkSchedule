@@ -6,7 +6,7 @@ import com.example.workschedule.data.database.DateTimeConverter
 import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
 
-@Entity(
+@Entity(primaryKeys = ["id_driver","date", "status"],
     foreignKeys = [ForeignKey(
         entity = DriverEntity::class,
         parentColumns = arrayOf("id"),
@@ -21,9 +21,6 @@ import com.example.workschedule.data.database.trainrun.TrainRunEntity
 )
 @TypeConverters(DateTimeConverter::class)
 data class StatusEntity(
-    @PrimaryKey(autoGenerate = true)
-    @field:ColumnInfo(name = "id")
-    val id: Int,
     @field:ColumnInfo(name = "id_driver")
     val idDriver: Int,
     @field:ColumnInfo(name = "date")

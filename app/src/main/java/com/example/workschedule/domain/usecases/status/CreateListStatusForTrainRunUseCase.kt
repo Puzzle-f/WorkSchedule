@@ -22,7 +22,6 @@ class CreateListStatusForTrainRunUseCase(
                 )
 //      Создать статус 1 "в поездке"
                 val statusOnTrip = Status(
-                    0,
                     trainRun.driverId,
                     trainRun.startTime,
                     1,
@@ -34,7 +33,6 @@ class CreateListStatusForTrainRunUseCase(
 
 //      Создать статус 2 "отдых после поездки"
                 val statusAfterTrip = Status(
-                    0,
                     trainRun.driverId,
                     trainRun.startTime + trainRun.travelTime,
                     2,
@@ -57,7 +55,6 @@ class CreateListStatusForTrainRunUseCase(
                 val countNight =
                     if (statusAfterTrip.date.toLocalDateTime() > controlTime) 0 else statusAfterTrip.countNight
                 val statusWaitingForWork = Status(
-                    0,
                     trainRun.driverId,
                     trainRun.startTime + trainRun.travelTime + MIN_REST * 3600000L,
                     3,
@@ -75,7 +72,6 @@ class CreateListStatusForTrainRunUseCase(
                         .toLocalDate()
                 ) {
                     val statusWaitingForWorkCountNightIsZero = Status(
-                        0,
                         trainRun.driverId,
                         date = statusWaitingForWork.date.toLocalDateTime().toLocalDate().plusDays(1)
                             .atStartOfDay().plusHours(
@@ -98,7 +94,6 @@ class CreateListStatusForTrainRunUseCase(
                         )
                 ) {
                     val statusWaitingForWorkCountNightIsZero = Status(
-                        0,
                         trainRun.driverId,
                         date = statusWaitingForWork.date.toLocalDateTime().toLocalDate()
                             .atStartOfDay().plusHours(

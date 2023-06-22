@@ -79,7 +79,6 @@ class TrainRunEditViewModel(
             deleteStatusesForDriverAfterDateUseCase.execute(driverId, date)
             getTrainRunListByDriverIdAfterDateUseCase(driverId, date)
             trainRunNewAfterTime.collect {
-                println("*** $it")
                 it?.forEach {
                     createListStatusForTrainRunUseCase.execute(it)
                 }

@@ -74,7 +74,7 @@ class TrainRunEditViewModel(
 
     fun recalculateStatusesForForDriverAfterTimeUseCase(driverId: Int, date: Long) {
         viewModelScope.launch {
-            recalculateStatusesForForDriverAfterTimeUseCase.execute(driverId, date)
+            recalculateStatusesForForDriverAfterTimeUseCase.execute(driverId, date).join()
         }
     }
 

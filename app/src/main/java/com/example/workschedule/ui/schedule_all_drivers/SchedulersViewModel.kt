@@ -43,12 +43,12 @@ class SchedulersViewModel(
         val driverTrainRuns =
             (withContext(Dispatchers.IO) { getTrainRunListForDriverUseCase.execute(driverId) })
         driverTrainRuns.forEach {
-//            listHorizontalRVModel.add(
-//                HorizontalRVModel(
-//                    it.startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y")),
-//                    it. .toString()
-//                )
-//            )
+            listHorizontalRVModel.add(
+                HorizontalRVModel(
+                    it.startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM")),
+                    it.number
+                )
+            )
         }
         return listHorizontalRVModel
     }

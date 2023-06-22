@@ -213,7 +213,7 @@ class TrainRunEditFragment :
             lifecycleScope.launch {
 //                если TrainRun создан впервые
                 if (trainRunLocal.id == 0) {
-                    trainRunEditViewModel.saveTrainRun(trainRunLocal)
+                    trainRunEditViewModel.saveTrainRun(trainRunLocal).join()
                     trainRunEditViewModel.getTrainRunByNumberAndStartTime(
                         trainRunLocal.number.toInt(),
                         trainRunLocal.startTime
@@ -226,7 +226,7 @@ class TrainRunEditFragment :
                     }
                 } else {
 //                если TrainRun редактируется
-                    trainRunEditViewModel.saveTrainRun(trainRunLocal)
+                    trainRunEditViewModel.saveTrainRun(trainRunLocal).join()
                         trainRunEditViewModel.recalculateStatusesForForDriverAfterTimeUseCase(
                             trainRunLocal.driverId,
                             trainRunLocal.startTime

@@ -6,6 +6,7 @@ import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
+import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.utils.toLocalDateTime
@@ -21,11 +22,10 @@ import kotlinx.coroutines.withContext
 class MainFragmentViewModel(
     private val getAllTrainsRunListUseCase: GetAllTrainsRunListUseCase,
     private val getAllDriversListUseCase: GetAllDriversListUseCase,
-    private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
     private val deleteTrainRunUseCase: DeleteTrainRunUseCase,
     private val deleteAllTrainRunUseCase: DeleteAllTrainRunUseCase,
-    private val getTrainRunListByDriverIdAfterDateUseCase: GetTrainRunListByDriverIdAfterDateUseCase,
-    private val getAllDirectionsListUseCase: GetAllDirectionsListUseCase
+    private val getAllDirectionsListUseCase: GetAllDirectionsListUseCase,
+    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForForDriverAfterTimeUseCase
 ) : ViewModel() {
 
     private var _trainRunList = MutableStateFlow<List<TrainRun>>(emptyList())
@@ -71,7 +71,9 @@ class MainFragmentViewModel(
 
     fun deleteTrainRun(trainRunId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteTrainRunUseCase.execute(trainRunId)
+            val trainRun = trainRunList.value.find { it.id ==  trainRunId}
+            deleteTrainRunUseCase.execute(trainRun!!.id)
+            recalculateStatusesForForDriverAfterTimeUseCase.execute(trainRun.driverId, trainRun.startTime)
         }
     }
 

@@ -5,10 +5,11 @@ import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.driver.*
+import com.example.workschedule.domain.usecases.logiс.CreateListStatusForTrainRunUseCase
+import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
 import com.example.workschedule.domain.usecases.permission.DeletePermissionUseCase
 import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
-import com.example.workschedule.domain.usecases.status.CreateListStatusForTrainRunUseCase
 import com.example.workschedule.domain.usecases.status.DeleteStatusesForDriverAfterDateUseCase
 import com.example.workschedule.domain.usecases.train.DeleteDirectionUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
@@ -39,15 +40,21 @@ val application = module {
             .build()
     }
     single<DomainRepository> { DomainRepositoryImpl(database = get()) }
+    factory {
+        RecalculateStatusesForForDriverAfterTimeUseCase(
+            DeleteStatusesForDriverAfterDateUseCase(repository = get()),
+            GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
+            CreateListStatusForTrainRunUseCase(repository = get())
+        )
+    }
     viewModel {
         MainFragmentViewModel(
             GetAllTrainsRunListUseCase(repository = get()),
             GetAllDriversListUseCase(repository = get()),
-            SaveTrainRunListUseCase(repository = get()),
             DeleteTrainRunUseCase(repository = get()),
             DeleteAllTrainRunUseCase(repository = get()),
-            GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
-            GetAllDirectionsListUseCase(repository = get())
+            GetAllDirectionsListUseCase(repository = get()),
+            recalculateStatusesForForDriverAfterTimeUseCase = get()
         )
     }
     viewModel {
@@ -59,10 +66,7 @@ val application = module {
             SaveTrainRunListUseCase(repository = get()),
             UpdateTrainRunUseCase(repository = get()),
             GetTrainRunByNumberAndStartTimeUseCase(repository = get()),
-            DeleteStatusesForDriverAfterDateUseCase(repository = get()),
-//            CreateStatusesForDriverAfterTimeUseCase(repository = get()),
-            GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
-            CreateListStatusForTrainRunUseCase(repository = get())
+            recalculateStatusesForForDriverAfterTimeUseCase = get()
         )
     }
     viewModel {

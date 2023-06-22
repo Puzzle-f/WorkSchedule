@@ -71,8 +71,7 @@ class TrainRunEditFragment :
         var validTravelTime: Boolean = false,
         var validWorkTime: Boolean = false,
         var validDriverFIO: Boolean = false,
-
-        )
+    )
 
     private val editTextValidation = EditTextValidation()
 

@@ -7,7 +7,8 @@ import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
-import com.example.workschedule.domain.usecases.status.CreateListStatusForTrainRunUseCase
+import com.example.workschedule.domain.usecases.logiс.CreateListStatusForTrainRunUseCase
+import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.status.DeleteStatusesForDriverAfterDateUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
@@ -28,12 +29,9 @@ class TrainRunEditViewModel(
     private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
     private val updateTrainRunUseCase: UpdateTrainRunUseCase,
     private val getTrainRunByNumberAndStartTime: GetTrainRunByNumberAndStartTimeUseCase,
-    private val deleteStatusesForDriverAfterDateUseCase: DeleteStatusesForDriverAfterDateUseCase,
-    private val getTrainRunListByDriverIdAfterDateUseCase: GetTrainRunListByDriverIdAfterDateUseCase,
-    private val createListStatusForTrainRunUseCase: CreateListStatusForTrainRunUseCase
+    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForForDriverAfterTimeUseCase
 ) : ViewModel() {
-    private var _trainRunNewAfterTime = MutableStateFlow<List<TrainRun>?>(null)
-    val trainRunNewAfterTime: StateFlow<List<TrainRun>?> = _trainRunNewAfterTime.asStateFlow()
+
     private var _trainRun = MutableStateFlow<TrainRun?>(null)
     val trainRun: StateFlow<TrainRun?> = _trainRun.asStateFlow()
     private var _drivers = MutableStateFlow<List<Driver>>(emptyList())
@@ -75,14 +73,8 @@ class TrainRunEditViewModel(
     }
 
     fun recalculateStatusesForForDriverAfterTimeUseCase(driverId: Int, date: Long) {
-        viewModelScope.launch (Dispatchers.IO){
-            deleteStatusesForDriverAfterDateUseCase.execute(driverId, date)
-            getTrainRunListByDriverIdAfterDateUseCase(driverId, date)
-            trainRunNewAfterTime.collect {
-                it?.forEach {
-                    createListStatusForTrainRunUseCase.execute(it)
-                }
-            }
+        viewModelScope.launch {
+            recalculateStatusesForForDriverAfterTimeUseCase.execute(driverId, date)
         }
     }
 
@@ -92,17 +84,6 @@ class TrainRunEditViewModel(
         }
     }
 
-    private fun getTrainRunListByDriverIdAfterDateUseCase(driverId: Int, date: Long) =
-        viewModelScope.launch {
-            _trainRunNewAfterTime.emit(withContext(Dispatchers.IO) {
-                getTrainRunListByDriverIdAfterDateUseCase.execute(
-                    driverId,
-                    date
-                )
-            }
-            )
-        }
-
     suspend fun getTrainRunByNumberAndStartTime(number: Int, startTime: Long) =
         _newTrainRun.emit(withContext(Dispatchers.IO) {
             getTrainRunByNumberAndStartTime.execute(
@@ -110,7 +91,6 @@ class TrainRunEditViewModel(
                 startTime
             ).fromDTO
         })
-
 
     fun getDirections() {
         viewModelScope.launch {

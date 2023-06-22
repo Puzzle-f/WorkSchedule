@@ -1,4 +1,4 @@
-package com.example.workschedule.domain.usecases.status
+package com.example.workschedule.domain.usecases.logiс
 
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.domain.DomainRepository

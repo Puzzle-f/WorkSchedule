@@ -28,6 +28,7 @@ interface DomainRepository {
     suspend fun deleteAllDriversList()
     suspend fun updateDriver(driver: Driver)
     suspend fun getDriverByPersonalNumberAndSurname(personalNumber: Int, surname: String): Driver
+    suspend fun getAvailableDrivers(dateTime: Long): List<Driver>
 
     suspend fun getAllTrainsList(): List<Direction>
     suspend fun getDirection(directionId: Int): Direction

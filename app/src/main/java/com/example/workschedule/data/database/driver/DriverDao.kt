@@ -17,6 +17,10 @@ interface DriverDao {
     @Query("SELECT * FROM DriverEntity WHERE personal_number LIKE :personalNumber AND surname LIKE :surname")
     suspend fun getDriverByPersonalNumberAndSurname(personalNumber: Int, surname: String): DriverEntity
 
+//    Получить список свободных машинистов
+//    @Query("SELECT * FROM DriverEntity, StatusEntity WHERE ")
+//    suspend fun getAvailableDrivers(date: Long): List<DriverEntity>
+
     // Сохранить нового машиниста
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun saveDriver(driver: DriverEntity)

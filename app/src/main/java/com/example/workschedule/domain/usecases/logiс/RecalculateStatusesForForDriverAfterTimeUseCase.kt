@@ -4,6 +4,7 @@ import com.example.workschedule.domain.usecases.status.DeleteStatusesForDriverAf
 import com.example.workschedule.domain.usecases.trainrun.GetTrainRunListByDriverIdAfterDateUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RecalculateStatusesForForDriverAfterTimeUseCase(
@@ -13,15 +14,14 @@ class RecalculateStatusesForForDriverAfterTimeUseCase(
 ) {
     suspend fun execute(driverId: Int, date: Long) =
         coroutineScope {
-            launch(Dispatchers.Main) {
+            launch(Dispatchers.IO) {
                 deleteStatusesForDriverAfterDateUseCase.execute(driverId, date)
                 getTrainRunListByDriverIdAfterDateUseCase.execute(
                     driverId,
                     date
                 ).forEach {
-                    createListStatusForTrainRunUseCase.execute(it)
+                    createListStatusForTrainRunUseCase.execute(it).join()
                 }
             }
         }
-
 }

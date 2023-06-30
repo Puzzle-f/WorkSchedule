@@ -81,6 +81,11 @@ class DomainRepositoryImpl(
     ): Driver =
         database.driverDao().getDriverByPersonalNumberAndSurname(personalNumber, surname).fromDTO
 
+    override suspend fun getAvailableDrivers(dateTime: Long): List<Driver> {
+        TODO("Not yet implemented")
+        database.driverDao()
+    }
+
     //    Status
 
     override suspend fun getLastStatus(driverId: Int, date: Long) =

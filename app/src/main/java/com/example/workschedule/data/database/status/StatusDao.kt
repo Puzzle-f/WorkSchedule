@@ -9,7 +9,7 @@ import com.example.workschedule.domain.models.Status
 
 @Dao
 interface StatusDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun saveStatus(status: StatusEntity)
 
     @Query("SELECT * FROM StatusEntity ORDER BY date")

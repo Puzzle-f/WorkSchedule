@@ -6,9 +6,12 @@ import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
+import com.example.workschedule.domain.usecases.logiс.FindDriverUseCase
 import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
-import com.example.workschedule.domain.usecases.trainrun.*
+import com.example.workschedule.domain.usecases.trainrun.DeleteAllTrainRunUseCase
+import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
+import com.example.workschedule.domain.usecases.trainrun.GetAllTrainsRunListUseCase
 import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +28,8 @@ class MainFragmentViewModel(
     private val deleteTrainRunUseCase: DeleteTrainRunUseCase,
     private val deleteAllTrainRunUseCase: DeleteAllTrainRunUseCase,
     private val getAllDirectionsListUseCase: GetAllDirectionsListUseCase,
-    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForForDriverAfterTimeUseCase
+    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForForDriverAfterTimeUseCase,
+    private val findDriverUseCase: FindDriverUseCase
 ) : ViewModel() {
 
     private var _trainRunList = MutableStateFlow<List<TrainRun>>(emptyList())
@@ -71,11 +75,23 @@ class MainFragmentViewModel(
 
     fun deleteTrainRun(trainRunId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val trainRun = trainRunList.value.find { it.id ==  trainRunId}
+            val trainRun = trainRunList.value.find { it.id == trainRunId }
             deleteTrainRunUseCase.execute(trainRun!!.id)
-            recalculateStatusesForForDriverAfterTimeUseCase.execute(trainRun.driverId, trainRun.startTime)
+            recalculateStatusesForForDriverAfterTimeUseCase.execute(
+                trainRun.driverId,
+                trainRun.startTime
+            )
         }
     }
+
+    fun findDriver() =
+        viewModelScope.launch(Dispatchers.IO) {
+            trainRunList.value.forEach {
+                if (it.driverId == 0)
+                    findDriverUseCase.execute(it).join()
+            }
+        }
+
 
     fun deleteAllTrainRun() {
         viewModelScope.launch(Dispatchers.IO) {

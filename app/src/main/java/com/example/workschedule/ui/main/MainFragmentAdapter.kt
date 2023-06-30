@@ -74,8 +74,7 @@ class MainFragmentAdapter(
             if (mainFragmentRecyclerItemDriver.text == "" || mainFragmentRecyclerItemDriver.text == "0") {
                 layoutContainer.setBackgroundResource(R.color.red)
             }
-            else
-                if (currentList[adapterPosition].isEditManually) {
+            else if (currentList[adapterPosition].isEditManually) {
                     layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
                 }
                 else

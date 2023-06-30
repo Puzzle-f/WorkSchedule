@@ -5,12 +5,14 @@ import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.driver.*
-import com.example.workschedule.domain.usecases.logiс.CreateListStatusForTrainRunUseCase
-import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForForDriverAfterTimeUseCase
+import com.example.workschedule.domain.usecases.logiс.*
 import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
 import com.example.workschedule.domain.usecases.permission.DeletePermissionUseCase
+import com.example.workschedule.domain.usecases.permission.GetDriverIdByPermissionUseCase
 import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
+import com.example.workschedule.domain.usecases.status.CreateStatusUseCase
 import com.example.workschedule.domain.usecases.status.DeleteStatusesForDriverAfterDateUseCase
+import com.example.workschedule.domain.usecases.status.GetLastStatusUseCase
 import com.example.workschedule.domain.usecases.train.DeleteDirectionUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
@@ -40,11 +42,15 @@ val application = module {
             .build()
     }
     single<DomainRepository> { DomainRepositoryImpl(database = get()) }
-    factory {
+
+    single {
         RecalculateStatusesForForDriverAfterTimeUseCase(
             DeleteStatusesForDriverAfterDateUseCase(repository = get()),
             GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
-            CreateListStatusForTrainRunUseCase(repository = get())
+            CreateListStatusForTrainRunUseCase(
+                GetLastStatusUseCase(repository = get()),
+                CreateStatusUseCase(repository = get())
+            )
         )
     }
     viewModel {
@@ -54,7 +60,24 @@ val application = module {
             DeleteTrainRunUseCase(repository = get()),
             DeleteAllTrainRunUseCase(repository = get()),
             GetAllDirectionsListUseCase(repository = get()),
-            recalculateStatusesForForDriverAfterTimeUseCase = get()
+            recalculateStatusesForForDriverAfterTimeUseCase = get(),
+            FindDriverUseCase(
+                FindDriverBeforeHorizonUseCase(repository = get()),
+                FindDriverAfterHorizonUseCase(
+                    RecalculateStatusesForForDriverAfterTimeUseCase(
+                        DeleteStatusesForDriverAfterDateUseCase(repository = get()),
+                        GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
+                        CreateListStatusForTrainRunUseCase(
+                            GetLastStatusUseCase(repository = get()),
+                            CreateStatusUseCase(repository = get())
+                        )
+                    ),
+                    GetDriverIdByPermissionUseCase(repository = get()),
+                    GetLastStatusUseCase(repository = get()),
+                    CreateStatusUseCase(repository = get()),
+                    UpdateTrainRunUseCase(repository = get())
+                )
+            )
         )
     }
     viewModel {

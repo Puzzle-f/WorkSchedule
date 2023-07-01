@@ -36,4 +36,7 @@ interface TrainRunDao {
 
     @Query("UPDATE TrainRunEntity SET driver_id = '' WHERE driver_id = :driverId")
     suspend fun clearDriverForTrainRun(driverId: Int)
+
+    @Query("UPDATE TrainRunEntity SET driver_id = '' WHERE start_time >= :date AND is_edit_manually <> true")
+    suspend fun clearDriverForTrainRunAfterDate(date: Long)
 }

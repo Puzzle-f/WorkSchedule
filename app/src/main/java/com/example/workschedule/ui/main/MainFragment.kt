@@ -1,6 +1,5 @@
 package com.example.workschedule.ui.main
 
-import android.app.Application
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -11,14 +10,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.workschedule.MainActivity
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
-import com.example.workschedule.di.application
 import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment.Companion.TRAIN_RUN_ID
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -35,7 +33,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.mainFragmentRecyclerView)
     }
-
 
     override fun onStart() {
         buttonNewRoute.visibility = View.VISIBLE
@@ -57,10 +54,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         }
         buttonRecalculate.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                mainFragmentViewModel.findDriver()
+            repeat(3){
+                initObservers()
+                delay(1000)
             }
+            }
+            mainFragmentViewModel.findDriver()
             initObservers()
-            adapter.notifyDataSetChanged()
             Toast.makeText(activity, "Наряд заполнен", Toast.LENGTH_LONG).show()
         }
     }

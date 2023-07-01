@@ -23,4 +23,10 @@ interface StatusDao {
 
     @Query("DELETE FROM StatusEntity WHERE id_driver LIKE :driverId AND date >= :dateTimeLong")
     suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTimeLong: Long)
+
+    @Query("DELETE FROM StatusEntity WHERE date >= :dateLong AND status <> 4")
+    suspend fun deleteStatusesAfterDate(dateLong: Long)
+
+    @Query("DELETE FROM StatusEntity WHERE id_block LIKE :trainRunId")
+    suspend fun deleteStatusForTrainRunId(trainRunId: Int)
 }

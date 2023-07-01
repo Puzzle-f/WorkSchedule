@@ -6,21 +6,25 @@ import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
-import com.example.workschedule.domain.usecases.logiс.FindDriverUseCase
-import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForForDriverAfterTimeUseCase
+import com.example.workschedule.domain.usecases.logiс.FindDriverAfterHorizonUseCase
+import com.example.workschedule.domain.usecases.logiс.FindDriverBeforeHorizonUseCase
+import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForDriverAfterTimeUseCase
+import com.example.workschedule.domain.usecases.status.DeleteStatusForTrainRunIdUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
+import com.example.workschedule.domain.usecases.trainrun.ClearDriverForTrainRunAfterDateUseCase
 import com.example.workschedule.domain.usecases.trainrun.DeleteAllTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.GetAllTrainsRunListUseCase
+import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.utils.toLocalDateTime
+import com.example.workschedule.utils.toLong
 import com.example.workschedule.utils.toTimeString
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
 
 class MainFragmentViewModel(
     private val getAllTrainsRunListUseCase: GetAllTrainsRunListUseCase,
@@ -28,8 +32,11 @@ class MainFragmentViewModel(
     private val deleteTrainRunUseCase: DeleteTrainRunUseCase,
     private val deleteAllTrainRunUseCase: DeleteAllTrainRunUseCase,
     private val getAllDirectionsListUseCase: GetAllDirectionsListUseCase,
-    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForForDriverAfterTimeUseCase,
-    private val findDriverUseCase: FindDriverUseCase
+    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForDriverAfterTimeUseCase,
+    private val findDriverBeforeHorizonUseCase: FindDriverBeforeHorizonUseCase,
+    private val findDriverAfterHorizonUseCase: FindDriverAfterHorizonUseCase,
+    private val clearDriverForTrainRunAfterDateUseCase: ClearDriverForTrainRunAfterDateUseCase,
+    private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase
 ) : ViewModel() {
 
     private var _trainRunList = MutableStateFlow<List<TrainRun>>(emptyList())
@@ -84,11 +91,35 @@ class MainFragmentViewModel(
         }
     }
 
+    fun clearDriverForTrainRunAfterDate()=
+        viewModelScope.launch(Dispatchers.IO) {
+            val horizonDate = LocalDateTime.now().toLong()  + PLANNING_HORIZON
+            clearDriverForTrainRunAfterDateUseCase.execute(horizonDate).join()
+        }
+
     fun findDriver() =
         viewModelScope.launch(Dispatchers.IO) {
-            trainRunList.value.forEach {
-                if (it.driverId == 0)
-                    findDriverUseCase.execute(it).join()
+            clearDriverForTrainRunAfterDate().join()
+//            delay(1500)
+            val horizonDate = LocalDateTime.now().toLong()  + PLANNING_HORIZON
+            trainRunList.collect{ listTrainRun ->
+
+                listTrainRun.forEach{
+                    deleteStatusForTrainRunIdUseCase.execute(it.id).join()
+                }
+                listTrainRun.forEach {
+                    if (it.driverId == 0){
+//                        if (it.startTime <= horizonDate) {
+////                    findDriverBeforeHorizonUseCase.execute(it).join()
+//                            findDriverAfterHorizonUseCase.execute(it).join()
+//                        } else {
+//                            findDriverAfterHorizonUseCase.execute(it).join()
+//                        }
+                        findDriverAfterHorizonUseCase.execute(it).join()
+                        if(it == listTrainRun.last()) this.cancel()
+                    }
+
+                }
             }
         }
 

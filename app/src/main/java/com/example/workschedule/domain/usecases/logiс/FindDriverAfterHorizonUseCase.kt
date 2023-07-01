@@ -13,12 +13,11 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class FindDriverAfterHorizonUseCase(
-    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForForDriverAfterTimeUseCase,
+    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForDriverAfterTimeUseCase,
     private val getDriverIdByPermissionUseCase: GetDriverIdByPermissionUseCase,
     private val getLastStatusUseCase: GetLastStatusUseCase,
     private val createStatusUseCase: CreateStatusUseCase,
     private val updateTrainRunUseCase: UpdateTrainRunUseCase
-
 ) {
     suspend fun execute(trainRun: TrainRun) =
         coroutineScope {
@@ -33,7 +32,7 @@ class FindDriverAfterHorizonUseCase(
                             status = 3,
                             countNight = 0,
                             workedTime = 0,
-                            trainRun.id
+                            null
                         ).toDTO
                         createStatusUseCase.execute(statusFirst)
                         status = getLastStatusUseCase.execute(driverId, trainRun.startTime)

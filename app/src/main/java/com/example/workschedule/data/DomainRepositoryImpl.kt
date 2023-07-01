@@ -47,6 +47,10 @@ class DomainRepositoryImpl(
         dateTime: Long
     ) = database.trainRunDao().getTrainRunByDriverIdAfterTime(driverId, dateTime).fromDTOListTrainRun
 
+    override suspend fun clearDriverForTrainRunAfterDate(dateTime: Long) {
+        database.trainRunDao().clearDriverForTrainRunAfterDate(dateTime)
+    }
+
     override suspend fun deleteTrainRun(trainRunId: Int) {
         database.trainRunDao().deleteTrainRunById(trainRunId)
     }
@@ -97,6 +101,14 @@ class DomainRepositoryImpl(
 
     override suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTime: Long) {
         database.statusDao().deleteStatusesForDriverAfterDate(driverId, dateTime)
+    }
+
+    override suspend fun deleteStatusesAfterDate(date: Long) {
+        database.statusDao().deleteStatusesAfterDate(date)
+    }
+
+    override suspend fun deleteStatusForTrainRunId(trainRunId: Int) {
+        database.statusDao().deleteStatusForTrainRunId(trainRunId)
     }
 
     override suspend fun updateDriver(driver: Driver) {

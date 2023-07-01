@@ -7,9 +7,7 @@ import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
-import com.example.workschedule.domain.usecases.logiс.CreateListStatusForTrainRunUseCase
-import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForForDriverAfterTimeUseCase
-import com.example.workschedule.domain.usecases.status.DeleteStatusesForDriverAfterDateUseCase
+import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.utils.*
@@ -29,7 +27,7 @@ class TrainRunEditViewModel(
     private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
     private val updateTrainRunUseCase: UpdateTrainRunUseCase,
     private val getTrainRunByNumberAndStartTime: GetTrainRunByNumberAndStartTimeUseCase,
-    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForForDriverAfterTimeUseCase
+    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForDriverAfterTimeUseCase
 ) : ViewModel() {
 
     private var _trainRun = MutableStateFlow<TrainRun?>(null)

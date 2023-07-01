@@ -7,7 +7,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class RecalculateStatusesForForDriverAfterTimeUseCase(
+class RecalculateStatusesForDriverAfterTimeUseCase(
     private val deleteStatusesForDriverAfterDateUseCase: DeleteStatusesForDriverAfterDateUseCase,
     private val getTrainRunListByDriverIdAfterDateUseCase: GetTrainRunListByDriverIdAfterDateUseCase,
     private val createListStatusForTrainRunUseCase: CreateListStatusForTrainRunUseCase

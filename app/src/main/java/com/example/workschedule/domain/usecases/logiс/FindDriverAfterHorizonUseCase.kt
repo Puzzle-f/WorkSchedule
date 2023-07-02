@@ -35,9 +35,9 @@ class FindDriverAfterHorizonUseCase(
                             null
                         ).toDTO
                         createStatusUseCase.execute(statusFirst)
-                        status = getLastStatusUseCase.execute(driverId, trainRun.startTime)
+                        status = statusFirst
                     }
-                    if (status?.status == 3 && status.countNight + trainRun.countNight <= 2) {
+                    if (status.status == 3 && status.countNight + trainRun.countNight <= 2) {
                         statuses.add(status)
                     }
                 }

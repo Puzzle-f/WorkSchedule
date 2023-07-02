@@ -49,9 +49,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initRecalculation() {
-        binding.appBarMain.recalculation.setOnClickListener {
-            Toast.makeText(this, "TEST", Toast.LENGTH_LONG).show()
-        }
+//        binding.appBarMain.recalculation.setOnClickListener {
+//            Toast.makeText(this, "TEST", Toast.LENGTH_LONG).show()
+//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

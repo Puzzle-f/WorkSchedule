@@ -42,7 +42,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     }
 }
 
- val nightPeriod = LocalTime.of(0,0)..LocalTime.of(5, 59)
+ val nightPeriod = LocalTime.of(0,0)..LocalTime.of(6, 0)
 
 const val MIN_REST = 16L
 var ignoreWeekends = true

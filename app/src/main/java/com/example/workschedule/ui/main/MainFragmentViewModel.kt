@@ -25,6 +25,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import java.time.LocalDateTime
+import java.time.temporal.TemporalAdjuster
+import java.time.temporal.TemporalAdjusters
 
 class MainFragmentViewModel(
     private val getAllTrainsRunListUseCase: GetAllTrainsRunListUseCase,
@@ -91,24 +93,29 @@ class MainFragmentViewModel(
         }
     }
 
-    fun clearDriverForTrainRunAfterDate()=
+    fun clearDriverForTrainRunAfterDate(date: Long) =
         viewModelScope.launch(Dispatchers.IO) {
-            val horizonDate = LocalDateTime.now().toLong()  + PLANNING_HORIZON
-            clearDriverForTrainRunAfterDateUseCase.execute(horizonDate).join()
+//            val horizonDate = LocalDateTime.now().toLong()  + PLANNING_HORIZON
+            clearDriverForTrainRunAfterDateUseCase.execute(date).join()
         }
 
     fun findDriver() =
         viewModelScope.launch(Dispatchers.IO) {
-            clearDriverForTrainRunAfterDate().join()
-//            delay(1500)
-            val horizonDate = LocalDateTime.now().toLong()  + PLANNING_HORIZON
-            trainRunList.collect{ listTrainRun ->
+            val clearDriver = clearDriverForTrainRunAfterDate(
+//                TODO заглушка для очистки всех поездов с начала текщего месяца. Переделать на горизонт планирования
+                LocalDateTime . now ().with(TemporalAdjusters.firstDayOfMonth() ).toLong()
+            )
+            clearDriver.join()
+            delay(100)
+            val horizonDate = LocalDateTime.now().toLong() + PLANNING_HORIZON
+            if(clearDriver.isCompleted)
+            trainRunList.collect { listTrainRun ->
 
-                listTrainRun.forEach{
+                listTrainRun.forEach {
                     deleteStatusForTrainRunIdUseCase.execute(it.id).join()
                 }
                 listTrainRun.forEach {
-                    if (it.driverId == 0){
+                    if (it.driverId == 0) {
 //                        if (it.startTime <= horizonDate) {
 ////                    findDriverBeforeHorizonUseCase.execute(it).join()
 //                            findDriverAfterHorizonUseCase.execute(it).join()
@@ -116,7 +123,7 @@ class MainFragmentViewModel(
 //                            findDriverAfterHorizonUseCase.execute(it).join()
 //                        }
                         findDriverAfterHorizonUseCase.execute(it).join()
-                        if(it == listTrainRun.last()) this.cancel()
+                        if (it == listTrainRun.last()) this.cancel()
                     }
 
                 }

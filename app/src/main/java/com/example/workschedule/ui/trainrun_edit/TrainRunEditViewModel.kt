@@ -103,13 +103,13 @@ class TrainRunEditViewModel(
                 when (trainRun.periodicity) {
                     TrainPeriodicity.SINGLE -> saveTrainRunUseCase.execute(trainRun)
                     TrainPeriodicity.ON_ODD -> saveTrainRunListUseCase.execute(
-                        (1..daysInMonth step 2).map { trainRun.changeDay(it) }
+                        (trainRun.startTime.toLocalDateTime().toLocalDate().dayOfMonth..daysInMonth step 2).map { trainRun.changeDay(it) }
                     )
                     TrainPeriodicity.ON_EVEN -> saveTrainRunListUseCase.execute(
-                        (2..daysInMonth step 2).map { trainRun.changeDay(it) }
+                        (trainRun.startTime.toLocalDateTime().toLocalDate().dayOfMonth..daysInMonth step 2).map { trainRun.changeDay(it) }
                     )
                     TrainPeriodicity.DAILY -> saveTrainRunListUseCase.execute(
-                        (1..daysInMonth).map { trainRun.changeDay(it) }
+                        (trainRun.startTime.toLocalDateTime().toLocalDate().dayOfMonth..daysInMonth).map { trainRun.changeDay(it) }
                     )
                 }
             } else {

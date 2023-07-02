@@ -54,9 +54,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         }
         buttonRecalculate.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-            repeat(3){
+            repeat(5){
                 initObservers()
-                delay(1000)
+                delay(500)
             }
             }
             mainFragmentViewModel.findDriver()

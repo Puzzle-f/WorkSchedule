@@ -109,8 +109,7 @@ private val createStatusUseCase: CreateStatusUseCase
                                 ).toLong(),
                             3,
                             0,
-                            lastStatus?.workedTime ?: (0
-                                    + trainRun.workTime),
+                            statusAfterTrip.workedTime,
                             trainRun.id
                         ).toDTO
                         createStatusUseCase.execute(statusWaitingForWorkCountNightIsZero)

@@ -86,14 +86,7 @@ val application = module {
             SaveTrainRunListUseCase(repository = get()),
             UpdateTrainRunUseCase(repository = get()),
             GetTrainRunByNumberAndStartTimeUseCase(repository = get()),
-            RecalculateStatusesForDriverAfterTimeUseCase(
-                DeleteStatusesForDriverAfterDateUseCase(repository = get()),
-                GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
-                CreateListStatusForTrainRunUseCase(
-                    GetLastStatusUseCase(repository = get()),
-                    CreateStatusUseCase(repository = get())
-                )
-            )
+            recalculateStatusesForForDriverAfterTimeUseCase = get()
         )
     }
     viewModel {

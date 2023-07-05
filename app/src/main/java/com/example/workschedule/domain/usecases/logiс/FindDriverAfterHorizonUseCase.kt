@@ -26,11 +26,7 @@ class FindDriverAfterHorizonUseCase(
             launch(Dispatchers.IO) {
                 val statuses = mutableListOf<StatusEntity?>()
                 getDriverIdByPermissionUseCase.execute(trainRun.direction).forEach { driverId ->
-//                    var status: StatusEntity? = null
-//                    launch(Dispatchers.IO) {
                       var status = getLastStatusUseCase.execute(driverId, trainRun.startTime)
-//                    }.join()
-
                     if (status == null) {
                         Log.e("", "status = $status")
                         val statusFirst = Status(

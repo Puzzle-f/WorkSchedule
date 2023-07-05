@@ -23,7 +23,7 @@ class SelectionDriverViewModel(
 
     fun getSelectionDriverData() {
         viewModelScope.launch {
-            _drivers.emit(withContext(Dispatchers.IO) {})
+//            _drivers.emit(withContext(Dispatchers.IO) {})
         }
     }
 

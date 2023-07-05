@@ -1,5 +1,6 @@
 package com.example.workschedule.domain.usecases.logiс
 
+import android.util.Log
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.domain.models.Status
 import com.example.workschedule.domain.models.TrainRun
@@ -10,6 +11,7 @@ import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.utils.toDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FindDriverAfterHorizonUseCase(
@@ -24,15 +26,20 @@ class FindDriverAfterHorizonUseCase(
             launch(Dispatchers.IO) {
                 val statuses = mutableListOf<StatusEntity?>()
                 getDriverIdByPermissionUseCase.execute(trainRun.direction).forEach { driverId ->
-                    var status = getLastStatusUseCase.execute(driverId, trainRun.startTime)
+//                    var status: StatusEntity? = null
+//                    launch(Dispatchers.IO) {
+                      var status = getLastStatusUseCase.execute(driverId, trainRun.startTime)
+//                    }.join()
+
                     if (status == null) {
+                        Log.e("", "status = $status")
                         val statusFirst = Status(
                             driverId,
                             trainRun.startTime,
                             status = 3,
                             countNight = 0,
                             workedTime = 0,
-                            null
+                            trainRun.id
                         ).toDTO
                         createStatusUseCase.execute(statusFirst)
                         status = statusFirst
@@ -42,13 +49,16 @@ class FindDriverAfterHorizonUseCase(
                     }
                 }
                 statuses.sortBy { it?.workedTime }
-                if (statuses.isNotEmpty())
+                Log.e("", "$statuses")
+                if (statuses.isNotEmpty()){
                     trainRun.driverId = statuses.first()!!.idDriver
-                updateTrainRunUseCase.execute(trainRun)
-                recalculateStatusesForForDriverAfterTimeUseCase.execute(
-                    trainRun.driverId,
-                    trainRun.startTime
-                )
+                    updateTrainRunUseCase.execute(trainRun)
+                    Log.e("", "$trainRun")
+                    recalculateStatusesForForDriverAfterTimeUseCase.execute(
+                        trainRun.driverId,
+                        trainRun.startTime
+                    )
+                }
             }
         }
 }

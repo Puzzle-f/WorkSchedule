@@ -3,10 +3,7 @@ package com.example.workschedule.data
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.domain.DomainRepository
-import com.example.workschedule.domain.models.Direction
-import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.domain.models.Permission
-import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.models.*
 import com.example.workschedule.utils.*
 
 class DomainRepositoryImpl(
@@ -95,6 +92,15 @@ class DomainRepositoryImpl(
     override suspend fun getLastStatus(driverId: Int, date: Long) =
         database.statusDao().getLastStatusForDriver(driverId, date)
 
+    override suspend fun getStatusesForTrainRun(trainRunId: Int): List<Status> =
+        database.statusDao().getStatusesForTrainRun(trainRunId).fromDTO
+
+    override suspend fun getStatusesForDriverBetweenDate(
+        driverId: Int,
+        dateStart: Long,
+        dateEnd: Long
+    ): List<Status> =
+        database.statusDao().getStatusesForDriverBetweenDate(driverId, dateStart, dateEnd).fromDTO
 
     override suspend fun createStatus(status: StatusEntity) =
         database.statusDao().saveStatus(status)

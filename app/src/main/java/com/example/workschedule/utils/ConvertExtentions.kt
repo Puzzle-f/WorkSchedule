@@ -190,6 +190,18 @@ get() = Status(
     this.idBlock
 )
 
+val List<StatusEntity>.fromDTO: List<Status>
+get() = this.map {
+    Status(
+        it.idDriver,
+        it.date,
+        it.status,
+        it.countNight,
+        it.workedTime,
+        it.idBlock
+    )
+}
+
 
 val Weekend.toEntity: WeekendEntity
     get() = WeekendEntity(

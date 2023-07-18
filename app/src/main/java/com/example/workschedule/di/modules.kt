@@ -13,10 +13,7 @@ import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
 import com.example.workschedule.domain.usecases.permission.DeletePermissionUseCase
 import com.example.workschedule.domain.usecases.permission.GetDriverIdByPermissionUseCase
 import com.example.workschedule.domain.usecases.permission.GetPermissionsForDriverUseCase
-import com.example.workschedule.domain.usecases.status.CreateStatusUseCase
-import com.example.workschedule.domain.usecases.status.DeleteStatusForTrainRunIdUseCase
-import com.example.workschedule.domain.usecases.status.DeleteStatusesForDriverAfterDateUseCase
-import com.example.workschedule.domain.usecases.status.GetLastStatusUseCase
+import com.example.workschedule.domain.usecases.status.*
 import com.example.workschedule.domain.usecases.train.DeleteDirectionUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
@@ -71,7 +68,10 @@ val application = module {
                 GetDriverIdByPermissionUseCase(repository = get()),
                 GetLastStatusUseCase(repository = get()),
                 CreateStatusUseCase(repository = get()),
-                UpdateTrainRunUseCase(repository = get())
+                UpdateTrainRunUseCase(repository = get()),
+                GetStatusesForTrainRunUseCase(repository = get()),
+                GetStatusesForDriverBetweenDateUseCase(repository = get()),
+                DeleteStatusForTrainRunIdUseCase(repository = get())
             ),
             ClearDriverForTrainRunAfterDateUseCase(repository = get()),
             DeleteStatusForTrainRunIdUseCase(repository = get())

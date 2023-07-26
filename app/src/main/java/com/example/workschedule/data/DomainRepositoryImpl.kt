@@ -68,14 +68,6 @@ class DomainRepositoryImpl(
         database.permissionDao().deletePermissionsToDriver(permission.toDTO)
     }
 
-//    override suspend fun getWeekends(idDriver: Int, dateTime: Long): List<Weekend> =
-//        database.weekendDao().getAllWeekendsForDriver(idDriver, dateTime).map { it.toWeekend }
-
-
-//    override suspend fun saveWeekend(weekend: Weekend) {
-//        database.weekendDao().saveWeekend(weekend.toEntity)
-//    }
-
     override suspend fun getDriverByPersonalNumberAndSurname(
         personalNumber: Int,
         surname: String

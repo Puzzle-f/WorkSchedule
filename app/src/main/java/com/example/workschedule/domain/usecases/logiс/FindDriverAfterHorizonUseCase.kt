@@ -1,7 +1,5 @@
 package com.example.workschedule.domain.usecases.logiс
 
-import android.util.Log
-import android.util.LogPrinter
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.domain.models.Status
 import com.example.workschedule.domain.models.TrainRun
@@ -30,24 +28,24 @@ class FindDriverAfterHorizonUseCase(
                 getDriverIdByPermissionUseCase.execute(trainRun.direction).forEach { driverId ->
                     var status = getLastStatusUseCase.execute(driverId, trainRun.startTime)
                     if (status == null) {
-//                        Log.e("", "status = $status")
-                        val statusFirst = Status(
-                            driverId,
-                            trainRun.startTime,
-                            status = 3,
-                            countNight = 0,
-                            workedTime = 0,
-                            trainRun.id
-                        ).toDTO
-                        createStatusUseCase.execute(statusFirst)
-                        status = statusFirst
+                        launch {
+                            val statusFirst = Status(
+                                driverId,
+                                trainRun.startTime,
+                                status = 3,
+                                countNight = 0,
+                                workedTime = 0,
+                                trainRun.id
+                            ).toDTO
+                            createStatusUseCase.execute(statusFirst)
+                            status = statusFirst
+                        }.join()
                     }
-                    if (status.status == 3 && status.countNight + trainRun.countNight <= 2) {
+                    if (status?.status == 3 && (status!!.countNight  + trainRun.countNight) <= 2) {
                         lastStatuses.add(status)
                     }
                 }
                 lastStatuses.sortBy { it?.workedTime }
-                Log.e("", "$lastStatuses")
                 if (lastStatuses.isNotEmpty()) {
                     lastStatuses.forEach { lastStatus ->
                         val trainRunLoc = TrainRun(
@@ -62,13 +60,21 @@ class FindDriverAfterHorizonUseCase(
                             trainRun.startTime
                         ).join()
                         val rangeStatuses = getStatusesForTrainRunUseCase.execute(trainRun.id)
-                        val statusesInRange = getStatusesForDriverBetweenDateUseCase.execute(lastStatus.idDriver,
-                            dateStart = trainRun.startTime, dateEnd =  rangeStatuses.maxOf { it.date })
-                        if(!statusesInRange.map { it.idBlock }.any{ it!=trainRun.id }) return@launch
+                        val statusesInRange = getStatusesForDriverBetweenDateUseCase.execute(
+                            lastStatus.idDriver,
+                            dateStart = trainRun.startTime,
+                            dateEnd = rangeStatuses.maxOf { it.date })
+//  если статусы машиниста в период с начала планируемой поездки до момента
+//  окончания отдыха принадлежат только этой поездке (т.е. нет пересечений с другими поездками)
+                        if (!statusesInRange.map { it.idBlock }
+                                .any { it != trainRun.id }) return@launch
                         else {
-                            trainRunLoc.driverId = 0
+                            updateTrainRunUseCase.execute(trainRun)
                             deleteStatusForTrainRunIdUseCase.execute(trainRun.id)
-                            updateTrainRunUseCase.execute(trainRunLoc)
+                            recalculateStatusesForForDriverAfterTimeUseCase.execute(
+                                lastStatus.idDriver,
+                                trainRun.startTime
+                            ).join()
                         }
                     }
                 }

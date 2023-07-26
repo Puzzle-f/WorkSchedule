@@ -62,7 +62,17 @@ val application = module {
             DeleteAllTrainRunUseCase(repository = get()),
             GetAllDirectionsListUseCase(repository = get()),
             recalculateStatusesForForDriverAfterTimeUseCase = get(),
-            FindDriverBeforeHorizonUseCase(repository = get()),
+            FindDriverBeforeHorizonUseCase(
+                recalculateStatusesForDriverAfterTimeUseCase = get(),
+                GetDriverIdByPermissionUseCase(repository = get()),
+                GetLastStatusUseCase(repository = get()),
+                GetDriverUseCase(repository = get()),
+                CreateStatusUseCase(repository = get()),
+                UpdateTrainRunUseCase(repository = get()),
+                GetStatusesForTrainRunUseCase(repository = get()),
+                GetStatusesForDriverBetweenDateUseCase(repository = get()),
+                DeleteStatusForTrainRunIdUseCase(repository = get())
+            ),
             FindDriverAfterHorizonUseCase(
                 recalculateStatusesForForDriverAfterTimeUseCase = get(),
                 GetDriverIdByPermissionUseCase(repository = get()),

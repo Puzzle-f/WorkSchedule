@@ -13,12 +13,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
 import com.example.workschedule.ui.base.BaseFragment
+import com.example.workschedule.ui.finddriver.SelectionDriverFragment.Companion.TRAIN_RUN_ID_BEFORE_PLANING_HORIZON
+import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment.Companion.TRAIN_RUN_ID
+import com.example.workschedule.utils.toLong
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.time.LocalDateTime
 
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
@@ -53,13 +57,31 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             findNavController().navigate(R.id.action_nav_main_to_nav_route_edit)
         }
         buttonRecalculate.setOnClickListener {
+            val dateNow = LocalDateTime.now()
             lifecycleScope.launch(Dispatchers.IO) {
-            repeat(5){
-                initObservers()
-                delay(500)
+                repeat(5) {
+                    initObservers()
+                    delay(500)
+                }
             }
+
+//            TODO Раскомментировать!!! Рабочий код для поиска машинистов в пределах горизонта планирования
+            if (mainFragmentViewModel.trainRunList.value.any {
+                    it.startTime <= dateNow.toLong() + PLANNING_HORIZON &&
+                            it.driverId == 0
+                }) {
+                val trainRunId = mainFragmentViewModel.trainRunList.value
+                    .filter { it.driverId==0 }
+                    .sortedBy { it.startTime }
+                    .map { it.id }.first()
+                    val bundle = bundleOf(TRAIN_RUN_ID_BEFORE_PLANING_HORIZON to trainRunId)
+                    findNavController().navigate(
+                        R.id.action_nav_main_to_nav_selection_driver, bundle
+                    )
+
+                return@setOnClickListener
             }
-            mainFragmentViewModel.findDriver()
+            mainFragmentViewModel.findDriverAfterHorizon()
             initObservers()
             Toast.makeText(activity, "Наряд заполнен", Toast.LENGTH_LONG).show()
         }

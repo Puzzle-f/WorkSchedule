@@ -20,10 +20,11 @@ import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toLong
 import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import java.time.LocalDateTime
-import java.time.temporal.TemporalAdjuster
-import java.time.temporal.TemporalAdjusters
 
 class MainFragmentViewModel(
     private val getAllTrainsRunListUseCase: GetAllTrainsRunListUseCase,
@@ -32,7 +33,6 @@ class MainFragmentViewModel(
     private val deleteAllTrainRunUseCase: DeleteAllTrainRunUseCase,
     private val getAllDirectionsListUseCase: GetAllDirectionsListUseCase,
     private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForDriverAfterTimeUseCase,
-    private val findDriverBeforeHorizonUseCase: FindDriverBeforeHorizonUseCase,
     private val findDriverAfterHorizonUseCase: FindDriverAfterHorizonUseCase,
     private val clearDriverForTrainRunAfterDateUseCase: ClearDriverForTrainRunAfterDateUseCase,
     private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase
@@ -43,7 +43,6 @@ class MainFragmentViewModel(
 
     private var _drivers = MutableStateFlow<List<Driver>>(emptyList())
     val drivers: StateFlow<List<Driver>> = _drivers.asStateFlow()
-
 
 
     private var _directions = MutableStateFlow<List<Direction>>(emptyList())
@@ -94,45 +93,26 @@ class MainFragmentViewModel(
 
     fun clearDriverForTrainRunAfterDate(date: Long) =
         viewModelScope.launch(Dispatchers.IO) {
-//            val horizonDate = LocalDateTime.now().toLong()  + PLANNING_HORIZON
             clearDriverForTrainRunAfterDateUseCase.execute(date).join()
         }
 
-    fun findDriver() =
+    fun findDriverAfterHorizon() =
         viewModelScope.launch(Dispatchers.IO) {
-            val clearDriver = clearDriverForTrainRunAfterDate(
-//                TODO заглушка для очистки всех поездов с начала текщего месяца. Переделать на горизонт планирования
-                LocalDateTime . now ().with(TemporalAdjusters.firstDayOfMonth() ).toLong()
-            )
-            clearDriver.join()
-            delay(100)
             val horizonDate = LocalDateTime.now().toLong() + PLANNING_HORIZON
-
-                trainRunList.value.forEach {
-                    if(!it.isEditManually)
-                    deleteStatusForTrainRunIdUseCase.execute(it.id).join()
-                }
-
-
-//            trainRunList
-//                .collect {
-//                        listTrainRun ->
+            clearDriverForTrainRunAfterDate(horizonDate).join()
+            delay(100)
             trainRunList.value.forEach {
-                    if (it.driverId == 0) {
-                        if (it.startTime <= horizonDate) {
-//                    findDriverBeforeHorizonUseCase.execute(it)
-                            findDriverAfterHorizonUseCase.execute(it).join()
-                        } else {
-                            findDriverAfterHorizonUseCase.execute(it).join()
-                        }
-//                        findDriverAfterHorizonUseCase.execute(it).join()
-                        if (it == trainRunList.value.last()) this.cancel()
-                    }
-
+                if (!it.isEditManually)
+                    deleteStatusForTrainRunIdUseCase.execute(it.id).join()
+            }
+            trainRunList.value.forEach {
+                if (it.driverId == 0) {
+                    if (it.startTime > horizonDate)
+                        findDriverAfterHorizonUseCase.execute(it).join()
+                    if (it == trainRunList.value.last()) this.cancel()
                 }
-//            }
+            }
         }
-
 
     fun deleteAllTrainRun() {
         viewModelScope.launch(Dispatchers.IO) {

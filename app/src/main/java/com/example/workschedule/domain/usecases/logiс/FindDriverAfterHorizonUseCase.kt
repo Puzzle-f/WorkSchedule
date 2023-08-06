@@ -27,6 +27,7 @@ class FindDriverAfterHorizonUseCase(
                 val lastStatuses = mutableListOf<StatusEntity?>()
                 getDriverIdByPermissionUseCase.execute(trainRun.direction).forEach { driverId ->
                     var status = getLastStatusUseCase.execute(driverId, trainRun.startTime)
+//                    если машинист стоит в поездку впервые, создаем ему статус "свободен"
                     if (status == null) {
                         launch {
                             val statusFirst = Status(
@@ -41,11 +42,14 @@ class FindDriverAfterHorizonUseCase(
                             status = statusFirst
                         }.join()
                     }
+//                    если машинист свободен и не выйдет более 2-х ночей подряд
                     if (status?.status == 3 && (status!!.countNight  + trainRun.countNight) <= 2) {
                         lastStatuses.add(status)
                     }
                 }
                 lastStatuses.sortBy { it?.workedTime }
+                lastStatuses.reverse()
+//                Поиск пересечений с последующими поездками
                 if (lastStatuses.isNotEmpty()) {
                     lastStatuses.forEach { lastStatus ->
                         val trainRunLoc = TrainRun(

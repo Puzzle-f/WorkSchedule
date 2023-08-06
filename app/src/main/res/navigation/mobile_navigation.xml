@@ -46,6 +46,9 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_main_to_nav_selection_driver"
+            app:destination="@id/nav_selection_driver" />
     </fragment>
 
     <fragment
@@ -203,6 +206,15 @@
         android:name="com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment"
         android:label="@string/menu_route_edit"
         tools:layout="@layout/fragment_trainrun_edit" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_selection_driver"
+        android:name="com.example.workschedule.ui.finddriver.SelectionDriverFragment"
+        tools:layout="@layout/fragment_selection_driver">
+        <action
+            android:id="@+id/action_nav_selection_driver_to_nav_main"
+            app:destination="@id/nav_main" />
     </fragment>
 
     <fragment

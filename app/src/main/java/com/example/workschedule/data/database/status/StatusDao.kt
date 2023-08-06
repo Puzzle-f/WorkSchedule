@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.workschedule.domain.models.Driver
 
 @Dao
 interface StatusDao {
@@ -37,4 +38,7 @@ interface StatusDao {
 
     @Query("DELETE FROM StatusEntity WHERE id_block LIKE :trainRunId")
     suspend fun deleteStatusForTrainRunId(trainRunId: Int)
+
+//    @Query("SELECT * FROM StatusEntity WHERE id_driver")
+//    suspend fun getListLastStatuses(drivers: List<Driver>)
 }

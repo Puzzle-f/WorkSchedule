@@ -78,5 +78,7 @@
     <string name="default_horizon_planing">5</string>
     <string name="min_rest">минимальный отдых, часов</string>
     <string name="min_rest_value">16</string>
-
+    <string name="no_data">нет данных</string>
+    <string name="start_time">Явка: </string>
+    <string name="train_selection">Поезд:</string>
 </resources>

@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainItemBinding
 import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toTimeString
 import java.time.format.DateTimeFormatter
 
 class MainFragmentAdapter(
-    private val menuInflater: MenuInflater
+    private val menuInflater: MenuInflater,
 ) :
     ListAdapter<MainFragmentData, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
 
@@ -76,11 +77,7 @@ class MainFragmentAdapter(
             }
             else if (currentList[adapterPosition].isEditManually) {
                     layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
-                }
-                else
-                {
-                    layoutContainer.setBackgroundResource(R.color.on_primary)
-                }
+                } else layoutContainer.setBackgroundResource(R.color.on_primary)
         }
 
         override fun onCreateContextMenu(

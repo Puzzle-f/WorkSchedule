@@ -24,23 +24,12 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/selectionDriversRecyclerItemRestTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/driversFragmentNameGuideline"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="24" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/selectionDriversRecyclerItemDriverFIO"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@id/driversFragmentNameGuideline"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Иванов A. А." />
 
@@ -51,8 +40,7 @@
                 android:padding="10dp"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="8-950-866-49-53" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:layout_width="match_parent"

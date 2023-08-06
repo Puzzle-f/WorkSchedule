@@ -25,6 +25,7 @@ import com.example.workschedule.ui.direction.DirectionsViewModel
 import com.example.workschedule.ui.direction_edit.DirectionEditViewModel
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
 import com.example.workschedule.ui.drivers.DriversViewModel
+import com.example.workschedule.ui.finddriver.SelectionDriverViewModel
 import com.example.workschedule.ui.main.MainFragmentViewModel
 import com.example.workschedule.ui.schedule_all_drivers.SchedulersViewModel
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditViewModel
@@ -54,6 +55,19 @@ val application = module {
             )
         )
     }
+    single {
+        FindDriverBeforeHorizonUseCase(
+            recalculateStatusesForDriverAfterTimeUseCase = get(),
+            GetDriverIdByPermissionUseCase(repository = get()),
+            GetLastStatusUseCase(repository = get()),
+            GetDriverUseCase(repository = get()),
+            CreateStatusUseCase(repository = get()),
+            UpdateTrainRunUseCase(repository = get()),
+            GetStatusesForTrainRunUseCase(repository = get()),
+            GetStatusesForDriverBetweenDateUseCase(repository = get()),
+            DeleteStatusForTrainRunIdUseCase(repository = get())
+        )
+    }
     viewModel {
         MainFragmentViewModel(
             GetAllTrainsRunListUseCase(repository = get()),
@@ -62,17 +76,6 @@ val application = module {
             DeleteAllTrainRunUseCase(repository = get()),
             GetAllDirectionsListUseCase(repository = get()),
             recalculateStatusesForForDriverAfterTimeUseCase = get(),
-            FindDriverBeforeHorizonUseCase(
-                recalculateStatusesForDriverAfterTimeUseCase = get(),
-                GetDriverIdByPermissionUseCase(repository = get()),
-                GetLastStatusUseCase(repository = get()),
-                GetDriverUseCase(repository = get()),
-                CreateStatusUseCase(repository = get()),
-                UpdateTrainRunUseCase(repository = get()),
-                GetStatusesForTrainRunUseCase(repository = get()),
-                GetStatusesForDriverBetweenDateUseCase(repository = get()),
-                DeleteStatusForTrainRunIdUseCase(repository = get())
-            ),
             FindDriverAfterHorizonUseCase(
                 recalculateStatusesForForDriverAfterTimeUseCase = get(),
                 GetDriverIdByPermissionUseCase(repository = get()),
@@ -141,6 +144,16 @@ val application = module {
         WeekendViewModel(
             GetWeekendsUseCase(repository = get()),
             SaveWeekendUseCase(repository = get())
+        )
+    }
+    viewModel {
+        SelectionDriverViewModel(
+            GetAllDriversListUseCase(repository = get()),
+            GetLastStatusUseCase(repository = get()),
+            GetTrainRunUseCase(repository = get()),
+            findDriverBeforeHorizonUseCase = get(),
+            UpdateTrainRunUseCase(repository = get()),
+            recalculateStatusesForDriverAfterTimeUseCase = get()
         )
     }
 }

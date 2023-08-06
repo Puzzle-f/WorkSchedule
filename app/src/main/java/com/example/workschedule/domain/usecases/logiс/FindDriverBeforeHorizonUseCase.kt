@@ -42,6 +42,7 @@ class FindDriverBeforeHorizonUseCase(
                 lastStatuses.add(status)
         }
         lastStatuses.sortBy { it?.workedTime }
+
         if (lastStatuses.isNotEmpty()) {
             lastStatuses.forEach { lastStatus ->
                 val trainRunLoc = TrainRun(

@@ -65,7 +65,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 }
             }
 
-//            TODO Раскомментировать!!! Рабочий код для поиска машинистов в пределах горизонта планирования
             if (mainFragmentViewModel.trainRunList.value.any {
                     it.startTime <= dateNow.toLong() + PLANNING_HORIZON &&
                             it.driverId == 0

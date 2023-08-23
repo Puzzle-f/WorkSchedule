@@ -7,6 +7,7 @@ import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
 import com.example.workschedule.domain.usecases.permission.GetDriverIdByPermissionUseCase
 import com.example.workschedule.domain.usecases.status.*
+import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.utils.toDTO
 
@@ -19,10 +20,12 @@ class FindDriverBeforeHorizonUseCase(
     private val updateTrainRunUseCase: UpdateTrainRunUseCase,
     private val getStatusesForTrainRunUseCase: GetStatusesForTrainRunUseCase,
     private val getStatusesForDriverBetweenDateUseCase: GetStatusesForDriverBetweenDateUseCase,
-    private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase
+    private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase,
+    private val getTrainRunUseCase: GetTrainRunUseCase
 ) {
     suspend fun execute(trainRun: TrainRun): List<Driver?> {
         val drivers = mutableListOf<Driver?>()
+//        Получаем свободных машинистов, которые могут поехать с учетом ночей, отсортированные по workedTime
         val lastStatuses = mutableListOf<StatusEntity?>()
         getDriverIdByPermissionUseCase.execute(trainRun.direction).forEach { driverId ->
             var status = getLastStatusUseCase.execute(driverId, trainRun.startTime)
@@ -38,11 +41,12 @@ class FindDriverBeforeHorizonUseCase(
                 createStatusUseCase.execute(statusFirst)
                 status = statusFirst
             }
+//                    если машинист свободен и не выйдет более 2-х ночей подряд
             if (status.status == 3 && status.countNight + trainRun.countNight <= 2)
                 lastStatuses.add(status)
         }
         lastStatuses.sortBy { it?.workedTime }
-
+//                Поиск пересечений с последующими поездками
         if (lastStatuses.isNotEmpty()) {
             lastStatuses.forEach { lastStatus ->
                 val trainRunLoc = TrainRun(
@@ -63,8 +67,19 @@ class FindDriverBeforeHorizonUseCase(
                     dateEnd = rangeStatuses.maxOf { it.date })
 //  если статусы машиниста в период с начала планируемой поездки до момента
 //  окончания отдыха принадлежат только этой поездке (т.е. нет пересечений с последующими поездками)
-                if (!statusesInRange.map { it.idBlock }.any { it != trainRun.id })
+//                ищем последующие пересекающиеся поездки
+                val intersectingTrainRun = mutableListOf<TrainRun?>()
+//                if (!statusesInRange.map { it.idBlock }.any { it != trainRun.id }){
+                    statusesInRange?.forEach { st ->
+                        intersectingTrainRun.add(
+                            getTrainRunUseCase.execute(st.idBlock!!)
+                        )
+                    }
+                    if(intersectingTrainRun.isNotEmpty() &&
+                        !intersectingTrainRun.any { it!!.isEditManually })
                     drivers.add(getDriverUseCase.execute(trainRunLoc.driverId))
+//                }
+
 //  откатываем все изменения назад
                 updateTrainRunUseCase.execute(trainRun)
                 deleteStatusForTrainRunIdUseCase.execute(trainRun.id)

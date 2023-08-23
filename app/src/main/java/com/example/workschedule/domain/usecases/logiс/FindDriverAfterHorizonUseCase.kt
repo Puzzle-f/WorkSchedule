@@ -48,7 +48,6 @@ class FindDriverAfterHorizonUseCase(
                     }
                 }
                 lastStatuses.sortBy { it?.workedTime }
-                lastStatuses.reverse()
 //                Поиск пересечений с последующими поездками
                 if (lastStatuses.isNotEmpty()) {
                     lastStatuses.forEach { lastStatus ->
@@ -70,8 +69,8 @@ class FindDriverAfterHorizonUseCase(
                             dateEnd = rangeStatuses.maxOf { it.date })
 //  если статусы машиниста в период с начала планируемой поездки до момента
 //  окончания отдыха принадлежат только этой поездке (т.е. нет пересечений с другими поездками)
-                        if (!statusesInRange.map { it.idBlock }
-                                .any { it != trainRun.id }) return@launch
+                        if (!statusesInRange?.map { it.idBlock }
+                                ?.any { it != trainRun.id }!!) return@launch
                         else {
                             updateTrainRunUseCase.execute(trainRun)
                             deleteStatusForTrainRunIdUseCase.execute(trainRun.id)

@@ -74,15 +74,16 @@ class SelectionDriverFragment :
         object : SelectionDriverAdapter.OnListItemClickListener {
             override fun onItemClick(driverId: Int) {
                 lifecycleScope.launchWhenStarted {
-                    selectionDriverViewModel.updateTrainRun(driverId)
+                    selectionDriverViewModel.updateTrainRun(driverId).join()
+                    selectionDriverViewModel.cleanDriverForTrainRun(driverId)
+                    findNavController().navigate(R.id.nav_main)
                 }
-                findNavController().navigate(R.id.nav_main)
+//                findNavController().navigate(R.id.nav_main)
             }
         }
 
     override fun initObservers() {
         trainRunId?.let { trainRunId ->
-//            selectionDriverViewModel.getTrainRun(trainRunId)
             lifecycleScope.launchWhenStarted {
                 selectionDriverViewModel
                     .dataVisual
@@ -98,11 +99,6 @@ class SelectionDriverFragment :
     override fun onStop() {
         closeButton.visibility = View.GONE
         super.onStop()
-    }
-
-    private fun renderData(data: SelectionDriverItemData) = with(binding) {
-
-
     }
 
     companion object {

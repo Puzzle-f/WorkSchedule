@@ -102,7 +102,7 @@ class MainFragmentViewModel(
             clearDriverForTrainRunAfterDate(horizonDate).join()
             delay(100)
             trainRunList.value.forEach {
-                if (!it.isEditManually)
+                if (!it.isEditManually && it.startTime >= horizonDate)
                     deleteStatusForTrainRunIdUseCase.execute(it.id).join()
             }
             trainRunList.value.forEach {

@@ -5,10 +5,7 @@ import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.driver.*
-import com.example.workschedule.domain.usecases.logiс.CreateListStatusForTrainRunUseCase
-import com.example.workschedule.domain.usecases.logiс.FindDriverAfterHorizonUseCase
-import com.example.workschedule.domain.usecases.logiс.FindDriverBeforeHorizonUseCase
-import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForDriverAfterTimeUseCase
+import com.example.workschedule.domain.usecases.logiс.*
 import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
 import com.example.workschedule.domain.usecases.permission.DeletePermissionUseCase
 import com.example.workschedule.domain.usecases.permission.GetDriverIdByPermissionUseCase
@@ -65,7 +62,8 @@ val application = module {
             UpdateTrainRunUseCase(repository = get()),
             GetStatusesForTrainRunUseCase(repository = get()),
             GetStatusesForDriverBetweenDateUseCase(repository = get()),
-            DeleteStatusForTrainRunIdUseCase(repository = get())
+            DeleteStatusForTrainRunIdUseCase(repository = get()),
+            GetTrainRunUseCase(repository = get())
         )
     }
     viewModel {
@@ -107,7 +105,7 @@ val application = module {
             GetAllDriversListUseCase(repository = get()),
             DeleteDriverUseCase(repository = get()),
             DeleteAllDriversUseCase(repository = get()),
-            ClearDriverForTrainRunUseCase(repository = get())
+            ClearDriverForAllTrainRunUseCase(repository = get())
         )
     }
     viewModel {
@@ -153,7 +151,12 @@ val application = module {
             GetTrainRunUseCase(repository = get()),
             findDriverBeforeHorizonUseCase = get(),
             UpdateTrainRunUseCase(repository = get()),
-            recalculateStatusesForDriverAfterTimeUseCase = get()
+            recalculateStatusesForDriverAfterTimeUseCase = get(),
+            CleanDriverForIntersectionsUseCase(
+                GetStatusesForTrainRunUseCase(repository = get()),
+                GetStatusesForDriverBetweenDateUseCase(repository = get()),
+                ClearDriverForTrainRunUseCase(repository = get())),
+            SetDriverToTrainRunUseCase(repository = get())
         )
     }
 }

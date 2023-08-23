@@ -27,6 +27,10 @@ interface TrainRunDao {
 
     @Update
     suspend fun update(trainRun: TrainRunEntity)
+
+    @Query("UPDATE TrainRunEntity SET driver_id = :driverId WHERE id = :trainRunId")
+    suspend fun setDriverToTrainRun(trainRunId: Int, driverId: Int)
+
     //  удалить поездку по id
     @Query("DELETE FROM TrainRunEntity WHERE id = :trainRunId")
     suspend fun deleteTrainRunById(trainRunId: Int)
@@ -34,9 +38,15 @@ interface TrainRunDao {
     @Query("DELETE FROM TrainRunEntity")
     suspend fun deleteAllTrainRuns()
 
+    @Query("UPDATE TrainRunEntity SET driver_id = '' WHERE id = :trainRunId")
+    suspend fun clearDriverForTrainRun(trainRunId: Int)
+
     @Query("UPDATE TrainRunEntity SET driver_id = '' WHERE driver_id = :driverId")
-    suspend fun clearDriverForTrainRun(driverId: Int)
+    suspend fun clearDriverForAllTrainRun(driverId: Int)
 
     @Query("UPDATE TrainRunEntity SET driver_id = '' WHERE start_time >= :date AND is_edit_manually <> true")
     suspend fun clearDriverForTrainRunAfterDate(date: Long)
+
+    @Query("UPDATE TrainRunEntity SET driver_id = '' WHERE driver_id LIKE :idDriver AND start_time BETWEEN :dateStart AND :dateEnd")
+    suspend fun clearDriverForTrainRunBetweenDate(idDriver: Int, dateStart: Long, dateEnd: Long)
 }

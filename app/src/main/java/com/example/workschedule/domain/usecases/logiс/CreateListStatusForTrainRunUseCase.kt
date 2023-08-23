@@ -71,7 +71,7 @@ private val createStatusUseCase: CreateStatusUseCase
                     ).toDTO
                     createStatusUseCase.execute(statusWaitingForWork)
 
-//            Создать статус "в ожидании работы" с количеством ночей = 0
+//            Создать статус 3 "в ожидании работы" с количеством ночей = 0
 
                     if (statusWaitingForWork.countNight != 0 && statusAfterTrip.date.toLocalDateTime()
                             .toLocalDate() ==

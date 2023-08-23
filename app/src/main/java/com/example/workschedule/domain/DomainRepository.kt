@@ -11,14 +11,17 @@ interface DomainRepository {
     suspend fun getTrainRun(trainRunId: Int): TrainRun?
     suspend fun saveTrainRun(trainRun: TrainRun)
     suspend fun updateTrainRun(trainRun: TrainRun)
+    suspend fun setDriverToTrainRun(trainRunId: Int, driverId: Int)
     suspend fun deleteTrainRun(trainRunId: Int)
     suspend fun deleteAllTrainRuns()
     suspend fun getTrainRunListForDriverId(driverId: Int): List<TrainRun>
     suspend fun saveTrainRunList(trainRunList: List<TrainRun>)
-    suspend fun clearDriverForTrainRun(driverId: Int)
+    suspend fun clearDriverForAllTrainRun(driverId: Int)
     suspend fun getTrainRunByNumberAndStartTimeUseCase(number: Int, startDate: Long): TrainRun?
     suspend fun getTrainRunByDriverIdAfterTime(driverId: Int, dateTime: Long): List<TrainRun>
+    suspend fun clearDriverForTrainRunUseCase(trainRunId: Int)
     suspend fun clearDriverForTrainRunAfterDate(dateTime: Long)
+    suspend fun clearDriverForTrainRunBetweenDate(idDriver: Int, dateFirst: Long, dateLast: Long)
 
     suspend fun getAllDriversList(): List<Driver>
     suspend fun getDriver(driverId: Int): Driver?
@@ -29,7 +32,6 @@ interface DomainRepository {
     suspend fun deleteAllDriversList()
     suspend fun updateDriver(driver: Driver)
     suspend fun getDriverByPersonalNumberAndSurname(personalNumber: Int, surname: String): Driver
-    suspend fun getAvailableDrivers(dateTime: Long): List<Driver>
 
     suspend fun getAllTrainsList(): List<Direction>
     suspend fun getDirection(directionId: Int): Direction
@@ -45,8 +47,7 @@ interface DomainRepository {
 
     suspend fun getLastStatus(driverId: Int, date: Long): StatusEntity?
     suspend fun getStatusesForTrainRun(trainRunId: Int): List<Status>
-    suspend fun getStatusesForDriverBetweenDate(driverId: Int, dateStart: Long, dateEnd: Long):List<Status>
-//    suspend fun getListLastStatuses(drivers: List<Driver>): List<Status>
+    suspend fun getStatusesForDriverBetweenDate(driverId: Int, dateStart: Long, dateEnd: Long):List<Status>?
     suspend fun createStatus(status: StatusEntity)
     suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTime: Long)
     suspend fun deleteStatusesAfterDate(date: Long)

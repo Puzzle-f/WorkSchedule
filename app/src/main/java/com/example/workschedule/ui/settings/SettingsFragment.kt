@@ -46,5 +46,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 const val MIN_REST = 16L
 var ignoreWeekends = true
 private fun Int.dayToMillis() = this*24*3600*1000
- val PLANNING_HORIZON_LOCAL = 3
+private val PLANNING_HORIZON_LOCAL = 3
 val PLANNING_HORIZON = PLANNING_HORIZON_LOCAL.dayToMillis()
+val PLANNING_HORIZON_COMMON = (PLANNING_HORIZON_LOCAL + 1).dayToMillis()

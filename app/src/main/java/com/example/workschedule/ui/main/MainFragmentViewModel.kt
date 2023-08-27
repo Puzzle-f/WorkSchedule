@@ -16,6 +16,8 @@ import com.example.workschedule.domain.usecases.trainrun.DeleteAllTrainRunUseCas
 import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.GetAllTrainsRunListUseCase
 import com.example.workschedule.ui.settings.PLANNING_HORIZON
+import com.example.workschedule.ui.settings.PLANNING_HORIZON_COMMON
+import com.example.workschedule.utils.mixEvenAndOdd
 import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toLong
 import com.example.workschedule.utils.toTimeString
@@ -99,15 +101,18 @@ class MainFragmentViewModel(
     fun findDriverAfterHorizon() =
         viewModelScope.launch(Dispatchers.IO) {
             val horizonDate = LocalDateTime.now().toLong() + PLANNING_HORIZON
+            val horizonDateCommon = LocalDateTime.now().toLong() + PLANNING_HORIZON_COMMON
             clearDriverForTrainRunAfterDate(horizonDate).join()
             delay(100)
             trainRunList.value.forEach {
                 if (!it.isEditManually && it.startTime >= horizonDate)
                     deleteStatusForTrainRunIdUseCase.execute(it.id).join()
             }
-            trainRunList.value.forEach {
+            trainRunList.value
+                .mixEvenAndOdd()
+                .forEach {
                 if (it.driverId == 0) {
-                    if (it.startTime > horizonDate)
+                    if (it.startTime in (horizonDate + 1)..horizonDateCommon)
                         findDriverAfterHorizonUseCase.execute(it).join()
                     if (it == trainRunList.value.last()) this.cancel()
                 }

@@ -242,3 +242,15 @@ fun Long.toLocalDateTime(): LocalDateTime =
 fun LocalDateTime.toLong() =
     this.atZone(TimeZone.getDefault().toZoneId())
         .toInstant().toEpochMilli()
+
+fun List<TrainRun>.mixEvenAndOdd(): List<TrainRun>{
+    val listEven = this.filter { it.number.toInt() % 2 == 0}
+    val listOdd = this.filter { it.number.toInt() % 2 != 0}
+    val listResult = mutableListOf<TrainRun>()
+    val ListMaxSize = if (listEven.size >= listOdd.size) listEven else listOdd
+        for (i in ListMaxSize.indices){
+            if (i < listEven.size) listResult.add(listEven[i])
+            if (i < listOdd.size) listResult.add(listOdd[i])
+    }
+    return listResult
+}

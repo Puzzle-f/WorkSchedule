@@ -16,6 +16,10 @@ interface PermissionDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addPermissionToDriver(permissionList: PermissionEntity)
 
+    //    добавить список заключенйи
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addPermissionsToDrivers(permissionList: List<PermissionEntity>)
+
     //    удалить заключение
     @Delete
     suspend fun deletePermissionsToDriver(permission: PermissionEntity)

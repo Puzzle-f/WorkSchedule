@@ -1,6 +1,7 @@
 package com.example.workschedule.domain
 
 import com.example.workschedule.data.database.ScheduleDataBase
+import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.TrainPeriodicity
@@ -18,6 +19,22 @@ const val restHours = 16  // Константа опряделяющая кол�
 
 // Метод записи хард-кода в Базу Данных для демонстрации
 suspend fun saveFakeDataToDB(database: ScheduleDataBase) {
+    database.driverDao().saveDriverList(
+        listOf(
+            DriverEntity(0, 3602, "Багаевский", "Николай", "Н"),
+            DriverEntity(0, 8009, "Бовдуй", "Алексей", "Н"),
+            DriverEntity(0, 3721, "Бондарев", "Александр", "А"),
+            DriverEntity(0, 3560, "Бондаренко", "Евгений", "Юрьевич"),
+            DriverEntity(0, 21404, "Бондарь", "С", "В"),
+            DriverEntity(0, 22102, "Борзов", "А", "В"),
+
+
+
+
+
+            )
+    )
+
 
 }
 
@@ -28,5 +45,7 @@ fun clearDatabase(database: ScheduleDataBase) {
         database.openHelper.writableDatabase.execSQL("DELETE FROM sqlite_sequence")
     }
 }
+
+
 
 // todo ↑↑↑ Хардкод, после настройки приложения удалить ↑↑↑

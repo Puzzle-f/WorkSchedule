@@ -5,7 +5,7 @@ import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.permission.PermissionEntity
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
-import com.example.workschedule.data.database.weekend.WeekendEntity
+import com.example.workschedule.data.database.weekend.WeekendStatusEntity
 import com.example.workschedule.domain.models.*
 import java.time.Instant
 import java.time.LocalDateTime
@@ -203,17 +203,37 @@ get() = this.map {
 }
 
 
-val Weekend.toEntity: WeekendEntity
-    get() = WeekendEntity(
+val WeekendStatus.toEntity: WeekendStatusEntity
+    get() = WeekendStatusEntity(
         this.driverId,
-        this.date
+        this.date,
+        this.status
     )
 
-val WeekendEntity.toWeekend: Weekend
-    get() = Weekend(
+val WeekendStatusEntity.toWeekend: WeekendStatus
+    get() = WeekendStatus(
         this.driverId,
-        this.date
+        this.date,
+        this.status
     )
+
+val List<WeekendStatus>.toDTO: List<WeekendStatusEntity>
+get() = this.map{
+    WeekendStatusEntity(
+        it.driverId,
+        it.date,
+        it.status
+    )
+}
+
+val List<WeekendStatusEntity>.fromDTOToListWeekendStatus: List<WeekendStatus>
+    get() = this.map{
+        WeekendStatus(
+            it.driverId,
+            it.date,
+            it.status
+        )
+    }
 
 fun TrainRun.changeDay(dayNumber: Int): TrainRun {
     val time = this.startTime.toLocalDateTime()

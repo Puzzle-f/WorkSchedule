@@ -7,6 +7,7 @@ import java.security.Permissions
 import java.time.LocalDateTime
 
 interface DomainRepository {
+//    TrainRun
     suspend fun getAllTrainsRunList(): List<TrainRun>
     suspend fun getTrainRun(trainRunId: Int): TrainRun?
     suspend fun saveTrainRun(trainRun: TrainRun)
@@ -23,6 +24,7 @@ interface DomainRepository {
     suspend fun clearDriverForTrainRunAfterDate(dateTime: Long)
     suspend fun clearDriverForTrainRunBetweenDate(idDriver: Int, dateFirst: Long, dateLast: Long)
 
+//    Driver
     suspend fun getAllDriversList(): List<Driver>
     suspend fun getDriver(driverId: Int): Driver?
     suspend fun getDriversByPermission(permissionId: Int): List<Int>
@@ -33,18 +35,25 @@ interface DomainRepository {
     suspend fun updateDriver(driver: Driver)
     suspend fun getDriverByPersonalNumberAndSurname(personalNumber: Int, surname: String): Driver
 
+//    Direction
     suspend fun getAllTrainsList(): List<Direction>
     suspend fun getDirection(directionId: Int): Direction
     suspend fun saveDirection(direction: Direction)
     suspend fun deleteDirection(trainId: Int)
 
+//    Permission
     suspend fun addPermission(permission: Permission)
     suspend fun getPermissionsForDriver(idDriver: Int): List<Permission>
     suspend fun deletePermission(permission: Permission)
 
-//    suspend fun getWeekends(idDriver: Int, dateTime: Long): List<Weekend>
-//    suspend fun saveWeekend(weekend: Weekend)
+//    WeekendStatus
+    suspend fun getWeekends(idDriver: Int,
+                            dateTimeBeginningOfMonth: Long,
+                            endOfMonth: Long
+                            ): List<WeekendStatus>
+    suspend fun saveWeekend(weekend: WeekendStatus)
 
+//    Status
     suspend fun getLastStatus(driverId: Int, date: Long): StatusEntity?
     suspend fun getStatusesForTrainRun(trainRunId: Int): List<Status>
     suspend fun getStatusesForDriverBetweenDate(driverId: Int, dateStart: Long, dateEnd: Long):List<Status>?

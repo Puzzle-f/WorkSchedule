@@ -86,4 +86,6 @@
     <string name="no_data">no data</string>
     <string name="start_time">Start time: </string>
     <string name="train_selection">Train: </string>
+    <string name="add_weekend">add week</string>
+    <string name="sick_leave">sick leave</string>
 </resources>

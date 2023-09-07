@@ -6,6 +6,23 @@ import com.example.workschedule.data.database.DateTimeConverter
 import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
 
+/**
+ * содержит статус работы машиниста
+ * @param idDriver - id машиниста
+ * @param date - дата и время создания статуса
+ * @param status - состояние:
+ *                   1- в поездке
+ *                  2 — отдых после поездки
+ *                  3 — в ожидании работы
+ *                  4 — выходной
+ *                  44 — выходной окончен
+ *                  5 — больничный
+ *                  55 — больничный окончен
+ * @param countNight - счетчик отработанных ночей подряд на данный момент
+ * @param workedTime - общее отработанное машинистом время за месяц
+ * @param idBlock - id текущего блока для данного статуса (или null, если на отдыхе)
+ * */
+
 @Entity(primaryKeys = ["id_driver","date", "status"],
     foreignKeys = [ForeignKey(
         entity = DriverEntity::class,

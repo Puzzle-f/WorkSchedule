@@ -81,4 +81,6 @@
     <string name="no_data">нет данных</string>
     <string name="start_time">Явка: </string>
     <string name="train_selection">Поезд:</string>
+    <string name="add_weekend">добавить вых</string>
+    <string name="sick_leave">больничный</string>
 </resources>

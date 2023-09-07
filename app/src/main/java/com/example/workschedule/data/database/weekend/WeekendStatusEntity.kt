@@ -7,6 +7,13 @@ import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
 import com.example.workschedule.data.database.driver.DriverEntity
 
+/**
+ * класс описывает выходной день машиниста
+ * @param driverId id машиниста
+ * @param date время создания статуса
+ * @param status татус занятости (на выходном - 4, не на выходном - 44)
+ * */
+
 @Entity(
     primaryKeys = ["driver_id", "date"],
     foreignKeys = [ForeignKey(
@@ -16,9 +23,11 @@ import com.example.workschedule.data.database.driver.DriverEntity
         onDelete = CASCADE
     )]
 )
-data class WeekendEntity(
+data class WeekendStatusEntity(
     @field:ColumnInfo(name = "driver_id")
     val driverId: Int,
     @field:ColumnInfo(name = "date")
-    val date: Long
+    val date: Long,
+    @field:ColumnInfo(name = "status")
+    val status: Int
 )

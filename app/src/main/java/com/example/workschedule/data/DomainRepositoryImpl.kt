@@ -107,6 +107,9 @@ class DomainRepositoryImpl(
     override suspend fun deleteAllWeekendsForDriver(idDriver: Int) =
         database.weekendDao().deleteAllWeekendsForDriver(idDriver)
 
+    override suspend fun getLastWeekendStatus(idDriver: Int, dateTime: Long) =
+        database.weekendDao().getLastStatus(idDriver, dateTime)?.toWeekend
+
     override suspend fun getDriverByPersonalNumberAndSurname(
         personalNumber: Int,
         surname: String

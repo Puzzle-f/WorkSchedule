@@ -15,6 +15,7 @@ import com.example.workschedule.domain.usecases.trainrun.ClearDriverForTrainRunA
 import com.example.workschedule.domain.usecases.trainrun.DeleteAllTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.GetAllTrainsRunListUseCase
+import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.settings.PLANNING_HORIZON_COMMON
 import com.example.workschedule.utils.mixEvenAndOdd
@@ -115,7 +116,7 @@ class MainFragmentViewModel(
                 .forEach {
                 if (it.driverId == 0) {
                     if (it.startTime in (horizonDate + 1)..horizonDateCommon)
-                        findDriverAfterHorizonUseCase.execute(it).join()
+                        findDriverAfterHorizonUseCase.execute(it, CHECK_WEEKENDS).join()
                 }
             }
         }

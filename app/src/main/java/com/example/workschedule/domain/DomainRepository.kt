@@ -52,6 +52,7 @@ interface DomainRepository {
     suspend fun saveWeekend(weekend: Weekend)
     suspend fun deleteWeekend(driverId: Int, startTime: Long, endTime: Long)
     suspend fun deleteAllWeekendsForDriver(idDriver: Int)
+    suspend fun getLastWeekendStatus(idDriver: Int, dateTime: Long): Weekend?
 
 //    Status
     suspend fun getLastStatus(driverId: Int, date: Long): StatusEntity?

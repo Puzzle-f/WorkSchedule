@@ -17,6 +17,9 @@ interface WeekendDao {
         idDriver: Int
     ): Flow<List<WeekendEntity>>
 
+    @Query("SELECT * FROM WeekendEntity WHERE driver_id LIKE :idDriver AND date <= :date ORDER BY date DESC LIMIT 1")
+    suspend fun getLastStatus(idDriver: Int, date: Long): WeekendEntity?
+
     @Query("DELETE FROM WeekendEntity WHERE driver_id LIKE :idDriver")
     suspend fun deleteAllWeekendsForDriver(idDriver: Int)
 

@@ -16,10 +16,7 @@ import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCas
 import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
 import com.example.workschedule.domain.usecases.train.SaveDirectionUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
-import com.example.workschedule.domain.usecases.weekend.DeleteAllWeekendsForDriverUseCase
-import com.example.workschedule.domain.usecases.weekend.DeleteWeekendUseCase
-import com.example.workschedule.domain.usecases.weekend.GetWeekendsUseCase
-import com.example.workschedule.domain.usecases.weekend.SaveWeekendUseCase
+import com.example.workschedule.domain.usecases.weekend.*
 import com.example.workschedule.ui.direction.DirectionsViewModel
 import com.example.workschedule.ui.direction_edit.DirectionEditViewModel
 import com.example.workschedule.ui.driver_edit.DriverEditViewModel
@@ -68,6 +65,11 @@ val application = module {
             GetTrainRunUseCase(repository = get())
         )
     }
+
+    single {
+        GetLastStatusWeekendUseCase(repository = get())
+    }
+
     viewModel {
         MainFragmentViewModel(
             GetAllTrainsRunListUseCase(repository = get()),
@@ -84,7 +86,8 @@ val application = module {
                 UpdateTrainRunUseCase(repository = get()),
                 GetStatusesForTrainRunUseCase(repository = get()),
                 GetStatusesForDriverBetweenDateUseCase(repository = get()),
-                DeleteStatusForTrainRunIdUseCase(repository = get())
+                DeleteStatusForTrainRunIdUseCase(repository = get()),
+                CheckWeekendUseCase(getLastStatusWeekendUseCase = get())
             ),
             ClearDriverForTrainRunAfterDateUseCase(repository = get()),
             DeleteStatusForTrainRunIdUseCase(repository = get())

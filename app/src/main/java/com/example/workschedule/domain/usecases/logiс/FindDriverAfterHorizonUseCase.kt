@@ -6,10 +6,13 @@ import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.permission.GetDriverIdByPermissionUseCase
 import com.example.workschedule.domain.usecases.status.*
 import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
+import com.example.workschedule.domain.usecases.weekend.CheckWeekendUseCase
+import com.example.workschedule.domain.usecases.weekend.GetLastStatusWeekendUseCase
 import com.example.workschedule.utils.toDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.security.interfaces.RSAMultiPrimePrivateCrtKey
 
 class FindDriverAfterHorizonUseCase(
     private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForDriverAfterTimeUseCase,
@@ -19,12 +22,13 @@ class FindDriverAfterHorizonUseCase(
     private val updateTrainRunUseCase: UpdateTrainRunUseCase,
     private val getStatusesForTrainRunUseCase: GetStatusesForTrainRunUseCase,
     private val getStatusesForDriverBetweenDateUseCase: GetStatusesForDriverBetweenDateUseCase,
-    private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase
+    private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase,
+    private val checkWeekendUseCase: CheckWeekendUseCase
 ) {
-    suspend fun execute(trainRun: TrainRun) =
+    suspend fun execute(trainRun: TrainRun, checkWeekend: Boolean) =
         coroutineScope {
             launch(Dispatchers.IO) {
-                val lastStatuses = mutableListOf<StatusEntity?>()
+                var lastStatuses = mutableListOf<StatusEntity?>()
                 getDriverIdByPermissionUseCase.execute(trainRun.direction).forEach { driverId ->
                     var status = getLastStatusUseCase.execute(driverId, trainRun.startTime)
 //                    если машинист стоит в поездку впервые, создаем ему статус "свободен"
@@ -48,6 +52,13 @@ class FindDriverAfterHorizonUseCase(
                     }
                 }
                 lastStatuses.sortBy { it?.workedTime }
+
+//                если учитываем проверку на выходные дни
+                if(checkWeekend){
+                    lastStatuses = lastStatuses.filter { checkWeekendUseCase.execute(it!!.idDriver,
+                        trainRun.startTime, trainRun.startTime + trainRun.travelTime) }.toMutableList()
+                }
+
 //                Поиск пересечений с последующими поездками
                 if (lastStatuses.isNotEmpty()) {
                     lastStatuses.forEach { lastStatus ->

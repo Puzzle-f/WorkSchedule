@@ -5,6 +5,9 @@ import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.models.*
 import com.example.workschedule.utils.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 
 class DomainRepositoryImpl(
     private val database: ScheduleDataBase
@@ -88,10 +91,10 @@ class DomainRepositoryImpl(
         idDriver: Int,
 //        dateTimeBeginningOfMonth: Long,
 //        endOfMonth: Long
-    ): List<Weekend> =
+    ): Flow<List<Weekend>> =
         database.weekendDao().getWeekendsForDriver(idDriver
 //            , dateTimeBeginningOfMonth, endOfMonth
-        ).fromDTOToListWeekendStatus
+        ).map { it.fromDTOToListWeekendStatus }
 
     override suspend fun saveWeekend(weekend: Weekend) {
         database.weekendDao().saveWeekend(weekend.toEntity)

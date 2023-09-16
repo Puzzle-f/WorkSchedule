@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeekendDao {
@@ -12,9 +13,9 @@ interface WeekendDao {
     suspend fun saveWeekend(weekend: WeekendEntity)
 
     @Query("SELECT * FROM WeekendEntity WHERE driver_id LIKE :idDriver ORDER BY date")
-    suspend fun getWeekendsForDriver(
+    fun getWeekendsForDriver(
         idDriver: Int
-    ): List<WeekendEntity>
+    ): Flow<List<WeekendEntity>>
 
     @Query("DELETE FROM WeekendEntity WHERE driver_id LIKE :idDriver")
     suspend fun deleteAllWeekendsForDriver(idDriver: Int)

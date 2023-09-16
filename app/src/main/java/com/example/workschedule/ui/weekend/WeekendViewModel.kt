@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -28,9 +29,11 @@ class WeekendViewModel(
 
     fun getWeekends(idDriver: Int) {
         viewModelScope.launch {
-            _weekends.emit(withContext(Dispatchers.IO) {
-                getWeekends.execute(idDriver)
-            })
+            getWeekends.execute(idDriver).collect{ listWeekend ->
+                _weekends.emit(withContext(Dispatchers.IO) {
+                    listWeekend
+                })
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.workschedule.domain
 
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.domain.models.*
+import kotlinx.coroutines.flow.Flow
 
 interface DomainRepository {
 //    TrainRun
@@ -47,7 +48,7 @@ interface DomainRepository {
     suspend fun getWeekends(idDriver: Int,
 //                            dateTimeBeginningOfMonth: Long,
 //                            endOfMonth: Long
-                            ): List<Weekend>
+                            ): Flow<List<Weekend>>
     suspend fun saveWeekend(weekend: Weekend)
     suspend fun deleteWeekend(driverId: Int, startTime: Long, endTime: Long)
     suspend fun deleteAllWeekendsForDriver(idDriver: Int)

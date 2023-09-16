@@ -1,10 +1,7 @@
 package com.example.workschedule.domain
 
 import com.example.workschedule.data.database.status.StatusEntity
-import com.example.workschedule.data.database.trainrun.TrainRunEntity
 import com.example.workschedule.domain.models.*
-import java.security.Permissions
-import java.time.LocalDateTime
 
 interface DomainRepository {
 //    TrainRun
@@ -48,10 +45,12 @@ interface DomainRepository {
 
 //    WeekendStatus
     suspend fun getWeekends(idDriver: Int,
-                            dateTimeBeginningOfMonth: Long,
-                            endOfMonth: Long
-                            ): List<WeekendStatus>
-    suspend fun saveWeekend(weekend: WeekendStatus)
+//                            dateTimeBeginningOfMonth: Long,
+//                            endOfMonth: Long
+                            ): List<Weekend>
+    suspend fun saveWeekend(weekend: Weekend)
+    suspend fun deleteWeekend(driverId: Int, startTime: Long, endTime: Long)
+    suspend fun deleteAllWeekendsForDriver(idDriver: Int)
 
 //    Status
     suspend fun getLastStatus(driverId: Int, date: Long): StatusEntity?

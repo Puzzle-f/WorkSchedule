@@ -65,6 +65,9 @@ dependencies {
 
 //    RecyclerView Inner
     implementation 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:3.1.0'
+
+//    Material DatePicker
+    implementation 'com.wdullaer:materialdatetimepicker:2.3.0'
     
 //  Testing
     testImplementation 'junit:junit:4.13.2'

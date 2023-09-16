@@ -10,8 +10,8 @@ import com.example.workschedule.data.database.driver.DriverEntity
 /**
  * класс описывает выходной день машиниста
  * @param driverId id машиниста
- * @param date время создания статуса
- * @param status татус занятости (на выходном - 4, не на выходном - 44)
+ * @param date дата выходного дня
+ * @param startWeekend true - начало выходного, false - окончание выходного
  * */
 
 @Entity(
@@ -23,11 +23,11 @@ import com.example.workschedule.data.database.driver.DriverEntity
         onDelete = CASCADE
     )]
 )
-data class WeekendStatusEntity(
+data class WeekendEntity(
     @field:ColumnInfo(name = "driver_id")
     val driverId: Int,
     @field:ColumnInfo(name = "date")
     val date: Long,
-    @field:ColumnInfo(name = "status")
-    val status: Int
+    @field: ColumnInfo(name = "startWeekend")
+    val startWeekend: Boolean
 )

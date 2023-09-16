@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainFragmentViewModel(
     private val getAllTrainsRunListUseCase: GetAllTrainsRunListUseCase,
@@ -65,7 +66,8 @@ class MainFragmentViewModel(
                         driversIt.first { it.id == trainRunThis.driverId }.surname else 0
                     val dataElement = MainFragmentData(
                         trainRunThis.id,
-                        trainRunThis.startTime.toLocalDateTime().toLocalDate().toString(),
+                        trainRunThis.startTime.toLocalDateTime().format(
+                            DateTimeFormatter.ofPattern("dd.MM")),
                         trainRunThis.startTime.toLocalDateTime().toLocalTime().toString(),
                         trainRunThis.number.toInt(),
                         directionsIt.first { it.id == trainRunThis.direction }.name,
@@ -114,7 +116,6 @@ class MainFragmentViewModel(
                 if (it.driverId == 0) {
                     if (it.startTime in (horizonDate + 1)..horizonDateCommon)
                         findDriverAfterHorizonUseCase.execute(it).join()
-                    if (it == trainRunList.value.last()) this.cancel()
                 }
             }
         }

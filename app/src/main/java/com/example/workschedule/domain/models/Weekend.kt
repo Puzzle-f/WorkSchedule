@@ -4,12 +4,12 @@ package com.example.workschedule.domain.models
 /**
  * класс описывает выходной день машиниста
  * @param driverId id машиниста
- * @param date время создания статуса
- * @param status татус занятости (на выходном - 4, не на выходном - 44)
+ * @param date дата выходного дня
+ * @param startWeekend true - начало выходного, false - окончание выходного
  * */
 
-data class WeekendStatus(
+data class Weekend(
     val driverId: Int,
     val date: Long,
-    val status: Int
+    val startWeekend: Boolean
 )

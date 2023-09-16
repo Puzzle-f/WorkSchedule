@@ -16,6 +16,8 @@ import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCas
 import com.example.workschedule.domain.usecases.train.GetDirectionUseCase
 import com.example.workschedule.domain.usecases.train.SaveDirectionUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
+import com.example.workschedule.domain.usecases.weekend.DeleteAllWeekendsForDriverUseCase
+import com.example.workschedule.domain.usecases.weekend.DeleteWeekendUseCase
 import com.example.workschedule.domain.usecases.weekend.GetWeekendsUseCase
 import com.example.workschedule.domain.usecases.weekend.SaveWeekendUseCase
 import com.example.workschedule.ui.direction.DirectionsViewModel
@@ -141,7 +143,9 @@ val application = module {
     viewModel {
         WeekendViewModel(
             GetWeekendsUseCase(repository = get()),
-            SaveWeekendUseCase(repository = get())
+            SaveWeekendUseCase(repository = get()),
+            DeleteWeekendUseCase(repository = get()),
+            DeleteAllWeekendsForDriverUseCase(repository = get())
         )
     }
     viewModel {

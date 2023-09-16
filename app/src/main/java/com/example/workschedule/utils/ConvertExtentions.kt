@@ -5,7 +5,7 @@ import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.permission.PermissionEntity
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
-import com.example.workschedule.data.database.weekend.WeekendStatusEntity
+import com.example.workschedule.data.database.weekend.WeekendEntity
 import com.example.workschedule.domain.models.*
 import java.time.Instant
 import java.time.LocalDateTime
@@ -120,21 +120,21 @@ val List<TrainRunEntity>.fromDTOListTrainRun: List<TrainRun> // Экстеншн
     }
 
 val TrainRunEntity?.fromDTO: TrainRun? // Экстеншн преобразования TrainRunEntity в TrainRun
-    get() = if(this == null) null
-            else
+    get() = if (this == null) null
+    else
         TrainRun(
-        this.id,
-        this.number,
-        this.driverId,
-        this.direction,
-        this.startTime,
-        this.endTime,
-        this.countNight,
-        this.workTime,
-        this.periodicity.toPeriodicity,
-        this.isEditManually,
-        this.note
-    )
+            this.id,
+            this.number,
+            this.driverId,
+            this.direction,
+            this.startTime,
+            this.endTime,
+            this.countNight,
+            this.workTime,
+            this.periodicity.toPeriodicity,
+            this.isEditManually,
+            this.note
+        )
 
 val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразования TrainRun в TrainRunEntity
     get() = TrainRunEntity(
@@ -171,67 +171,67 @@ val PermissionEntity.fromDto: Permission
     )
 
 val Status.toDTO: StatusEntity
-get() = StatusEntity(
-    this.idDriver,
-    this.date,
-    this.status,
-    this.countNight,
-    this.workedTime,
-    this.idBlock
-)
+    get() = StatusEntity(
+        this.idDriver,
+        this.date,
+        this.status,
+        this.countNight,
+        this.workedTime,
+        this.idBlock
+    )
 
 val StatusEntity.fromDTO: Status
-get() = Status(
-    this.idDriver,
-    this.date,
-    this.status,
-    this.countNight,
-    this.workedTime,
-    this.idBlock
-)
+    get() = Status(
+        this.idDriver,
+        this.date,
+        this.status,
+        this.countNight,
+        this.workedTime,
+        this.idBlock
+    )
 
 val List<StatusEntity>.fromDTO: List<Status>
-get() = this.map {
-    Status(
-        it.idDriver,
-        it.date,
-        it.status,
-        it.countNight,
-        it.workedTime,
-        it.idBlock
-    )
-}
+    get() = this.map {
+        Status(
+            it.idDriver,
+            it.date,
+            it.status,
+            it.countNight,
+            it.workedTime,
+            it.idBlock
+        )
+    }
 
 
-val WeekendStatus.toEntity: WeekendStatusEntity
-    get() = WeekendStatusEntity(
+val Weekend.toEntity: WeekendEntity
+    get() = WeekendEntity(
         this.driverId,
         this.date,
-        this.status
+        this.startWeekend
     )
 
-val WeekendStatusEntity.toWeekend: WeekendStatus
-    get() = WeekendStatus(
+val WeekendEntity.toWeekend: Weekend
+    get() = Weekend(
         this.driverId,
         this.date,
-        this.status
+        this.startWeekend
     )
 
-val List<WeekendStatus>.toDTO: List<WeekendStatusEntity>
-get() = this.map{
-    WeekendStatusEntity(
-        it.driverId,
-        it.date,
-        it.status
-    )
-}
-
-val List<WeekendStatusEntity>.fromDTOToListWeekendStatus: List<WeekendStatus>
-    get() = this.map{
-        WeekendStatus(
+val List<Weekend>.toDTO: List<WeekendEntity>
+    get() = this.map {
+        WeekendEntity(
             it.driverId,
             it.date,
-            it.status
+            it.startWeekend
+        )
+    }
+
+val List<WeekendEntity>.fromDTOToListWeekendStatus: List<Weekend>
+    get() = this.map {
+        Weekend(
+            it.driverId,
+            it.date,
+            it.startWeekend
         )
     }
 
@@ -263,14 +263,14 @@ fun LocalDateTime.toLong() =
     this.atZone(TimeZone.getDefault().toZoneId())
         .toInstant().toEpochMilli()
 
-fun List<TrainRun>.mixEvenAndOdd(): List<TrainRun>{
-    val listEven = this.filter { it.number.toInt() % 2 == 0}
-    val listOdd = this.filter { it.number.toInt() % 2 != 0}
+fun List<TrainRun>.mixEvenAndOdd(): List<TrainRun> {
+    val listEven = this.filter { it.number.toInt() % 2 == 0 }
+    val listOdd = this.filter { it.number.toInt() % 2 != 0 }
     val listResult = mutableListOf<TrainRun>()
-    val ListMaxSize = if (listEven.size >= listOdd.size) listEven else listOdd
-        for (i in ListMaxSize.indices){
-            if (i < listEven.size) listResult.add(listEven[i])
-            if (i < listOdd.size) listResult.add(listOdd[i])
+    val ListMaxSize = if (listEven.size >= listOdd.size) listEven.size else listOdd.size
+    for (i in 0 until ListMaxSize) {
+        if (i <= listEven.size-1) listResult.add(listEven[i])
+        if (i <= listOdd.size-1) listResult.add(listOdd[i])
     }
     return listResult
 }

@@ -15,13 +15,13 @@ import com.example.workschedule.data.database.status.StatusDao
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.data.database.trainrun.TrainRunDao
 import com.example.workschedule.data.database.trainrun.TrainRunEntity
-import com.example.workschedule.data.database.weekend.WeekendStatusDao
-import com.example.workschedule.data.database.weekend.WeekendStatusEntity
+import com.example.workschedule.data.database.weekend.WeekendDao
+import com.example.workschedule.data.database.weekend.WeekendEntity
 
 @Database(
     entities = [BlockEntity::class, DirectionEntity::class, DriverEntity::class, PermissionEntity::class,
-        StatusEntity::class, TrainRunEntity::class, WeekendStatusEntity::class],
-    version = 3,
+        StatusEntity::class, TrainRunEntity::class, WeekendEntity::class],
+    version = 4,
     exportSchema = true
 )
 
@@ -30,7 +30,7 @@ abstract class ScheduleDataBase : RoomDatabase() {
     abstract fun directionDao(): DirectionDao
     abstract fun trainRunDao(): TrainRunDao
     abstract fun permissionDao(): PermissionDao
-    abstract fun weekendDao(): WeekendStatusDao
+    abstract fun weekendDao(): WeekendDao
     abstract fun statusDao(): StatusDao
 }
 

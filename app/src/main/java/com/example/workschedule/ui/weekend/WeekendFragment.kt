@@ -1,82 +1,71 @@
 package com.example.workschedule.ui.weekend
 
 import android.os.Bundle
-import androidx.navigation.findNavController
+import android.view.MenuItem
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentWeekendBinding
 import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.driver_edit.DriverEditFragment
+import com.example.workschedule.utils.toLocalDateTime
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.time.LocalDate
 
 class WeekendFragment :
     BaseFragment<FragmentWeekendBinding>(FragmentWeekendBinding::inflate) {
 
     private val weekendViewModel: WeekendViewModel by viewModel()
+    private val adapter: WeekendFragmentAdapter by lazy { WeekendFragmentAdapter(requireActivity().menuInflater) }
     private var driverId: Int? = null
+    private var selectedDate = LocalDate.now()
 
     override fun readArguments(bundle: Bundle) {
         driverId = bundle.getInt(DriverEditFragment.DRIVER_ID)
     }
 
     override fun initView() {
-
+        binding.weekendsRecyclerView.adapter = adapter
     }
 
     override fun initListeners() {
         with(binding) {
-            driverEditFragmentCancelButton.setOnClickListener {
-                it.findNavController().navigateUp()
-            }
-
-            driverEditFragmentSaveButton.setOnClickListener {
-
+            addWeekendButton.setOnClickListener {
+                calendar.setOnDateChangeListener { calendarView, y, m, day ->
+                    selectedDate = LocalDate.of(y, m+1, day)
+                }
+                weekendViewModel.saveWeekend(driverId!!, selectedDate)
+                weekendViewModel.getWeekends(driverId!!)
+                adapter.notifyDataSetChanged()
             }
         }
     }
 
     override fun initObservers() {
+        lifecycleScope.launchWhenStarted {
+            weekendViewModel.weekends
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect{ listWeekend ->
+                    adapter.submitList(listWeekend  .filter { it.startWeekend })
+                }
+        }
+        weekendViewModel.getWeekends(driverId!!)
+    }
 
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.action_delete_weekend_from_context -> {
+                adapter.removeItem()
+                weekendViewModel.deleteWeekend(adapter.clickedWeekendDriverId,
+                    adapter.clickedWeekendDate.toLocalDateTime().toLocalDate())
+            }
+            R.id.action_delete_all_weekend_from_context -> {
+                adapter.removeAll()
+                weekendViewModel.deleteAllWeekendsForDriver(adapter.clickedWeekendDriverId)
+            }
+        }
+        return super.onContextItemSelected(item)
     }
 
 }
-
-
-//class MainActivity0 : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
-//
-//    private lateinit var emailView: TextView
-//    private lateinit var dobView: TextView
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//
-//        emailView = findViewById(R.id.email)
-//        dobView = findViewById(R.id.dob)
-//        dobView.setOnClickListener {
-//            showDatePickerDialog()
-//        }
-//    }
-//
-//    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-//        val calendar = Calendar.getInstance()
-//        calendar.set(year, month, dayOfMonth)
-//
-//        val dateString = "${dayOfMonth}.${month + 1}.$year"
-//        dobView.text = dateString
-//    }
-//
-//    private fun showDatePickerDialog() {
-//        val calendar = Calendar.getInstance()
-//        val year = calendar.get(Calendar.YEAR)
-//        val month = calendar.get(Calendar.MONTH)
-//        val day = calendar.get(Calendar.DAY_OF_MONTH)
-//
-//        val dpd = DatePickerDialog(this, this, year, month, day)
-//        dpd.show()
-//    }
-//
-//    fun onSaveButtonClick(view: View) {
-//        val email = emailView.text.toString()
-//        val dob = dobView.text.toString()
-//        // Добавьте ваш код сохранения email и dob в базе данных
-//    }
-//}

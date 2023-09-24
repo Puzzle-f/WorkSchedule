@@ -58,12 +58,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         }
         buttonRecalculate.setOnClickListener {
             val dateNow = LocalDateTime.now()
-            lifecycleScope.launch(Dispatchers.IO) {
-                repeat(5) {
-                    initObservers()
-                    delay(500)
-                }
-            }
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                repeat(5) {
+//                    initObservers()
+//                    delay(500)
+//                }
+//            }
 
             if (mainFragmentViewModel.trainRunList.value.any {
                     it.startTime <= dateNow.toLong() + PLANNING_HORIZON &&

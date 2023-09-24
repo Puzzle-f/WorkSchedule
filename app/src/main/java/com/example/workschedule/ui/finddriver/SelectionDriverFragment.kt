@@ -28,16 +28,13 @@ class SelectionDriverFragment :
     private var trainRunId: Int? = null
     private val selectionDriverViewModel: SelectionDriverViewModel by viewModel()
     private val adapter by lazy { SelectionDriverAdapter(requireActivity().menuInflater, onListItemClickListener) }
-    private lateinit var closeButton: MaterialButton
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        closeButton = (activity as AppCompatActivity).findViewById(R.id.close_button)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.selectionDriverFragmentRecyclerView)
     }
 
     override fun onStart() {
-        closeButton.visibility = View.VISIBLE
         super.onStart()
     }
 
@@ -65,9 +62,7 @@ class SelectionDriverFragment :
     }
 
     override fun initListeners() {
-        closeButton.setOnClickListener {
-            findNavController().navigate(R.id.nav_main)
-        }
+
     }
 
     private val onListItemClickListener: SelectionDriverAdapter.OnListItemClickListener =
@@ -78,7 +73,6 @@ class SelectionDriverFragment :
                     selectionDriverViewModel.cleanDriverForTrainRun(driverId)
                     findNavController().navigate(R.id.nav_main)
                 }
-//                findNavController().navigate(R.id.nav_main)
             }
         }
 
@@ -97,7 +91,6 @@ class SelectionDriverFragment :
     }
 
     override fun onStop() {
-        closeButton.visibility = View.GONE
         super.onStop()
     }
 

@@ -82,6 +82,7 @@ class FindDriverAfterHorizonUseCase(
 //  окончания отдыха принадлежат только этой поездке (т.е. нет пересечений с другими поездками)
                         if (!statusesInRange?.map { it.idBlock }
                                 ?.any { it != trainRun.id }!!) return@launch
+//                        иначе откатываем назад
                         else {
                             updateTrainRunUseCase.execute(trainRun)
                             deleteStatusForTrainRunIdUseCase.execute(trainRun.id)

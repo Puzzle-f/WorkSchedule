@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DomainRepository {
 //    TrainRun
-    suspend fun getAllTrainsRunList(): List<TrainRun>
+    suspend fun getAllTrainsRunList(): Flow<List<TrainRun>>
     suspend fun getTrainRun(trainRunId: Int): TrainRun?
     suspend fun saveTrainRun(trainRun: TrainRun)
     suspend fun updateTrainRun(trainRun: TrainRun)

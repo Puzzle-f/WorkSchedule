@@ -14,8 +14,8 @@ class DomainRepositoryImpl(
 ) : DomainRepository {
 
     //      TrainRun
-    override suspend fun getAllTrainsRunList(): List<TrainRun> =
-        database.trainRunDao().getAllTrainRuns().fromDTOListTrainRun
+    override suspend fun getAllTrainsRunList(): Flow<List<TrainRun>> =
+        database.trainRunDao().getAllTrainRuns().map { it.fromDTOListTrainRun }
 
     override suspend fun getTrainRun(trainRunId: Int): TrainRun? =
         database.trainRunDao().getTrainRunById(trainRunId).fromDTO

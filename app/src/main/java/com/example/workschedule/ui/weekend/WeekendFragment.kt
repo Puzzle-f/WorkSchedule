@@ -10,6 +10,7 @@ import com.example.workschedule.databinding.FragmentWeekendBinding
 import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.driver_edit.DriverEditFragment
 import com.example.workschedule.utils.toLocalDateTime
+import kotlinx.coroutines.delay
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDate
 
@@ -19,7 +20,6 @@ class WeekendFragment :
     private val weekendViewModel: WeekendViewModel by viewModel()
     private val adapter: WeekendFragmentAdapter by lazy { WeekendFragmentAdapter(requireActivity().menuInflater) }
     private var driverId: Int? = null
-    private var selectedDate = LocalDate.now()
 
     override fun readArguments(bundle: Bundle) {
         driverId = bundle.getInt(DriverEditFragment.DRIVER_ID)
@@ -30,11 +30,12 @@ class WeekendFragment :
     }
 
     override fun initListeners() {
+        var selectedDate = LocalDate.now()
         with(binding) {
+            calendar.setOnDateChangeListener { calendarView, y, m, day ->
+                selectedDate = LocalDate.of(y, m+1, day)
+            }
             addWeekendButton.setOnClickListener {
-                calendar.setOnDateChangeListener { calendarView, y, m, day ->
-                    selectedDate = LocalDate.of(y, m+1, day)
-                }
                 weekendViewModel.saveWeekend(driverId!!, selectedDate)
                 weekendViewModel.getWeekends(driverId!!)
                 adapter.notifyDataSetChanged()

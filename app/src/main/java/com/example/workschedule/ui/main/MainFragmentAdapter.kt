@@ -53,10 +53,8 @@ class MainFragmentAdapter(
         fun bind(position: Int) = with(binding) {
             mainFragmentRecyclerItemDate.text =
                 currentList[position].data
-//                    .startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y"))
             mainFragmentRecyclerItemTime.text =
                 currentList[position].time
-//                    .startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern(" HH:mm"))
             mainFragmentRecyclerItemTrain.text =
                 with(currentList[position]) { "$trainNumber $direction" }
             mainFragmentRecyclerItemDriver.text = currentList[position].driver

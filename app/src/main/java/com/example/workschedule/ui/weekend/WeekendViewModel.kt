@@ -30,9 +30,7 @@ class WeekendViewModel(
     fun getWeekends(idDriver: Int) {
         viewModelScope.launch {
             getWeekends.execute(idDriver).collect{ listWeekend ->
-                _weekends.emit(withContext(Dispatchers.IO) {
-                    listWeekend
-                })
+                _weekends.emit(withContext(Dispatchers.IO) { listWeekend})
             }
         }
     }

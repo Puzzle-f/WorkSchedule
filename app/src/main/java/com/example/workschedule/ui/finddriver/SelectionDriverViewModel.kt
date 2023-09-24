@@ -14,7 +14,10 @@ import com.example.workschedule.domain.usecases.status.GetLastStatusUseCase
 import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.SetDriverToTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
+import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.utils.fromDTO
+import com.example.workschedule.utils.toHoursTimeString
+import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -53,7 +56,7 @@ class SelectionDriverViewModel(
         val listSt = mutableListOf<Status>()
         viewModelScope.launch {
             _drivers.emit(withContext(Dispatchers.IO) {
-                findDriverBeforeHorizonUseCase.execute(trainRun)
+                findDriverBeforeHorizonUseCase.execute(trainRun, CHECK_WEEKENDS)
             })
             _statuses.emit(withContext(Dispatchers.IO) {
                 drivers.value.forEach {
@@ -67,11 +70,15 @@ class SelectionDriverViewModel(
             })
             combine(drivers, statuses) { dr, st ->
                 val listData = mutableListOf<SelectionDriverItemData>()
-                dr.forEach {
+                dr.forEach { driver ->
+//                    val statusLoc = st.first { it.idDriver == driver!!.id }
+//                    val restTime = (trainRun.startTime - statusLoc.date).toHoursTimeString
+//                    val workedTime = statusLoc.workedTime
                     listData.add(
                         SelectionDriverItemData(
-                            driverName = it?.surname,
-                            if (it?.id != null) it.id else 0,
+                            driverName = driver?.surname,
+                            if (driver?.id != null) driver.id else 0,
+//                            restTime = restTime, workedTime = workedTime.toHoursTimeString
                             restTime = "0", workedTime = "0"
                         )
                     )
@@ -95,7 +102,6 @@ class SelectionDriverViewModel(
 
     fun cleanDriverForTrainRun(driverId: Int) {
         viewModelScope.launch {
-                Log.e("", "*** cleanDriver ${trainRun.value}")
 //            trainRun.collect{
 //                Log.e("", "*** driverId = ${it?.driverId}")
 //                if (it?.driverId!=0){

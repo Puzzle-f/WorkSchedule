@@ -88,4 +88,5 @@
     <string name="train_selection">Train: </string>
     <string name="add_weekend">add week</string>
     <string name="sick_leave">sick leave</string>
+    <string name="rest">rest time:</string>
 </resources>

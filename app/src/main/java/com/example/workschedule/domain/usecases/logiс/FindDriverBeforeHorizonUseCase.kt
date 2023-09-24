@@ -9,6 +9,8 @@ import com.example.workschedule.domain.usecases.permission.GetDriverIdByPermissi
 import com.example.workschedule.domain.usecases.status.*
 import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
+import com.example.workschedule.domain.usecases.weekend.CheckWeekendUseCase
+import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.utils.toDTO
 
 class FindDriverBeforeHorizonUseCase(
@@ -21,9 +23,10 @@ class FindDriverBeforeHorizonUseCase(
     private val getStatusesForTrainRunUseCase: GetStatusesForTrainRunUseCase,
     private val getStatusesForDriverBetweenDateUseCase: GetStatusesForDriverBetweenDateUseCase,
     private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase,
-    private val getTrainRunUseCase: GetTrainRunUseCase
+    private val getTrainRunUseCase: GetTrainRunUseCase,
+    private val checkWeekendUseCase: CheckWeekendUseCase
 ) {
-    suspend fun execute(trainRun: TrainRun): List<Driver?> {
+    suspend fun execute(trainRun: TrainRun, checkWeekend: Boolean): List<Driver?> {
         val drivers = mutableListOf<Driver?>()
 //        Получаем свободных машинистов, которые могут поехать с учетом ночей, отсортированные по workedTime
         val lastStatuses = mutableListOf<StatusEntity?>()
@@ -46,6 +49,7 @@ class FindDriverBeforeHorizonUseCase(
                 lastStatuses.add(status)
         }
         lastStatuses.sortBy { it?.workedTime }
+
 //                Поиск пересечений с последующими поездками
         if (lastStatuses.isNotEmpty()) {
             lastStatuses.forEach { lastStatus ->
@@ -76,8 +80,14 @@ class FindDriverBeforeHorizonUseCase(
                         )
                     }
                     if(intersectingTrainRun.isNotEmpty() &&
-                        !intersectingTrainRun.any { it!!.isEditManually })
-                    drivers.add(getDriverUseCase.execute(trainRunLoc.driverId))
+                        !intersectingTrainRun.any { it!!.isEditManually }){
+                        if(checkWeekend){
+                            if(checkWeekendUseCase.execute(trainRunLoc.driverId,
+                                    trainRunLoc.startTime,
+                                    trainRunLoc.startTime + trainRunLoc.travelTime))
+                                drivers.add(getDriverUseCase.execute(trainRunLoc.driverId))
+                        }
+                    }
 //                }
 
 //  откатываем все изменения назад

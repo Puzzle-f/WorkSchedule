@@ -1,12 +1,13 @@
 package com.example.workschedule.data.database.trainrun
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 
 @Dao
 interface TrainRunDao {
     @Query("SELECT * FROM TrainRunEntity ORDER BY start_time")
-    suspend fun getAllTrainRuns(): List<TrainRunEntity>
+    fun getAllTrainRuns(): Flow<List<TrainRunEntity>>
 
     //    Получить поездку по номеру id поездки
     @Query("SELECT * FROM TrainRunEntity WHERE id LIKE :trainRunId")

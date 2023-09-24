@@ -42,6 +42,10 @@ val application = module {
     single<DomainRepository> { DomainRepositoryImpl(database = get()) }
 
     single {
+        GetLastStatusWeekendUseCase(repository = get())
+    }
+
+    single {
         RecalculateStatusesForDriverAfterTimeUseCase(
             DeleteStatusesForDriverAfterDateUseCase(repository = get()),
             GetTrainRunListByDriverIdAfterDateUseCase(repository = get()),
@@ -62,12 +66,9 @@ val application = module {
             GetStatusesForTrainRunUseCase(repository = get()),
             GetStatusesForDriverBetweenDateUseCase(repository = get()),
             DeleteStatusForTrainRunIdUseCase(repository = get()),
-            GetTrainRunUseCase(repository = get())
+            GetTrainRunUseCase(repository = get()),
+            CheckWeekendUseCase(getLastStatusWeekendUseCase = get())
         )
-    }
-
-    single {
-        GetLastStatusWeekendUseCase(repository = get())
     }
 
     viewModel {

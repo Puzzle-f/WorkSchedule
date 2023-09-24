@@ -7,7 +7,6 @@ import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
 import com.example.workschedule.domain.usecases.logiс.FindDriverAfterHorizonUseCase
-import com.example.workschedule.domain.usecases.logiс.FindDriverBeforeHorizonUseCase
 import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.status.DeleteStatusForTrainRunIdUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
@@ -23,10 +22,7 @@ import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toLong
 import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -55,9 +51,17 @@ class MainFragmentViewModel(
     private var _data = MutableStateFlow<List<MainFragmentData>>(emptyList())
     val data: StateFlow<List<MainFragmentData>> = _data.asStateFlow()
 
+    private suspend fun getAllTrainRun(){
+        viewModelScope.launch {
+            getAllTrainsRunListUseCase.execute().collect{ trains ->
+                _trainRunList.emit(withContext(Dispatchers.IO) {trains})
+            }
+        }
+    }
+
     fun getMainFragmentData() {
         viewModelScope.launch {
-            _trainRunList.emit(withContext(Dispatchers.IO) { getAllTrainsRunListUseCase.execute() })
+            getAllTrainRun()
             _drivers.emit(withContext(Dispatchers.IO) { getAllDriversListUseCase.execute() })
             _directions.emit(withContext(Dispatchers.IO) { getAllDirectionsListUseCase.execute() })
             combine(trainRunList, drivers, directions) { trainRunIt, driversIt, directionsIt ->

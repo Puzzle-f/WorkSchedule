@@ -10,8 +10,5 @@ class CheckWeekendUseCase(
                             .execute(driverId, dateEnd)
         return if (firstStatus==null && lastStatus ==null) true
         else firstStatus==lastStatus
-
-
-//        return true
     }
 }

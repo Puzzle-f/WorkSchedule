@@ -9,11 +9,10 @@ import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
 import com.example.workschedule.domain.usecases.logiс.FindDriverAfterHorizonUseCase
 import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.status.DeleteStatusForTrainRunIdUseCase
+import com.example.workschedule.domain.usecases.status.GetStatusesForTrainRunUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
-import com.example.workschedule.domain.usecases.trainrun.ClearDriverForTrainRunAfterDateUseCase
-import com.example.workschedule.domain.usecases.trainrun.DeleteAllTrainRunUseCase
-import com.example.workschedule.domain.usecases.trainrun.DeleteTrainRunUseCase
-import com.example.workschedule.domain.usecases.trainrun.GetAllTrainsRunListUseCase
+import com.example.workschedule.domain.usecases.trainrun.*
+import com.example.workschedule.domain.usecases.weekend.CheckWeekendUseCase
 import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.settings.PLANNING_HORIZON_COMMON
@@ -35,7 +34,10 @@ class MainFragmentViewModel(
     private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForDriverAfterTimeUseCase,
     private val findDriverAfterHorizonUseCase: FindDriverAfterHorizonUseCase,
     private val clearDriverForTrainRunAfterDateUseCase: ClearDriverForTrainRunAfterDateUseCase,
-    private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase
+    private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase,
+    private val checkWeekendUseCase: CheckWeekendUseCase,
+    private val clearDriverForTrainRunUseCase: ClearDriverForTrainRunUseCase,
+    private val getStatusesForTrainRunUseCase: GetStatusesForTrainRunUseCase
 ) : ViewModel() {
 
     private var _trainRunList = MutableStateFlow<List<TrainRun>>(emptyList())
@@ -128,6 +130,21 @@ class MainFragmentViewModel(
     fun deleteAllTrainRun() {
         viewModelScope.launch(Dispatchers.IO) {
             deleteAllTrainRunUseCase.execute()
+        }
+    }
+
+    fun checkWeekendAllTrainRun(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val currentDate = LocalDateTime.now().toLong()
+            val listTrainRun = trainRunList.value.filter { it.startTime >= currentDate }
+            listTrainRun.forEach {
+                val statusesTrainRun = getStatusesForTrainRunUseCase.execute(it.id)
+                if (statusesTrainRun.isNotEmpty() && !checkWeekendUseCase.execute(it.driverId,
+                        statusesTrainRun.first().date,
+                        statusesTrainRun.last().date)){
+                    clearDriverForTrainRunUseCase.execute(it.id)
+                }
+            }
         }
     }
 }

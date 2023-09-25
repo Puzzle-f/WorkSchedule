@@ -1,5 +1,8 @@
 package com.example.workschedule.domain.usecases.weekend
 
+
+// execute() == true, если у машиниста не выходной
+
 class CheckWeekendUseCase(
     private val getLastStatusWeekendUseCase: GetLastStatusWeekendUseCase
 ) {
@@ -9,6 +12,6 @@ class CheckWeekendUseCase(
         val lastStatus = getLastStatusWeekendUseCase
                             .execute(driverId, dateEnd)
         return if (firstStatus==null && lastStatus ==null) true
-        else firstStatus==lastStatus
+        else firstStatus==lastStatus && !firstStatus!!.startWeekend
     }
 }

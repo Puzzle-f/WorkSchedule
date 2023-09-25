@@ -91,7 +91,10 @@ val application = module {
                 CheckWeekendUseCase(getLastStatusWeekendUseCase = get())
             ),
             ClearDriverForTrainRunAfterDateUseCase(repository = get()),
-            DeleteStatusForTrainRunIdUseCase(repository = get())
+            DeleteStatusForTrainRunIdUseCase(repository = get()),
+            CheckWeekendUseCase(getLastStatusWeekendUseCase = get()),
+            ClearDriverForTrainRunUseCase(repository = get()),
+            GetStatusesForTrainRunUseCase(repository = get())
         )
     }
     viewModel {

@@ -1,6 +1,5 @@
 package com.example.workschedule.ui.finddriver
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.Driver
@@ -16,10 +15,11 @@ import com.example.workschedule.domain.usecases.trainrun.SetDriverToTrainRunUseC
 import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.utils.fromDTO
-import com.example.workschedule.utils.toHoursTimeString
-import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -102,12 +102,7 @@ class SelectionDriverViewModel(
 
     fun cleanDriverForTrainRun(driverId: Int) {
         viewModelScope.launch {
-//            trainRun.collect{
-//                Log.e("", "*** driverId = ${it?.driverId}")
-//                if (it?.driverId!=0){
-                    cleanDriverForRange.execute(trainRun.value!!, driverId)
-//                }
-//            }
+            cleanDriverForRange.execute(trainRun.value!!, driverId)
         }
     }
 

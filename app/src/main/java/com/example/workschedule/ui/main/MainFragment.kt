@@ -58,26 +58,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         }
         buttonRecalculate.setOnClickListener {
             val dateNow = LocalDateTime.now()
-//            lifecycleScope.launch(Dispatchers.IO) {
-//                repeat(5) {
-//                    initObservers()
-//                    delay(500)
-//                }
-//            }
-
+            mainFragmentViewModel.checkWeekendAllTrainRun()
             if (mainFragmentViewModel.trainRunList.value.any {
                     it.startTime <= dateNow.toLong() + PLANNING_HORIZON &&
                             it.driverId == 0
                 }) {
-                val trainRunId = mainFragmentViewModel.trainRunList.value
-                    .filter { it.driverId==0 }
-                    .sortedBy { it.startTime }
-                    .map { it.id }.first()
-                    val bundle = bundleOf(TRAIN_RUN_ID_BEFORE_PLANING_HORIZON to trainRunId)
-                    findNavController().navigate(
-                        R.id.action_nav_main_to_nav_selection_driver, bundle
-                    )
-
+                finDriverBeforeHorizonPlaning()
                 return@setOnClickListener
             }
             mainFragmentViewModel.findDriverAfterHorizon()
@@ -122,5 +108,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         buttonNewRoute.visibility = View.GONE
         buttonRecalculate.visibility = View.GONE
         super.onStop()
+    }
+
+    private fun finDriverBeforeHorizonPlaning(){
+        val trainRunId = mainFragmentViewModel.trainRunList.value
+            .filter { it.driverId==0 }
+            .sortedBy { it.startTime }
+            .map { it.id }.first()
+        val bundle = bundleOf(TRAIN_RUN_ID_BEFORE_PLANING_HORIZON to trainRunId)
+        findNavController().navigate(
+            R.id.action_nav_main_to_nav_selection_driver, bundle
+        )
     }
 }

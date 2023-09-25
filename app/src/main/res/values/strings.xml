@@ -89,4 +89,8 @@
     <string name="add_weekend">add week</string>
     <string name="sick_leave">sick leave</string>
     <string name="rest">rest time:</string>
+
+    <!--    Weekend Fragment-->
+    <string name="ready_to_work">ready to work</string>
+    <string name="with">with:</string>
 </resources>

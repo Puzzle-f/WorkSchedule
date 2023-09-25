@@ -1,6 +1,7 @@
 package com.example.workschedule.utils
 
 import com.example.workschedule.data.database.direction.DirectionEntity
+import com.example.workschedule.data.database.distraction.DistractionEntity
 import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.permission.PermissionEntity
 import com.example.workschedule.data.database.status.StatusEntity
@@ -232,6 +233,38 @@ val List<WeekendEntity>.fromDTOToListWeekendStatus: List<Weekend>
             it.driverId,
             it.date,
             it.startWeekend
+        )
+    }
+
+val DistractionEntity.toDistraction: Distraction
+    get() = Distraction(
+        this.driverId,
+        this.date,
+        this.isDistracted
+    )
+
+val Distraction.toEntity: DistractionEntity
+    get() = DistractionEntity(
+        this.driverId,
+        this.date,
+        this.isDistracted
+    )
+
+val List<Distraction>.toDistractionDTO: List<DistractionEntity>
+    get() = this.map {
+        DistractionEntity(
+            it.driverId,
+            it.date,
+            it.isDistracted
+        )
+    }
+
+val List<DistractionEntity>.fromDTOToListDistractionStatus: List<Distraction>
+    get() = this.map {
+        Distraction(
+            it.driverId,
+            it.date,
+            it.isDistracted
         )
     }
 

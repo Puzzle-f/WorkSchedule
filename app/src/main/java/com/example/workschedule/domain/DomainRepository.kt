@@ -45,10 +45,7 @@ interface DomainRepository {
     suspend fun deletePermission(permission: Permission)
 
 //    WeekendStatus
-    suspend fun getWeekends(idDriver: Int,
-//                            dateTimeBeginningOfMonth: Long,
-//                            endOfMonth: Long
-                            ): Flow<List<Weekend>>
+    suspend fun getWeekends(idDriver: Int): Flow<List<Weekend>>
     suspend fun saveWeekend(weekend: Weekend)
     suspend fun deleteWeekend(driverId: Int, startTime: Long, endTime: Long)
     suspend fun deleteAllWeekendsForDriver(idDriver: Int)
@@ -62,4 +59,12 @@ interface DomainRepository {
     suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTime: Long)
     suspend fun deleteStatusesAfterDate(date: Long)
     suspend fun deleteStatusForTrainRunId(trainRunId: Int)
+
+//    DistractionStatus
+    suspend fun getDistractions(idDriver: Int): Flow<List<Distraction>>
+    suspend fun saveDistraction(distraction: Distraction)
+    suspend fun deleteDistraction(driverId: Int, startTime: Long, endTime: Long)
+    suspend fun deleteAllDistractionsForDriver(idDriver: Int)
+    suspend fun getLastDistractionStatus(idDriver: Int, dateTime: Long): Distraction?
+
 }

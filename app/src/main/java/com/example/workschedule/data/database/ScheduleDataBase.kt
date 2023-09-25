@@ -7,6 +7,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.workschedule.data.database.block.BlockEntity
 import com.example.workschedule.data.database.direction.DirectionDao
 import com.example.workschedule.data.database.direction.DirectionEntity
+import com.example.workschedule.data.database.distraction.DistractionDao
+import com.example.workschedule.data.database.distraction.DistractionEntity
 import com.example.workschedule.data.database.driver.DriverDao
 import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.permission.PermissionDao
@@ -20,8 +22,8 @@ import com.example.workschedule.data.database.weekend.WeekendEntity
 
 @Database(
     entities = [BlockEntity::class, DirectionEntity::class, DriverEntity::class, PermissionEntity::class,
-        StatusEntity::class, TrainRunEntity::class, WeekendEntity::class],
-    version = 4,
+        StatusEntity::class, TrainRunEntity::class, WeekendEntity::class, DistractionEntity::class],
+    version = 5,
     exportSchema = true
 )
 
@@ -32,6 +34,7 @@ abstract class ScheduleDataBase : RoomDatabase() {
     abstract fun permissionDao(): PermissionDao
     abstract fun weekendDao(): WeekendDao
     abstract fun statusDao(): StatusDao
+    abstract fun distractionDao(): DistractionDao
 }
 
 val MIGRATION_1_2 = object : Migration(1, 2) {

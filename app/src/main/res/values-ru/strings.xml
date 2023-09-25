@@ -82,6 +82,10 @@
     <string name="start_time">Явка: </string>
     <string name="train_selection">Поезд:</string>
     <string name="add_weekend">добавить вых</string>
-    <string name="sick_leave">больничный</string>
+    <string name="sick_leave">на отвлечении</string>
     <string name="rest">отдых:</string>
+
+    <!--    Weekend Fragment-->
+    <string name="ready_to_work">в работе</string>
+    <string name="with">с:</string>
 </resources>

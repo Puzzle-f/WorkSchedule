@@ -2,7 +2,9 @@ package com.example.workschedule.ui.weekend
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.workschedule.domain.models.Distraction
 import com.example.workschedule.domain.models.Weekend
+import com.example.workschedule.domain.usecases.distraction.*
 import com.example.workschedule.domain.usecases.weekend.DeleteAllWeekendsForDriverUseCase
 import com.example.workschedule.domain.usecases.weekend.DeleteWeekendUseCase
 import com.example.workschedule.domain.usecases.weekend.GetWeekendsUseCase
@@ -21,16 +23,32 @@ class WeekendViewModel(
     private val getWeekends: GetWeekendsUseCase,
     private val saveWeekendsUseCase: SaveWeekendUseCase,
     private val deleteWeekendUseCase: DeleteWeekendUseCase,
-    private val deleteAllWeekendsForDriverUseCase: DeleteAllWeekendsForDriverUseCase
+    private val deleteAllWeekendsForDriverUseCase: DeleteAllWeekendsForDriverUseCase,
+    private val getDistractionUseCase: GetDistractionUseCase,
+    private val saveDistractionUseCase: SaveDistractionUseCase,
+    private val deleteDistractionUseCase: DeleteDistractionUseCase,
+    private val deleteAllDistractionsForDriverUseCase: DeleteAllDistractionsForDriverUseCase,
+    private val getLastStatusDistractionUseCase: GetLastStatusDistractionUseCase
 ) : ViewModel() {
 
     private var _weekends = MutableStateFlow<List<Weekend>>(emptyList())
     val weekends: StateFlow<List<Weekend>> = _weekends.asStateFlow()
 
+    private var _distractions = MutableStateFlow<List<Distraction>>(emptyList())
+    val distractions: StateFlow<List<Distraction>> = _distractions.asStateFlow()
+
     fun getWeekends(idDriver: Int) {
         viewModelScope.launch {
             getWeekends.execute(idDriver).collect{ listWeekend ->
                 _weekends.emit(withContext(Dispatchers.IO) { listWeekend})
+            }
+        }
+    }
+
+    fun getDistractions(idDriver: Int){
+        viewModelScope.launch {
+            getDistractionUseCase.execute(idDriver).collect{ listDistraction ->
+                _distractions.emit(withContext(Dispatchers.IO) { listDistraction})
             }
         }
     }
@@ -41,6 +59,14 @@ class WeekendViewModel(
             val endWeekendTime = date.atTime(23, 59).toLong()
             saveWeekendsUseCase.execute(Weekend(idDriver, startWeekendTime, true))
             saveWeekendsUseCase.execute(Weekend(idDriver, endWeekendTime, false))
+        }
+    }
+
+    fun saveDistraction(idDriver: Int, date: LocalDate, isDistractionStart: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val startWeekendTime = date.atStartOfDay().toLong()
+            val endWeekendTime = date.atTime(23, 59).toLong()
+            saveDistractionUseCase.execute(Distraction(idDriver, startWeekendTime, isDistractionStart))
         }
     }
 
@@ -57,5 +83,24 @@ class WeekendViewModel(
             deleteAllWeekendsForDriverUseCase.execute(idDriver)
         }
     }
+
+    fun deleteDistraction(idDriver: Int, date: LocalDate){
+        viewModelScope.launch(Dispatchers.IO) {
+            val startWeekendTime = date.atStartOfDay().toLong()
+            val endWeekendTime = date.atTime(23, 59, 59).toLong()
+            deleteDistractionUseCase.execute(idDriver, startWeekendTime, endWeekendTime)
+        }
+    }
+
+    fun deleteAllDistractionForDriver(idDriver: Int){
+        viewModelScope.launch (Dispatchers.IO) {
+            deleteAllDistractionsForDriverUseCase.execute(idDriver)
+        }
+    }
+
+    suspend fun getLastDistractionStatus(idDriver: Int, date: Long)=
+//        viewModelScope.launch (Dispatchers.IO) {
+            getLastStatusDistractionUseCase.execute(idDriver, date)
+//        }
 
 }

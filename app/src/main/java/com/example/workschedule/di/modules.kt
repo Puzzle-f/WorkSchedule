@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.domain.DomainRepository
+import com.example.workschedule.domain.usecases.distraction.*
 import com.example.workschedule.domain.usecases.driver.*
 import com.example.workschedule.domain.usecases.logiс.*
 import com.example.workschedule.domain.usecases.permission.AddPermissionsUseCase
@@ -152,7 +153,12 @@ val application = module {
             GetWeekendsUseCase(repository = get()),
             SaveWeekendUseCase(repository = get()),
             DeleteWeekendUseCase(repository = get()),
-            DeleteAllWeekendsForDriverUseCase(repository = get())
+            DeleteAllWeekendsForDriverUseCase(repository = get()),
+            GetDistractionUseCase(repository = get()),
+            SaveDistractionUseCase(repository = get()),
+            DeleteDistractionUseCase(repository = get()),
+            DeleteAllDistractionsForDriverUseCase(repository = get()),
+            GetLastStatusDistractionUseCase(repository = get())
         )
     }
     viewModel {

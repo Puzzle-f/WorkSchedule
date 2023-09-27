@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -64,9 +63,8 @@ class WeekendViewModel(
 
     fun saveDistraction(idDriver: Int, date: LocalDate, isDistractionStart: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            val startWeekendTime = date.atStartOfDay().toLong()
-            val endWeekendTime = date.atTime(23, 59).toLong()
-            saveDistractionUseCase.execute(Distraction(idDriver, startWeekendTime, isDistractionStart))
+            val startDistractionTime = date.atStartOfDay().toLong()
+            saveDistractionUseCase.execute(Distraction(idDriver, startDistractionTime, isDistractionStart))
         }
     }
 

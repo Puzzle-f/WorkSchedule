@@ -1,5 +1,7 @@
 package com.example.workschedule.domain.usecases.distraction
 
+//execute() == true, если у машиниста не выходной
+
 class CheckDistractionUseCase(
     private val getLastStatusDistractionUseCase: GetLastStatusDistractionUseCase
 ) {
@@ -8,7 +10,7 @@ class CheckDistractionUseCase(
             .execute(driverId, dateStart)
         val lastStatus = getLastStatusDistractionUseCase
             .execute(driverId, dateEnd)
-        return if (firstStatus == null && lastStatus == null) true
-        else firstStatus == lastStatus && !firstStatus!!.isDistracted
+        return (firstStatus == null && lastStatus == null ) ||
+                (firstStatus != null && firstStatus == lastStatus && !firstStatus.isDistracted)
     }
 }

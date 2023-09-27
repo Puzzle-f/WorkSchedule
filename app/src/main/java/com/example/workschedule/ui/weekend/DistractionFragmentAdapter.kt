@@ -67,7 +67,6 @@ class DistractionFragmentAdapter(
                         DateTimeFormatter.ofPattern("по: dd.MM.yy")
                     )
             }
-
             itemView.setOnLongClickListener {
                 itemDistractionPosition = adapterPosition
                 clickedDistractionDriverId = currentList[adapterPosition].driverId

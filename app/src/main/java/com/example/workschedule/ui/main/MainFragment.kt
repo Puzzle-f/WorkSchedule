@@ -16,6 +16,7 @@ import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.finddriver.SelectionDriverFragment.Companion.TRAIN_RUN_ID_BEFORE_PLANING_HORIZON
 import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment.Companion.TRAIN_RUN_ID
+import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toLong
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +46,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     }
 
     override fun readArguments(bundle: Bundle) {
-
     }
 
     override fun initView() {
@@ -67,7 +67,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 return@setOnClickListener
             }
             mainFragmentViewModel.findDriverAfterHorizon()
-            initObservers()
+//            initObservers()
             Toast.makeText(activity, "Наряд заполнен", Toast.LENGTH_LONG).show()
         }
     }

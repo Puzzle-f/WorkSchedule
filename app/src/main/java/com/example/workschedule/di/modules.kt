@@ -45,6 +45,9 @@ val application = module {
     single {
         GetLastStatusWeekendUseCase(repository = get())
     }
+    single {
+        GetLastStatusDistractionUseCase(repository = get())
+    }
 
     single {
         RecalculateStatusesForDriverAfterTimeUseCase(
@@ -68,7 +71,8 @@ val application = module {
             GetStatusesForDriverBetweenDateUseCase(repository = get()),
             DeleteStatusForTrainRunIdUseCase(repository = get()),
             GetTrainRunUseCase(repository = get()),
-            CheckWeekendUseCase(getLastStatusWeekendUseCase = get())
+            CheckWeekendUseCase(getLastStatusWeekendUseCase = get()),
+            CheckDistractionUseCase(getLastStatusDistractionUseCase = get())
         )
     }
 
@@ -89,13 +93,15 @@ val application = module {
                 GetStatusesForTrainRunUseCase(repository = get()),
                 GetStatusesForDriverBetweenDateUseCase(repository = get()),
                 DeleteStatusForTrainRunIdUseCase(repository = get()),
-                CheckWeekendUseCase(getLastStatusWeekendUseCase = get())
+                CheckWeekendUseCase(getLastStatusWeekendUseCase = get()),
+                CheckDistractionUseCase(getLastStatusDistractionUseCase = get())
             ),
             ClearDriverForTrainRunAfterDateUseCase(repository = get()),
             DeleteStatusForTrainRunIdUseCase(repository = get()),
             CheckWeekendUseCase(getLastStatusWeekendUseCase = get()),
             ClearDriverForTrainRunUseCase(repository = get()),
-            GetStatusesForTrainRunUseCase(repository = get())
+            GetStatusesForTrainRunUseCase(repository = get()),
+            CheckDistractionUseCase(getLastStatusDistractionUseCase = get())
         )
     }
     viewModel {

@@ -4,13 +4,13 @@ import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Status
 import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.usecases.distraction.CheckDistractionUseCase
 import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
 import com.example.workschedule.domain.usecases.permission.GetDriverIdByPermissionUseCase
 import com.example.workschedule.domain.usecases.status.*
 import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.domain.usecases.weekend.CheckWeekendUseCase
-import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.utils.toDTO
 
 class FindDriverBeforeHorizonUseCase(
@@ -24,12 +24,13 @@ class FindDriverBeforeHorizonUseCase(
     private val getStatusesForDriverBetweenDateUseCase: GetStatusesForDriverBetweenDateUseCase,
     private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase,
     private val getTrainRunUseCase: GetTrainRunUseCase,
-    private val checkWeekendUseCase: CheckWeekendUseCase
+    private val checkWeekendUseCase: CheckWeekendUseCase,
+    private val checkDistractionUseCase: CheckDistractionUseCase
 ) {
     suspend fun execute(trainRun: TrainRun, checkWeekend: Boolean): List<Driver?> {
         val drivers = mutableListOf<Driver?>()
 //        Получаем свободных машинистов, которые могут поехать с учетом ночей, отсортированные по workedTime
-        val lastStatuses = mutableListOf<StatusEntity?>()
+        var lastStatuses = mutableListOf<StatusEntity?>()
         getDriverIdByPermissionUseCase.execute(trainRun.direction).forEach { driverId ->
             var status = getLastStatusUseCase.execute(driverId, trainRun.startTime)
             if (status == null) {
@@ -49,17 +50,23 @@ class FindDriverBeforeHorizonUseCase(
                 lastStatuses.add(status)
         }
         lastStatuses.sortBy { it?.workedTime }
+        lastStatuses = lastStatuses
+            .filter { checkDistractionUseCase.execute(
+            it!!.idDriver,
+            trainRun.startTime,
+            trainRun.startTime + trainRun.travelTime) }.toMutableList()
 
 //                Поиск пересечений с последующими поездками
         if (lastStatuses.isNotEmpty()) {
-            lastStatuses.forEach { lastStatus ->
+
+                lastStatuses.forEach { lastStatus->
                 val trainRunLoc = TrainRun(
                     trainRun.id, trainRun.number, lastStatus!!.idDriver,
                     trainRun.direction, trainRun.startTime, trainRun.travelTime,
                     trainRun.countNight, trainRun.workTime, trainRun.periodicity,
                     trainRun.isEditManually, trainRun.note
                 )
-                updateTrainRunUseCase.execute(trainRunLoc)
+                    updateTrainRunUseCase.execute(trainRunLoc)
                 recalculateStatusesForDriverAfterTimeUseCase.execute(
                     lastStatus.idDriver,
                     trainRun.startTime
@@ -73,22 +80,24 @@ class FindDriverBeforeHorizonUseCase(
 //  окончания отдыха принадлежат только этой поездке (т.е. нет пересечений с последующими поездками)
 //                ищем последующие пересекающиеся поездки
                 val intersectingTrainRun = mutableListOf<TrainRun?>()
-//                if (!statusesInRange.map { it.idBlock }.any { it != trainRun.id }){
-                    statusesInRange?.forEach { st ->
-                        intersectingTrainRun.add(
-                            getTrainRunUseCase.execute(st.idBlock!!)
+                statusesInRange?.forEach { st ->
+                    intersectingTrainRun.add(
+                        getTrainRunUseCase.execute(st.idBlock!!)
+                    )
+                }
+                if (intersectingTrainRun.isNotEmpty() &&
+                    !intersectingTrainRun.any { it!!.isEditManually }
+                ) {
+                    if (checkWeekend) {
+                        if (checkWeekendUseCase.execute(
+                                trainRunLoc.driverId,
+                                trainRunLoc.startTime,
+                                trainRunLoc.startTime + trainRunLoc.travelTime
+                            )
                         )
+                            drivers.add(getDriverUseCase.execute(trainRunLoc.driverId))
                     }
-                    if(intersectingTrainRun.isNotEmpty() &&
-                        !intersectingTrainRun.any { it!!.isEditManually }){
-                        if(checkWeekend){
-                            if(checkWeekendUseCase.execute(trainRunLoc.driverId,
-                                    trainRunLoc.startTime,
-                                    trainRunLoc.startTime + trainRunLoc.travelTime))
-                                drivers.add(getDriverUseCase.execute(trainRunLoc.driverId))
-                        }
-                    }
-//                }
+                }
 
 //  откатываем все изменения назад
                 updateTrainRunUseCase.execute(trainRun)

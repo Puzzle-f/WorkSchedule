@@ -3,6 +3,7 @@ package com.example.workschedule.domain.usecases.logiс
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.domain.models.Status
 import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.usecases.distraction.CheckDistractionUseCase
 import com.example.workschedule.domain.usecases.permission.GetDriverIdByPermissionUseCase
 import com.example.workschedule.domain.usecases.status.*
 import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
@@ -23,7 +24,8 @@ class FindDriverAfterHorizonUseCase(
     private val getStatusesForTrainRunUseCase: GetStatusesForTrainRunUseCase,
     private val getStatusesForDriverBetweenDateUseCase: GetStatusesForDriverBetweenDateUseCase,
     private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase,
-    private val checkWeekendUseCase: CheckWeekendUseCase
+    private val checkWeekendUseCase: CheckWeekendUseCase,
+    private val checkDistractionUseCase: CheckDistractionUseCase
 ) {
     suspend fun execute(trainRun: TrainRun, checkWeekend: Boolean) =
         coroutineScope {
@@ -53,10 +55,14 @@ class FindDriverAfterHorizonUseCase(
                 }
                 lastStatuses.sortBy { it?.workedTime }
 
-//                если учитываем проверку на выходные дни
+//                если учитываем проверку на выходные дни и отвлечения
                 if(checkWeekend){
-                    lastStatuses = lastStatuses.filter { checkWeekendUseCase.execute(it!!.idDriver,
-                        trainRun.startTime, trainRun.startTime + trainRun.travelTime) }.toMutableList()
+                    lastStatuses = lastStatuses
+                        .filter { checkWeekendUseCase.execute(it!!.idDriver,
+                        trainRun.startTime, trainRun.startTime + trainRun.travelTime) }
+                        .filter { checkDistractionUseCase.execute(it!!.idDriver,
+                            trainRun.startTime, trainRun.startTime + trainRun.travelTime) }
+                        .toMutableList()
                 }
 
 //                Поиск пересечений с последующими поездками

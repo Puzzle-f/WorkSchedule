@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.Direction
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.usecases.distraction.CheckDistractionUseCase
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
 import com.example.workschedule.domain.usecases.logiс.FindDriverAfterHorizonUseCase
 import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForDriverAfterTimeUseCase
@@ -37,7 +38,8 @@ class MainFragmentViewModel(
     private val deleteStatusForTrainRunIdUseCase: DeleteStatusForTrainRunIdUseCase,
     private val checkWeekendUseCase: CheckWeekendUseCase,
     private val clearDriverForTrainRunUseCase: ClearDriverForTrainRunUseCase,
-    private val getStatusesForTrainRunUseCase: GetStatusesForTrainRunUseCase
+    private val getStatusesForTrainRunUseCase: GetStatusesForTrainRunUseCase,
+    private val checkDistractionUseCase: CheckDistractionUseCase
 ) : ViewModel() {
 
     private var _trainRunList = MutableStateFlow<List<TrainRun>>(emptyList())
@@ -70,7 +72,7 @@ class MainFragmentViewModel(
                 val listData = mutableListOf<MainFragmentData>()
                 trainRunIt.forEach { trainRunThis ->
                     val driverId = if (trainRunThis.driverId != 0)
-                        driversIt.first { it.id == trainRunThis.driverId }.surname else 0
+                        driversIt.first { it.id == trainRunThis.driverId }.surname else "-"
                     val dataElement = MainFragmentData(
                         trainRunThis.id,
                         trainRunThis.startTime.toLocalDateTime().format(
@@ -78,7 +80,7 @@ class MainFragmentViewModel(
                         trainRunThis.startTime.toLocalDateTime().toLocalTime().toString(),
                         trainRunThis.number.toInt(),
                         directionsIt.first { it.id == trainRunThis.direction }.name,
-                        driverId.toString(),
+                        driverId,
                         trainRunThis.travelTime.toTimeString,
                         trainRunThis.workTime.toTimeString,
                         trainRunThis.countNight,
@@ -135,14 +137,23 @@ class MainFragmentViewModel(
 
     fun checkWeekendAllTrainRun(){
         viewModelScope.launch(Dispatchers.IO) {
-            val currentDate = LocalDateTime.now().toLong()
-            val listTrainRun = trainRunList.value.filter { it.startTime >= currentDate }
-            listTrainRun.forEach {
-                val statusesTrainRun = getStatusesForTrainRunUseCase.execute(it.id)
-                if (statusesTrainRun.isNotEmpty() && !checkWeekendUseCase.execute(it.driverId,
+            trainRunList.value
+                .forEach { it ->
+                    val statusesTrainRun = getStatusesForTrainRunUseCase.execute(it.id)
+                        .filter { it.status == 1 || it.status == 2 }
+                if ((statusesTrainRun.isNotEmpty()
+                            && !checkWeekendUseCase.execute(it.driverId,
                         statusesTrainRun.first().date,
-                        statusesTrainRun.last().date)){
+                        statusesTrainRun.last().date)
+                )
+                    || (statusesTrainRun.isNotEmpty() &&
+                            !checkDistractionUseCase.execute(it.driverId,
+                        statusesTrainRun.first().date,
+                        statusesTrainRun.last().date))
+                )
+                {
                     clearDriverForTrainRunUseCase.execute(it.id)
+                    recalculateStatusesForForDriverAfterTimeUseCase.execute(it.driverId, it.startTime)
                 }
             }
         }

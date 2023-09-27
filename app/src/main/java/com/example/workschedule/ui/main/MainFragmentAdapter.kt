@@ -70,7 +70,7 @@ class MainFragmentAdapter(
                 false
             }
 
-            if (mainFragmentRecyclerItemDriver.text == "" || mainFragmentRecyclerItemDriver.text == "0") {
+            if (mainFragmentRecyclerItemDriver.text == "" || mainFragmentRecyclerItemDriver.text == "-") {
                 layoutContainer.setBackgroundResource(R.color.red)
             }
             else if (currentList[adapterPosition].isEditManually) {

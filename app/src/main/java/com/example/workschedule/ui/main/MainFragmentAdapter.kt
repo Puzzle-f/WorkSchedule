@@ -56,7 +56,10 @@ class MainFragmentAdapter(
             mainFragmentRecyclerItemTime.text =
                 currentList[position].time
             mainFragmentRecyclerItemTrain.text =
-                with(currentList[position]) { "$trainNumber $direction" }
+                currentList[position].trainNumber.toString()
+            directionTv.text = currentList[position].direction
+
+
             mainFragmentRecyclerItemDriver.text = currentList[position].driver
             mainFragmentRecyclerItemTravelTimeTo.text =
                 currentList[position].roadTime

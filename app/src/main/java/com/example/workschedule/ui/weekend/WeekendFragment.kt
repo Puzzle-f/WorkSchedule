@@ -1,7 +1,10 @@
 package com.example.workschedule.ui.weekend
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +13,7 @@ import com.example.workschedule.databinding.FragmentWeekendBinding
 import com.example.workschedule.domain.models.Distraction
 import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.driver_edit.DriverEditFragment
+import com.example.workschedule.utils.FIO
 import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toLong
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -34,6 +38,9 @@ class WeekendFragment :
     override fun initView() {
         binding.weekendsRecyclerView.adapter = adapter
         binding.distractionRecyclerView.adapter = distractionAdapter
+//        weekendViewModel.driver.collect{
+//
+//        }
     }
 
     override fun initListeners() {
@@ -67,6 +74,13 @@ class WeekendFragment :
 
     override fun initObservers() {
         lifecycleScope.launchWhenStarted {
+            weekendViewModel.driver
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect{
+                    if (it!=null)binding.nameDriverTv.text = it?.FIO
+            }
+        }
+        lifecycleScope.launchWhenStarted {
             weekendViewModel.weekends
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect { listWeekend ->
@@ -82,6 +96,7 @@ class WeekendFragment :
         }
         weekendViewModel.getWeekends(driverId!!)
         weekendViewModel.getDistractions(driverId!!)
+        weekendViewModel.getDriver(driverId!!)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {

@@ -14,14 +14,15 @@ import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.SetDriverToTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.ui.settings.CHECK_WEEKENDS
+import com.example.workschedule.utils.FIO
 import com.example.workschedule.utils.fromDTO
+import com.example.workschedule.utils.toHoursTimeString
+import com.example.workschedule.utils.toLong
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
 
 class SelectionDriverViewModel(
     private val getAllDriversListUseCase: GetAllDriversListUseCase,
@@ -53,36 +54,46 @@ class SelectionDriverViewModel(
     }
 
     fun getSelectionDriverData(trainRun: TrainRun) {
-        val listSt = mutableListOf<Status>()
+        val listStatuses = mutableListOf<Status>()
         viewModelScope.launch {
             _drivers.emit(withContext(Dispatchers.IO) {
                 findDriverBeforeHorizonUseCase.execute(trainRun, CHECK_WEEKENDS)
             })
-            _statuses.emit(withContext(Dispatchers.IO) {
-                drivers.value.forEach {
-                    if (it != null) {
-                        val el = getLastStatusUseCase.execute(it.id, trainRun.startTime)
-                        if (el != null)
-                            listSt.add(el.fromDTO)
-                    }
-                }
-                listSt
-            })
+
+        }
+
+viewModelScope.launch {
+    drivers.collect{
+        it.forEach {
+            if (it != null) {
+                val el = getLastStatusUseCase.execute(it.id, trainRun.startTime)
+                if (el != null) listStatuses.add(el.fromDTO)
+            }
+        }
+        _statuses.emit(listStatuses)
+    }
+}
+
+
+        viewModelScope.launch {
+
             combine(drivers, statuses) { dr, st ->
                 val listData = mutableListOf<SelectionDriverItemData>()
-                dr.forEach { driver ->
-//                    val statusLoc = st.first { it.idDriver == driver!!.id }
-//                    val restTime = (trainRun.startTime - statusLoc.date).toHoursTimeString
-//                    val workedTime = statusLoc.workedTime
-                    listData.add(
-                        SelectionDriverItemData(
-                            driverName = driver?.surname,
-                            if (driver?.id != null) driver.id else 0,
-//                            restTime = restTime, workedTime = workedTime.toHoursTimeString
-                            restTime = "0", workedTime = "0"
+                    dr.forEach { driver ->
+                        val statusLoc = st.filter { it.idDriver == driver!!.id }
+                        var currentSt : Status
+                        if (statusLoc.isEmpty()){
+                             currentSt = Status(driver!!.id, trainRun.startTime, status = 3, countNight = 0, workedTime = 0, trainRun.id)
+                        } else currentSt = statusLoc.first()
+                        val restTime = if (statusLoc.isEmpty()) 999 else (LocalDateTime.now().toLong() - currentSt.date).toHoursTimeString
+                        listData.add(
+                            SelectionDriverItemData(
+                                driverName = driver?.FIO,
+                                if (driver?.id != null) driver.id else 0,
+                                restTime = restTime.toString(), workedTime = currentSt.workedTime.toHoursTimeString
+                            )
                         )
-                    )
-                }
+                    }
                 listData
             }.collect { _dataVisual.emit(withContext(Dispatchers.IO) { it }) }
         }

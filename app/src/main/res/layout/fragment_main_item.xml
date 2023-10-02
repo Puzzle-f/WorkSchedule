@@ -22,7 +22,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/vertical_line">
+            android:background="@drawable/vertical_line"
+            >
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mainFragmentRecyclerItemDate"
@@ -56,9 +57,22 @@
                 android:paddingEnd="5dp"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemLeftGuideline"
-                app:layout_constraintEnd_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="120 Moscow" />
+                tools:text="120" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/direction_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@+id/mainFragmentRecyclerItemDriver"
+                app:layout_constraintEnd_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
+                app:layout_constraintStart_toEndOf="@+id/mainFragmentRecyclerItemTrain"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Moscow" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mainFragmentRecyclerItemDriver"
@@ -118,7 +132,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintGuide_percent="0.25"
-                android:outlineSpotShadowColor="@color/black"
                 android:orientation="vertical"/>
 
             <androidx.constraintlayout.widget.Guideline

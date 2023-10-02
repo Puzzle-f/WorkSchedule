@@ -3,10 +3,10 @@
     android:fromDegrees="90"
     android:toDegrees="90"
     android:pivotX="25%"
-    android:pivotY="50%" >
+    android:pivotY="50%">
     <shape
         android:shape="line"
-        android:top="1dip" >
+        android:top="1dip">
         <stroke
             android:width="1dip"
             />

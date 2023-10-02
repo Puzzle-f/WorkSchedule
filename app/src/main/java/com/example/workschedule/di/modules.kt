@@ -164,7 +164,8 @@ val application = module {
             SaveDistractionUseCase(repository = get()),
             DeleteDistractionUseCase(repository = get()),
             DeleteAllDistractionsForDriverUseCase(repository = get()),
-            GetLastStatusDistractionUseCase(repository = get())
+            GetLastStatusDistractionUseCase(repository = get()),
+            GetDriverUseCase(repository = get())
         )
     }
     viewModel {

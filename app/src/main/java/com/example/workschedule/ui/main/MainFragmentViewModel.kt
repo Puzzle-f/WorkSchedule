@@ -80,7 +80,7 @@ class MainFragmentViewModel(
                         trainRunThis.startTime.toLocalDateTime().toLocalTime().toString(),
                         trainRunThis.number.toInt(),
                         directionsIt.first { it.id == trainRunThis.direction }.name,
-                        driverId,
+                        driverId.toString(),
                         trainRunThis.travelTime.toTimeString,
                         trainRunThis.workTime.toTimeString,
                         trainRunThis.countNight,

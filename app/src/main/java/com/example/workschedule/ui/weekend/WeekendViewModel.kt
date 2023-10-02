@@ -3,8 +3,10 @@ package com.example.workschedule.ui.weekend
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.Distraction
+import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Weekend
 import com.example.workschedule.domain.usecases.distraction.*
+import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
 import com.example.workschedule.domain.usecases.weekend.DeleteAllWeekendsForDriverUseCase
 import com.example.workschedule.domain.usecases.weekend.DeleteWeekendUseCase
 import com.example.workschedule.domain.usecases.weekend.GetWeekendsUseCase
@@ -27,8 +29,12 @@ class WeekendViewModel(
     private val saveDistractionUseCase: SaveDistractionUseCase,
     private val deleteDistractionUseCase: DeleteDistractionUseCase,
     private val deleteAllDistractionsForDriverUseCase: DeleteAllDistractionsForDriverUseCase,
-    private val getLastStatusDistractionUseCase: GetLastStatusDistractionUseCase
+    private val getLastStatusDistractionUseCase: GetLastStatusDistractionUseCase,
+    private val getDriverUseCase: GetDriverUseCase
 ) : ViewModel() {
+
+    private var _driver = MutableStateFlow<Driver?>(null)
+    val driver: StateFlow<Driver?> = _driver.asStateFlow()
 
     private var _weekends = MutableStateFlow<List<Weekend>>(emptyList())
     val weekends: StateFlow<List<Weekend>> = _weekends.asStateFlow()
@@ -100,5 +106,13 @@ class WeekendViewModel(
 //        viewModelScope.launch (Dispatchers.IO) {
             getLastStatusDistractionUseCase.execute(idDriver, date)
 //        }
+
+    fun getDriver(driverId: Int){
+        viewModelScope.launch (Dispatchers.IO){
+            _driver.emit(withContext(Dispatchers.IO) { getDriverUseCase.execute(driverId)})
+        }
+    }
+
+
 
 }

@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     R.id.nav_schedule_all_drivers -> {
-                        when(navController.currentDestination?.id){
+                        when (navController.currentDestination?.id) {
                             R.id.nav_main ->
                                 navController.navigate(R.id.action_nav_main_to_nav_schedule_all_drivers)
                             R.id.nav_trains ->

@@ -49,7 +49,7 @@ class FindDriverBeforeHorizonUseCase(
             if (status.status == 3 && status.countNight + trainRun.countNight <= 2)
                 lastStatuses.add(status)
         }
-        lastStatuses.sortBy { it?.workedTime }
+        lastStatuses.sortBy { it?.date }
         lastStatuses = lastStatuses
             .filter { checkDistractionUseCase.execute(
             it!!.idDriver,

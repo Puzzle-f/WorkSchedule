@@ -55,8 +55,11 @@ class SelectionDriverFragment :
                     binding.startTime.text = trainRun?.startTime?.toLocalDateTime()?.format(
                         DateTimeFormatter.ofPattern("dd.MM.yy  HH:mm")
                     )
-                    if(trainRun!=null)
-                    selectionDriverViewModel.getSelectionDriverData(trainRun)
+                    if(trainRun!=null){
+                        selectionDriverViewModel.getDrivers(trainRun)
+                        selectionDriverViewModel.getStatuses(trainRun)
+                        selectionDriverViewModel.getSelectionDriverData(trainRun)
+                    }
                 }
         }
     }

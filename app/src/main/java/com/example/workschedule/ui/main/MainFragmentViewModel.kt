@@ -7,6 +7,7 @@ import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.distraction.CheckDistractionUseCase
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
+import com.example.workschedule.domain.usecases.driver.GetDriverUseCase
 import com.example.workschedule.domain.usecases.logiс.FindDriverAfterHorizonUseCase
 import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.status.DeleteStatusForTrainRunIdUseCase
@@ -17,12 +18,18 @@ import com.example.workschedule.domain.usecases.weekend.CheckWeekendUseCase
 import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.settings.PLANNING_HORIZON_COMMON
-import com.example.workschedule.utils.mixEvenAndOdd
+import com.example.workschedule.utils.FIO
 import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toLong
 import com.example.workschedule.utils.toTimeString
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -39,7 +46,8 @@ class MainFragmentViewModel(
     private val checkWeekendUseCase: CheckWeekendUseCase,
     private val clearDriverForTrainRunUseCase: ClearDriverForTrainRunUseCase,
     private val getStatusesForTrainRunUseCase: GetStatusesForTrainRunUseCase,
-    private val checkDistractionUseCase: CheckDistractionUseCase
+    private val checkDistractionUseCase: CheckDistractionUseCase,
+    private val getDriverUseCase: GetDriverUseCase
 ) : ViewModel() {
 
     private var _trainRunList = MutableStateFlow<List<TrainRun>>(emptyList())
@@ -55,38 +63,58 @@ class MainFragmentViewModel(
     private var _data = MutableStateFlow<List<MainFragmentData>>(emptyList())
     val data: StateFlow<List<MainFragmentData>> = _data.asStateFlow()
 
-    private suspend fun getAllTrainRun(){
+    private var _borderHorizon = MutableStateFlow<MainFragmentData?>(null)
+    val borderHorizon: StateFlow<MainFragmentData?> = _borderHorizon.asStateFlow()
+
+    private suspend fun getAllTrainRun() {
         viewModelScope.launch {
-            getAllTrainsRunListUseCase.execute().collect{ trains ->
-                _trainRunList.emit(withContext(Dispatchers.IO) {trains})
+            getAllTrainsRunListUseCase.execute().collect { trains ->
+                _trainRunList.emit(withContext(Dispatchers.IO) { trains })
             }
         }
     }
 
     fun getMainFragmentData() {
+        var findBorder = true
         viewModelScope.launch {
             getAllTrainRun()
             _drivers.emit(withContext(Dispatchers.IO) { getAllDriversListUseCase.execute() })
             _directions.emit(withContext(Dispatchers.IO) { getAllDirectionsListUseCase.execute() })
             combine(trainRunList, drivers, directions) { trainRunIt, driversIt, directionsIt ->
                 val listData = mutableListOf<MainFragmentData>()
+
                 trainRunIt.forEach { trainRunThis ->
-                    val driverId = if (trainRunThis.driverId != 0)
-                        driversIt.first { it.id == trainRunThis.driverId }.surname else "-"
+                    var driverName = "-"
+                    if (trainRunThis.driverId != 0) {
+                        if (driversIt.any { it.id == trainRunThis.driverId }) {
+                            driverName = driversIt.first { it.id == trainRunThis.driverId }.FIO
+                        } else if (getDriverUseCase.execute(trainRunThis.driverId) != null) {
+                            driverName = getDriverUseCase.execute(trainRunThis.driverId)!!.FIO
+                        }
+                    }
+
                     val dataElement = MainFragmentData(
                         trainRunThis.id,
                         trainRunThis.startTime.toLocalDateTime().format(
-                            DateTimeFormatter.ofPattern("dd.MM")),
+                            DateTimeFormatter.ofPattern("dd.MM")
+                        ),
                         trainRunThis.startTime.toLocalDateTime().toLocalTime().toString(),
                         trainRunThis.number.toInt(),
                         directionsIt.first { it.id == trainRunThis.direction }.name,
-                        driverId.toString(),
+                        driverName,
                         trainRunThis.travelTime.toTimeString,
                         trainRunThis.workTime.toTimeString,
                         trainRunThis.countNight,
                         trainRunThis.isEditManually
                     )
                     listData.add(dataElement)
+
+                    if(findBorder){
+                        if (trainRunThis.startTime >= LocalDateTime.now().toLong() + PLANNING_HORIZON){
+                            _borderHorizon.emit(dataElement)
+                            findBorder = false
+                        }
+                    }
                 }
                 listData
             }.collect { _data.emit(withContext(Dispatchers.IO) { it }) }
@@ -120,13 +148,13 @@ class MainFragmentViewModel(
                     deleteStatusForTrainRunIdUseCase.execute(it.id).join()
             }
             trainRunList.value
-                .mixEvenAndOdd()
+//                .mixEvenAndOdd()
                 .forEach {
-                if (it.driverId == 0) {
-                    if (it.startTime in (horizonDate + 1)..horizonDateCommon)
-                        findDriverAfterHorizonUseCase.execute(it, CHECK_WEEKENDS).join()
+                    if (it.driverId == 0) {
+                        if (it.startTime in (horizonDate + 1)..horizonDateCommon)
+                            findDriverAfterHorizonUseCase.execute(it, CHECK_WEEKENDS).join()
+                    }
                 }
-            }
         }
 
     fun deleteAllTrainRun() {
@@ -135,27 +163,34 @@ class MainFragmentViewModel(
         }
     }
 
-    fun checkWeekendAllTrainRun(){
+    fun checkWeekendAllTrainRun() {
         viewModelScope.launch(Dispatchers.IO) {
             trainRunList.value
                 .forEach { it ->
                     val statusesTrainRun = getStatusesForTrainRunUseCase.execute(it.id)
                         .filter { it.status == 1 || it.status == 2 }
-                if ((statusesTrainRun.isNotEmpty()
-                            && !checkWeekendUseCase.execute(it.driverId,
-                        statusesTrainRun.first().date,
-                        statusesTrainRun.last().date)
-                )
-                    || (statusesTrainRun.isNotEmpty() &&
-                            !checkDistractionUseCase.execute(it.driverId,
-                        statusesTrainRun.first().date,
-                        statusesTrainRun.last().date))
-                )
-                {
-                    clearDriverForTrainRunUseCase.execute(it.id)
-                    recalculateStatusesForForDriverAfterTimeUseCase.execute(it.driverId, it.startTime)
+                    if ((statusesTrainRun.isNotEmpty()
+                                && !checkWeekendUseCase.execute(
+                            it.driverId,
+                            statusesTrainRun.first().date,
+                            statusesTrainRun.last().date
+                        )
+                                )
+                        || (statusesTrainRun.isNotEmpty() &&
+                                !checkDistractionUseCase.execute(
+                                    it.driverId,
+                                    statusesTrainRun.first().date,
+                                    statusesTrainRun.last().date
+                                ))
+                    ) {
+                        clearDriverForTrainRunUseCase.execute(it.id)
+                        recalculateStatusesForForDriverAfterTimeUseCase.execute(
+                            it.driverId,
+                            it.startTime
+                        )
+                    }
                 }
-            }
         }
     }
+
 }

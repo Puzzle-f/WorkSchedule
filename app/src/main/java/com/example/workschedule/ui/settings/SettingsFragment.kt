@@ -58,11 +58,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
 }
 
- val nightPeriod = LocalTime.of(0,0)..LocalTime.of(6, 0)
+ val nightPeriod = LocalTime.of(0,0)..LocalTime.of(5, 0)
 const val MIN_REST = 16L
 var ignoreWeekends = true
 private fun Int.dayToMillis() = this*24*3600*1000
 private val PLANNING_HORIZON_LOCAL = 1
 val PLANNING_HORIZON = PLANNING_HORIZON_LOCAL.dayToMillis()
-val PLANNING_HORIZON_COMMON = (PLANNING_HORIZON_LOCAL + 2).dayToMillis()
+val PLANNING_HORIZON_COMMON = (PLANNING_HORIZON_LOCAL + 20).dayToMillis()
 const val CHECK_WEEKENDS = true

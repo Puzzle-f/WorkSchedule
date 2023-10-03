@@ -10,10 +10,12 @@ import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toTimeString
+import kotlinx.coroutines.flow.StateFlow
 import java.time.format.DateTimeFormatter
 
 class MainFragmentAdapter(
     private val menuInflater: MenuInflater,
+    private val borderHorizon: StateFlow<MainFragmentData?>
 ) :
     ListAdapter<MainFragmentData, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
 
@@ -59,7 +61,6 @@ class MainFragmentAdapter(
                 currentList[position].trainNumber.toString()
             directionTv.text = currentList[position].direction
 
-
             mainFragmentRecyclerItemDriver.text = currentList[position].driver
             mainFragmentRecyclerItemTravelTimeTo.text =
                 currentList[position].roadTime
@@ -67,6 +68,15 @@ class MainFragmentAdapter(
                 currentList[position].workTime
             mainFragmentRecyclerItemCountNight.text =
                 currentList[position].countNight.toString()
+
+            if(currentList[position] == borderHorizon.value){
+                lineTop.visibility = View.VISIBLE
+                lineTop.setBackgroundResource(R.color.red)
+            } else {
+                lineTop.visibility = View.INVISIBLE
+                lineTop.setBackgroundResource(0x00000000)
+            }
+
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition
                 clickedTrainRunId = currentList[adapterPosition].id

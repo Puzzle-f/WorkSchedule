@@ -87,9 +87,8 @@ class DriverEditFragment :
 
             Toast.makeText(
                 activity,
-                getString(R.string.driverEditDataInputSuccess) +
-                        "${driverEditViewModel.newDriver.value?.id} " +
-                        " ${adapter.permissionListFromAdapter}",
+                "машинист " +
+                        "${driverEditFragmentSurname.text} " + "успешно добавлен",
                 Toast.LENGTH_LONG
             ).show()
             it.findNavController().navigateUp()

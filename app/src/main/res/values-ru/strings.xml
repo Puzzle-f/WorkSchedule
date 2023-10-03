@@ -24,7 +24,7 @@
     <string name="save_button">СОХРАНИТЬ</string>
     <string name="cancel_button">ОТМЕНА</string>
 
-    <string name="edit_route_departure_time">Время отправления</string>
+    <string name="edit_route_departure_time">Время явки</string>
     <string name="edit_route_train_direction">Направление поезда</string>
     <string name="edit_route_driver">Машинист</string>
     <string name="edit_route_periodicity">Повторяемость</string>

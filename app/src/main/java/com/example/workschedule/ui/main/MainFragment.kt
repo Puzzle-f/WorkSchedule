@@ -28,7 +28,7 @@ import java.time.LocalDateTime
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private val mainFragmentViewModel: MainFragmentViewModel by viewModel()
-    private val adapter by lazy { MainFragmentAdapter(requireActivity().menuInflater) }
+    private val adapter by lazy { MainFragmentAdapter(requireActivity().menuInflater, mainFragmentViewModel.borderHorizon) }
     private lateinit var buttonNewRoute: MaterialButton
     private lateinit var buttonRecalculate: MaterialButton
 
@@ -67,7 +67,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 return@setOnClickListener
             }
             mainFragmentViewModel.findDriverAfterHorizon()
-//            initObservers()
             Toast.makeText(activity, "Наряд заполнен", Toast.LENGTH_LONG).show()
         }
     }
@@ -107,6 +106,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     override fun onStop() {
         buttonNewRoute.visibility = View.GONE
         buttonRecalculate.visibility = View.GONE
+        adapter.removeAllItems()
         super.onStop()
     }
 

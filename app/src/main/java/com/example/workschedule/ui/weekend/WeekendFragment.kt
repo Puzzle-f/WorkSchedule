@@ -103,11 +103,11 @@ class WeekendFragment :
         when (item.itemId) {
             R.id.action_delete_weekend_from_context -> {
                 if(distractionAdapter.clickedDistractionDriverId >= 0){
-                    distractionAdapter.removeItem()
+//                    distractionAdapter.removeItem()
                     weekendViewModel.deleteDistraction(distractionAdapter.clickedDistractionDriverId,
                     distractionAdapter.clickedDistractionDate.toLocalDateTime().toLocalDate())
                 } else {
-                    adapter.removeItem()
+//                    adapter.removeItem()
                     weekendViewModel.deleteWeekend(
                         adapter.clickedWeekendDriverId,
                         adapter.clickedWeekendDate.toLocalDateTime().toLocalDate()

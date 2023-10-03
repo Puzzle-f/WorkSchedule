@@ -53,8 +53,22 @@ class SelectionDriverViewModel(
         }
     }
 
-    fun getSelectionDriverData(trainRun: TrainRun) {
-        val listStatuses = mutableListOf<Status>()
+    fun getStatuses(trainRun: TrainRun)=
+        viewModelScope.launch {
+            val listStatuses = mutableListOf<Status>()
+            drivers.collect{
+                if(it.isNotEmpty())
+                    it.forEach {
+                        if (it != null) {
+                            val el = getLastStatusUseCase.execute(it.id, trainRun.startTime)
+                            if (el != null) listStatuses.add(el.fromDTO)
+                        }
+                    }
+                _statuses.emit(listStatuses)
+            }
+        }
+
+    fun getDrivers(trainRun: TrainRun)=
         viewModelScope.launch {
             _drivers.emit(withContext(Dispatchers.IO) {
                 findDriverBeforeHorizonUseCase.execute(trainRun, CHECK_WEEKENDS)
@@ -62,30 +76,19 @@ class SelectionDriverViewModel(
 
         }
 
-viewModelScope.launch {
-    drivers.collect{
-        it.forEach {
-            if (it != null) {
-                val el = getLastStatusUseCase.execute(it.id, trainRun.startTime)
-                if (el != null) listStatuses.add(el.fromDTO)
-            }
-        }
-        _statuses.emit(listStatuses)
-    }
-}
 
-
+    fun getSelectionDriverData(trainRun: TrainRun) {
         viewModelScope.launch {
-
             combine(drivers, statuses) { dr, st ->
                 val listData = mutableListOf<SelectionDriverItemData>()
                     dr.forEach { driver ->
                         val statusLoc = st.filter { it.idDriver == driver!!.id }
-                        var currentSt : Status
+                        val currentSt : Status
                         if (statusLoc.isEmpty()){
                              currentSt = Status(driver!!.id, trainRun.startTime, status = 3, countNight = 0, workedTime = 0, trainRun.id)
                         } else currentSt = statusLoc.first()
-                        val restTime = if (statusLoc.isEmpty()) 999 else (LocalDateTime.now().toLong() - currentSt.date).toHoursTimeString
+                        val restTime = if (statusLoc.isEmpty()) 999 else
+                                (LocalDateTime.now().toLong() - currentSt.date).toHoursTimeString
                         listData.add(
                             SelectionDriverItemData(
                                 driverName = driver?.FIO,

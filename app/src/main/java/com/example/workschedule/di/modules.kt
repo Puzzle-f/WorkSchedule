@@ -101,7 +101,8 @@ val application = module {
             CheckWeekendUseCase(getLastStatusWeekendUseCase = get()),
             ClearDriverForTrainRunUseCase(repository = get()),
             GetStatusesForTrainRunUseCase(repository = get()),
-            CheckDistractionUseCase(getLastStatusDistractionUseCase = get())
+            CheckDistractionUseCase(getLastStatusDistractionUseCase = get()),
+            GetDriverUseCase(repository = get())
         )
     }
     viewModel {

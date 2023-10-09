@@ -18,10 +18,7 @@ import com.example.workschedule.domain.usecases.weekend.CheckWeekendUseCase
 import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.settings.PLANNING_HORIZON_COMMON
-import com.example.workschedule.utils.FIO
-import com.example.workschedule.utils.toLocalDateTime
-import com.example.workschedule.utils.toLong
-import com.example.workschedule.utils.toTimeString
+import com.example.workschedule.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -95,9 +92,12 @@ class MainFragmentViewModel(
 
                     val dataElement = MainFragmentData(
                         trainRunThis.id,
-                        trainRunThis.startTime.toLocalDateTime().format(
-                            DateTimeFormatter.ofPattern("dd.MM")
-                        ),
+                        trainRunThis.startTime
+//                            .toLocalDateTime()
+//                            .format(
+//                            DateTimeFormatter.ofPattern("dd.MM")
+//                        )
+                        ,
                         trainRunThis.startTime.toLocalDateTime().toLocalTime().toString(),
                         trainRunThis.number.toInt(),
                         directionsIt.first { it.id == trainRunThis.direction }.name,

@@ -3,6 +3,7 @@ package com.example.workschedule.ui.settings
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentSettingsBinding
@@ -34,7 +35,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     }
 
     override fun initView() {
-
     }
 
     override fun initListeners() {
@@ -51,8 +51,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     }
 
     fun saveDefaultSettings(){
-
-
 
     }
 

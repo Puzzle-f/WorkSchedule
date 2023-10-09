@@ -10,18 +10,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
 import com.example.workschedule.ui.base.BaseFragment
 import com.example.workschedule.ui.finddriver.SelectionDriverFragment.Companion.TRAIN_RUN_ID_BEFORE_PLANING_HORIZON
 import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment.Companion.TRAIN_RUN_ID
-import com.example.workschedule.utils.toLocalDateTime
 import com.example.workschedule.utils.toLong
 import com.google.android.material.button.MaterialButton
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 
@@ -45,11 +42,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         super.onStart()
     }
 
+    override fun onResume() {
+//        adapter.notifyItemInserted(20)
+//        binding.mainFragmentRecyclerView.scrollToPosition(20)
+        super.onResume()
+    }
+
     override fun readArguments(bundle: Bundle) {
     }
 
     override fun initView() {
         binding.mainFragmentRecyclerView.adapter = adapter
+        selectStartPosition()
     }
 
     override fun initListeners() {
@@ -69,6 +73,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
             mainFragmentViewModel.findDriverAfterHorizon()
             Toast.makeText(activity, "Наряд заполнен", Toast.LENGTH_LONG).show()
         }
+        binding.mainFragmentRecyclerView.layoutManager!!.scrollToPosition(20)
+
     }
 
     override fun initObservers() {
@@ -81,8 +87,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                         adapter.notifyDataSetChanged()
                     }
                 }
+//            binding.mainFragmentRecyclerView.layoutManager!!.scrollToPosition(20)
+
         }
         mainFragmentViewModel.getMainFragmentData()
+//        adapter.notifyItemInserted(20)
+
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -119,5 +129,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         findNavController().navigate(
             R.id.action_nav_main_to_nav_selection_driver, bundle
         )
+    }
+
+    private fun selectStartPosition(){
+        val currentData = LocalDateTime.now()
+        var position: Int
+        adapter.registerAdapterDataObserver( object : RecyclerView.AdapterDataObserver(){
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (adapter.currentList.isNotEmpty())
+                    position = adapter.currentList.indexOf(adapter.currentList.first { it.data>=currentData.toLong() })
+                else position=0
+                binding.mainFragmentRecyclerView.scrollToPosition(position)
+            }
+        })
     }
 }

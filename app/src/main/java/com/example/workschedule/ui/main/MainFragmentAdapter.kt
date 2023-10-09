@@ -6,10 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainItemBinding
-import com.example.workschedule.domain.models.TrainRun
-import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.utils.toLocalDateTime
-import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.flow.StateFlow
 import java.time.format.DateTimeFormatter
 
@@ -54,7 +51,8 @@ class MainFragmentAdapter(
 
         fun bind(position: Int) = with(binding) {
             mainFragmentRecyclerItemDate.text =
-                currentList[position].data
+                currentList[position].data.toLocalDateTime()
+                    .format(DateTimeFormatter.ofPattern("dd.MM"))
             mainFragmentRecyclerItemTime.text =
                 currentList[position].time
             mainFragmentRecyclerItemTrain.text =
@@ -69,7 +67,7 @@ class MainFragmentAdapter(
             mainFragmentRecyclerItemCountNight.text =
                 currentList[position].countNight.toString()
 
-            if(currentList[position] == borderHorizon.value){
+            if (currentList[position] == borderHorizon.value) {
                 lineTop.visibility = View.VISIBLE
                 lineTop.setBackgroundResource(R.color.red)
             } else {
@@ -85,10 +83,9 @@ class MainFragmentAdapter(
 
             if (mainFragmentRecyclerItemDriver.text == "" || mainFragmentRecyclerItemDriver.text == "-") {
                 layoutContainer.setBackgroundResource(R.color.red)
-            }
-            else if (currentList[adapterPosition].isEditManually) {
-                    layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
-                } else layoutContainer.setBackgroundResource(R.color.on_primary)
+            } else if (currentList[adapterPosition].isEditManually) {
+                layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
+            } else layoutContainer.setBackgroundResource(R.color.on_primary)
         }
 
         override fun onCreateContextMenu(
@@ -99,7 +96,10 @@ class MainFragmentAdapter(
     }
 
     companion object DomainPersonModelCallback : DiffUtil.ItemCallback<MainFragmentData>() {
-        override fun areItemsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) = oldItem == newItem
-        override fun areContentsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) = oldItem == newItem
+        override fun areItemsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) =
+            oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) =
+            oldItem == newItem
     }
 }

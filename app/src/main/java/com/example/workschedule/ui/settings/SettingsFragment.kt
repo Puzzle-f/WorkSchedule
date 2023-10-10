@@ -50,9 +50,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         super.onStart()
     }
 
-    fun saveDefaultSettings(){
-
-    }
 
 }
 
@@ -62,5 +59,5 @@ var ignoreWeekends = true
 private fun Int.dayToMillis() = this*24*3600*1000
 private val PLANNING_HORIZON_LOCAL = 1
 val PLANNING_HORIZON = PLANNING_HORIZON_LOCAL.dayToMillis()
-val PLANNING_HORIZON_COMMON = (PLANNING_HORIZON_LOCAL + 20).dayToMillis()
+val PLANNING_HORIZON_COMMON = (PLANNING_HORIZON_LOCAL + 1).dayToMillis()
 const val CHECK_WEEKENDS = true

@@ -18,7 +18,10 @@ import com.example.workschedule.domain.usecases.weekend.CheckWeekendUseCase
 import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.settings.PLANNING_HORIZON_COMMON
-import com.example.workschedule.utils.*
+import com.example.workschedule.utils.FIO
+import com.example.workschedule.utils.toLocalDateTime
+import com.example.workschedule.utils.toLong
+import com.example.workschedule.utils.toTimeString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +31,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class MainFragmentViewModel(
     private val getAllTrainsRunListUseCase: GetAllTrainsRunListUseCase,
@@ -63,6 +65,9 @@ class MainFragmentViewModel(
     private var _borderHorizon = MutableStateFlow<MainFragmentData?>(null)
     val borderHorizon: StateFlow<MainFragmentData?> = _borderHorizon.asStateFlow()
 
+    private var _showProgress = MutableStateFlow<Boolean?>(null)
+    val showProgress: StateFlow<Boolean?> = _showProgress.asStateFlow()
+
     private suspend fun getAllTrainRun() {
         viewModelScope.launch {
             getAllTrainsRunListUseCase.execute().collect { trains ->
@@ -73,7 +78,9 @@ class MainFragmentViewModel(
 
     fun getMainFragmentData() {
         var findBorder = true
+        var showProgress = true
         viewModelScope.launch {
+            _showProgress.emit(true)
             getAllTrainRun()
             _drivers.emit(withContext(Dispatchers.IO) { getAllDriversListUseCase.execute() })
             _directions.emit(withContext(Dispatchers.IO) { getAllDirectionsListUseCase.execute() })
@@ -92,12 +99,7 @@ class MainFragmentViewModel(
 
                     val dataElement = MainFragmentData(
                         trainRunThis.id,
-                        trainRunThis.startTime
-//                            .toLocalDateTime()
-//                            .format(
-//                            DateTimeFormatter.ofPattern("dd.MM")
-//                        )
-                        ,
+                        trainRunThis.startTime,
                         trainRunThis.startTime.toLocalDateTime().toLocalTime().toString(),
                         trainRunThis.number.toInt(),
                         directionsIt.first { it.id == trainRunThis.direction }.name,
@@ -108,16 +110,23 @@ class MainFragmentViewModel(
                         trainRunThis.isEditManually
                     )
                     listData.add(dataElement)
-
-                    if(findBorder){
-                        if (trainRunThis.startTime >= LocalDateTime.now().toLong() + PLANNING_HORIZON){
+                    if (findBorder) {
+                        if (trainRunThis.startTime >= LocalDateTime.now()
+                                .toLong() + PLANNING_HORIZON
+                        ) {
                             _borderHorizon.emit(dataElement)
                             findBorder = false
                         }
                     }
                 }
                 listData
-            }.collect { _data.emit(withContext(Dispatchers.IO) { it }) }
+            }.collect {
+                _data.emit(withContext(Dispatchers.IO) { it })
+                if (showProgress) {
+                    _showProgress.emit(false)
+                    showProgress = false
+                }
+            }
         }
     }
 
@@ -139,6 +148,7 @@ class MainFragmentViewModel(
 
     fun findDriverAfterHorizon() =
         viewModelScope.launch(Dispatchers.IO) {
+            _showProgress.emit(true)
             val horizonDate = LocalDateTime.now().toLong() + PLANNING_HORIZON
             val horizonDateCommon = LocalDateTime.now().toLong() + PLANNING_HORIZON_COMMON
             clearDriverForTrainRunAfterDate(horizonDate).join()
@@ -155,6 +165,7 @@ class MainFragmentViewModel(
                             findDriverAfterHorizonUseCase.execute(it, CHECK_WEEKENDS).join()
                     }
                 }
+            _showProgress.emit(false)
         }
 
     fun deleteAllTrainRun() {
@@ -192,5 +203,4 @@ class MainFragmentViewModel(
                 }
         }
     }
-
 }

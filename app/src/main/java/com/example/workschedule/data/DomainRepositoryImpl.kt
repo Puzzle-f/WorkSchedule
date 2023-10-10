@@ -120,6 +120,9 @@ class DomainRepositoryImpl(
     ): List<Status>? =
         database.statusDao().getStatusesForDriverBetweenDate(driverId, dateStart, dateEnd)?.fromDTO
 
+    override suspend fun getStatusCompletionTrainRun(driverId: Int, date: Long): StatusEntity? =
+        database.statusDao().getStatusCompletionTrainRun(driverId, date)
+
     override suspend fun createStatus(status: StatusEntity) =
         database.statusDao().saveStatus(status)
 

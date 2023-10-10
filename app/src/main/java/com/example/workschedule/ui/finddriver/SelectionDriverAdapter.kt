@@ -40,8 +40,7 @@ class SelectionDriverAdapter(
         fun bind(position: Int) = with(binding) {
             selectionDriversRecyclerItemDriverFIO.text =
                 currentList[position].driverName
-            selectionDriversRestTime.text = currentList[position].restTime
-//            selectionDriversRecyclerItemDriverFIO.text = currentList[position].restTime
+            selectionDriversRestTime.text = currentList[position].restTime.toString()
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition
                 clickedDriverId = currentList[adapterPosition].id

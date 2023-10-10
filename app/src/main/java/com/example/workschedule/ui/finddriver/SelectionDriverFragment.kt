@@ -56,12 +56,13 @@ class SelectionDriverFragment :
                         DateTimeFormatter.ofPattern("dd.MM.yy  HH:mm")
                     )
                     if(trainRun!=null){
-                        selectionDriverViewModel.getDrivers(trainRun)
+                        selectionDriverViewModel.getDrivers(trainRun).join()
                         selectionDriverViewModel.getStatuses(trainRun)
                         selectionDriverViewModel.getSelectionDriverData(trainRun)
                     }
                 }
         }
+        initProgressBar()
     }
 
     override fun initListeners() {
@@ -93,8 +94,16 @@ class SelectionDriverFragment :
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    fun initProgressBar(){
+        lifecycleScope.launchWhenStarted {
+            selectionDriverViewModel.showProgress
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect{
+                    if(it!=null&& it)
+                        binding.progress.visibility = View.VISIBLE
+                    else binding.progress.visibility = View.INVISIBLE
+                }
+        }
     }
 
     companion object {

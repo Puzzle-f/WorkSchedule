@@ -171,17 +171,15 @@ val application = module {
     }
     viewModel {
         SelectionDriverViewModel(
-            GetAllDriversListUseCase(repository = get()),
-            GetLastStatusUseCase(repository = get()),
             GetTrainRunUseCase(repository = get()),
             findDriverBeforeHorizonUseCase = get(),
-            UpdateTrainRunUseCase(repository = get()),
             recalculateStatusesForDriverAfterTimeUseCase = get(),
             CleanDriverForIntersectionsUseCase(
                 GetStatusesForTrainRunUseCase(repository = get()),
                 GetStatusesForDriverBetweenDateUseCase(repository = get()),
                 ClearDriverForTrainRunUseCase(repository = get())),
-            SetDriverToTrainRunUseCase(repository = get())
+            SetDriverToTrainRunUseCase(repository = get()),
+            GetStatusCompletionTrainRunUseCase(repository = get())
         )
     }
 }

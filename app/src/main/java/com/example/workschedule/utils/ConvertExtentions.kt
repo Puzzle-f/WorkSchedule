@@ -300,8 +300,8 @@ fun List<TrainRun>.mixEvenAndOdd(): List<TrainRun> {
     val listEven = this.filter { it.number.toInt() % 2 == 0 }
     val listOdd = this.filter { it.number.toInt() % 2 != 0 }
     val listResult = mutableListOf<TrainRun>()
-    val ListMaxSize = if (listEven.size >= listOdd.size) listEven.size else listOdd.size
-    for (i in 0 until ListMaxSize) {
+    val listMaxSize = if (listEven.size >= listOdd.size) listEven.size else listOdd.size
+    for (i in 0 until listMaxSize) {
         if (i <= listEven.size-1) listResult.add(listEven[i])
         if (i <= listOdd.size-1) listResult.add(listOdd[i])
     }

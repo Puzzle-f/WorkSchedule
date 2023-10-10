@@ -5,34 +5,34 @@ import androidx.lifecycle.viewModelScope
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.Status
 import com.example.workschedule.domain.models.TrainRun
-import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
 import com.example.workschedule.domain.usecases.logiс.CleanDriverForIntersectionsUseCase
 import com.example.workschedule.domain.usecases.logiс.FindDriverBeforeHorizonUseCase
 import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.status.GetLastStatusUseCase
+import com.example.workschedule.domain.usecases.status.GetStatusCompletionTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.GetTrainRunUseCase
 import com.example.workschedule.domain.usecases.trainrun.SetDriverToTrainRunUseCase
-import com.example.workschedule.domain.usecases.trainrun.UpdateTrainRunUseCase
 import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.utils.FIO
 import com.example.workschedule.utils.fromDTO
 import com.example.workschedule.utils.toHoursTimeString
 import com.example.workschedule.utils.toLong
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 
 class SelectionDriverViewModel(
-    private val getAllDriversListUseCase: GetAllDriversListUseCase,
-    private val getLastStatusUseCase: GetLastStatusUseCase,
     private val getTrainRunUseCase: GetTrainRunUseCase,
     private val findDriverBeforeHorizonUseCase: FindDriverBeforeHorizonUseCase,
-    private val updateTrainRunUseCase: UpdateTrainRunUseCase,
     private val recalculateStatusesForDriverAfterTimeUseCase: RecalculateStatusesForDriverAfterTimeUseCase,
     private val cleanDriverForRange: CleanDriverForIntersectionsUseCase,
-    private val setDriverToTrainRunUseCase: SetDriverToTrainRunUseCase
+    private val setDriverToTrainRunUseCase: SetDriverToTrainRunUseCase,
+    private val getStatusCompletionTrainRunUseCase: GetStatusCompletionTrainRunUseCase
 ) : ViewModel() {
 
     private var _trainRun = MutableStateFlow<TrainRun?>(null)
@@ -47,28 +47,33 @@ class SelectionDriverViewModel(
     private var _dataVisual = MutableStateFlow<List<SelectionDriverItemData>>(emptyList())
     val dataVisual: StateFlow<List<SelectionDriverItemData>> = _dataVisual.asStateFlow()
 
+    private var _showProgress = MutableStateFlow<Boolean?>(null)
+    val showProgress: StateFlow<Boolean?> = _showProgress.asStateFlow()
+
     fun getTrainRun(trainRunId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            _showProgress.emit(true)
             _trainRun.emit(getTrainRunUseCase.execute(trainRunId))
         }
     }
 
-    fun getStatuses(trainRun: TrainRun)=
+    fun getStatuses(trainRun: TrainRun) {
         viewModelScope.launch {
             val listStatuses = mutableListOf<Status>()
-            drivers.collect{
-                if(it.isNotEmpty())
-                    it.forEach {
-                        if (it != null) {
-                            val el = getLastStatusUseCase.execute(it.id, trainRun.startTime)
-                            if (el != null) listStatuses.add(el.fromDTO)
-                        }
+            if (drivers.value.isNotEmpty()) {
+                drivers.value.forEach {
+                    if (it != null) {
+                        val el = getStatusCompletionTrainRunUseCase.execute(it.id, trainRun.startTime)
+                        if (el != null) listStatuses.add(el.fromDTO)
                     }
+                }
                 _statuses.emit(listStatuses)
             }
         }
+    }
 
-    fun getDrivers(trainRun: TrainRun)=
+
+    fun getDrivers(trainRun: TrainRun) =
         viewModelScope.launch {
             _drivers.emit(withContext(Dispatchers.IO) {
                 findDriverBeforeHorizonUseCase.execute(trainRun, CHECK_WEEKENDS)
@@ -78,27 +83,42 @@ class SelectionDriverViewModel(
 
 
     fun getSelectionDriverData(trainRun: TrainRun) {
+        var isShowProgress = true
         viewModelScope.launch {
+
             combine(drivers, statuses) { dr, st ->
                 val listData = mutableListOf<SelectionDriverItemData>()
-                    dr.forEach { driver ->
-                        val statusLoc = st.filter { it.idDriver == driver!!.id }
-                        val currentSt : Status
-                        if (statusLoc.isEmpty()){
-                             currentSt = Status(driver!!.id, trainRun.startTime, status = 3, countNight = 0, workedTime = 0, trainRun.id)
-                        } else currentSt = statusLoc.first()
-                        val restTime = if (currentSt.date == trainRun.startTime) 999 else
-                                Math.abs(LocalDateTime.now().toLong() - currentSt.date).toHoursTimeString
-                        listData.add(
-                            SelectionDriverItemData(
-                                driverName = driver?.FIO,
-                                if (driver?.id != null) driver.id else 0,
-                                restTime = restTime.toString(), workedTime = currentSt.workedTime.toHoursTimeString
-                            )
+                dr.forEach { driver ->
+                    val statusLoc = st.filter { it.idDriver == driver!!.id }
+                    val currentSt: Status
+                    if (statusLoc.isEmpty()) {
+                        currentSt = Status(
+                            driver!!.id,
+                            trainRun.startTime,
+                            status = 3,
+                            countNight = 0,
+                            workedTime = 0,
+                            trainRun.id
                         )
-                    }
+                    } else currentSt = statusLoc.first()
+                    val restTime = if (currentSt.date == trainRun.startTime) 999 else
+                        Math.abs(LocalDateTime.now().toLong() - currentSt.date).toHoursTimeString.toInt()
+                    listData.add(
+                        SelectionDriverItemData(
+                            driverName = driver?.FIO,
+                            if (driver?.id != null) driver.id else 0,
+                            restTime = restTime,
+                            workedTime = currentSt.workedTime.toHoursTimeString
+                        )
+                    )
+                }
+                listData.sortBy { it.restTime }
                 listData
-            }.collect { _dataVisual.emit(withContext(Dispatchers.IO) { it }) }
+            }.collect { _dataVisual.emit(withContext(Dispatchers.IO) { it })
+                if (isShowProgress) {
+                    _showProgress.emit(false)
+                    isShowProgress = false
+                }}
         }
     }
 

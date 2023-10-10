@@ -17,7 +17,7 @@ class MainFragmentAdapter(
     ListAdapter<MainFragmentData, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
 
     var clickedTrainRunId = -1
-    private var itemPosition = -1
+     var itemPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MainViewHolder(

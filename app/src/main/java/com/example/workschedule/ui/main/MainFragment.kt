@@ -19,13 +19,20 @@ import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment.Companion.TRAIN_RUN_ID
 import com.example.workschedule.utils.toLong
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.delay
+import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private val mainFragmentViewModel: MainFragmentViewModel by viewModel()
-    private val adapter by lazy { MainFragmentAdapter(requireActivity().menuInflater, mainFragmentViewModel.borderHorizon) }
+    private val adapter by lazy {
+        MainFragmentAdapter(
+            requireActivity().menuInflater,
+            mainFragmentViewModel.borderHorizon
+        )
+    }
     private lateinit var buttonNewRoute: MaterialButton
     private lateinit var buttonRecalculate: MaterialButton
 
@@ -42,18 +49,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         super.onStart()
     }
 
-    override fun onResume() {
-//        adapter.notifyItemInserted(20)
-//        binding.mainFragmentRecyclerView.scrollToPosition(20)
-        super.onResume()
-    }
-
     override fun readArguments(bundle: Bundle) {
     }
 
     override fun initView() {
         binding.mainFragmentRecyclerView.adapter = adapter
         selectStartPosition()
+        initProgressBar()
     }
 
     override fun initListeners() {
@@ -87,12 +89,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                         adapter.notifyDataSetChanged()
                     }
                 }
-//            binding.mainFragmentRecyclerView.layoutManager!!.scrollToPosition(20)
-
         }
         mainFragmentViewModel.getMainFragmentData()
-//        adapter.notifyItemInserted(20)
-
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -113,16 +111,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         return super.onContextItemSelected(item)
     }
 
-    override fun onStop() {
-        buttonNewRoute.visibility = View.GONE
-        buttonRecalculate.visibility = View.GONE
-        adapter.removeAllItems()
-        super.onStop()
-    }
-
-    private fun finDriverBeforeHorizonPlaning(){
+    private fun finDriverBeforeHorizonPlaning() {
         val trainRunId = mainFragmentViewModel.trainRunList.value
-            .filter { it.driverId==0 }
+            .filter { it.driverId == 0 }
             .sortedBy { it.startTime }
             .map { it.id }.first()
         val bundle = bundleOf(TRAIN_RUN_ID_BEFORE_PLANING_HORIZON to trainRunId)
@@ -131,16 +122,39 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         )
     }
 
-    private fun selectStartPosition(){
+    private fun selectStartPosition() {
+        var isSelectToPosition = true
         val currentData = LocalDateTime.now()
         var position: Int
-        adapter.registerAdapterDataObserver( object : RecyclerView.AdapterDataObserver(){
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (adapter.currentList.isNotEmpty())
-                    position = adapter.currentList.indexOf(adapter.currentList.first { it.data>=currentData.toLong() })
-                else position=0
-                binding.mainFragmentRecyclerView.scrollToPosition(position)
+                if (adapter.currentList.isNotEmpty()
+                    && isSelectToPosition
+                ) {
+                    position = adapter.currentList.indexOf(adapter.currentList.first { it.data >= currentData.toLong() })
+                    binding.mainFragmentRecyclerView.scrollToPosition(position)
+                    isSelectToPosition = !isSelectToPosition
+                }
             }
         })
+    }
+
+    fun initProgressBar(){
+        lifecycleScope.launchWhenStarted {
+            mainFragmentViewModel.showProgress
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect{
+                if(it!=null&& it)
+                    binding.progressMain.visibility = View.VISIBLE
+                    else binding.progressMain.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    override fun onStop() {
+        buttonNewRoute.visibility = View.GONE
+        buttonRecalculate.visibility = View.GONE
+        adapter.removeAllItems()
+        super.onStop()
     }
 }

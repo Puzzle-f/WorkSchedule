@@ -77,7 +77,7 @@ class WeekendFragment :
             weekendViewModel.driver
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect{
-                    if (it!=null)binding.nameDriverTv.text = it?.FIO
+                    if (it!=null)binding.nameDriverTv.text = it.FIO
             }
         }
         lifecycleScope.launchWhenStarted {

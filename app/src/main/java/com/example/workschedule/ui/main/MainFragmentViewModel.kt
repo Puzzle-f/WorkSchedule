@@ -18,10 +18,7 @@ import com.example.workschedule.domain.usecases.weekend.CheckWeekendUseCase
 import com.example.workschedule.ui.settings.CHECK_WEEKENDS
 import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.settings.PLANNING_HORIZON_COMMON
-import com.example.workschedule.utils.FIO
-import com.example.workschedule.utils.toLocalDateTime
-import com.example.workschedule.utils.toLong
-import com.example.workschedule.utils.toTimeString
+import com.example.workschedule.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -141,7 +138,7 @@ class MainFragmentViewModel(
         }
     }
 
-    fun clearDriverForTrainRunAfterDate(date: Long) =
+    private fun clearDriverForTrainRunAfterDate(date: Long) =
         viewModelScope.launch(Dispatchers.IO) {
             clearDriverForTrainRunAfterDateUseCase.execute(date).join()
         }
@@ -152,13 +149,12 @@ class MainFragmentViewModel(
             val horizonDate = LocalDateTime.now().toLong() + PLANNING_HORIZON
             val horizonDateCommon = LocalDateTime.now().toLong() + PLANNING_HORIZON_COMMON
             clearDriverForTrainRunAfterDate(horizonDate).join()
-            delay(100)
             trainRunList.value.forEach {
-                if (!it.isEditManually && it.startTime >= horizonDate)
+                if (!it.isEditManually && it.startTime > horizonDate)
                     deleteStatusForTrainRunIdUseCase.execute(it.id).join()
             }
             trainRunList.value
-//                .mixEvenAndOdd()
+                .mixEvenAndOdd()
                 .forEach {
                     if (it.driverId == 0) {
                         if (it.startTime in (horizonDate + 1)..horizonDateCommon)

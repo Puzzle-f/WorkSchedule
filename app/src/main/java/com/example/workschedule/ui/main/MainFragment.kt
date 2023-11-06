@@ -19,8 +19,6 @@ import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment.Companion.TRAIN_RUN_ID
 import com.example.workschedule.utils.toLong
 import com.google.android.material.button.MaterialButton
-import kotlinx.coroutines.delay
-import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 
@@ -71,9 +69,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
                 }) {
                 finDriverBeforeHorizonPlaning()
                 return@setOnClickListener
+            } else{
+                lifecycleScope.launchWhenStarted {
+                    mainFragmentViewModel.findDriverAfterHorizon().join()
+                    Toast.makeText(activity, "Наряд заполнен", Toast.LENGTH_LONG).show()
+                }
             }
-            mainFragmentViewModel.findDriverAfterHorizon()
-            Toast.makeText(activity, "Наряд заполнен", Toast.LENGTH_LONG).show()
         }
         binding.mainFragmentRecyclerView.layoutManager!!.scrollToPosition(20)
 
@@ -112,8 +113,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
     }
 
     private fun finDriverBeforeHorizonPlaning() {
-        val trainRunId = mainFragmentViewModel.trainRunList.value
-            .filter { it.driverId == 0 }
+        val trainRunId = mainFragmentViewModel
+            .trainRunList.value.filter { it.driverId == 0 }
             .sortedBy { it.startTime }
             .map { it.id }.first()
         val bundle = bundleOf(TRAIN_RUN_ID_BEFORE_PLANING_HORIZON to trainRunId)
@@ -126,10 +127,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         var isSelectToPosition = true
         val currentData = LocalDateTime.now()
         var position: Int
+        val isContainsElement = adapter.currentList.any { it.data >= currentData.toLong() }
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (adapter.currentList.isNotEmpty()
-                    && isSelectToPosition
+                    && isSelectToPosition && isContainsElement
                 ) {
                     position = adapter.currentList.indexOf(adapter.currentList.first { it.data >= currentData.toLong() })
                     binding.mainFragmentRecyclerView.scrollToPosition(position)

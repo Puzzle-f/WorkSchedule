@@ -6,7 +6,7 @@ package com.example.workschedule.domain.models
  *
  * @param id идентификатор поезда в сетке выездов
  * @param driverId Id машиниста
- * @param direction -
+ * @param direction - id направления
  * @param startTime время явки у первого блока
  * @param travelTime - время окончания работы у последнего блока
  * @param countNight - отработано ночей подряд за текущую поездку

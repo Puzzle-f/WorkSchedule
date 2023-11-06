@@ -34,10 +34,6 @@ class SelectionDriverFragment :
         registerForContextMenu(binding.selectionDriverFragmentRecyclerView)
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun readArguments(bundle: Bundle) {
         trainRunId = bundle.getInt(TRAIN_RUN_ID_BEFORE_PLANING_HORIZON)
     }

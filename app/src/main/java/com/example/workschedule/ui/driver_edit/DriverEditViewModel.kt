@@ -89,7 +89,7 @@ class DriverEditViewModel(
         }
     }
 
-    fun savePermissions(driverId: Int?, p: List<Int>) {
+    fun savePermissions(driverId: Int?, p: List<Int>) =
             viewModelScope.launch {
                 p.forEach { idPermission ->
                     if (driver.value != null &&
@@ -109,5 +109,5 @@ class DriverEditViewModel(
                 }
 
             }
-    }
+
 }

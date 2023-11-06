@@ -235,5 +235,13 @@
             android:id="@+id/action_nav_schedule_all_drivers_to_nav_trains"
             app:destination="@id/nav_trains" />
     </fragment>
+    <fragment
+        android:id="@+id/autentificationFragment"
+        android:name="com.example.workschedule.ui.autentification.AutentificationFragment"
+        android:label="AutentificationFragment" >
+        <action
+            android:id="@+id/action_autentification_fragment_to_nav_main"
+            app:destination="@id/nav_main" />
+    </fragment>
 
 </navigation>

@@ -45,6 +45,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.6.21'
+    implementation 'com.android.databinding:viewbinding:8.1.2'
 
 //  Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'

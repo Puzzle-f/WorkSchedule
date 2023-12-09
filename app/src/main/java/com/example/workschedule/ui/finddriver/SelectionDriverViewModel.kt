@@ -102,7 +102,7 @@ class SelectionDriverViewModel(
                         )
                     } else currentSt = statusLoc.first()
                     val restTime = if (currentSt.date == trainRun.startTime) 999 else
-                        Math.abs(LocalDateTime.now().toLong() - currentSt.date).toHoursTimeString.toInt()
+                        Math.abs(trainRun.startTime - currentSt.date).toHoursTimeString.toInt()
                     listData.add(
                         SelectionDriverItemData(
                             driverName = driver?.FIO,

@@ -27,10 +27,10 @@ val Long.toTimeString: String
         return String.format("%02d:%02d", hours, minutes)
     }
 
-// Экстеншн для перевода рабочего времени millis в строку вывода HH
+// Экстеншн для перевода millis в часы
 val Long.toHoursTimeString: String
     get() {
-        val hours = this / 10000 / 60 / 60
+        val hours = this / 1000 / 60 / 60
         return "$hours"
     }
 

@@ -185,7 +185,6 @@ class TrainRunEditFragment :
         }
 
         routeEditFragmentSaveButton.setOnClickListener {
-            focusChangeListener.onFocusChange(routeEditFragmentTimeTo, true)
             routeEditFragmentTimeTo.clearFocus()
             val direction = routeEditFragmentTrainDirection.text.toString()
             val directionId = trainsList.find { it.name == direction }?.id ?: 0

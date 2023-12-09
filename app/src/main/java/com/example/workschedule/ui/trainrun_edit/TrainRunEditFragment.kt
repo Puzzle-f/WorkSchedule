@@ -160,16 +160,20 @@ class TrainRunEditFragment :
             checkSaveButtonEnable()
         }
         routeEditFragmentTimeTo.addTextChangedListener { text ->
-            editTextValidation.validTravelTime = !text.isNullOrBlank()
+            editTextValidation.validTravelTime = !text.isNullOrBlank() && text.contains(":")
             checkSaveButtonEnable()
         }
 
+        workTimeEditText.addTextChangedListener { text ->
+            editTextValidation.validWorkTime = !text.isNullOrBlank() && text.contains(":")
+            checkSaveButtonEnable()
+        }
         routeEditFragmentTimeTo.onFocusChangeListener = focusChangeListener
+        workTimeEditText.onFocusChangeListener = focusChangeListener
+
         routeEditFragmentPeriodicity.setOnItemClickListener { _, _, position, _ ->
             trainPeriodicity = position.toPeriodicity
         }
-
-        workTimeEditText.onFocusChangeListener = focusChangeListener
 
         radioGroup.setOnCheckedChangeListener { radioGroup, i ->
             when (i) {
@@ -181,6 +185,7 @@ class TrainRunEditFragment :
         }
 
         routeEditFragmentSaveButton.setOnClickListener {
+            focusChangeListener.onFocusChange(routeEditFragmentTimeTo, true)
             routeEditFragmentTimeTo.clearFocus()
             val direction = routeEditFragmentTrainDirection.text.toString()
             val directionId = trainsList.find { it.name == direction }?.id ?: 0
@@ -251,7 +256,7 @@ class TrainRunEditFragment :
 
     private fun checkSaveButtonEnable() = with(editTextValidation) {
         binding.routeEditFragmentSaveButton.isEnabled =
-            validDateTime && validTrainNumber && validTrainDirection && validTrainPeriodicity && validTravelTime
+            validDateTime && validTrainNumber && validTrainDirection && validTrainPeriodicity && validTravelTime && validWorkTime
     }
 
     override fun initObservers() {

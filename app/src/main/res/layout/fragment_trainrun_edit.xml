@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     android:padding="@dimen/fragment_padding">
 
+<!--    <ScrollView-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/routeEditFragmentButtonsGuideline"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+
+
+<!--    </ScrollView>-->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/routeEditFragmentTrainNumberLayout"
         android:layout_width="match_parent"

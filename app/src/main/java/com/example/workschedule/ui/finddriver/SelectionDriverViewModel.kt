@@ -72,7 +72,6 @@ class SelectionDriverViewModel(
         }
     }
 
-
     fun getDrivers(trainRun: TrainRun) =
         viewModelScope.launch {
             _drivers.emit(withContext(Dispatchers.IO) {
@@ -80,7 +79,6 @@ class SelectionDriverViewModel(
             })
 
         }
-
 
     fun getSelectionDriverData(trainRun: TrainRun) {
         var isShowProgress = true

@@ -3,6 +3,7 @@ package com.example.workschedule.di
 import androidx.room.Room
 import com.example.workschedule.data.DomainRepositoryImpl
 import com.example.workschedule.data.database.ScheduleDataBase
+import com.example.workschedule.data.database.dbCallbackAutomaticDriverIdChange
 import com.example.workschedule.domain.DomainRepository
 import com.example.workschedule.domain.usecases.distraction.*
 import com.example.workschedule.domain.usecases.driver.*
@@ -37,6 +38,7 @@ val application = module {
             "ScheduleDB.db"
         )
 //            .addMigrations(MIGRATION_1_2)
+            .addCallback(dbCallbackAutomaticDriverIdChange)
             .fallbackToDestructiveMigration()
             .build()
     }

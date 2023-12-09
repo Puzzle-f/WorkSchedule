@@ -37,6 +37,31 @@ abstract class ScheduleDataBase : RoomDatabase() {
     abstract fun distractionDao(): DistractionDao
 }
 
+// автоматически изменяет значение driverId в статусах при изменении машиниста в TrainRun
+val dbCallbackAutomaticDriverIdChange = object : RoomDatabase.Callback() {
+    override fun onCreate(db: SupportSQLiteDatabase) {
+        super.onCreate(db)
+//        db.execSQL("""
+//    CREATE TRIGGER  IF NOT EXISTS automatic_status_deletion
+//    AFTER UPDATE ON TrainRunEntity
+//    FOR EACH ROW BEGIN
+//    IF NEW.driver_id  IS NULL THEN
+//    DELETE FROM StatusEntity WHERE id_block = OLD.id;
+//    END IF;
+//    END;
+//    """.trimIndent())
+
+        db.execSQL("""
+    CREATE TRIGGER  IF NOT EXISTS automatic_status_deletion
+    AFTER UPDATE ON TrainRunEntity
+    FOR EACH ROW BEGIN
+    DELETE FROM StatusEntity WHERE id_block = OLD.id 
+    AND NEW.driver_id  IS NULL || NEW.driver_id = 0;
+    END;
+    """.trimIndent())
+    }
+}
+
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL(

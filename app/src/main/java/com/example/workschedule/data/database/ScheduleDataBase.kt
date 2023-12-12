@@ -21,9 +21,9 @@ import com.example.workschedule.data.database.weekend.WeekendDao
 import com.example.workschedule.data.database.weekend.WeekendEntity
 
 @Database(
-    entities = [BlockEntity::class, DirectionEntity::class, DriverEntity::class, PermissionEntity::class,
+    entities = [DirectionEntity::class, DriverEntity::class, PermissionEntity::class,
         StatusEntity::class, TrainRunEntity::class, WeekendEntity::class, DistractionEntity::class],
-    version = 5,
+    version = 6,
     exportSchema = true
 )
 
@@ -41,16 +41,6 @@ abstract class ScheduleDataBase : RoomDatabase() {
 val dbCallbackAutomaticDriverIdChange = object : RoomDatabase.Callback() {
     override fun onCreate(db: SupportSQLiteDatabase) {
         super.onCreate(db)
-//        db.execSQL("""
-//    CREATE TRIGGER  IF NOT EXISTS automatic_status_deletion
-//    AFTER UPDATE ON TrainRunEntity
-//    FOR EACH ROW BEGIN
-//    IF NEW.driver_id  IS NULL THEN
-//    DELETE FROM StatusEntity WHERE id_block = OLD.id;
-//    END IF;
-//    END;
-//    """.trimIndent())
-
         db.execSQL("""
     CREATE TRIGGER  IF NOT EXISTS automatic_status_deletion
     AFTER UPDATE ON TrainRunEntity

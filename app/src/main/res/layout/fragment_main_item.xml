@@ -22,7 +22,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/vertical_line">
+            android:background="@drawable/vertical_line"
+            >
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mainFragmentRecyclerItemDate"
@@ -31,6 +32,7 @@
                 android:maxLines="1"
                 android:padding="5dp"
                 android:textSize="18sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/mainFragmentRecyclerItemLeftGuideline"
@@ -42,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:textSize="18sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/mainFragmentRecyclerItemLeftGuideline"
                 app:layout_constraintTop_toBottomOf="@+id/mainFragmentRecyclerItemDate"
@@ -55,10 +58,22 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="5dp"
                 android:textSize="24sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemLeftGuideline"
-                app:layout_constraintEnd_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="120 Moscow" />
+                tools:text="120" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/direction_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@+id/mainFragmentRecyclerItemDriver"
+                app:layout_constraintEnd_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
+                app:layout_constraintStart_toEndOf="@+id/guideline_right"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Moscow" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mainFragmentRecyclerItemDriver"
@@ -66,7 +81,8 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingEnd="5dp"
-                android:textSize="20sp"
+                android:textSize="24sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@id/mainFragmentRecyclerItemLeftGuideline"
                 app:layout_constraintEnd_toStartOf="@id/mainFragmentRecyclerItemRightGuideline"
                 app:layout_constraintTop_toBottomOf="@id/mainFragmentRecyclerItemTrain"
@@ -108,18 +124,35 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/black"
+                android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mainFragmentRecyclerItemDriver" />
+
+
+            <View
+                android:id="@+id/line_top"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/mainFragmentRecyclerItemLeftGuideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintGuide_percent="0.25"
-                android:outlineSpotShadowColor="@color/black"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintGuide_percent="0.40"
+                android:orientation="vertical"
+                android:visibility="invisible"/>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/mainFragmentRecyclerItemRightGuideline"

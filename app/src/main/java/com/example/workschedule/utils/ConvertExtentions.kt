@@ -1,6 +1,7 @@
 package com.example.workschedule.utils
 
 import com.example.workschedule.data.database.direction.DirectionEntity
+import com.example.workschedule.data.database.distraction.DistractionEntity
 import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.permission.PermissionEntity
 import com.example.workschedule.data.database.status.StatusEntity
@@ -26,7 +27,7 @@ val Long.toTimeString: String
         return String.format("%02d:%02d", hours, minutes)
     }
 
-// Экстеншн для перевода рабочего времени millis в строку вывода HH
+// Экстеншн для перевода millis в часы
 val Long.toHoursTimeString: String
     get() {
         val hours = this / 1000 / 60 / 60
@@ -120,21 +121,21 @@ val List<TrainRunEntity>.fromDTOListTrainRun: List<TrainRun> // Экстеншн
     }
 
 val TrainRunEntity?.fromDTO: TrainRun? // Экстеншн преобразования TrainRunEntity в TrainRun
-    get() = if(this == null) null
-            else
+    get() = if (this == null) null
+    else
         TrainRun(
-        this.id,
-        this.number,
-        this.driverId,
-        this.direction,
-        this.startTime,
-        this.endTime,
-        this.countNight,
-        this.workTime,
-        this.periodicity.toPeriodicity,
-        this.isEditManually,
-        this.note
-    )
+            this.id,
+            this.number,
+            this.driverId,
+            this.direction,
+            this.startTime,
+            this.endTime,
+            this.countNight,
+            this.workTime,
+            this.periodicity.toPeriodicity,
+            this.isEditManually,
+            this.note
+        )
 
 val TrainRun.toDTO: TrainRunEntity // Экстеншн преобразования TrainRun в TrainRunEntity
     get() = TrainRunEntity(
@@ -171,39 +172,101 @@ val PermissionEntity.fromDto: Permission
     )
 
 val Status.toDTO: StatusEntity
-get() = StatusEntity(
-    this.id,
-    this.idDriver,
-    this.date,
-    this.status,
-    this.countNight,
-    this.workedTime,
-    this.idBlock
-)
+    get() = StatusEntity(
+        this.idDriver,
+        this.date,
+        this.status,
+        this.countNight,
+        this.workedTime,
+        this.idBlock
+    )
 
 val StatusEntity.fromDTO: Status
-get() = Status(
-    this.id,
-    this.idDriver,
-    this.date,
-    this.status,
-    this.countNight,
-    this.workedTime,
-    this.idBlock
-)
+    get() = Status(
+        this.idDriver,
+        this.date,
+        this.status,
+        this.countNight,
+        this.workedTime,
+        this.idBlock
+    )
+
+val List<StatusEntity>.fromDTO: List<Status>
+    get() = this.map {
+        Status(
+            it.idDriver,
+            it.date,
+            it.status,
+            it.countNight,
+            it.workedTime,
+            it.idBlock
+        )
+    }
 
 
 val Weekend.toEntity: WeekendEntity
     get() = WeekendEntity(
         this.driverId,
-        this.date
+        this.date,
+        this.startWeekend
     )
 
 val WeekendEntity.toWeekend: Weekend
     get() = Weekend(
         this.driverId,
-        this.date
+        this.date,
+        this.startWeekend
     )
+
+val List<Weekend>.toDTO: List<WeekendEntity>
+    get() = this.map {
+        WeekendEntity(
+            it.driverId,
+            it.date,
+            it.startWeekend
+        )
+    }
+
+val List<WeekendEntity>.fromDTOToListWeekendStatus: List<Weekend>
+    get() = this.map {
+        Weekend(
+            it.driverId,
+            it.date,
+            it.startWeekend
+        )
+    }
+
+val DistractionEntity.toDistraction: Distraction
+    get() = Distraction(
+        this.driverId,
+        this.date,
+        this.isDistracted
+    )
+
+val Distraction.toEntity: DistractionEntity
+    get() = DistractionEntity(
+        this.driverId,
+        this.date,
+        this.isDistracted
+    )
+
+val List<Distraction>.toDistractionDTO: List<DistractionEntity>
+    get() = this.map {
+        DistractionEntity(
+            it.driverId,
+            it.date,
+            it.isDistracted
+        )
+    }
+
+val List<DistractionEntity>.fromDTOToListDistractionStatus: List<Distraction>
+    get() = this.map {
+        Distraction(
+            it.driverId,
+            it.date,
+            it.isDistracted
+        )
+    }
 
 fun TrainRun.changeDay(dayNumber: Int): TrainRun {
     val time = this.startTime.toLocalDateTime()
@@ -232,3 +295,15 @@ fun Long.toLocalDateTime(): LocalDateTime =
 fun LocalDateTime.toLong() =
     this.atZone(TimeZone.getDefault().toZoneId())
         .toInstant().toEpochMilli()
+
+fun List<TrainRun>.mixEvenAndOdd(): List<TrainRun> {
+    val listEven = this.filter { it.number.toInt() % 2 == 0 }
+    val listOdd = this.filter { it.number.toInt() % 2 != 0 }
+    val listResult = mutableListOf<TrainRun>()
+    val listMaxSize = if (listEven.size >= listOdd.size) listEven.size else listOdd.size
+    for (i in 0 until listMaxSize) {
+        if (i <= listEven.size-1) listResult.add(listEven[i])
+        if (i <= listOdd.size-1) listResult.add(listOdd[i])
+    }
+    return listResult
+}

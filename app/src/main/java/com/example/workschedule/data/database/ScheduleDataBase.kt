@@ -7,6 +7,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.workschedule.data.database.block.BlockEntity
 import com.example.workschedule.data.database.direction.DirectionDao
 import com.example.workschedule.data.database.direction.DirectionEntity
+import com.example.workschedule.data.database.distraction.DistractionDao
+import com.example.workschedule.data.database.distraction.DistractionEntity
 import com.example.workschedule.data.database.driver.DriverDao
 import com.example.workschedule.data.database.driver.DriverEntity
 import com.example.workschedule.data.database.permission.PermissionDao
@@ -19,9 +21,9 @@ import com.example.workschedule.data.database.weekend.WeekendDao
 import com.example.workschedule.data.database.weekend.WeekendEntity
 
 @Database(
-    entities = [BlockEntity::class, DirectionEntity::class, DriverEntity::class, PermissionEntity::class,
-        StatusEntity::class, TrainRunEntity::class, WeekendEntity::class],
-    version = 2,
+    entities = [DirectionEntity::class, DriverEntity::class, PermissionEntity::class,
+        StatusEntity::class, TrainRunEntity::class, WeekendEntity::class, DistractionEntity::class],
+    version = 6,
     exportSchema = true
 )
 
@@ -32,6 +34,22 @@ abstract class ScheduleDataBase : RoomDatabase() {
     abstract fun permissionDao(): PermissionDao
     abstract fun weekendDao(): WeekendDao
     abstract fun statusDao(): StatusDao
+    abstract fun distractionDao(): DistractionDao
+}
+
+// автоматически изменяет значение driverId в статусах при изменении машиниста в TrainRun
+val dbCallbackAutomaticDriverIdChange = object : RoomDatabase.Callback() {
+    override fun onCreate(db: SupportSQLiteDatabase) {
+        super.onCreate(db)
+        db.execSQL("""
+    CREATE TRIGGER  IF NOT EXISTS automatic_status_deletion
+    AFTER UPDATE ON TrainRunEntity
+    FOR EACH ROW BEGIN
+    DELETE FROM StatusEntity WHERE id_block = OLD.id 
+    AND NEW.driver_id  IS NULL || NEW.driver_id = 0;
+    END;
+    """.trimIndent())
+    }
 }
 
 val MIGRATION_1_2 = object : Migration(1, 2) {

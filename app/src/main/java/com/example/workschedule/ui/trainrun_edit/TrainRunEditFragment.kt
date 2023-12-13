@@ -71,8 +71,7 @@ class TrainRunEditFragment :
         var validTravelTime: Boolean = false,
         var validWorkTime: Boolean = false,
         var validDriverFIO: Boolean = false,
-
-        )
+    )
 
     private val editTextValidation = EditTextValidation()
 
@@ -161,16 +160,20 @@ class TrainRunEditFragment :
             checkSaveButtonEnable()
         }
         routeEditFragmentTimeTo.addTextChangedListener { text ->
-            editTextValidation.validTravelTime = !text.isNullOrBlank()
+            editTextValidation.validTravelTime = !text.isNullOrBlank() && text.contains(":")
             checkSaveButtonEnable()
         }
 
+        workTimeEditText.addTextChangedListener { text ->
+            editTextValidation.validWorkTime = !text.isNullOrBlank() && text.contains(":")
+            checkSaveButtonEnable()
+        }
         routeEditFragmentTimeTo.onFocusChangeListener = focusChangeListener
+        workTimeEditText.onFocusChangeListener = focusChangeListener
+
         routeEditFragmentPeriodicity.setOnItemClickListener { _, _, position, _ ->
             trainPeriodicity = position.toPeriodicity
         }
-
-        workTimeEditText.onFocusChangeListener = focusChangeListener
 
         radioGroup.setOnCheckedChangeListener { radioGroup, i ->
             when (i) {
@@ -214,7 +217,7 @@ class TrainRunEditFragment :
             lifecycleScope.launch {
 //                если TrainRun создан впервые
                 if (trainRunLocal.id == 0) {
-                    trainRunEditViewModel.saveTrainRun(trainRunLocal)
+                    trainRunEditViewModel.saveTrainRun(trainRunLocal).join()
                     trainRunEditViewModel.getTrainRunByNumberAndStartTime(
                         trainRunLocal.number.toInt(),
                         trainRunLocal.startTime
@@ -227,24 +230,24 @@ class TrainRunEditFragment :
                     }
                 } else {
 //                если TrainRun редактируется
-                    trainRunEditViewModel.saveTrainRun(trainRunLocal)
+                    trainRunEditViewModel.saveTrainRun(trainRunLocal).join()
                         trainRunEditViewModel.recalculateStatusesForForDriverAfterTimeUseCase(
                             trainRunLocal.driverId,
                             trainRunLocal.startTime
                         )
-//                        if ((trainRunLocal.driverId != trainRunEditViewModel.trainRun.value?.driverId)
-//                            &&
-//                            trainRunEditViewModel.trainRun.value?.driverId != 0
-//                        )
-//                            trainRunEditViewModel.recalculateStatusesForForDriverAfterTimeUseCase(
-//                                trainRunEditViewModel.trainRun.value?.driverId!!,
-//                                trainRunLocal.startTime
-//                            )
+                        if ((trainRunEditViewModel.trainRun.value?.driverId != trainRunLocal.driverId) &&
+                            ((trainRunEditViewModel.trainRun.value ?: 0) != 0)
+                        ){
+                            trainRunEditViewModel.recalculateStatusesForForDriverAfterTimeUseCase(
+                                trainRunEditViewModel.trainRun.value!!.driverId,
+                                trainRunEditViewModel.trainRun.value!!.startTime
+                            )
+                        }
                 }
-
             }
             findNavController().navigateUp()
         }
+
         routeEditFragmentCancelButton.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -252,7 +255,7 @@ class TrainRunEditFragment :
 
     private fun checkSaveButtonEnable() = with(editTextValidation) {
         binding.routeEditFragmentSaveButton.isEnabled =
-            validDateTime && validTrainNumber && validTrainDirection && validTrainPeriodicity && validTravelTime
+            validDateTime && validTrainNumber && validTrainDirection && validTrainPeriodicity && validTravelTime && validWorkTime
     }
 
     override fun initObservers() {

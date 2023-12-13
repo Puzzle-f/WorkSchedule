@@ -2,35 +2,66 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <DatePicker
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/name_driver_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:paddingTop="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:paddingStart="10dp"
+        tools:text="Иванов"
+        tools:ignore="RtlSymmetry" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/driverEditFragmentSaveButton"
-        android:layout_width="0dp"
+    <CalendarView
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:padding="10dp"
-        android:text="@string/save_button"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_weekend_line_bottom"
-        app:layout_constraintStart_toStartOf="@id/fragment_weekend_line_right"
+        app:layout_constraintTop_toBottomOf="@+id/name_driver_tv"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_weekend_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/calendar"
+        app:layout_constraintEnd_toStartOf="@id/fragment_weekend_line_left"
+        android:text="@string/add_weekend"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/driverEditFragmentCancelButton"
-        android:layout_width="0dp"
+        android:id="@+id/add_sick_leave_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/cancel_button"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_weekend_line_bottom"
+        app:layout_constraintTop_toBottomOf="@id/calendar"
+        app:layout_constraintStart_toStartOf="@id/fragment_weekend_line_right"
+        android:text="@string/sick_leave"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/weekends_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/add_weekend_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/fragment_weekend_line_left"/>
+        app:layout_constraintEnd_toStartOf="@+id/fragment_weekend_line_center"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/fragment_weekend_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/distraction_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/add_weekend_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/fragment_weekend_line_center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/fragment_weekend_distraction_item" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/fragment_weekend_line_left"
@@ -47,10 +78,10 @@
         app:layout_constraintGuide_percent="0.55" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/fragment_weekend_line_bottom"
+        android:id="@+id/fragment_weekend_line_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.92" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

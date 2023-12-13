@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -40,18 +41,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
         initDrawer()
-        initRecalculation()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
-    }
-
-    fun initRecalculation() {
-        binding.appBarMain.recalculation.setOnClickListener {
-            Toast.makeText(this, "TEST", Toast.LENGTH_LONG).show()
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -78,7 +72,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_main,
                 R.id.nav_drivers,
                 R.id.nav_trains,
-                R.id.nav_settings
+                R.id.nav_settings,
+                R.id.nav_schedule_all_drivers
             ),
             drawerLayout
         )
@@ -115,37 +110,65 @@ class MainActivity : AppCompatActivity() {
                         when (navController.currentDestination?.id) {
                             R.id.nav_drivers ->
                                 navController.navigate(R.id.action_nav_drivers_to_nav_main)
-                        }
-                        when (navController.currentDestination?.id) {
                             R.id.nav_trains ->
                                 navController.navigate(R.id.action_nav_trains_to_nav_main)
+                            R.id.nav_schedule_all_drivers ->
+                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_main)
+                            R.id.nav_settings ->
+                                navController.navigate(R.id.action_nav_settings_to_nav_main)
                         }
                     }
                     R.id.nav_drivers -> {
                         when (navController.currentDestination?.id) {
                             R.id.nav_main ->
                                 navController.navigate(R.id.action_nav_main_to_nav_drivers)
-                        }
-                        when (navController.currentDestination?.id) {
                             R.id.nav_trains ->
                                 navController.navigate(R.id.action_nav_trains_to_nav_drivers)
+                            R.id.nav_schedule_all_drivers ->
+                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_drivers)
+                            R.id.nav_settings ->
+                                navController.navigate(R.id.action_nav_settings_to_nav_drivers)
                         }
                     }
+
                     R.id.nav_trains -> {
                         when (navController.currentDestination?.id) {
                             R.id.nav_main ->
                                 navController.navigate(R.id.action_nav_main_to_nav_trains)
-                        }
-                        when (navController.currentDestination?.id) {
                             R.id.nav_drivers ->
                                 navController.navigate(R.id.action_nav_drivers_to_nav_trains)
+                            R.id.nav_schedule_all_drivers ->
+                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_trains)
+                            R.id.nav_settings ->
+                                navController.navigate(R.id.action_nav_settings_to_nav_trains)
+
                         }
                     }
+
                     R.id.nav_schedule_all_drivers -> {
-                        navController.navigate(R.id.action_nav_to_schedule_all_drivers)
+                        when (navController.currentDestination?.id) {
+                            R.id.nav_main ->
+                                navController.navigate(R.id.action_nav_main_to_nav_schedule_all_drivers)
+                            R.id.nav_trains ->
+                                navController.navigate(R.id.action_nav_trains_to_nav_schedule_all_drivers)
+                            R.id.nav_settings ->
+                                navController.navigate(R.id.action_nav_settings_to_nav_schedule_all_drivers)
+                            R.id.nav_drivers ->
+                                navController.navigate(R.id.action_nav_drivers_to_nav_schedule_all_drivers)
+                        }
                     }
+
                     R.id.nav_settings -> {
-                        navController.navigate(R.id.action_nav_main_to_settings)
+                        when (navController.currentDestination?.id) {
+                            R.id.nav_main ->
+                                navController.navigate(R.id.action_nav_main_to_settings)
+                            R.id.nav_drivers ->
+                                navController.navigate(R.id.action_nav_drivers_to_settings)
+                            R.id.nav_schedule_all_drivers ->
+                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_settings)
+                            R.id.nav_trains ->
+                                navController.navigate(R.id.action_nav_trains_to_settings)
+                        }
                     }
                 }
                 true
@@ -153,3 +176,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+

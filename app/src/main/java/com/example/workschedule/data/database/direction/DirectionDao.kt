@@ -7,18 +7,26 @@ import androidx.room.Query
 
 @Dao
 interface DirectionDao {
-//    Получить все направления
-    @Query("SELECT * FROM DirectionEntity ORDER BY direction")
-    suspend fun getAllDirections(): List<DirectionEntity>
-//    Получить направление по номеру
-    @Query("SELECT * FROM DirectionEntity WHERE id LIKE :directionId")
-    suspend fun getDirectionById(directionId: Int): DirectionEntity
-//    добавить новое направление / изменить
+    //    добавить новое направление / изменить
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveDirection(direction: DirectionEntity)
-//    Удалить направление
+
+    //    добавить новые направления
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveDirections(direction: List<DirectionEntity>)
+
+    //    Получить все направления
+    @Query("SELECT * FROM DirectionEntity ORDER BY direction")
+    suspend fun getAllDirections(): List<DirectionEntity>
+
+    //    Получить направление по номеру
+    @Query("SELECT * FROM DirectionEntity WHERE id LIKE :directionId")
+    suspend fun getDirectionById(directionId: Int): DirectionEntity
+
+    //    Удалить направление
     @Query("DELETE FROM DirectionEntity WHERE id = :directionId")
     suspend fun deleteDirectionById(directionId: Int)
+
     //    Удалить все направления
     @Query("DELETE FROM DirectionEntity")
     suspend fun deleteAllDirections()

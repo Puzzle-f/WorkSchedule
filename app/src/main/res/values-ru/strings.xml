@@ -24,7 +24,7 @@
     <string name="save_button">СОХРАНИТЬ</string>
     <string name="cancel_button">ОТМЕНА</string>
 
-    <string name="edit_route_departure_time">Время отправления</string>
+    <string name="edit_route_departure_time">Время явки</string>
     <string name="edit_route_train_direction">Направление поезда</string>
     <string name="edit_route_driver">Машинист</string>
     <string name="edit_route_periodicity">Повторяемость</string>
@@ -69,7 +69,7 @@
     <string name="edit_train_direction">Направление</string>
     <string name="work_time">Рабочее время</string>
     <string name="notes">Заметки</string>
-    <string name="add_weekends">Добавить выходные</string>
+    <string name="add_weekends">Выходные</string>
     <string name="weekends">Выходные</string>
 
     <!--Settings Fragment-->
@@ -78,5 +78,14 @@
     <string name="default_horizon_planing">5</string>
     <string name="min_rest">минимальный отдых, часов</string>
     <string name="min_rest_value">16</string>
+    <string name="no_data">нет данных</string>
+    <string name="start_time">Явка: </string>
+    <string name="train_selection">Поезд:</string>
+    <string name="add_weekend">добавить вых</string>
+    <string name="sick_leave">на отвлечении</string>
+    <string name="rest">отдых:</string>
 
+    <!--    Weekend Fragment-->
+    <string name="ready_to_work">в работе</string>
+    <string name="with">с:</string>
 </resources>

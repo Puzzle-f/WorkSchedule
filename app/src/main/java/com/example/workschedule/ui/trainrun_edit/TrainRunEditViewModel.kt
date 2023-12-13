@@ -7,8 +7,7 @@ import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.domain.models.TrainPeriodicity
 import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.domain.usecases.driver.GetAllDriversListUseCase
-import com.example.workschedule.domain.usecases.status.CreateListStatusForTrainRunUseCase
-import com.example.workschedule.domain.usecases.status.DeleteStatusesForDriverAfterDateUseCase
+import com.example.workschedule.domain.usecases.logiс.RecalculateStatusesForDriverAfterTimeUseCase
 import com.example.workschedule.domain.usecases.train.GetAllDirectionsListUseCase
 import com.example.workschedule.domain.usecases.trainrun.*
 import com.example.workschedule.utils.*
@@ -28,12 +27,9 @@ class TrainRunEditViewModel(
     private val saveTrainRunListUseCase: SaveTrainRunListUseCase,
     private val updateTrainRunUseCase: UpdateTrainRunUseCase,
     private val getTrainRunByNumberAndStartTime: GetTrainRunByNumberAndStartTimeUseCase,
-    private val deleteStatusesForDriverAfterDateUseCase: DeleteStatusesForDriverAfterDateUseCase,
-    private val getTrainRunListByDriverIdAfterDateUseCase: GetTrainRunListByDriverIdAfterDateUseCase,
-    private val createListStatusForTrainRunUseCase: CreateListStatusForTrainRunUseCase
+    private val recalculateStatusesForForDriverAfterTimeUseCase: RecalculateStatusesForDriverAfterTimeUseCase
 ) : ViewModel() {
-    private var _trainRunNewAfterTime = MutableStateFlow<List<TrainRun>?>(null)
-    val trainRunNewAfterTime: StateFlow<List<TrainRun>?> = _trainRunNewAfterTime.asStateFlow()
+
     private var _trainRun = MutableStateFlow<TrainRun?>(null)
     val trainRun: StateFlow<TrainRun?> = _trainRun.asStateFlow()
     private var _drivers = MutableStateFlow<List<Driver>>(emptyList())
@@ -74,35 +70,17 @@ class TrainRunEditViewModel(
         }
     }
 
-    fun recalculateStatusesForForDriverAfterTimeUseCase(driverId: Int, date: Long) {
-        viewModelScope.launch (Dispatchers.IO){
-            deleteStatusesForDriverAfterDateUseCase.execute(driverId, date)
-            getTrainRunListByDriverIdAfterDateUseCase(driverId, date)
-            trainRunNewAfterTime.collect {
-                println("*** $it")
-                it?.forEach {
-                    createListStatusForTrainRunUseCase.execute(it)
-                }
-            }
+    fun recalculateStatusesForForDriverAfterTimeUseCase(driverId: Int, date: Long)=
+        viewModelScope.launch {
+            recalculateStatusesForForDriverAfterTimeUseCase.execute(driverId, date).join()
         }
-    }
+
 
     fun getDrivers() {
         viewModelScope.launch {
             _drivers.emit(withContext(Dispatchers.IO) { getAllDriversListUseCase.execute() })
         }
     }
-
-    private fun getTrainRunListByDriverIdAfterDateUseCase(driverId: Int, date: Long) =
-        viewModelScope.launch {
-            _trainRunNewAfterTime.emit(withContext(Dispatchers.IO) {
-                getTrainRunListByDriverIdAfterDateUseCase.execute(
-                    driverId,
-                    date
-                )
-            }
-            )
-        }
 
     suspend fun getTrainRunByNumberAndStartTime(number: Int, startTime: Long) =
         _newTrainRun.emit(withContext(Dispatchers.IO) {
@@ -111,7 +89,6 @@ class TrainRunEditViewModel(
                 startTime
             ).fromDTO
         })
-
 
     fun getDirections() {
         viewModelScope.launch {
@@ -126,13 +103,13 @@ class TrainRunEditViewModel(
                 when (trainRun.periodicity) {
                     TrainPeriodicity.SINGLE -> saveTrainRunUseCase.execute(trainRun)
                     TrainPeriodicity.ON_ODD -> saveTrainRunListUseCase.execute(
-                        (1..daysInMonth step 2).map { trainRun.changeDay(it) }
+                        (trainRun.startTime.toLocalDateTime().toLocalDate().dayOfMonth..daysInMonth step 2).map { trainRun.changeDay(it) }
                     )
                     TrainPeriodicity.ON_EVEN -> saveTrainRunListUseCase.execute(
-                        (2..daysInMonth step 2).map { trainRun.changeDay(it) }
+                        (trainRun.startTime.toLocalDateTime().toLocalDate().dayOfMonth..daysInMonth step 2).map { trainRun.changeDay(it) }
                     )
                     TrainPeriodicity.DAILY -> saveTrainRunListUseCase.execute(
-                        (1..daysInMonth).map { trainRun.changeDay(it) }
+                        (trainRun.startTime.toLocalDateTime().toLocalDate().dayOfMonth..daysInMonth).map { trainRun.changeDay(it) }
                     )
                 }
             } else {

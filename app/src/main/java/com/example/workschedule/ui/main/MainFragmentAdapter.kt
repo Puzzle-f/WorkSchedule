@@ -6,18 +6,18 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainItemBinding
-import com.example.workschedule.domain.models.TrainRun
 import com.example.workschedule.utils.toLocalDateTime
-import com.example.workschedule.utils.toTimeString
+import kotlinx.coroutines.flow.StateFlow
 import java.time.format.DateTimeFormatter
 
 class MainFragmentAdapter(
-    private val menuInflater: MenuInflater
+    private val menuInflater: MenuInflater,
+    private val borderHorizon: StateFlow<MainFragmentData?>
 ) :
     ListAdapter<MainFragmentData, MainFragmentAdapter.MainViewHolder>(DomainPersonModelCallback) {
 
     var clickedTrainRunId = -1
-    private var itemPosition = -1
+     var itemPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MainViewHolder(
@@ -51,13 +51,14 @@ class MainFragmentAdapter(
 
         fun bind(position: Int) = with(binding) {
             mainFragmentRecyclerItemDate.text =
-                currentList[position].data
-//                    .startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.y"))
+                currentList[position].data.toLocalDateTime()
+                    .format(DateTimeFormatter.ofPattern("dd.MM"))
             mainFragmentRecyclerItemTime.text =
                 currentList[position].time
-//                    .startTime.toLocalDateTime().format(DateTimeFormatter.ofPattern(" HH:mm"))
             mainFragmentRecyclerItemTrain.text =
-                with(currentList[position]) { "$trainNumber $direction" }
+                currentList[position].trainNumber.toString()
+            directionTv.text = currentList[position].direction
+
             mainFragmentRecyclerItemDriver.text = currentList[position].driver
             mainFragmentRecyclerItemTravelTimeTo.text =
                 currentList[position].roadTime
@@ -65,23 +66,26 @@ class MainFragmentAdapter(
                 currentList[position].workTime
             mainFragmentRecyclerItemCountNight.text =
                 currentList[position].countNight.toString()
+
+            if (currentList[position] == borderHorizon.value) {
+                lineTop.visibility = View.VISIBLE
+                lineTop.setBackgroundResource(R.color.red)
+            } else {
+                lineTop.visibility = View.INVISIBLE
+                lineTop.setBackgroundResource(0x00000000)
+            }
+
             itemView.setOnLongClickListener {
                 itemPosition = adapterPosition
                 clickedTrainRunId = currentList[adapterPosition].id
                 false
             }
 
-            if (mainFragmentRecyclerItemDriver.text == "" || mainFragmentRecyclerItemDriver.text == "0") {
+            if (mainFragmentRecyclerItemDriver.text == "" || mainFragmentRecyclerItemDriver.text == "-") {
                 layoutContainer.setBackgroundResource(R.color.red)
-            }
-            else
-                if (currentList[adapterPosition].isEditManually) {
-                    layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
-                }
-                else
-                {
-                    layoutContainer.setBackgroundResource(R.color.on_primary)
-                }
+            } else if (currentList[adapterPosition].isEditManually) {
+                layoutContainer.setBackgroundResource(R.color.background_is_edit_manually)
+            } else layoutContainer.setBackgroundResource(R.color.on_primary)
         }
 
         override fun onCreateContextMenu(
@@ -92,7 +96,10 @@ class MainFragmentAdapter(
     }
 
     companion object DomainPersonModelCallback : DiffUtil.ItemCallback<MainFragmentData>() {
-        override fun areItemsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) = oldItem == newItem
-        override fun areContentsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) = oldItem == newItem
+        override fun areItemsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) =
+            oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: MainFragmentData, newItem: MainFragmentData) =
+            oldItem == newItem
     }
 }

@@ -9,10 +9,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentDriverEditBinding
 import com.example.workschedule.domain.models.Driver
 import com.example.workschedule.ui.base.BaseFragment
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -58,41 +58,44 @@ class DriverEditFragment :
             checkSaveButtonEnable()
         }
         driverEditFragmentSaveButton.setOnClickListener {
-            val driverLocal = Driver(
-                driverId ?: 0,
-                driverEditFragmentPersonnelNumber.text.toString().toInt(),
-                driverEditFragmentSurname.text.toString(),
-                driverEditFragmentName.text.toString(),
-                driverEditFragmentPatronymic.text.toString()
-            )
-            if (driverLocal.id == 0) {
-                lifecycleScope.launch {
-                    driverEditViewModel.saveDriver(driverLocal).join()
-                    driverEditViewModel.getDriverByPersonalNumberAndSurname(
-                        driverLocal.personalNumber,
-                        driverLocal.surname
-                    )
-                    driverEditViewModel.savePermissions(
-                        driverEditViewModel.newDriver.value?.id,
-                        adapter.permissionListFromAdapter
-                    )
-                }
-            } else {
-                driverEditViewModel.updateDriver(driverLocal)
-                driverEditViewModel.savePermissions(
-                    driverLocal.id,
-                    adapter.permissionListFromAdapter
+            lifecycleScope.launch {
+
+                val driverLocal = Driver(
+                    driverId ?: 0,
+                    driverEditFragmentPersonnelNumber.text.toString().toInt(),
+                    driverEditFragmentSurname.text.toString(),
+                    driverEditFragmentName.text.toString(),
+                    driverEditFragmentPatronymic.text.toString()
                 )
+                if (driverLocal.id == 0) {
+                    lifecycleScope.launch {
+                        driverEditViewModel.saveDriver(driverLocal).join()
+                        driverEditViewModel.getDriverByPersonalNumberAndSurname(
+                            driverLocal.personalNumber,
+                            driverLocal.surname
+                        )
+                        driverEditViewModel.savePermissions(
+                            driverEditViewModel.newDriver.value?.id,
+                            adapter.permissionListFromAdapter
+                        )
+                    }
+                } else {
+                    driverEditViewModel.updateDriver(driverLocal)
+                    driverEditViewModel.savePermissions(
+                        driverLocal.id,
+                        adapter.permissionListFromAdapter
+                    ).join()
+                delay(100)
+                }
+                Toast.makeText(
+                    activity,
+                    "машинист " +
+                            "${driverEditFragmentSurname.text} " + "успешно добавлен",
+                    Toast.LENGTH_LONG
+                ).show()
+                it.findNavController().navigateUp()
             }
 
-            Toast.makeText(
-                activity,
-                getString(R.string.driverEditDataInputSuccess) +
-                        "${driverEditViewModel.newDriver.value?.id} " +
-                        " ${adapter.permissionListFromAdapter}",
-                Toast.LENGTH_LONG
-            ).show()
-            it.findNavController().navigateUp()
         }
         driverEditFragmentCancelButton.setOnClickListener {
             it.findNavController().navigateUp()

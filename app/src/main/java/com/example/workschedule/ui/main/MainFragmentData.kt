@@ -2,7 +2,7 @@ package com.example.workschedule.ui.main
 
 data class MainFragmentData(
     val id: Int,
-    val data: String,
+    val data: Long,
     val time: String,
     val trainNumber: Int,
     val direction: String,

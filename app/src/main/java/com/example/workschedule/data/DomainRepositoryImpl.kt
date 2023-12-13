@@ -3,19 +3,19 @@ package com.example.workschedule.data
 import com.example.workschedule.data.database.ScheduleDataBase
 import com.example.workschedule.data.database.status.StatusEntity
 import com.example.workschedule.domain.DomainRepository
-import com.example.workschedule.domain.models.Direction
-import com.example.workschedule.domain.models.Driver
-import com.example.workschedule.domain.models.Permission
-import com.example.workschedule.domain.models.TrainRun
+import com.example.workschedule.domain.models.*
 import com.example.workschedule.utils.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 
 class DomainRepositoryImpl(
     private val database: ScheduleDataBase
 ) : DomainRepository {
 
     //      TrainRun
-    override suspend fun getAllTrainsRunList(): List<TrainRun> =
-        database.trainRunDao().getAllTrainRuns().fromDTOListTrainRun
+    override suspend fun getAllTrainsRunList(): Flow<List<TrainRun>> =
+        database.trainRunDao().getAllTrainRuns().map { it.fromDTOListTrainRun }
 
     override suspend fun getTrainRun(trainRunId: Int): TrainRun? =
         database.trainRunDao().getTrainRunById(trainRunId).fromDTO
@@ -31,12 +31,16 @@ class DomainRepositoryImpl(
         database.trainRunDao().update(trainRun.toDTO)
     }
 
+    override suspend fun setDriverToTrainRun(trainRunId: Int, driverId: Int) {
+        database.trainRunDao().setDriverToTrainRun(trainRunId, driverId)
+    }
+
     override suspend fun saveTrainRunList(trainRunList: List<TrainRun>) {
         database.trainRunDao().saveTrainRun(*trainRunList.map { it.toDTO }.toTypedArray())
     }
 
-    override suspend fun clearDriverForTrainRun(driverId: Int) {
-        database.trainRunDao().clearDriverForTrainRun(driverId)
+    override suspend fun clearDriverForAllTrainRun(driverId: Int) {
+        database.trainRunDao().clearDriverForAllTrainRun(driverId)
     }
 
     override suspend fun getTrainRunByNumberAndStartTimeUseCase(number: Int, startDate: Long) =
@@ -46,6 +50,22 @@ class DomainRepositoryImpl(
         driverId: Int,
         dateTime: Long
     ) = database.trainRunDao().getTrainRunByDriverIdAfterTime(driverId, dateTime).fromDTOListTrainRun
+
+    override suspend fun clearDriverForTrainRunUseCase(trainRunId: Int) {
+        database.trainRunDao().clearDriverForTrainRun(trainRunId)
+    }
+
+    override suspend fun clearDriverForTrainRunAfterDate(dateTime: Long) {
+        database.trainRunDao().clearDriverForTrainRunAfterDate(dateTime)
+    }
+
+    override suspend fun clearDriverForTrainRunBetweenDate(
+        idDriver: Int,
+        dateFirst: Long,
+        dateLast: Long
+    ) {
+        database.trainRunDao().clearDriverForTrainRunBetweenDate(idDriver, dateFirst, dateLast)
+    }
 
     override suspend fun deleteTrainRun(trainRunId: Int) {
         database.trainRunDao().deleteTrainRunById(trainRunId)
@@ -67,40 +87,76 @@ class DomainRepositoryImpl(
         database.permissionDao().deletePermissionsToDriver(permission.toDTO)
     }
 
-//    override suspend fun getWeekends(idDriver: Int, dateTime: Long): List<Weekend> =
-//        database.weekendDao().getAllWeekendsForDriver(idDriver, dateTime).map { it.toWeekend }
+    //    Weekends
+    override suspend fun getWeekends(idDriver: Int): Flow<List<Weekend>> =
+        database.weekendDao().getWeekendsForDriver(idDriver).map { it.fromDTOToListWeekendStatus }
 
+    override suspend fun saveWeekend(weekend: Weekend) {
+        database.weekendDao().saveWeekend(weekend.toEntity)
+    }
 
-//    override suspend fun saveWeekend(weekend: Weekend) {
-//        database.weekendDao().saveWeekend(weekend.toEntity)
-//    }
+    override suspend fun deleteWeekend(driverId: Int, startTime: Long, endTime: Long) {
+        database.weekendDao().deleteWeekend(driverId, startTime, endTime)
+    }
 
-    override suspend fun getDriverByPersonalNumberAndSurname(
-        personalNumber: Int,
-        surname: String
-    ): Driver =
-        database.driverDao().getDriverByPersonalNumberAndSurname(personalNumber, surname).fromDTO
+    override suspend fun deleteAllWeekendsForDriver(idDriver: Int) =
+        database.weekendDao().deleteAllWeekendsForDriver(idDriver)
 
-    //    Status
+    override suspend fun getLastWeekendStatus(idDriver: Int, dateTime: Long) =
+        database.weekendDao().getLastStatus(idDriver, dateTime)?.toWeekend
+
+//      Status
 
     override suspend fun getLastStatus(driverId: Int, date: Long) =
         database.statusDao().getLastStatusForDriver(driverId, date)
 
+    override suspend fun getStatusesForTrainRun(trainRunId: Int): List<Status> =
+        database.statusDao().getStatusesForTrainRun(trainRunId).fromDTO
+
+    override suspend fun getStatusesForDriverBetweenDate(
+        driverId: Int,
+        dateStart: Long,
+        dateEnd: Long
+    ): List<Status>? =
+        database.statusDao().getStatusesForDriverBetweenDate(driverId, dateStart, dateEnd)?.fromDTO
+
+    override suspend fun getStatusCompletionTrainRun(driverId: Int, date: Long): StatusEntity? =
+        database.statusDao().getStatusCompletionTrainRun(driverId, date)
 
     override suspend fun createStatus(status: StatusEntity) =
         database.statusDao().saveStatus(status)
-
-    override suspend fun deleteStatusForTrainRunIdUseCse(trainRunId: Int) {
-        database.statusDao().deleteStatusForTrainRunIdUseCse(trainRunId)
-    }
 
     override suspend fun deleteStatusesForDriverAfterDate(driverId: Int, dateTime: Long) {
         database.statusDao().deleteStatusesForDriverAfterDate(driverId, dateTime)
     }
 
-    override suspend fun updateDriver(driver: Driver) {
-        database.driverDao().updateDriver(driver.toDTO)
+    override suspend fun deleteStatusesAfterDate(date: Long) {
+        database.statusDao().deleteStatusesAfterDate(date)
     }
+
+    override suspend fun deleteStatusForTrainRunId(trainRunId: Int) {
+        database.statusDao().deleteStatusForTrainRunId(trainRunId)
+    }
+
+//      Distraction
+
+    override suspend fun getDistractions(idDriver: Int): Flow<List<Distraction>> =
+        database.distractionDao().getDistractionsForDriver(idDriver).map { it.fromDTOToListDistractionStatus }
+
+    override suspend fun saveDistraction(distraction: Distraction) {
+        database.distractionDao().saveDistraction(distraction.toEntity)
+    }
+
+    override suspend fun deleteDistraction(driverId: Int, startTime: Long, endTime: Long) {
+        database.distractionDao().deleteDistraction(driverId, startTime, endTime)
+    }
+
+    override suspend fun deleteAllDistractionsForDriver(idDriver: Int) {
+        database.distractionDao().deleteAllDistractionsForDriver(idDriver)
+    }
+
+    override suspend fun getLastDistractionStatus(idDriver: Int, dateTime: Long): Distraction? =
+        database.distractionDao().getLastStatusDistraction(idDriver, dateTime)?.toDistraction
 
     //      Driver
 
@@ -113,12 +169,19 @@ class DomainRepositoryImpl(
     override suspend fun getDriversByPermission(permissionId: Int): List<Int> =
         database.permissionDao().getDriverIdByPermission(permissionId)
 
+    override suspend fun getDriverByPersonalNumberAndSurname(personalNumber: Int, surname: String): Driver =
+        database.driverDao().getDriverByPersonalNumberAndSurname(personalNumber, surname).fromDTO
+
     override suspend fun saveDriver(driver: Driver) {
         database.driverDao().saveDriver(driver.toDTO)
     }
 
     override suspend fun saveDriverList(driverList: List<Driver>) {
         database.driverDao().saveDriverList(driverList.toDTOListDriver)
+    }
+
+    override suspend fun updateDriver(driver: Driver) {
+        database.driverDao().updateDriver(driver.toDTO)
     }
 
     override suspend fun deleteDriver(driverId: Int) {

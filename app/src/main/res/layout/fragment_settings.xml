@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,7 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.77" />
+        app:layout_constraintGuide_percent="0.6" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fragment_settings_line_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
 
     <TextView
         android:paddingTop="20dp"
@@ -19,16 +27,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/planning_horizon"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_settings_line_left"
         app:layout_constraintTop_toTopOf="@+id/fragment_settings_line_horizontal" />
 
-    <EditText
-        android:id="@+id/horizon_planing_value"
+<!--    <EditText-->
+<!--        android:id="@+id/horizon_planing_value"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/default_horizon_planing"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/tv_horizon_planing"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/fragment_settings_line" />-->
+<!--    -->
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/horizon_planing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/default_horizon_planing"
         app:layout_constraintBottom_toBottomOf="@+id/tv_horizon_planing"
-        app:layout_constraintStart_toEndOf="@+id/fragment_settings_line" />
+        app:layout_constraintStart_toEndOf="@+id/tv_horizon_planing" />
+
     <TextView
         android:paddingTop="20dp"
         android:id="@+id/min_rest_tv"

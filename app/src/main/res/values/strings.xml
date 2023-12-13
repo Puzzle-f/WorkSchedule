@@ -23,7 +23,7 @@
     <string name="save_button">SAVE</string>
     <string name="cancel_button">CANCEL</string>
 
-    <string name="edit_route_departure_time">Departure time</string>
+    <string name="edit_route_departure_time">turnout time</string>
     <string name="edit_route_train_number">Train number</string>
     <string name="edit_route_driver">Driver</string>
     <string name="edit_route_periodicity">Periodicity</string>
@@ -83,4 +83,14 @@
     <string name="default_horizon_planing">5</string>
     <string name="min_rest">min rest, hours</string>
     <string name="min_rest_value">16</string>
+    <string name="no_data">no data</string>
+    <string name="start_time">Start time: </string>
+    <string name="train_selection">Train: </string>
+    <string name="add_weekend">add week</string>
+    <string name="sick_leave">sick leave</string>
+    <string name="rest">rest time:</string>
+
+    <!--    Weekend Fragment-->
+    <string name="ready_to_work">ready to work</string>
+    <string name="with">with:</string>
 </resources>

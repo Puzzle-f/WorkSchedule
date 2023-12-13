@@ -106,19 +106,36 @@ fun LocalDateTime.isNightPeriod(): Boolean {
 //    }
 //}
 
+//fun List<TrainRun>.fillAlgorithm(drivers: List<Driver>): List<TrainRun>{
+//    this.forEach { trainRun ->
+//        if (trainRun.driverId == 0){
+//            val driverResult = drivers.filter {
+//                driver -> driver
+//            }
+//
+//
+//        }
+//
+//
+//
+//    }
+//
+//
+//}
+
 //fun List<TrainRun>.fillTrainRunListWithDriversMy(drivers: List<Driver>): List<TrainRun> {
 //    this.forEach { trainRun ->  // Для каждого выезда поезда
 //        if (trainRun.driverId == 0) {   // Если машинист не назначен
 //            trainRun.driverId = drivers
 //                // Берем список свободных машинистов на данное направление
 //                .getFreeDriversForTrainRun(this, trainRun)
-////                .filter {
-////                    if (secondNightWorkBan) {
-////                        it.id !in getDriversIdsWhoWorkSecondNight(this, trainRun, drivers)
-////                    } else {
-////                        true
-////                    }
-////                }
+//                .filter {
+//                    if (secondNightWorkBan) {
+//                        it.id !in getDriversIdsWhoWorkSecondNight(this, trainRun, drivers)
+//                    } else {
+//                        true
+//                    }
+//                }
 //                // Отсеиваем по условию работы двух ночей подряд
 //                // Из оставшихся выбираем того машиниста, у которого меньше всего отработано часов
 //                .minByOrNull { it.totalTime }?.id ?: 0

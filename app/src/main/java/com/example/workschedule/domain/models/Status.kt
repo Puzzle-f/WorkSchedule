@@ -9,15 +9,13 @@ package com.example.workschedule.domain.models
 *                   1- в поездке
  *                  2 — отдых после поездки
  *                  3 — в ожидании работы
- *                  4 — выходной
- *                  5 — больничный
+ *                  3 — в ожидании работы (может быть 2 статуса "3": второй с countNight=0, после необходимого отдыха  )
  * @param countNight - счетчик отработанных ночей подряд на данный момент
  * @param workedTime - общее отработанное машинистом время за месяц
  * @param idBlock - id текущего блока для данного статуса (или null, если на отдыхе)
  * */
 
 data class Status(
-    val id: Int,
     val idDriver: Int,
     val date: Long,
     val status: Int,

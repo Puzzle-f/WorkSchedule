@@ -3,49 +3,81 @@ package com.example.workschedule.ui.main
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.workschedule.R
 import com.example.workschedule.databinding.FragmentMainBinding
 import com.example.workschedule.ui.base.BaseFragment
+import com.example.workschedule.ui.finddriver.SelectionDriverFragment.Companion.TRAIN_RUN_ID_BEFORE_PLANING_HORIZON
+import com.example.workschedule.ui.settings.PLANNING_HORIZON
 import com.example.workschedule.ui.trainrun_edit.TrainRunEditFragment.Companion.TRAIN_RUN_ID
+import com.example.workschedule.utils.toLong
 import com.google.android.material.button.MaterialButton
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.time.LocalDateTime
 
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private val mainFragmentViewModel: MainFragmentViewModel by viewModel()
-    private val adapter by lazy { MainFragmentAdapter(requireActivity().menuInflater) }
+    private val adapter by lazy {
+        MainFragmentAdapter(
+            requireActivity().menuInflater,
+            mainFragmentViewModel.borderHorizon
+        )
+    }
     private lateinit var buttonNewRoute: MaterialButton
+    private lateinit var buttonRecalculate: MaterialButton
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         buttonNewRoute = (activity as AppCompatActivity).findViewById(R.id.toolbar_add_new_route)
+        buttonRecalculate = (activity as AppCompatActivity).findViewById(R.id.recalculation)
         super.onViewCreated(view, savedInstanceState)
         registerForContextMenu(binding.mainFragmentRecyclerView)
     }
 
-
     override fun onStart() {
         buttonNewRoute.visibility = View.VISIBLE
+        buttonRecalculate.visibility = View.VISIBLE
         super.onStart()
     }
 
     override fun readArguments(bundle: Bundle) {
-
     }
 
     override fun initView() {
         binding.mainFragmentRecyclerView.adapter = adapter
+        selectStartPosition()
+        initProgressBar()
     }
 
     override fun initListeners() {
         buttonNewRoute.setOnClickListener {
             findNavController().navigate(R.id.action_nav_main_to_nav_route_edit)
         }
+        buttonRecalculate.setOnClickListener {
+            val dateNow = LocalDateTime.now()
+            mainFragmentViewModel.checkWeekendAllTrainRun()
+            if (mainFragmentViewModel.trainRunList.value.any {
+                    it.startTime <= dateNow.toLong() + PLANNING_HORIZON &&
+                            it.driverId == 0
+                }) {
+                finDriverBeforeHorizonPlaning()
+                return@setOnClickListener
+            } else{
+                lifecycleScope.launchWhenStarted {
+                    mainFragmentViewModel.findDriverAfterHorizon().join()
+                    Toast.makeText(activity, "Наряд заполнен", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        binding.mainFragmentRecyclerView.layoutManager!!.scrollToPosition(20)
+
     }
 
     override fun initObservers() {
@@ -80,8 +112,51 @@ class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::infl
         return super.onContextItemSelected(item)
     }
 
+    private fun finDriverBeforeHorizonPlaning() {
+        val trainRunId = mainFragmentViewModel
+            .trainRunList.value.filter { it.driverId == 0 }
+            .sortedBy { it.startTime }
+            .map { it.id }.first()
+        val bundle = bundleOf(TRAIN_RUN_ID_BEFORE_PLANING_HORIZON to trainRunId)
+        findNavController().navigate(
+            R.id.action_nav_main_to_nav_selection_driver, bundle
+        )
+    }
+
+    private fun selectStartPosition() {
+        var isSelectToPosition = true
+        val currentData = LocalDateTime.now()
+        var position: Int
+        val isContainsElement = adapter.currentList.any { it.data >= currentData.toLong() }
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (adapter.currentList.isNotEmpty()
+                    && isSelectToPosition && isContainsElement
+                ) {
+                    position = adapter.currentList.indexOf(adapter.currentList.first { it.data >= currentData.toLong() })
+                    binding.mainFragmentRecyclerView.scrollToPosition(position)
+                    isSelectToPosition = !isSelectToPosition
+                }
+            }
+        })
+    }
+
+    fun initProgressBar(){
+        lifecycleScope.launchWhenStarted {
+            mainFragmentViewModel.showProgress
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect{
+                if(it!=null&& it)
+                    binding.progressMain.visibility = View.VISIBLE
+                    else binding.progressMain.visibility = View.INVISIBLE
+            }
+        }
+    }
+
     override fun onStop() {
         buttonNewRoute.visibility = View.GONE
+        buttonRecalculate.visibility = View.GONE
+        adapter.removeAllItems()
         super.onStop()
     }
 }

@@ -5,6 +5,14 @@
     android:layout_height="@dimen/vertical_item_height"
     android:orientation="horizontal">
 
+<!--    <com.google.android.material.card.MaterialCardView-->
+<!--        android:id="@+id/subcategory_text_card"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--    </com.google.android.material.card.MaterialCardView>-->
+
+
     <TextView
         android:id="@+id/subcategory_text"
         android:layout_width="130dp"
@@ -15,7 +23,7 @@
         android:paddingHorizontal="@dimen/vertical_item_name_text_padding_horizontal"
         android:textColor="@android:color/white"
         android:textSize="@dimen/vertical_item_name_text_size"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/horizontal_rv"

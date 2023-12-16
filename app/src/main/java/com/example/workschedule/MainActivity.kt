@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        initNavAnimations(navView, drawerLayout)
+//        initNavAnimations(navView, drawerLayout)
     }
 
     private fun actionWithDatabase(
@@ -98,83 +98,83 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initNavAnimations(
-        navView: NavigationView,
-        drawerLayout: DrawerLayout
-    ) {
-        navView.setNavigationItemSelectedListener {
-            if (navController.currentDestination?.id != it.itemId) {
-                drawerLayout.close()
-                when (it.itemId) {
-                    R.id.nav_main -> {
-                        when (navController.currentDestination?.id) {
-                            R.id.nav_drivers ->
-                                navController.navigate(R.id.action_nav_drivers_to_nav_main)
-                            R.id.nav_trains ->
-                                navController.navigate(R.id.action_nav_trains_to_nav_main)
-                            R.id.nav_schedule_all_drivers ->
-                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_main)
-                            R.id.nav_settings ->
-                                navController.navigate(R.id.action_nav_settings_to_nav_main)
-                        }
-                    }
-                    R.id.nav_drivers -> {
-                        when (navController.currentDestination?.id) {
-                            R.id.nav_main ->
-                                navController.navigate(R.id.action_nav_main_to_nav_drivers)
-                            R.id.nav_trains ->
-                                navController.navigate(R.id.action_nav_trains_to_nav_drivers)
-                            R.id.nav_schedule_all_drivers ->
-                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_drivers)
-                            R.id.nav_settings ->
-                                navController.navigate(R.id.action_nav_settings_to_nav_drivers)
-                        }
-                    }
-
-                    R.id.nav_trains -> {
-                        when (navController.currentDestination?.id) {
-                            R.id.nav_main ->
-                                navController.navigate(R.id.action_nav_main_to_nav_trains)
-                            R.id.nav_drivers ->
-                                navController.navigate(R.id.action_nav_drivers_to_nav_trains)
-                            R.id.nav_schedule_all_drivers ->
-                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_trains)
-                            R.id.nav_settings ->
-                                navController.navigate(R.id.action_nav_settings_to_nav_trains)
-
-                        }
-                    }
-
-                    R.id.nav_schedule_all_drivers -> {
-                        when (navController.currentDestination?.id) {
-                            R.id.nav_main ->
-                                navController.navigate(R.id.action_nav_main_to_nav_schedule_all_drivers)
-                            R.id.nav_trains ->
-                                navController.navigate(R.id.action_nav_trains_to_nav_schedule_all_drivers)
-                            R.id.nav_settings ->
-                                navController.navigate(R.id.action_nav_settings_to_nav_schedule_all_drivers)
-                            R.id.nav_drivers ->
-                                navController.navigate(R.id.action_nav_drivers_to_nav_schedule_all_drivers)
-                        }
-                    }
-
-                    R.id.nav_settings -> {
-                        when (navController.currentDestination?.id) {
-                            R.id.nav_main ->
-                                navController.navigate(R.id.action_nav_main_to_settings)
-                            R.id.nav_drivers ->
-                                navController.navigate(R.id.action_nav_drivers_to_settings)
-                            R.id.nav_schedule_all_drivers ->
-                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_settings)
-                            R.id.nav_trains ->
-                                navController.navigate(R.id.action_nav_trains_to_settings)
-                        }
-                    }
-                }
-                true
-            } else false
-        }
-    }
+//    private fun initNavAnimations(
+//        navView: NavigationView,
+//        drawerLayout: DrawerLayout
+//    ) {
+//        navView.setNavigationItemSelectedListener {
+//            if (navController.currentDestination?.id != it.itemId) {
+//                drawerLayout.close()
+//                when (it.itemId) {
+//                    R.id.nav_main -> {
+//                        when (navController.currentDestination?.id) {
+//                            R.id.nav_drivers ->
+//                                navController.navigate(R.id.action_nav_drivers_to_nav_main)
+//                            R.id.nav_trains ->
+//                                navController.navigate(R.id.action_nav_trains_to_nav_main)
+//                            R.id.nav_schedule_all_drivers ->
+//                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_main)
+//                            R.id.nav_settings ->
+//                                navController.navigate(R.id.action_nav_settings_to_nav_main)
+//                        }
+//                    }
+//                    R.id.nav_drivers -> {
+//                        when (navController.currentDestination?.id) {
+//                            R.id.nav_main ->
+//                                navController.navigate(R.id.action_nav_main_to_nav_drivers)
+//                            R.id.nav_trains ->
+//                                navController.navigate(R.id.action_nav_trains_to_nav_drivers)
+//                            R.id.nav_schedule_all_drivers ->
+//                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_drivers)
+//                            R.id.nav_settings ->
+//                                navController.navigate(R.id.action_nav_settings_to_nav_drivers)
+//                        }
+//                    }
+//
+//                    R.id.nav_trains -> {
+//                        when (navController.currentDestination?.id) {
+//                            R.id.nav_main ->
+//                                navController.navigate(R.id.action_nav_main_to_nav_trains)
+//                            R.id.nav_drivers ->
+//                                navController.navigate(R.id.action_nav_drivers_to_nav_trains)
+//                            R.id.nav_schedule_all_drivers ->
+//                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_trains)
+//                            R.id.nav_settings ->
+//                                navController.navigate(R.id.action_nav_settings_to_nav_trains)
+//
+//                        }
+//                    }
+//
+//                    R.id.nav_schedule_all_drivers -> {
+//                        when (navController.currentDestination?.id) {
+//                            R.id.nav_main ->
+//                                navController.navigate(R.id.action_nav_main_to_nav_schedule_all_drivers)
+//                            R.id.nav_trains ->
+//                                navController.navigate(R.id.action_nav_trains_to_nav_schedule_all_drivers)
+//                            R.id.nav_settings ->
+//                                navController.navigate(R.id.action_nav_settings_to_nav_schedule_all_drivers)
+//                            R.id.nav_drivers ->
+//                                navController.navigate(R.id.action_nav_drivers_to_nav_schedule_all_drivers)
+//                        }
+//                    }
+//
+//                    R.id.nav_settings -> {
+//                        when (navController.currentDestination?.id) {
+//                            R.id.nav_main ->
+//                                navController.navigate(R.id.action_nav_main_to_settings)
+//                            R.id.nav_drivers ->
+//                                navController.navigate(R.id.action_nav_drivers_to_settings)
+//                            R.id.nav_schedule_all_drivers ->
+//                                navController.navigate(R.id.action_nav_schedule_all_drivers_to_nav_settings)
+//                            R.id.nav_trains ->
+//                                navController.navigate(R.id.action_nav_trains_to_settings)
+//                        }
+//                    }
+//                }
+//                true
+//            } else false
+//        }
+//    }
 }
 
 
